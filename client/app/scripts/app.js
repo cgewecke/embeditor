@@ -9,14 +9,20 @@
  * Main module of the application.
  */
 angular
-  .module('clientApp', [
+  .module('embeditor', [
     'ngAnimate',
     'ngCookies',
     'ngResource',
     'ngRoute',
     'ngSanitize',
-    'ngTouch'
+    'ngTouch',
+    'ngMaterial'
   ])
+  .config(function($mdThemingProvider) {
+  $mdThemingProvider.theme('default')
+    .primaryPalette('amber')
+    .accentPalette('deep-orange');
+  })
   .config(function ($routeProvider) {
     $routeProvider
       .when('/', {
