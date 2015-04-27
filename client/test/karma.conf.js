@@ -21,6 +21,8 @@ module.exports = function(config) {
 
     // list of files / patterns to load in the browser
     files: [
+
+      "misc/jquery-2.1.3.min.js",
       // bower:js
       'bower_components/angular/angular.js',
       'bower_components/angular-animate/angular-animate.js',
@@ -54,12 +56,20 @@ module.exports = function(config) {
     // - PhantomJS
     // - IE (only Windows)
     browsers: [
-      "PhantomJS"
+      'Chrome'
     ],
+
+    customLaunchers: {
+      Chrome_without_security: {
+        base: 'Chrome',
+        flags: ['--disable-web-security']
+      }
+    },
 
     // Which plugins to enable
     plugins: [
       "karma-phantomjs-launcher",
+      "karma-chrome-launcher",
       "karma-jasmine"
     ],
 

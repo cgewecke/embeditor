@@ -9,47 +9,39 @@ var sr_debug, sr_debugII;
  */
 angular.module('embeditor')
 
-   .factory('googleSuggestionAPI', ['$resource', function($resource){
-      return $resource("https://suggestqueries.google.com/complete/search", 
-         { callback:"JSON_CALLBACK"},
-         { get: {method: "JSONP", isArray: true}}
-      );
-   }])
    .controller('SearchboxCtrl', ['$scope', 'googleSuggestionAPI', 'youTubeDataAPI', 
-      function ($scope, googleSuggestionAPI, youTubeDataAPI ) {
+      function ($scope, googleSuggestionAPI, youTubeDataAPI) {
 
       var self = this;
+
       self.autoCompleteOn = true;
       self.youTube = youTubeDataAPI;
-      
-      // Autocomplete toggles necessary to stop md-autocomplete from
-      // re-running search when a selection is made and the searchText updates/changes
-      this.textChange = function(){
-         self.autoCompleteOn = true;
-      }
 
-      // Carriage return handler
-      this.keypress = function($event, searchTerm){
-         if ($event === 13)
-            self.youTube.query(searchTerm)
-      }
+      
+      // Autocomplete on/of toggles necessary to stop md-autocomplete from
+      // re-running search when a selection is made and the searchText updates/changes
+      self.textChange = function(){
+         self.autoCompleteOn = true;
+      };
+
       // Autocomplete Selection/Search button handler
-      this.submit = function(searchTerm){
+      self.submit = function(searchTerm){
          self.autoCompleteOn = false;
-         self.youTube.query(searchTerm);
-      }
+         if (searchTerm && searchTerm.length){
+            self.youTube.query(searchTerm);
+         }
+      };
 
       // Calls google to get array of youtube specific autocomplete suggestions 
-      this.getSuggestions = function(val){
+      self.getSuggestions = function(val){
 
          // Autocomplete toggled on when query text changes
          if (self.autoCompleteOn){
 
-            console.log("Entering autoSuggest");
             var results = [];
-            var autoParams = {'hl':'en', 'ds':'yt', 'q':val, 'client':'youtube' };
+            var params = {'hl':'en', 'ds':'yt', 'q':val, 'client':'youtube' };
             
-            return googleSuggestionAPI.get(autoParams).$promise.then(function(data) {
+            return googleSuggestionAPI.get(params).$promise.then(function(data) {
          
                   // Extract suggestion strings from response, excluding current query
                   angular.forEach(data[1], function(item){ 
@@ -69,6 +61,34 @@ angular.module('embeditor')
          } else {
             return [];
          }
-      }
+      };
     
-  }]);
+   }])
+
+   // Google Suggestion API $Resource
+   .factory('googleSuggestionAPI', ['$resource', function($resource){
+      return $resource('https://suggestqueries.google.com/complete/search', 
+         { callback:'JSON_CALLBACK'},
+         { get: {method: 'JSONP', isArray: true}}
+      );
+   }])
+
+   // Captures carriage return in input box and hacks into mdAutoComplete to execute
+   // selection. Does nothing if searchText is empty string 
+   .directive('searchBoxSubmitOnReturn', function(){
+      return {
+         restrict: 'A',
+         require: 'mdAutocomplete',
+         link: function(scope, elem, attrs, mdCtrl){
+            
+            var boxCtrl = scope.ctrl;
+
+            elem.bind('keypress', function(event){
+               if (event.which === 13 && boxCtrl.searchText && boxCtrl.searchText.length ){
+                  boxCtrl.selectedItem = {value: boxCtrl.searchText};
+                  mdCtrl.keydown({keyCode: 27});
+               }
+            });
+         }
+      }
+   })

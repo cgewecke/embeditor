@@ -31,10 +31,13 @@
 
           <form ng-controller="SearchboxCtrl as ctrl" flex layout="row">
             <md-button class="md-raised">
-              <md-icon md-font-icon="fa fa-subway"></md-icon>
-            </md-button>      
-            <md-autocomplete flex 
-                ng-keypress='ctrl.keypress($event, ctrl.searchText)'  
+              <md-icon md-font-icon="fa fa-youtube fa-lg"></md-icon>
+            </md-button>
+            <!--<md-select ng-model="order" ng-change="ctrl.youTube.setSortOrder(order)" placeholder="Order By">
+              <md-option value="relevance">Relevance</md-option>
+              <md-option value="date">Date</md-option>
+            </md-select>   -->   
+            <md-autocomplete flex search-box-submit-on-return  
                 placeholder="Search YouTube"
                 md-selected-item="ctrl.selectedItem" 
                 md-search-text="ctrl.searchText" 
@@ -45,7 +48,7 @@
                 <span md-highlight-text="ctrl.searchText" ng-bind="item.value"></span>
             </md-autocomplete>
             <md-button class="md-raised" ng-click="ctrl.submit(ctrl.searchText)">
-              <md-icon md-font-icon="fa fa-subway"></md-icon>
+              <md-icon md-font-icon="fa fa-search"></md-icon>
             </md-button> 
           </form>
           <span flex></span>
@@ -100,6 +103,7 @@
         <script src="scripts/controllers/main.js"></script>
         <script src="scripts/controllers/about.js"></script>
         <script src="scripts/controllers/searchbox.js"></script>
+        <script src="scripts/services/youTubeDataAPI.js"></script>
         <!-- endbuild -->
 </body>
 </html>
