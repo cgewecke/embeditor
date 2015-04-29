@@ -16,7 +16,6 @@ angular.module('embeditor')
 
       self.autoCompleteOn = true;
       self.youTube = youTubeDataAPI;
-
       
       // Autocomplete on/of toggles necessary to stop md-autocomplete from
       // re-running search when a selection is made and the searchText updates/changes
@@ -24,9 +23,11 @@ angular.module('embeditor')
          self.autoCompleteOn = true;
       };
 
-      // Autocomplete Selection/Search button handler
+      // Autocomplete dropdown selection & Search button handler
       self.submit = function(searchTerm){
+
          self.autoCompleteOn = false;
+
          if (searchTerm && searchTerm.length){
             self.youTube.query(searchTerm);
          }
@@ -74,7 +75,7 @@ angular.module('embeditor')
    }])
 
    // Captures carriage return in input box and hacks into mdAutoComplete to execute
-   // selection. Does nothing if searchText is empty string 
+   // selection, close dropdown w/escape event. Does nothing if searchText is empty string 
    .directive('searchBoxSubmitOnReturn', function(){
       return {
          restrict: 'A',
@@ -85,8 +86,8 @@ angular.module('embeditor')
 
             elem.bind('keypress', function(event){
                if (event.which === 13 && boxCtrl.searchText && boxCtrl.searchText.length ){
-                  boxCtrl.selectedItem = {value: boxCtrl.searchText};
-                  mdCtrl.keydown({keyCode: 27});
+                  boxCtrl.selectedItem = {value: boxCtrl.searchText}; // autocomplete watches this obj.
+                  mdCtrl.keydown({keyCode: 27}); // Escape closes dropdown.
                }
             });
          }

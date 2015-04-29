@@ -1,0 +1,91 @@
+md-sidenav, 
+md-sidenav.md-locked-open, 
+md-sidenav.md-closed.md-locked-open-add-active {
+    min-width: 500px !important;
+    width: 85vw !important;
+    max-width: 500px !important;
+    
+} 
+
+
+
+.twelve-point-bold{
+   font-size: 12px;
+   font-weight: bold;
+}
+
+.ten-point-bold{
+   font-size: 10px;
+   font-weight: bold;
+}
+
+.searchPlayIcon{
+   position:absolute;
+   top: 35px;
+   right: 80px;
+   color: white;
+}
+
+.searchItems{
+ display: inline-block;
+}
+.searchItemContainer {
+  vertical-align: top;
+}
+
+.searchThumbnail {
+  width: 150px;
+  height: 100px;
+}
+
+.searchItemTitleContainer {
+  padding: 2px 2px 2px 2px;
+  width: 150px;
+  height: 32px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  font-size: 12px;
+  cursor: default;
+  
+}
+
+.searchItemTitleContainer:hover {
+}
+
+.searchItemChannelContainer {
+  padding: 2px 2px 2px 2px;
+  width: 150px;
+  height: 16px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  font-size: 12px;
+  font-style: italic;
+  cursor: default;
+}
+
+.searchItemChannelContainer:hover {
+  text-decoration: underline;
+}
+
+.searchItemDuration{
+  position: absolute;
+  font-size: 11px;
+  font-weight: bold;
+  top: 98px;
+  right: 22px;
+  color: white;
+  background-color: black;
+  
+}
+
+.searchItemPublishedAt{
+  position: absolute;
+  font-size: 10px;
+  padding: 2px; 
+  font-weight: bold;
+  top: 12px;
+  left: 21px;
+  color: white;
+  background-color: black;
+  
+}

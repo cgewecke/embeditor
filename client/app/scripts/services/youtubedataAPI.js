@@ -1,4 +1,5 @@
 'use strict';
+var yt_debug;
 
 /**
  * @ngdoc service
@@ -9,57 +10,57 @@
  */
 angular.module('embeditor')
   
-.service('youTubeDataAPI', [ '$http', '$q', function($http, $q ){ 
+.service('youTubeDataAPI', [ '$http', '$q', '$rootScope', function($http, $q, $rootScope ){ 
 
     // -------------------- Private --------------------------
-   // YOUTUBE / GOOGLE API ADRESSES & APP KEYS
+   // YOUTUBE API ADRESSES & APP KEYS
    var youtube_api_key = 'AIzaSyDAEHI30eBi2xEPzHZQa1XyXyK2Ie4OpJE';
    var youtube_api_base_url_search = 'https://www.googleapis.com/youtube/v3/search?callback=JSON_CALLBACK'
    var youtube_api_base_url_videos = 'https://www.googleapis.com/youtube/v3/videos?callback=JSON_CALLBACK'
    
    // MISC  
    var default_max_results = '40';
-   var duplicates = []; // Array of id's maintained per search for detection of duplicate YT results
+   var duplicates = []; // Array of id's maintained per search to detect duplicate results
    var searchParameters = null; // Search params.
-   var global_search_counter = 0; //Each new search gets id, checked to prevent concat of diff results on asynch return.
-   
    var service = this;
 
-   // ------------------------- Public ----------------------------- 
-
-   // Data -- asynch: exposed through this.showResults()
-   this.results = []; 
-
-   // Input field 
+   // ------------------------- Public Vars ----------------------------- 
+   
+   this.results = []; // Data -- asynch: exposed through display()
+   this.history = []; // Array of previous searches
    this.searchTerm = null; // String: The current search query.
+   this.sortOrder ='relevance';  // Name of ordering parameter: date, relevance.
+   this.durationFilter='any'; // Name of duration filter param: any, short, long.
+   this.maxResults = 40; // Passed to youtube to constrain size of return
+   this.endOfResults = false; // Dom flag - end of results msg
+   this.failed = false; // Dom flag - failure msg
+   this.firstPageLoading = false; // Dom flag - initial load msg
+   this.nextPageLoading = false; // Dom flag - loading paginated rslts msg
+   
+   // ------------------------- Published Events ----------------------------- 
+   var queryEvent = {name: 'youTubeDataAPI:query', query: '' }; 
 
-   // Filter/Provider setters & values
-   this.setSortOrder = null; // Method: defined below
-   this.sortOrder = 'relevance'; // String: name of ordering, e.g. date, relevance etc.
+   // ------------------------- Helpers ----------------------------- 
 
-   // Status vars for UI
-   this.endOfResults = false; // Shows end of results message when results bottom out.
-   this.failed = false; // Triggers failure message in lower menu area when no results are returned.
-   this.firstPageLoading = false; // Triggers large spinner in lower menu area. 
-   this.nextPageLoading = false; // Triggers small spinner in lower menu as vist-auto-load get more results
-
-   // initSearch: Prep for any first search. 
-   function initSearch(){
-
-      //Initialize results & duplicates arrays, set 'End of Results' flag to false
-      service.results = []; 
+   // Clears previous search results, resets all flags to initial state
+   function reset(){
+      service.results = [];
       service.endOfResults = false; 
       duplicates = []; 
-
-      //Set search state flags, Increment search id counter
       service.firstPageLoading = true;
       service.failed = false;
-      global_search_counter += 1; 
+   };
+
+   // initSearch: Prep for new query, related & channel searches. 
+   function initSearch(){
+
+      reset();
 
       // Default Parameters
       searchParameters = {
          q: '',
          order: service.sortOrder,
+         videoDuration: service.durationFilter,
          part : 'snippet',
          type : 'video',
          maxResults : default_max_results,
@@ -80,21 +81,23 @@ angular.module('embeditor')
    };
 
    // YT Time is ISO 8601: 
-   //function formatYouTubeTime(time){
-   //   return moment.isoDuration(time).asSeconds().toString().toHHMMSS();
-   //}
+   function formatYouTubeTime(time){
+      return moment.isoDuration(time).asSeconds().toString().toHHMMSS();
+   }
 
-   //  -------------------- Filter API  --------------------------
+   //  -------------------- Public Filter API  --------------------------
 
-   // setSearchOrder: Verifies that filter value has changed
-   // Changing search order automatically triggers an updated search.
+   // These verify that filter value has changed & updates params
+   // Changes automatically repeat current search w/ the changed
+   // filter.
    this.setSearchOrder = function(newOrder){
 
       if (service.sortOrder !== newOrder){
+
          service.sortOrder = newOrder;
-         
          searchParameters.order = newOrder;
-         searchParameters.pageToken = null;
+         searchParameters.pageToken = '';
+         reset();
 
          searchYouTube().then(function(){
             service.firstPageLoading = false; // Turn off spinner
@@ -102,62 +105,94 @@ angular.module('embeditor')
       }
    };
 
-   //  -------------------- Search API  --------------------------
+   this.setDurationFilter = function(newDuration){
+      if (service.durationFilter !== newDuration){
+         service.durationFilter = newDuration;
+         searchParameters.videoDuration = newDuration;
+         searchParameters.pageToken = '';
+         reset();
+
+         searchYouTube().then(function(){
+            service.firstPageLoading = false; 
+         });
+      }
+   };
+
+   //  --------------------  Public Search API  --------------------------
+   
+   // Search by string query
    this.query = function(searchTerm){
-      console.log('Ran query: ' + searchTerm);
+
       initSearch();
       searchParameters.q = searchTerm;
+      service.history.unshift({item: searchParameters.q, params: searchParameters });
+
+      $rootScope.$broadcast(queryEvent.name, searchTerm);
+
+
       searchYouTube().then(function(){
-         service.firstPageLoading = false; // Turn off spinner
+         service.firstPageLoading = false; 
       });
    };
 
-   //getRelatedVideos: Called from vist-related-icon on click event
+   // getRelatedVideos: Passes video id with related video
+   // flag to youtube and retrieves related videos list
    this.getRelatedVideos = function(video){
 
       if (video){
          initSearch();
          searchParameters.relatedToVideoId = video.ref;
+         service.history.unshift({item: 'Related: ' + video.title, params: searchParameters });
+
          searchYouTube().then(function(){
-            service.firstPageLoading = false; // Turn off spinner
+            service.firstPageLoading = false; 
          });
       }
    };
 
+   // getChannelVideos - extracts channel id from video
+   // and retrieves channel's video list
    this.getChannelVideos = function(video){
       
       if (video.channelId){
          initSearch();
          searchParameters.channelId = video.channelId;
+         service.history.unshift({item: 'Channel: ' + video.channelTitle, params: searchParameters })
          searchYouTube().then(function(){
-            service.firstPageLoading = false; // Turn off spinner
+            service.firstPageLoading = false; 
          });
       }
    };
 
-   // 
+   this.getAgain = function(historyItem){
+      initSearch();
+      searchParameters = historyItem.params;
+      searchParameters.order = service.sortOrder;
+      searchParameters.videoDuration = service.durationFilter;
+      searchYouTube().then(function(){
+         service.firstPageLoading = false; 
+      });
+   }
+   // nextPage: Each search subsequent to a new search collects
+   // a next page token from the youtube response that gets added
+   // to searchParameters. 
    this.nextPage = function(){
-
-      var deferred = $q.defer();
 
       if (!service.endOfResults){
          
          service.nextPageLoading = true;
          searchYouTube().then(function(){
             service.nextPageLoading = false; 
-            deferred.resolve();
          });
-
-      } else {
-         deferred.resolve();
-      }
-      return deferred.promise;
+      } 
    }
 
-   // showResults: Exposes asynch results for ng-repeat, etc. . . 
+   // display: Exposes asynch results for ng-repeat, etc. . . 
    this.display = function(){
       return service.results;
    };
+
+   // ------------------------- Private $Resource --> YouTubeDataAPI  ----------------------------- 
 
    // searchYouTube: Returns promise. Makes two calls - the first is a 
    // 'list' search, the second, compiled from results of the first, a 'video list'
@@ -167,17 +202,13 @@ angular.module('embeditor')
    function searchYouTube(){
 
       var deferred = $q.defer();
-      
+      console.log("In search youtube");
+      yt_debug = searchParameters;
       // Temp parameters for second call based on first response
       var videoIdList = '';
       var parameters;
       var not_found = -1;
       var status; // Boolean is_embeddable, is_public (youtube API checks)
-
-      // Counter to make sure we don't add results of a subsequent search executed while 
-      // we waited for results to come back for this one. . . global_search_counter
-      // incremented in initSearch();
-      var local_search_counter = global_search_counter
                   
       // API CALL YT: #1   
       $http.jsonp(youtube_api_base_url_search, { params: searchParameters })
@@ -198,8 +229,7 @@ angular.module('embeditor')
             // CALL #2 
             $http.jsonp(youtube_api_base_url_videos, { params : parameters })
                .success(function(data) {  
-
-               if (local_search_counter === global_search_counter){
+           
                   angular.forEach(data.items, function(item){
 
                      status = (item.status.embeddable && (item.status.privacyStatus ==='public')); 
@@ -211,7 +241,8 @@ angular.module('embeditor')
                            title : item.snippet.title,
                            video_service_id: 1,
                            videoId : item.id,
-                           //duration : formatYouTubeTime(item.contentDetails.duration),
+                           duration : formatYouTubeTime(item.contentDetails.duration),
+                           publishedAt: moment(item.snippet.publishedAt).fromNow(),
                            url: 'http://www.youtube.com/watch?v=' + item.id,
                            imageUrl: item.snippet.thumbnails.default.url,
                            channelId: item.snippet.channelId,
@@ -232,9 +263,9 @@ angular.module('embeditor')
                   } else {
                      searchParameters.pageToken = data_a.nextPageToken;
                   }
-               } 
-               deferred.resolve();
-                  
+                  yt_debug = service.results;
+                  console.log('service.results.length: ' + service.results.length );
+                  deferred.resolve();                 
              });
       });
       return deferred.promise;

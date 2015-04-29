@@ -13,55 +13,26 @@
     <!-- build:css(.tmp) styles/main.css -->
     <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
     <link rel="stylesheet" href="styles/angular-material.css">
+    <link rel="stylesheet" href="styles/custom.css">
     <link rel="stylesheet" href="styles/main.css">
     <!-- endbuild -->
   </head>
   <body ng-app="embeditor">
+   
     <div layout="column">
       <!-- Toolbar/Header -->
-      <md-toolbar class="md-medium-tall" md-scroll-shrink  layout="row" layout-align="start center">
-        <div class="md-toolbar-tools" >
-          <md-button class="md-icon-button" > 
-            <md-icon md-font-icon="fa fa-subway fa-2x"></md-icon>
-          </md-button>
-          <h1>
-            <span>Embeditor</span>
-          </h1>
-          <span flex="5"></span>
-
-          <form ng-controller="SearchboxCtrl as ctrl" flex layout="row">
-            <md-button class="md-raised">
-              <md-icon md-font-icon="fa fa-youtube fa-lg"></md-icon>
-            </md-button>
-            <!--<md-select ng-model="order" ng-change="ctrl.youTube.setSortOrder(order)" placeholder="Order By">
-              <md-option value="relevance">Relevance</md-option>
-              <md-option value="date">Date</md-option>
-            </md-select>   -->   
-            <md-autocomplete flex search-box-submit-on-return  
-                placeholder="Search YouTube"
-                md-selected-item="ctrl.selectedItem" 
-                md-search-text="ctrl.searchText" 
-                md-search-text-change='ctrl.textChange()'
-                md-selected-item-change='ctrl.submit(ctrl.selectedItem.value)'
-                md-items="item in ctrl.getSuggestions(ctrl.searchText)" 
-                md-item-text="item.value">
-                <span md-highlight-text="ctrl.searchText" ng-bind="item.value"></span>
-            </md-autocomplete>
-            <md-button class="md-raised" ng-click="ctrl.submit(ctrl.searchText)">
-              <md-icon md-font-icon="fa fa-search"></md-icon>
-            </md-button> 
-          </form>
-          <span flex></span>
-          <md-button class="md-raised">
-              <md-icon md-font-icon="fa fa-subway"></md-icon>
-          </md-button> 
-        </div>
-      </md-toolbar>
-      
-      <div layout="column">
-      </div>
+        <div ng-include src="'templates/toolbar.html'"></div>
     </div>
+      <!-- Center Block: Search Results sidebar and player -->
+    <md-content layout="row" layout-fill>
+      <div ng-include src="'templates/sidebar.html'"></div>
+      <div ng-include src="'templates/player.html'"></div>
+      <div>
+    </md-content>
+    
+      <!-- ..........................................--> 
 
+    <!-- 
     <div class="container">
       <div ng-view=""></div>
     </div>
@@ -71,6 +42,7 @@
         <p><span class="fa fa-square"></span> from the Yeoman team</p>
       </div>
     </div>
+    -->
 
 
     <!-- Google Analytics: change UA-XXXXX-X to be your site's ID -->
@@ -99,11 +71,16 @@
     <!-- endbuild -->
 
         <!-- build:js({.tmp,app}) scripts/scripts.js -->
+        <script src="scripts/misc/moment.min.js"></script>
+        <script src="scripts/misc/moment-duration.js"></script>
         <script src="scripts/app.js"></script>
         <script src="scripts/controllers/main.js"></script>
         <script src="scripts/controllers/about.js"></script>
         <script src="scripts/controllers/searchbox.js"></script>
         <script src="scripts/services/youTubeDataAPI.js"></script>
+
+        <script src="scripts/controllers/searchsidebar.js"></script>
+        <script src="scripts/directives/embdsearchform.js"></script>
         <!-- endbuild -->
 </body>
 </html>
