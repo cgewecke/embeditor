@@ -1,6 +1,5 @@
 'use strict';
-
-var debug_I, debug_II;
+var test_I, test_II;
 
 describe('Controller: SearchboxCtrl', function () {
 
@@ -15,44 +14,26 @@ describe('Controller: SearchboxCtrl', function () {
 
       scope = $rootScope.$new();
       ctrl = $controller("SearchboxCtrl", {$scope: scope});
-      scope.ctrl = ctrl;
 
-      form = angular.element(
-
-        "<form ng-controller='SearchboxCtrl as ctrl'><md-autocomplete flex search-box-submit-on-return placeholder='Search YouTube'" +
-        "md-selected-item='ctrl.selectedItem' md-search-text='ctrl.searchText' md-search-text-change='ctrl.textChange()'" +
-        "md-selected-item-change='ctrl.submit(ctrl.selectedItem.value)' md-items='item in ctrl.getSuggestions(ctrl.searchText)'" + 
-        "md-item-text='item.value'></form>");
-
-      searchButton = angular.element("<div><md-button ng-click='ctrl.submit(ctrl.searchText)'><md-icon></md-icon></md-button><div>");
-      
-      $compile(searchButton)(scope);
+      form = angular.element('<embd-search-form></embd-search-form>');
       $compile(form)(scope);
-
       scope.$digest();
+      
       spyOn(ctrl.youTube, 'query');
 
     }));
 
-    it ('should query youTubeDataAPI with the current search box contents when the spyglass button is clicked', function(){
-
-      ctrl.searchText = "taylor swift";
-      ctrl.submit(ctrl.searchText);
-      expect(ctrl.youTube.query).toHaveBeenCalledWith('taylor swift');
-    });
-
-    it ('should query youTubeDataAPI with suggestion string when a selection is made from the dropdown', function(){
+    it ('should query with autocomplete suggestion when a selecting from the dropdown', function(){
       var elem = form.find('md-autocomplete');
       elem.scope().ctrl.selectedItem = { value:'nikki' };
       elem.scope().$apply();
       expect(ctrl.youTube.query).toHaveBeenCalledWith('nikki');
     });
 
-    it ('should query youTubeDataAPI with the current search box contents on carriage return', function(){
+    it ('should query with the current search box contents on carriage return', function(){
       
       var elem = form.find('md-autocomplete');
       elem.scope().ctrl.searchText = 'taylor swift';
-
       event = jQuery.Event('keypress');
       event.which = 13;
       elem.trigger(event);
@@ -61,15 +42,14 @@ describe('Controller: SearchboxCtrl', function () {
       expect(ctrl.youTube.query).toHaveBeenCalledWith('taylor swift');
     });
 
-
-    it ('should not query youTubeDataAPI with an empty string', function(){
+    it ('should not query with an empty string', function(){
       ctrl.submit('');
       expect(ctrl.youTube.query).not.toHaveBeenCalled();
     });
 
   });
 
-  describe('SearchboxCtrl.getSuggestions: fetching data from googleSuggestionAPI', function(){
+  describe('getSuggestions: asynch googleSuggestionAPI call', function(){
 
     var scope, ctrl, httpBackend, results, query;
     
@@ -97,8 +77,13 @@ describe('Controller: SearchboxCtrl', function () {
         httpBackend.flush();
       }
     ));
+
+    afterEach(function() {
+      httpBackend.verifyNoOutstandingExpectation();
+      httpBackend.verifyNoOutstandingRequest();
+    });
     
-    it('returns an array of autocomplete suggestions w/form: [{value: STRING }, . . .]', function(){
+    it('should return an array of autocomplete suggestions w/form: [{value: STRING }, ...]', function(){
            
       expect(results).toEqual([{value: "taylor swift style"}, {value: "taylor swift blank space" }, 
          {value: "taylor swift shake it off"}, {value: "taylor swift 1989 full album"} , 
@@ -111,6 +96,4 @@ describe('Controller: SearchboxCtrl', function () {
     });
   });
 
-  //describe('SearchboxCtrl')
-  
 });

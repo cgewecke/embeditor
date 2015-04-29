@@ -1,0 +1,90 @@
+<div ng-controller="SearchSidebarCtrl as sidebarCtrl" layout="vertical">
+  <md-sidenav class="md-sidenav-left" md-component-id="searchSidebar">   
+    <!-- Toolbar -->
+    <md-toolbar layout="row" layout-align="center start">
+      <div class="md-toolbar-tools">
+        <md-grid-list flex md-cols="3" md-row-height="32px">
+          <md-grid-tile> <span class="twelve-point-bold">
+
+              <md-select class="md-accent" ng-model="order" placeholder="Order By"
+                ng-change="sidebarCtrl.youTube.setSearchOrder(order)">
+                <md-option ng-value="'relevance'"><h6>Relevance</h6></md-option>
+                <md-option ng-value="'date'"><h6>Date</h6></md-option>
+              </md-select></span>
+
+          </md-grid-tile>
+          <md-grid-tile> <span class="twelve-point-bold">
+            <md-select class="md-accent" ng-model="filter" placeholder="Filters"
+              ng-change="sidebarCtrl.youTube.setDurationFilter(filter)">
+              <md-option ng-value="'any'"><h6>Any length</h6></md-option>
+              <md-option ng-value="'short'"><h6>Short (> 4)</span></h6></md-option>
+              <md-option ng-value="'long'"><h6>Long (> 20m)</h6></md-option>
+            </md-select></span>
+
+          </md-grid-tile>
+          <md-grid-tile> <span class="twelve-point-bold">
+
+            <md-select class="md-accent" ng-model="historyItem"
+              ng-change="sidebarCtrl.youTube.getAgain(historyItem)">
+              <md-select-label>History</md-select-label>
+              <md-option ng-repeat="previous in sidebarCtrl.youTube.history"
+                  ng-value="previous">
+                  <div class="ten-point-bold">{{previous.item}}</div>
+              </md-option>
+            </md-select></span>
+
+          </md-grid-tile>
+      </div>
+    </md-toolbar>
+
+    <!-- Loading and Fail Messages -->
+     <div layout="column" layout-fill layout-align="center center"  
+          ng-show="!sidebarCtrl.youTube.results.length"> 
+      <div layout="column" layout-fill layout-align="center center" ng-show="sidebarCtrl.youTube.failed"> 
+         <h1 class="noResultsMsg"> Nothing there. <br> <h3> Sorry. </h3> </h1>
+      </div>
+      <md-progress-circular md-mode="indeterminate" class="md-warn" 
+         ng-show="sidebarCtrl.youTube.firstPageLoading">
+      </md-progress-circular>
+    </div> 
+    <!-- Search Results --> 
+    <md-grid-list md-cols="2" md-row-height="175px"> 
+      <!-- Item Tiles -->
+      <md-grid-tile class="searchItemContainer"
+          ng-repeat="video in sidebarCtrl.youTube.display()" >    
+        <div class="searchItems" vist-play-search-item >
+         <span class="searchItemDuration" ng-bind="video.duration"></span>
+         <span class="searchItemPublishedAt" ng-bind="video.publishedAt"></span>
+         <span class="md-warn searchPlayIcon fa fa-play-circle fa-3x"></span>
+         <img  class="searchThumbnail"
+               ng-src="{{video.imageUrl}}"
+               ng-class="{ 'searchPlusHoverEffect' : row.plusHover }">                         
+         </img> 
+         <div class="searchItemTitleContainer" ng-bind="video.title"></div>
+         <div class="searchItemChannelContainer" 
+              ng-click="sidebarCtrl.youTube.getChannelVideos(video); $event.stopPropagation()">
+              by {{video.channelTitle}}
+         </div>   
+        </div>     
+      </md-grid-tile> 
+       <!-- Message Tile --> 
+        <md-grid-tile md-colspan="2" class="searchItemContainer">
+          <div class="searchItems">
+            <md-button class="md-raised md-disabled" 
+                  ng-show="sidebarCtrl.youTube.endOfResults && sidebarCtrl.youTube.results.length">
+                  End of Results
+            </md-button> 
+            <md-progress-circular md-mode="indeterminate" class="md-warn" 
+                ng-show="sidebarCtrl.youTube.nextPageLoading && sidebarCtrl.youTube.results.length">
+            </md-progress-circular>
+            <md-button class="md-raised md-primary"
+                ng-click="sidebarCtrl.youTube.nextPage()"
+                ng-show="!sidebarCtrl.youTube.endOfResults && !sidebarCtrl.youTube.nextPageLoading &&
+                         sidebarCtrl.youTube.results.length">
+                  More.
+            </md-button>
+          </div>
+        </md-grid-tile>
+      </md-grid-list>
+  </md-sidenav>
+</div>
