@@ -2,21 +2,49 @@
 
 /**
  * @ngdoc function
- * @name embeditor.controller:SearchresultsCtrl
+ * @name embeditor.controller:SearchSidebarCtrl
  * @description
- * # SearchresultsCtrl
+ * # SearchSidebarCtrl
  * Controller of the embeditor
  */
+var sb_debug, sb_debugII, sb_debugIII;
 angular.module('embeditor')
-  .controller('SearchSidebarCtrl', ['$scope', 'youTubeDataAPI', '$mdSidenav',
-   function ($scope, youTubeDataAPI, $mdSidenav) {
+  
+  .controller('SearchSidebarCtrl', ['$scope', 'youTubeDataAPI', '$mdSidenav', '$ui', 
+   function ($scope, youTubeDataAPI, $mdSidenav, $ui ) {
    
    var self = this;
    self.youTube = youTubeDataAPI;
-   self.mdSidenav = $mdSidenav;
+   self.mdSidenav = $mdSidenav; 
 
+   // Toggles sidebar open if closed
    $scope.$on('youTubeDataAPI:query', function(event, msg){
-      self.mdSidenav('searchSidebar').toggle();
-   })
+      if (!self.mdSidenav('search').isOpen()){
+        self.mdSidenav.exists = true;
+        $scope.searchText = '';
+        self.mdSidenav('search').toggle();
+      }
+   });
     
+  }])
+
+
+  .directive('sidebarSelectOption', ['youTubeDataAPI', function(youTubeDataAPI){
+      return {
+         restrict: '',
+         link: function(scope, elem, attrs){
+            
+            elem.bind('click', function(event){
+               youTubeDataAPI.getAgain(scope.previous);
+            });
+
+            elem.bind('keydown', function(event){
+               if (event.which == '13'){
+                  youTubeDataAPI.getAgain(scope.previous);
+               }
+            })
+           
+         }
+      }
   }]);
+}])

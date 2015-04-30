@@ -22,7 +22,7 @@ module.exports = function(config) {
     // list of files / patterns to load in the browser
     files: [
 
-      "misc/jquery-2.1.3.min.js",
+      "app/scripts/misc/jquery-2.1.3.min.js",
       "app/scripts/misc/moment.min.js",
       // bower:js
       'bower_components/angular/angular.js',

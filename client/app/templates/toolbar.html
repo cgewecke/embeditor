@@ -1,4 +1,4 @@
-<md-toolbar class="md-medium-tall" md-scroll-shrink layout="row" layout-align="start center">
+<md-toolbar ng-controller="ToolbarCtrl as toolbar" class="md-medium-tall" md-scroll-shrink layout="row" layout-align="start center">
   <div class="md-toolbar-tools" >
     <md-button class="md-icon-button" > 
       <md-icon md-font-icon="fa fa-subway fa-2x"></md-icon>
@@ -7,7 +7,10 @@
       <span>Embeditor</span>
     </h1>
     <span flex="5"></span>
-    <embd-search-form flex></embd-search-form>
+    <div layout="row" flex ng-show="!toolbar.sideNavIsOpen()">
+      <md-button class="md-raised button-lg"><md-icon md-font-icon="fa fa-youtube fa-lg" ></md-icon></md-button>
+      <embd-search-form flex></embd-search-form>
+    </div>
     <span flex></span>
     <md-button class="md-raised">
         <md-icon md-font-icon="fa fa-subway"></md-icon>
