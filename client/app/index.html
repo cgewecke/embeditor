@@ -19,32 +19,10 @@
   </head>
   <body ng-app="embeditor">
    
-    <div layout="column">
-      <!-- Toolbar/Header -->
-        <div ng-include src="'templates/toolbar.html'"></div>
-    </div>
-      <!-- Center Block: Search Results sidebar and player -->
-    <md-content layout="row" layout-fill>
+      <div ng-include src="'templates/toolbar.html'" layout="column"></div>
       <div ng-include src="'templates/sidebar.html'"></div>
-      <div ng-include src="'templates/player.html'"></div>
-      <div>
-    </md-content>
-    
-      <!-- ..........................................--> 
-
-    <!-- 
-    <div class="container">
-      <div ng-view=""></div>
-    </div>
-
-    <div class="footer">
-      <div class="container">
-        <p><span class="fa fa-square"></span> from the Yeoman team</p>
-      </div>
-    </div>
-    -->
-
-
+      <div ng-include src="'templates/player.html'" layout="row" layout-fill></div>
+  
     <!-- Google Analytics: change UA-XXXXX-X to be your site's ID -->
      <script>
        !function(A,n,g,u,l,a,r){A.GoogleAnalyticsObject=l,A[l]=A[l]||function(){
@@ -56,6 +34,9 @@
        ga('send', 'pageview');
     </script>
 
+    <!-- jQuery -->
+    <script src="scripts/misc/jquery-2.1.3.min.js"></script>
+    
     <!-- build:js(.) scripts/vendor.js -->
     <!-- bower:js -->
     <script src="bower_components/angular/angular.js"></script>
@@ -70,17 +51,18 @@
     <!-- endbower -->
     <!-- endbuild -->
 
-        <!-- build:js({.tmp,app}) scripts/scripts.js -->
-        <script src="scripts/misc/moment.min.js"></script>
-        <script src="scripts/misc/moment-duration.js"></script>
-        <script src="scripts/app.js"></script>
-        <script src="scripts/controllers/main.js"></script>
-        <script src="scripts/controllers/about.js"></script>
-        <script src="scripts/controllers/searchbox.js"></script>
-        <script src="scripts/services/youTubeDataAPI.js"></script>
-
-        <script src="scripts/controllers/searchsidebar.js"></script>
-        <script src="scripts/directives/embdsearchform.js"></script>
-        <!-- endbuild -->
+    <!-- build:js({.tmp,app}) scripts/scripts.js -->
+    <script src="scripts/misc/moment.min.js"></script>
+    <script src="scripts/misc/moment-duration.js"></script>
+    <script src="scripts/app.js"></script>
+    <script src="scripts/controllers/main.js"></script>
+    <script src="scripts/controllers/about.js"></script>
+    <script src="scripts/controllers/searchbox.js"></script>
+    <script src="scripts/services/youTubeDataAPI.js"></script>
+    <script src="scripts/controllers/searchsidebar.js"></script>
+    <script src="scripts/directives/embdsearchform.js"></script>
+    <script src="scripts/controllers/toolbar.js"></script>
+    <script src="scripts/services/ui.js"></script>
+    <!-- endbuild -->
 </body>
 </html>

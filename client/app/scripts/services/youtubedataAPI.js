@@ -19,7 +19,7 @@ angular.module('embeditor')
    var youtube_api_base_url_videos = 'https://www.googleapis.com/youtube/v3/videos?callback=JSON_CALLBACK'
    
    // MISC  
-   var default_max_results = '40';
+   var default_max_results = '25';
    var duplicates = []; // Array of id's maintained per search to detect duplicate results
    var searchParameters = null; // Search params.
    var service = this;
@@ -122,7 +122,7 @@ angular.module('embeditor')
    
    // Search by string query
    this.query = function(searchTerm){
-
+      console.log('in query');
       initSearch();
       searchParameters.q = searchTerm;
       service.history.unshift({item: searchParameters.q, params: searchParameters });
@@ -153,7 +153,7 @@ angular.module('embeditor')
    // getChannelVideos - extracts channel id from video
    // and retrieves channel's video list
    this.getChannelVideos = function(video){
-      
+      console.log('in channel');
       if (video.channelId){
          initSearch();
          searchParameters.channelId = video.channelId;
@@ -164,11 +164,18 @@ angular.module('embeditor')
       }
    };
 
+   // getAgain - recalls w the parameters of a previous 
+   // search, although keeps current filters/orders.
+   // Returns asynch so that the select ng-model can be zeroed
+   // out and be virgin each time it's used.
    this.getAgain = function(historyItem){
+      
       initSearch();
+      yt_debug = service.history;
       searchParameters = historyItem.params;
       searchParameters.order = service.sortOrder;
       searchParameters.videoDuration = service.durationFilter;
+
       searchYouTube().then(function(){
          service.firstPageLoading = false; 
       });
@@ -186,12 +193,6 @@ angular.module('embeditor')
          });
       } 
    }
-
-   // display: Exposes asynch results for ng-repeat, etc. . . 
-   this.display = function(){
-      return service.results;
-   };
-
    // ------------------------- Private $Resource --> YouTubeDataAPI  ----------------------------- 
 
    // searchYouTube: Returns promise. Makes two calls - the first is a 
@@ -202,8 +203,7 @@ angular.module('embeditor')
    function searchYouTube(){
 
       var deferred = $q.defer();
-      console.log("In search youtube");
-      yt_debug = searchParameters;
+
       // Temp parameters for second call based on first response
       var videoIdList = '';
       var parameters;
@@ -243,7 +243,6 @@ angular.module('embeditor')
                            videoId : item.id,
                            duration : formatYouTubeTime(item.contentDetails.duration),
                            publishedAt: moment(item.snippet.publishedAt).fromNow(),
-                           url: 'http://www.youtube.com/watch?v=' + item.id,
                            imageUrl: item.snippet.thumbnails.default.url,
                            channelId: item.snippet.channelId,
                            channelTitle: item.snippet.channelTitle
@@ -263,8 +262,6 @@ angular.module('embeditor')
                   } else {
                      searchParameters.pageToken = data_a.nextPageToken;
                   }
-                  yt_debug = service.results;
-                  console.log('service.results.length: ' + service.results.length );
                   deferred.resolve();                 
              });
       });

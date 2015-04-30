@@ -25,7 +25,7 @@ angular.module('embeditor')
 
       // Autocomplete dropdown selection & Search button handler
       self.submit = function(searchTerm){
-
+         console.log('submit');
          self.autoCompleteOn = false;
 
          if (searchTerm && searchTerm.length){
@@ -81,12 +81,12 @@ angular.module('embeditor')
          restrict: 'A',
          require: 'mdAutocomplete',
          link: function(scope, elem, attrs, mdCtrl){
-            
-            var boxCtrl = scope.ctrl;
-
+   
             elem.bind('keypress', function(event){
-               if (event.which === 13 && boxCtrl.searchText && boxCtrl.searchText.length ){
-                  boxCtrl.selectedItem = {value: boxCtrl.searchText}; // autocomplete watches this obj.
+               sr_debugII = scope;
+               if (event.which === 13 && scope.searchText && scope.searchText.length ){
+
+                  mdCtrl.selectedItem = {value: scope.searchText}; // autocomplete watches this obj.
                   mdCtrl.keydown({keyCode: 27}); // Escape closes dropdown.
                }
             });

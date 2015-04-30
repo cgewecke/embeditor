@@ -1,14 +1,16 @@
 md-sidenav, 
 md-sidenav.md-locked-open, 
 md-sidenav.md-closed.md-locked-open-add-active {
-    min-width: 500px !important;
-    width: 85vw !important;
-    max-width: 500px !important;
+    min-width: 400px !important;
+    //width: 85vw !important;
+    //max-width: 500px !important;
     
 } 
 
 
-
+.button-lg{
+  padding: 8px;
+}
 .twelve-point-bold{
    font-size: 12px;
    font-weight: bold;
@@ -19,6 +21,10 @@ md-sidenav.md-closed.md-locked-open-add-active {
    font-weight: bold;
 }
 
+.sidebar-background{
+  //background-color: #f7f7f7;
+  background-color: #E0E0E0;
+}
 .searchPlayIcon{
    position:absolute;
    top: 35px;
@@ -30,6 +36,7 @@ md-sidenav.md-closed.md-locked-open-add-active {
  display: inline-block;
 }
 .searchItemContainer {
+
   vertical-align: top;
 }
 
