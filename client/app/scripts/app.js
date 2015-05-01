@@ -20,9 +20,9 @@ angular
   ])
   .config(function($mdThemingProvider) {
   $mdThemingProvider.theme('default')
-    .primaryPalette('deep-orange')
-    .accentPalette('amber')
-    .backgroundPalette('amber')
+    .primaryPalette('deep-orange', {'hue-1': '50'})
+    .accentPalette('amber', {'hue-1': '50'})
+    .backgroundPalette('amber', {'hue-1': '50'})
   })
   .config(function ($routeProvider) {
     $routeProvider

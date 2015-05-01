@@ -22,7 +22,7 @@ angular.module('embeditor')
              md-item-text="item.value">\
              <span md-highlight-text="ctrl.searchText" ng-bind="item.value"></span>\
          </md-autocomplete>\
-         <md-button class="md-raised" ng-click="ctrl.submit(searchText)">\
+         <md-button aria-label="search" class="md-raised" ng-click="ctrl.submit(searchText)">\
            <md-icon id="spyglass" md-font-icon="fa fa-search"></md-icon>\
          </md-button>\
        </form>'      
