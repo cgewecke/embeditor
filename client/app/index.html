@@ -18,11 +18,11 @@
     <!-- endbuild -->
   </head>
   <body ng-app="embeditor">
-   
+   <md-content layout="column" layout-fill>
       <div ng-include src="'templates/toolbar.html'" layout="column"></div>
       <div ng-include src="'templates/sidebar.html'"></div>
       <div ng-include src="'templates/player.html'" layout="row" layout-fill></div>
-  
+  </md-content>
     <!-- Google Analytics: change UA-XXXXX-X to be your site's ID -->
      <script>
        !function(A,n,g,u,l,a,r){A.GoogleAnalyticsObject=l,A[l]=A[l]||function(){
@@ -63,6 +63,10 @@
     <script src="scripts/directives/embdsearchform.js"></script>
     <script src="scripts/controllers/toolbar.js"></script>
     <script src="scripts/services/ui.js"></script>
+    <script src="scripts/controllers/player.js"></script>
+    
+    
     <!-- endbuild -->
 </body>
+
 </html>

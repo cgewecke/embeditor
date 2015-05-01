@@ -1,12 +1,47 @@
 md-sidenav, 
 md-sidenav.md-locked-open, 
 md-sidenav.md-closed.md-locked-open-add-active {
-    min-width: 400px !important;
+    min-width: 450px !important;
     //width: 85vw !important;
     //max-width: 500px !important;
     
 } 
 
+md-input-container > md-dropdown {
+  margin: 0;
+  margin-top: 1.4em;
+}
+
+md-dropdown {
+  display: inline-block;
+  margin-top: 1.5em;
+  margin-bottom: 1.625em;
+  margin-left: 2px;
+  margin-right: 2px;
+  &:focus {
+    outline: none;
+  }
+  &[disabled]:hover {
+    cursor: default;
+  }
+  &:not([disabled]) {
+    &:hover {
+      cursor: pointer
+    }
+    &.ng-invalid.ng-dirty {
+      .md-select-label {
+        padding-bottom: 7px;
+        border-bottom: 2px solid;
+      }
+    }
+    &:focus {
+      .md-select-label {
+        border-bottom: 2px solid;
+        padding-bottom: $baseline-grid + 1;
+      }
+    }
+  }
+}
 
 .button-lg{
   padding: 8px;
@@ -27,11 +62,28 @@ md-sidenav.md-closed.md-locked-open-add-active {
 }
 .searchPlayIcon{
    position:absolute;
+   opacity: .8;
    top: 35px;
-   right: 80px;
+   right: 90px;
    color: white;
 }
+.searchRelatedIcon{
+  position:absolute;
+  //opacity: .8;
+  top: 0px;
+  right: 0px;
+  background-color: white !important;
+}
 
+.searchRelatedTooltip{
+  background-color: black !important;
+}
+
+.searchRelatedText{
+  font-size: 11px;
+  color: white;
+  font-weight: bold;
+}
 .searchItems{
  display: inline-block;
 }
@@ -41,8 +93,8 @@ md-sidenav.md-closed.md-locked-open-add-active {
 }
 
 .searchThumbnail {
-  width: 150px;
-  height: 100px;
+  width: 196px;
+  height: 110px;
 }
 
 .searchItemTitleContainer {
@@ -76,10 +128,11 @@ md-sidenav.md-closed.md-locked-open-add-active {
 
 .searchItemDuration{
   position: absolute;
+  padding: 1px;
   font-size: 11px;
   font-weight: bold;
-  top: 98px;
-  right: 22px;
+  top: 102px;
+  right: 10px;
   color: white;
   background-color: black;
   
@@ -90,8 +143,8 @@ md-sidenav.md-closed.md-locked-open-add-active {
   font-size: 10px;
   padding: 2px; 
   font-weight: bold;
-  top: 12px;
-  left: 21px;
+  top: 7px;
+  left: 11px;
   color: white;
   background-color: black;
   

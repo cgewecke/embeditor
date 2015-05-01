@@ -24,7 +24,7 @@ angular.module('embeditor')
    var searchParameters = null; // Search params.
    var service = this;
 
-   // ------------------------- Public Vars ----------------------------- 
+   // ------------------------- Public ----------------------------- 
    
    this.results = []; // Data -- asynch: exposed through display()
    this.history = []; // Array of previous searches
@@ -42,13 +42,13 @@ angular.module('embeditor')
 
    // ------------------------- Helpers ----------------------------- 
 
-   // Clears previous search results, resets all flags to initial state
+   // Clear previous search results, reset all flags to initial state
    function reset(){
       service.results = [];
       service.endOfResults = false; 
-      duplicates = []; 
       service.firstPageLoading = true;
       service.failed = false;
+      duplicates = []; 
    };
 
    // initSearch: Prep for new query, related & channel searches. 
@@ -70,7 +70,7 @@ angular.module('embeditor')
          
    };
 
-   // Duration String Utilities
+   // Duration String Conversion Utilities
    String.prototype.toHHMMSS = function () {
       var d = parseInt(this, 10); // don't forget the second param
       var h = Math.floor(d / 3600);
@@ -87,9 +87,9 @@ angular.module('embeditor')
 
    //  -------------------- Public Filter API  --------------------------
 
-   // These verify that filter value has changed & updates params
-   // Changes automatically repeat current search w/ the changed
-   // filter.
+   // These verify that filter value has changed & update params
+   // New selections automatically re-run the current search with
+   // the change
    this.setSearchOrder = function(newOrder){
 
       if (service.sortOrder !== newOrder){
@@ -135,22 +135,21 @@ angular.module('embeditor')
       });
    };
 
-   // getRelatedVideos: Passes video id with related video
-   // flag to youtube and retrieves related videos list
+   // getRelatedVideos: Passes video ref id 
+   // and retrieves related videos list
    this.getRelatedVideos = function(video){
 
       if (video){
          initSearch();
-         searchParameters.relatedToVideoId = video.ref;
+         searchParameters.relatedToVideoId = video.videoId;
          service.history.unshift({item: 'Related: ' + video.title, params: searchParameters });
-
          searchYouTube().then(function(){
             service.firstPageLoading = false; 
          });
       }
    };
 
-   // getChannelVideos - extracts channel id from video
+   // getChannelVideos - passes video's channel id 
    // and retrieves channel's video list
    this.getChannelVideos = function(video){
       console.log('in channel');
@@ -165,21 +164,20 @@ angular.module('embeditor')
    };
 
    // getAgain - recalls w the parameters of a previous 
-   // search, although keeps current filters/orders.
-   // Returns asynch so that the select ng-model can be zeroed
-   // out and be virgin each time it's used.
+   // search, but keeps current filters/orders. Gets first page.
    this.getAgain = function(historyItem){
       
       initSearch();
-      yt_debug = service.history;
       searchParameters = historyItem.params;
       searchParameters.order = service.sortOrder;
       searchParameters.videoDuration = service.durationFilter;
+      searchParameters.pageToken='';
 
       searchYouTube().then(function(){
          service.firstPageLoading = false; 
       });
    }
+
    // nextPage: Each search subsequent to a new search collects
    // a next page token from the youtube response that gets added
    // to searchParameters. 
@@ -193,13 +191,14 @@ angular.module('embeditor')
          });
       } 
    }
-   // ------------------------- Private $Resource --> YouTubeDataAPI  ----------------------------- 
+   // ------------------------- YouTubeDataAPI  ----------------------------- 
 
    // searchYouTube: Returns promise. Makes two calls - the first is a 
    // 'list' search, the second, compiled from results of the first, a 'video list'
-   // search to get additional data about the videos like duration. Checks returned results
+   // request to get additional data about the videos like duration. Checks returned results
    // against current array to exclude duplicate records. Checks pagination tokens and sets 
-   // this.endOfResults flag when last page is hit. Excludes unembeddable and non-public listings.
+   // endOfResults flag when last page is hit. Excludes unembeddable and non-public listings.
+   // Sets serverFailure flag on call error, queryFailure flag when there are simply no results.
    function searchYouTube(){
 
       var deferred = $q.defer();
@@ -239,11 +238,10 @@ angular.module('embeditor')
 
                         service.results.push({ 
                            title : item.snippet.title,
-                           video_service_id: 1,
                            videoId : item.id,
                            duration : formatYouTubeTime(item.contentDetails.duration),
                            publishedAt: moment(item.snippet.publishedAt).fromNow(),
-                           imageUrl: item.snippet.thumbnails.default.url,
+                           imageUrl: item.snippet.thumbnails.medium.url,
                            channelId: item.snippet.channelId,
                            channelTitle: item.snippet.channelTitle
                         });
@@ -262,9 +260,11 @@ angular.module('embeditor')
                   } else {
                      searchParameters.pageToken = data_a.nextPageToken;
                   }
-                  deferred.resolve();                 
-             });
-      });
+                  deferred.resolve(); 
+               }                   
+            );
+         }
+      );
       return deferred.promise;
    };
   
