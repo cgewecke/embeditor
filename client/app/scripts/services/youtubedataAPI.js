@@ -19,7 +19,7 @@ angular.module('embeditor')
    var youtube_api_base_url_videos = 'https://www.googleapis.com/youtube/v3/videos?callback=JSON_CALLBACK'
    
    // MISC  
-   var default_max_results = '25';
+   var default_max_results = '1';
    var duplicates = []; // Array of id's maintained per search to detect duplicate results
    var searchParameters = null; // Search params.
    var service = this;
@@ -260,6 +260,7 @@ angular.module('embeditor')
                   } else {
                      searchParameters.pageToken = data_a.nextPageToken;
                   }
+                  yt_debug = service.results;
                   deferred.resolve(); 
                }                   
             );

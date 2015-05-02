@@ -32,7 +32,7 @@
           <md-grid-tile> <span class="twelve-point-bold">
             <md-select class="md-accent" ng-model="historyItem">
               <md-select-label>History</md-select-label>
-              <md-option sidebar-select-option ng-repeat="previous in search.youTube.history"
+              <md-option ng-attr-disabled="true" sidebar-select-option ng-repeat="previous in search.youTube.history"
                   ng-value="previous"><h6>{{previous.item}}</h6>
               </md-option>
             </md-dropdown></span>
