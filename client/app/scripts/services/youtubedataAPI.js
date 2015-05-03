@@ -34,6 +34,7 @@ angular.module('embeditor')
    this.maxResults = 40; // Passed to youtube to constrain size of return
    this.endOfResults = false; // Dom flag - end of results msg
    this.failed = false; // Dom flag - failure msg
+   this.serverError = false; // Dom flag - server error msg
    this.firstPageLoading = false; // Dom flag - initial load msg
    this.nextPageLoading = false; // Dom flag - loading paginated rslts msg
    
@@ -48,6 +49,7 @@ angular.module('embeditor')
       service.endOfResults = false; 
       service.firstPageLoading = true;
       service.failed = false;
+      service.serverError = false;
       duplicates = []; 
    };
 
@@ -263,9 +265,13 @@ angular.module('embeditor')
                   yt_debug = service.results;
                   deferred.resolve(); 
                }                   
-            );
+            ).error(function(){
+               service.serverError = true;
+            });
          }
-      );
+      ).error(function(){
+         service.serverError = true;
+      });
       return deferred.promise;
    };
   

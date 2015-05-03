@@ -2,6 +2,161 @@ angular
   .module('yt.search.mockdata', [
   ])
 
+   .controller('mockYTerror', function(){
+
+    this.searchUrl = {
+      gibberish: 'https://www.googleapis.com/youtube/v3/search?callback=JSON_CALLBACK&key=AIzaSyDAEHI30eBi2xEPzHZQa1XyXyK2Ie4OpJE&maxResults=1&order=relevance&pageToken=&part=snippet&q=fjdksljfklds&type=video&videoDuration=any',
+      lastResult: 'https://www.googleapis.com/youtube/v3/search?callback=JSON_CALLBACK&key=AIzaSyDAEHI30eBi2xEPzHZQa1XyXyK2Ie4OpJE&maxResults=1&order=relevance&pageToken=&part=snippet&q=taylor&type=video&videoDuration=any',
+      duplicate: '',
+    }
+
+    this.videoUrl = {
+      gibberish: 'https://www.googleapis.com/youtube/v3/videos?callback=JSON_CALLBACK&id=&key=AIzaSyDAEHI30eBi2xEPzHZQa1XyXyK2Ie4OpJE&part=snippet,contentDetails,status&type=video',
+      lastResult: 'https://www.googleapis.com/youtube/v3/videos?callback=JSON_CALLBACK&id=-CmadmM5cOk,&key=AIzaSyDAEHI30eBi2xEPzHZQa1XyXyK2Ie4OpJE&part=snippet,contentDetails,status&type=video',         
+      duplicate: '',
+    }
+
+    this.searchResponse ={
+      gibberish: {
+         "kind": "youtube#searchListResponse",
+         "etag": "\"tbWC5XrSXxe1WOAx6MK9z4hHSU8/ch5o1-GgrL0-e2Pm1ANpGUMA3yg\"",
+         "pageInfo": {
+          "totalResults": 0,
+          "resultsPerPage": 1
+         },
+         "items": []
+        },
+      lastResult: {
+           "kind": "youtube#searchListResponse",
+           "etag": "\"tbWC5XrSXxe1WOAx6MK9z4hHSU8/B-HPR_Q5R8_SZKSSCn5DHT7GFBk\"",
+           "prevPageToken": "CAEQAQ",
+           "pageInfo": {
+            "totalResults": 1000000,
+            "resultsPerPage": 1
+           },
+           "items": [
+            {
+             "kind": "youtube#searchResult",
+             "etag": "\"tbWC5XrSXxe1WOAx6MK9z4hHSU8/7_1Y-nguh1PsKG0nmut7cLGdB8g\"",
+             "id": {
+              "kind": "youtube#video",
+              "videoId": "-CmadmM5cOk"
+             },
+             "snippet": {
+              "publishedAt": "2015-02-13T13:20:01.000Z",
+              "channelId": "UCANLZYMidaCbLQFWXBC95Jg",
+              "title": "Taylor Swift - Style",
+              "description": "Check out Taylor's new stunning video for “Style\". Taylor's multi-platinum release 1989 is Available Now on iTunes http://www.smarturl.it/TS1989.",
+              "thumbnails": {
+               "default": {
+                "url": "https://i.ytimg.com/vi/-CmadmM5cOk/default.jpg"
+               },
+               "medium": {
+                "url": "https://i.ytimg.com/vi/-CmadmM5cOk/mqdefault.jpg"
+               },
+               "high": {
+                "url": "https://i.ytimg.com/vi/-CmadmM5cOk/hqdefault.jpg"
+               }
+              },
+              "channelTitle": "TaylorSwiftVEVO",
+              "liveBroadcastContent": "none"
+             }
+            }
+           ]
+          },
+           
+      duplicate:{}
+    };
+
+    this.videoResponse = {
+      gibberish: {
+         "kind": "youtube#videoListResponse",
+         "etag": "\"tbWC5XrSXxe1WOAx6MK9z4hHSU8/ZY3wE9w2mY5hUZsOv09Br9NhOXY\"",
+         "pageInfo": {
+          "totalResults": 0,
+          "resultsPerPage": 0
+         },
+         "items": []
+        },
+      lastResult:{
+          "kind": "youtube#videoListResponse",
+          "etag": "\"tbWC5XrSXxe1WOAx6MK9z4hHSU8/2p_U5Xv1cD1jql0lhByfzh36D5w\"",
+          "pageInfo": {
+           "totalResults": 1,
+           "resultsPerPage": 1
+          },
+          "items": [
+           {
+            "kind": "youtube#video",
+            "etag": "\"tbWC5XrSXxe1WOAx6MK9z4hHSU8/GDm_FKp3v9Hdl2galKhv5kFf_do\"",
+            "id": "-CmadmM5cOk",
+            "snippet": {
+             "publishedAt": "2015-02-13T13:20:01.000Z",
+             "channelId": "UCANLZYMidaCbLQFWXBC95Jg",
+             "title": "Taylor Swift - Style",
+             "description": "Check out Taylor's new stunning video for “Style\". Taylor’s multi-platinum release 1989 is Available Now on iTunes http://www.smarturl.it/TS1989.",
+             "thumbnails": {
+              "default": {
+               "url": "https://i.ytimg.com/vi/-CmadmM5cOk/default.jpg",
+               "width": 120,
+               "height": 90
+              },
+              "medium": {
+               "url": "https://i.ytimg.com/vi/-CmadmM5cOk/mqdefault.jpg",
+               "width": 320,
+               "height": 180
+              },
+              "high": {
+               "url": "https://i.ytimg.com/vi/-CmadmM5cOk/hqdefault.jpg",
+               "width": 480,
+               "height": 360
+              },
+              "standard": {
+               "url": "https://i.ytimg.com/vi/-CmadmM5cOk/sddefault.jpg",
+               "width": 640,
+               "height": 480
+              },
+              "maxres": {
+               "url": "https://i.ytimg.com/vi/-CmadmM5cOk/maxresdefault.jpg",
+               "width": 1280,
+               "height": 720
+              }
+             },
+             "channelTitle": "TaylorSwiftVEVO",
+             "categoryId": "10",
+             "liveBroadcastContent": "none",
+             "localized": {
+              "title": "Taylor Swift - Style",
+              "description": "Check out Taylor's new stunning video for “Style\". Taylor’s multi-platinum release 1989 is Available Now on iTunes http://www.smarturl.it/TS1989."
+             }
+            },
+            "contentDetails": {
+             "duration": "PT4M4S",
+             "dimension": "2d",
+             "definition": "hd",
+             "caption": "false",
+             "licensedContent": true,
+             "regionRestriction": {
+              "blocked": [
+               "DE"
+              ]
+             }
+            },
+            "status": {
+             "uploadStatus": "processed",
+             "privacyStatus": "public",
+             "license": "youtube",
+             "embeddable": true,
+             "publicStatsViewable": true
+            }
+           }
+          ]
+         },
+          
+      duplicate:{}
+    };
+
+   })
    .controller('mockYTquery', function(){
 
 
@@ -295,6 +450,8 @@ angular
          taylor_relev_short_page2 :'https://www.googleapis.com/youtube/v3/videos?callback=JSON_CALLBACK&id=67WUwWZsV-w,&key=AIzaSyDAEHI30eBi2xEPzHZQa1XyXyK2Ie4OpJE&part=snippet,contentDetails,status&type=video',        
          taylor_relev_long_page1 : 'https://www.googleapis.com/youtube/v3/videos?callback=JSON_CALLBACK&id=RK4ANiZLJyQ,&key=AIzaSyDAEHI30eBi2xEPzHZQa1XyXyK2Ie4OpJE&part=snippet,contentDetails,status&type=video'
       };
+
+
       this.videoResponse = {
          taylor_relev_any_page1 : {
           "kind": "youtube#videoListResponse",
@@ -845,6 +1002,7 @@ angular
             title: "Why Taylor Swift Assumes the Role of Booking Agent When She’s on Tour",
             videoId: "67WUwWZsV-w"
          }],
+
          taylor_relev_short_page2 : [{
             channelId: "UCVr-TwiGNnveWyOouIyz2fQ",
             channelTitle: "extratv",
@@ -877,11 +1035,19 @@ angular
    })
 
    .controller('mockYTchannel', function(){
-      this.url = {
-         yale_relev_any_page1: 'https://www.googleapis.com/youtube/v3/videos?callback=angular.callbacks._7&id=7emS3ye3cVU,&key=AIzaSyDAEHI30eBi2xEPzHZQa1XyXyK2Ie4OpJE&part=snippet,contentDetails,status&type=video',
-         yale_relev_any_page2: 'https://www.googleapis.com/youtube/v3/videos?callback=angular.callbacks._9&id=2B9b9mUPJik,&key=AIzaSyDAEHI30eBi2xEPzHZQa1XyXyK2Ie4OpJE&part=snippet,contentDetails,status&type=video' 
+
+
+      this.searchUrl = {
+        yale_relev_any_page1: 'https://www.googleapis.com/youtube/v3/search?callback=JSON_CALLBACK&channelId=UC4EY_qnSeAP1xGsh61eOoJA&key=AIzaSyDAEHI30eBi2xEPzHZQa1XyXyK2Ie4OpJE&maxResults=1&order=relevance&pageToken=&part=snippet&q=&type=video&videoDuration=any',
+        yale_relev_any_page2: 'https://www.googleapis.com/youtube/v3/search?callback=JSON_CALLBACK&channelId=UC4EY_qnSeAP1xGsh61eOoJA&key=AIzaSyDAEHI30eBi2xEPzHZQa1XyXyK2Ie4OpJE&maxResults=1&order=relevance&pageToken=CAEQAA&part=snippet&q=&type=video&videoDuration=any'
       };
-      this.response ={
+
+      this.videoUrl = {
+         yale_relev_any_page1: 'https://www.googleapis.com/youtube/v3/videos?callback=JSON_CALLBACK&id=7emS3ye3cVU,&key=AIzaSyDAEHI30eBi2xEPzHZQa1XyXyK2Ie4OpJE&part=snippet,contentDetails,status&type=video',
+         yale_relev_any_page2: 'https://www.googleapis.com/youtube/v3/videos?callback=JSON_CALLBACK&id=2B9b9mUPJik,&key=AIzaSyDAEHI30eBi2xEPzHZQa1XyXyK2Ie4OpJE&part=snippet,contentDetails,status&type=video' 
+      };
+
+      this.videoResponse ={
          yale_relev_any_page1: {
           "kind": "youtube#videoListResponse",
            "etag": "\"tbWC5XrSXxe1WOAx6MK9z4hHSU8/Q0yareeXS4evV8G-HGiL0NoIMac\"",
@@ -1011,6 +1177,86 @@ angular
          ]
         }};
 
+      this.searchResponse = {
+         yale_relev_any_page1: {
+           "kind": "youtube#searchListResponse",
+           "etag": "\"tbWC5XrSXxe1WOAx6MK9z4hHSU8/LR0DRkOL9w9YcJoFKGWT1k_kUZQ\"",
+           "nextPageToken": "CAEQAA",
+           "pageInfo": {
+            "totalResults": 1319,
+            "resultsPerPage": 1
+           },
+           "items": [
+            {
+             "kind": "youtube#searchResult",
+             "etag": "\"tbWC5XrSXxe1WOAx6MK9z4hHSU8/YBrccviFOokaBBD-_lqlGKTJ0d0\"",
+             "id": {
+              "kind": "youtube#video",
+              "videoId": "7emS3ye3cVU"
+             },
+             "snippet": {
+              "publishedAt": "2008-09-30T19:06:07.000Z",
+              "channelId": "UC4EY_qnSeAP1xGsh61eOoJA",
+              "title": "3. Foundations: Freud",
+              "description": "Introduction to Psychology (PSYC 110) This lecture introduces students to the theories of Sigmund Freud, including a brief biographical description and his ...",
+              "thumbnails": {
+               "default": {
+                "url": "https://i.ytimg.com/vi/7emS3ye3cVU/default.jpg"
+               },
+               "medium": {
+                "url": "https://i.ytimg.com/vi/7emS3ye3cVU/mqdefault.jpg"
+               },
+               "high": {
+                "url": "https://i.ytimg.com/vi/7emS3ye3cVU/hqdefault.jpg"
+               }
+              },
+              "channelTitle": "YaleCourses",
+              "liveBroadcastContent": "none"
+             }
+            }
+           ]
+          },
+         yale_relev_any_page2: {
+           "kind": "youtube#searchListResponse",
+           "etag": "\"tbWC5XrSXxe1WOAx6MK9z4hHSU8/iORVkkanfvfNssM_aplKhUUUccM\"",
+           "nextPageToken": "CAIQAA",
+           "prevPageToken": "CAEQAQ",
+           "pageInfo": {
+            "totalResults": 1319,
+            "resultsPerPage": 1
+           },
+           "items": [
+            {
+             "kind": "youtube#searchResult",
+             "etag": "\"tbWC5XrSXxe1WOAx6MK9z4hHSU8/hUgNfwmDQI4ncM-mAEcyhDVOhZY\"",
+             "id": {
+              "kind": "youtube#video",
+              "videoId": "2B9b9mUPJik"
+             },
+             "snippet": {
+              "publishedAt": "2012-04-05T15:30:13.000Z",
+              "channelId": "UC4EY_qnSeAP1xGsh61eOoJA",
+              "title": "02. The Crisis of the Third Century and the Diocletianic Reforms",
+              "description": "The Early Middle Ages, 284--1000 (HIST 210) Professor Freedman outlines the problems facing the Roman Empire in the third century. The Persian Sassanid ...",
+              "thumbnails": {
+               "default": {
+                "url": "https://i.ytimg.com/vi/2B9b9mUPJik/default.jpg"
+               },
+               "medium": {
+                "url": "https://i.ytimg.com/vi/2B9b9mUPJik/mqdefault.jpg"
+               },
+               "high": {
+                "url": "https://i.ytimg.com/vi/2B9b9mUPJik/hqdefault.jpg"
+               }
+              },
+              "channelTitle": "YaleCourses",
+              "liveBroadcastContent": "none"
+             }
+            }
+           ]
+          }
+      };
+
       this.output = {
          yale_relev_any_page1: [{
           channelId: "UC4EY_qnSeAP1xGsh61eOoJA",
@@ -1021,15 +1267,7 @@ angular
           title: "3. Foundations: Freud",
           videoId: "7emS3ye3cVU"
         }],
-        yale_relev_any_page2: [{
-          channelId: "UC4EY_qnSeAP1xGsh61eOoJA",
-          channelTitle: "YaleCourses",
-          duration: "56:31",
-          imageUrl: "https://i.ytimg.com/vi/7emS3ye3cVU/mqdefault.jpg",
-          publishedAt: "7 years ago",
-          title: "3. Foundations: Freud",
-          videoId: "7emS3ye3cVU",
-        },
+        yale_relev_any_page2: [
         {
           channelId: "UC4EY_qnSeAP1xGsh61eOoJA",
           channelTitle: "YaleCourses",
@@ -1043,18 +1281,506 @@ angular
 
    })
 
-   /*.controller('mockYTrelated', function(){
-      this.url = {
-         shakeRelated_rel_any_page1:, 
-         shakeRelated_rel_any_page2:
+   .controller('mockYTrelated', function(){
+
+      this.searchUrl = {
+        shakeRelated_rel_any_page1:'https://www.googleapis.com/youtube/v3/search?callback=JSON_CALLBACK&key=AIzaSyDAEHI30eBi2xEPzHZQa1XyXyK2Ie4OpJE&maxResults=1&order=relevance&pageToken=&part=snippet&q=&relatedToVideoId=nfWlot6h_JM&type=video&videoDuration=any', 
+        shakeRelated_rel_any_page2: 'https://www.googleapis.com/youtube/v3/search?callback=JSON_CALLBACK&key=AIzaSyDAEHI30eBi2xEPzHZQa1XyXyK2Ie4OpJE&maxResults=1&order=relevance&pageToken=CAEQAA&part=snippet&q=&relatedToVideoId=nfWlot6h_JM&type=video&videoDuration=any'     
       };
-      this.response = {
-         shakeRelated_rel_any_page1:, 
+
+      this.videoUrl = {
+        shakeRelated_rel_any_page1: 'https://www.googleapis.com/youtube/v3/videos?callback=JSON_CALLBACK&id=7PCkvCPvDXk,&key=AIzaSyDAEHI30eBi2xEPzHZQa1XyXyK2Ie4OpJE&part=snippet,contentDetails,status&type=video',
+        shakeRelated_rel_any_page2: 'https://www.googleapis.com/youtube/v3/videos?callback=JSON_CALLBACK&id=e-ORhEE9VVg,&key=AIzaSyDAEHI30eBi2xEPzHZQa1XyXyK2Ie4OpJE&part=snippet,contentDetails,status&type=video'
+      };
+
+      this.searchResponse = {
+         shakeRelated_rel_any_page1:{
+           "kind": "youtube#searchListResponse",
+           "etag": "\"tbWC5XrSXxe1WOAx6MK9z4hHSU8/9XuXw-RIgLtZM6Zz8gLhrNOZ6M0\"",
+           "nextPageToken": "CAEQAA",
+           "pageInfo": {
+            "totalResults": 74,
+            "resultsPerPage": 1
+           },
+           "items": [
+            {
+             "kind": "youtube#searchResult",
+             "etag": "\"tbWC5XrSXxe1WOAx6MK9z4hHSU8/jEC2O9yTgEV6fF7vsXJXntfF2vY\"",
+             "id": {
+              "kind": "youtube#video",
+              "videoId": "7PCkvCPvDXk"
+             },
+             "snippet": {
+              "publishedAt": "2014-06-06T01:33:16.000Z",
+              "channelId": "UCf3cbfAXgPFL6OywH7JwOzA",
+              "title": "Meghan Trainor - All About That Bass",
+              "description": "Download “Title” at iTunes:  http://smarturl.it/MTitle\nDownload “Title” at Amazon:  http://smarturl.it/Ttle_MT\nSpotify:  http://smarturl.it/Spf_Title\nGoogle: http://smarturl.it/GPTtle\n\nhttps://www.facebook.com/meghantrainorsongs\nhttps://twitter.com/meghan_trainor\nhttp://instagram.com/meghan_trainor\nhttp://www.meghan-trainor.com/\n\n© 2014 Epic Records, a division of Sony Music Entertainment",
+              "thumbnails": {
+               "default": {
+                "url": "https://i.ytimg.com/vi/7PCkvCPvDXk/default.jpg"
+               },
+               "medium": {
+                "url": "https://i.ytimg.com/vi/7PCkvCPvDXk/mqdefault.jpg"
+               },
+               "high": {
+                "url": "https://i.ytimg.com/vi/7PCkvCPvDXk/hqdefault.jpg"
+               }
+              },
+              "channelTitle": "MeghanTrainorVEVO",
+              "liveBroadcastContent": "none"
+             }
+            }
+           ]
+          }, 
          shakeRelated_rel_any_page2:
+         {
+         "kind": "youtube#searchListResponse",
+         "etag": "\"tbWC5XrSXxe1WOAx6MK9z4hHSU8/PdayFmH8p0ZVuj6pP3RC2lRyR3k\"",
+         "nextPageToken": "CAIQAA",
+         "prevPageToken": "CAEQAQ",
+         "pageInfo": {
+          "totalResults": 74,
+          "resultsPerPage": 1
+         },
+         "items": [
+          {
+           "kind": "youtube#searchResult",
+           "etag": "\"tbWC5XrSXxe1WOAx6MK9z4hHSU8/cXNLnHysDZNnF3NNffzxuLbaPPE\"",
+           "id": {
+            "kind": "youtube#video",
+            "videoId": "e-ORhEE9VVg"
+           },
+           "snippet": {
+            "publishedAt": "2014-11-08T01:43:24.000Z",
+            "channelId": "UCANLZYMidaCbLQFWXBC95Jg",
+            "title": "Taylor Swift - Blank Space",
+            "description": "Watch Taylor's new video for \"Blank Space\".  No animals, trees, automobiles or actors were harmed in the making of this video.  Taylor’s new release 1989 is Available Now on iTunes http://www.smarturl.it/TS1989.",
+            "thumbnails": {
+             "default": {
+              "url": "https://i.ytimg.com/vi/e-ORhEE9VVg/default.jpg"
+             },
+             "medium": {
+              "url": "https://i.ytimg.com/vi/e-ORhEE9VVg/mqdefault.jpg"
+             },
+             "high": {
+              "url": "https://i.ytimg.com/vi/e-ORhEE9VVg/hqdefault.jpg"
+             }
+            },
+            "channelTitle": "TaylorSwiftVEVO",
+            "liveBroadcastContent": "none"
+           }
+          }
+         ]
+        }
+      };
+      this.videoResponse = {
+         shakeRelated_rel_any_page1 : {
+         "kind": "youtube#videoListResponse",
+           "etag": "\"tbWC5XrSXxe1WOAx6MK9z4hHSU8/USHdoz0pQXowBYxhBGtm76dRrTc\"",
+           "pageInfo": {
+            "totalResults": 1,
+            "resultsPerPage": 1
+           },
+           "items": [
+            {
+             "kind": "youtube#video",
+             "etag": "\"tbWC5XrSXxe1WOAx6MK9z4hHSU8/Tlz06qCnlaa5d-cNV7sdsXjV5Uo\"",
+             "id": "7PCkvCPvDXk",
+             "snippet": {
+              "publishedAt": "2014-06-11T14:00:07.000Z",
+              "channelId": "UCf3cbfAXgPFL6OywH7JwOzA",
+              "title": "Meghan Trainor - All About That Bass",
+              "description": "Download “Title” at iTunes:  http://smarturl.it/MTitle\nDownload “Title” at Amazon:  http://smarturl.it/Ttle_MT\nSpotify:  http://smarturl.it/Spf_Title\nGoogle: http://smarturl.it/GPTtle\n\nhttps://www.facebook.com/meghantrainorsongs\nhttps://twitter.com/meghan_trainor\nhttp://instagram.com/meghan_trainor\nhttp://www.meghan-trainor.com/\n\n© 2014 Epic Records, a division of Sony Music Entertainment",
+              "thumbnails": {
+               "default": {
+                "url": "https://i.ytimg.com/vi/7PCkvCPvDXk/default.jpg",
+                "width": 120,
+                "height": 90
+               },
+               "medium": {
+                "url": "https://i.ytimg.com/vi/7PCkvCPvDXk/mqdefault.jpg",
+                "width": 320,
+                "height": 180
+               },
+               "high": {
+                "url": "https://i.ytimg.com/vi/7PCkvCPvDXk/hqdefault.jpg",
+                "width": 480,
+                "height": 360
+               },
+               "standard": {
+                "url": "https://i.ytimg.com/vi/7PCkvCPvDXk/sddefault.jpg",
+                "width": 640,
+                "height": 480
+               },
+               "maxres": {
+                "url": "https://i.ytimg.com/vi/7PCkvCPvDXk/maxresdefault.jpg",
+                "width": 1280,
+                "height": 720
+               }
+              },
+              "channelTitle": "MeghanTrainorVEVO",
+              "categoryId": "10",
+              "liveBroadcastContent": "none",
+              "localized": {
+               "title": "Meghan Trainor - All About That Bass",
+               "description": "Download “Title” at iTunes:  http://smarturl.it/MTitle\nDownload “Title” at Amazon:  http://smarturl.it/Ttle_MT\nSpotify:  http://smarturl.it/Spf_Title\nGoogle: http://smarturl.it/GPTtle\n\nhttps://www.facebook.com/meghantrainorsongs\nhttps://twitter.com/meghan_trainor\nhttp://instagram.com/meghan_trainor\nhttp://www.meghan-trainor.com/\n\n© 2014 Epic Records, a division of Sony Music Entertainment"
+              }
+             },
+             "contentDetails": {
+              "duration": "PT3M10S",
+              "dimension": "2d",
+              "definition": "hd",
+              "caption": "false",
+              "licensedContent": true,
+              "regionRestriction": {
+               "allowed": [
+                "BM",
+                "BL",
+                "BO",
+                "BN",
+                "BI",
+                "JP",
+                "BJ",
+                "BE",
+                "BD",
+                "BG",
+                "BF",
+                "BA",
+                "BB",
+                "JE",
+                "BY",
+                "BZ",
+                "JM",
+                "BT",
+                "JO",
+                "BV",
+                "YE",
+                "BS",
+                "BH",
+                "LV",
+                "RU",
+                "CV",
+                "RW",
+                "RS",
+                "RO",
+                "RE",
+                "CU",
+                "KR",
+                "CK",
+                "KP",
+                "UG",
+                "ZA",
+                "CO",
+                "CL",
+                "CM",
+                "ZM",
+                "YT",
+                "KY",
+                "CF",
+                "CG",
+                "CD",
+                "CZ",
+                "ZW",
+                "CY",
+                "KG",
+                "KE",
+                "CR",
+                "KH",
+                "KI",
+                "KN",
+                "KM",
+                "SZ",
+                "SY",
+                "SR",
+                "SV",
+                "ST",
+                "SJ",
+                "SK",
+                "SH",
+                "SI",
+                "SN",
+                "SO",
+                "SL",
+                "SM",
+                "SB",
+                "SC",
+                "SA",
+                "SG",
+                "SD",
+                "SE",
+                "FO",
+                "BW",
+                "HK",
+                "PR",
+                "PW",
+                "HN",
+                "HM",
+                "PT",
+                "PY",
+                "ET",
+                "PA",
+                "PG",
+                "PF",
+                "PE",
+                "PK",
+                "HR",
+                "PH",
+                "PN",
+                "PM",
+                "PL",
+                "CA",
+                "AD",
+                "AE",
+                "AF",
+                "AG",
+                "AI",
+                "AL",
+                "AM",
+                "AO",
+                "AQ",
+                "AR",
+                "AS",
+                "AT",
+                "AU",
+                "AW",
+                "AX",
+                "AZ",
+                "IL",
+                "IM",
+                "IN",
+                "IO",
+                "PS",
+                "ID",
+                "IE",
+                "QA",
+                "IQ",
+                "IR",
+                "IS",
+                "IT",
+                "TZ",
+                "UM",
+                "FR",
+                "UA",
+                "FI",
+                "FK",
+                "FJ",
+                "FM",
+                "UY",
+                "UZ",
+                "EE",
+                "US",
+                "NA",
+                "NC",
+                "TT",
+                "NE",
+                "NG",
+                "NF",
+                "NI",
+                "NL",
+                "NO",
+                "NP",
+                "NR",
+                "NU",
+                "NZ",
+                "VI",
+                "GG",
+                "GD",
+                "GE",
+                "GB",
+                "VN",
+                "GN",
+                "VC",
+                "GM",
+                "VE",
+                "VG",
+                "GI",
+                "GW",
+                "GT",
+                "GU",
+                "GR",
+                "GS",
+                "GP",
+                "GQ",
+                "VU",
+                "GY",
+                "OM",
+                "WS",
+                "WF",
+                "GF",
+                "DZ",
+                "BR",
+                "CH",
+                "DO",
+                "DM",
+                "CI",
+                "DK",
+                "DJ",
+                "CN",
+                "KW",
+                "VA",
+                "LC",
+                "LB",
+                "LA",
+                "GA",
+                "LK",
+                "LI",
+                "KZ",
+                "LU",
+                "LT",
+                "LS",
+                "LR",
+                "CC",
+                "GL",
+                "LY",
+                "HU",
+                "TO",
+                "TN",
+                "TM",
+                "TL",
+                "TK",
+                "TJ",
+                "TH",
+                "TG",
+                "TF",
+                "TD",
+                "TC",
+                "HT",
+                "ER",
+                "ES",
+                "EH",
+                "GH",
+                "TW",
+                "TV",
+                "EG",
+                "TR",
+                "EC",
+                "MD",
+                "ME",
+                "MF",
+                "MG",
+                "MA",
+                "MC",
+                "ML",
+                "MM",
+                "MN",
+                "MO",
+                "MH",
+                "CX",
+                "MK",
+                "MT",
+                "MU",
+                "MV",
+                "MW",
+                "MP",
+                "MQ",
+                "MR",
+                "MS",
+                "MX",
+                "MY",
+                "MZ"
+               ]
+              }
+             },
+             "status": {
+              "uploadStatus": "processed",
+              "privacyStatus": "public",
+              "license": "youtube",
+              "embeddable": true,
+              "publicStatsViewable": true
+             }
+            }
+           ]
+          }, 
+         shakeRelated_rel_any_page2:
+         {
+         "kind": "youtube#videoListResponse",
+         "etag": "\"tbWC5XrSXxe1WOAx6MK9z4hHSU8/pvT_B_UjFk99okcy6XhnOA2QZ6k\"",
+         "pageInfo": {
+          "totalResults": 1,
+          "resultsPerPage": 1
+         },
+         "items": [
+          {
+           "kind": "youtube#video",
+           "etag": "\"tbWC5XrSXxe1WOAx6MK9z4hHSU8/-eRVMYlE_VXIlu1wTs6JvJP00hI\"",
+           "id": "e-ORhEE9VVg",
+           "snippet": {
+            "publishedAt": "2014-11-10T17:05:44.000Z",
+            "channelId": "UCANLZYMidaCbLQFWXBC95Jg",
+            "title": "Taylor Swift - Blank Space",
+            "description": "Watch Taylor's new video for \"Blank Space\".  No animals, trees, automobiles or actors were harmed in the making of this video.  Taylor’s new release 1989 is Available Now on iTunes http://www.smarturl.it/TS1989.",
+            "thumbnails": {
+             "default": {
+              "url": "https://i.ytimg.com/vi/e-ORhEE9VVg/default.jpg",
+              "width": 120,
+              "height": 90
+             },
+             "medium": {
+              "url": "https://i.ytimg.com/vi/e-ORhEE9VVg/mqdefault.jpg",
+              "width": 320,
+              "height": 180
+             },
+             "high": {
+              "url": "https://i.ytimg.com/vi/e-ORhEE9VVg/hqdefault.jpg",
+              "width": 480,
+              "height": 360
+             },
+             "standard": {
+              "url": "https://i.ytimg.com/vi/e-ORhEE9VVg/sddefault.jpg",
+              "width": 640,
+              "height": 480
+             },
+             "maxres": {
+              "url": "https://i.ytimg.com/vi/e-ORhEE9VVg/maxresdefault.jpg",
+              "width": 1280,
+              "height": 720
+             }
+            },
+            "channelTitle": "TaylorSwiftVEVO",
+            "categoryId": "10",
+            "liveBroadcastContent": "none",
+            "localized": {
+             "title": "Taylor Swift - Blank Space",
+             "description": "Watch Taylor's new video for \"Blank Space\".  No animals, trees, automobiles or actors were harmed in the making of this video.  Taylor’s new release 1989 is Available Now on iTunes http://www.smarturl.it/TS1989."
+            }
+           },
+           "contentDetails": {
+            "duration": "PT4M33S",
+            "dimension": "2d",
+            "definition": "hd",
+            "caption": "false",
+            "licensedContent": true
+           },
+           "status": {
+            "uploadStatus": "processed",
+            "privacyStatus": "public",
+            "license": "youtube",
+            "embeddable": true,
+            "publicStatsViewable": true
+           }
+          }
+         ]
+        }
       };
       this.output = {
-         shakeRelated_rel_any_page1:, 
-         shakeRelated_rel_any_page2:
+         shakeRelated_rel_any_page1:{
+            channelId: "UCf3cbfAXgPFL6OywH7JwOzA",
+            channelTitle: "MeghanTrainorVEVO",
+            duration: "3:10",
+            imageUrl: "https://i.ytimg.com/vi/7PCkvCPvDXk/mqdefault.jpg",
+            publishedAt: "a year ago",
+            title: "Meghan Trainor - All About That Bass",
+            videoId: "7PCkvCPvDXk"
+         }, 
+         shakeRelated_rel_any_page2: {
+            channelId: "UCANLZYMidaCbLQFWXBC95Jg",
+            channelTitle: "TaylorSwiftVEVO",
+            duration: "4:33",
+            imageUrl: "https://i.ytimg.com/vi/e-ORhEE9VVg/mqdefault.jpg",
+            publishedAt: "6 months ago",
+            title: "Taylor Swift - Blank Space",
+            videoId: "e-ORhEE9VVg"
+         }
       };
       
-   });*/
+   });
