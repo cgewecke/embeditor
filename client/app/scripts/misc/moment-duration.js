@@ -1,3 +1,4 @@
+// jshint ignore: start
 //https://www.npmjs.com/package/moment-duration
 (function () {
   var moment = (typeof require === 'undefined') ? this.moment : require('moment');
