@@ -37,7 +37,7 @@
     </script>
 
     <!-- jQuery -->
-    <script src="scripts/misc/jquery-2.1.3.min.js"></script>
+    <script src="scripts/vendor/jquery-2.1.3.min.js"></script>
     
     <!-- build:js(.) scripts/vendor.js -->
     <!-- bower:js -->
@@ -54,18 +54,19 @@
     <!-- endbuild -->
 
     <!-- build:js({.tmp,app}) scripts/scripts.js -->
-    <script src="scripts/misc/moment.min.js"></script>
-    <script src="scripts/misc/moment-duration.js"></script>
+    <script src="scripts/vendor/moment.min.js"></script>
+    <script src="scripts/vendor/momentz-duration.js"></script>
     <script src="scripts/app.js"></script>
-    <script src="scripts/controllers/main.js"></script>
-    <script src="scripts/controllers/about.js"></script>
-    <script src="scripts/controllers/searchbox.js"></script>
-    <script src="scripts/services/youTubeDataAPI.js"></script>
-    <script src="scripts/controllers/searchsidebar.js"></script>
-    <script src="scripts/directives/embdsearchform.js"></script>
-    <script src="scripts/controllers/toolbar.js"></script>
+
     <script src="scripts/services/ui.js"></script>
-    <script src="scripts/controllers/player.js"></script>
+    <script src="scripts/services/youTubeDataAPI.js"></script>
+    
+    <script src="scripts/components/player.js"></script>
+    <script src="scripts/components/searchbox.js"></script>
+    <script src="scripts/components/searchsidebar.js"></script>
+    <script src="scripts/components/toolbar.js"></script>
+    
+    
     
     
     <!-- endbuild -->

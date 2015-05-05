@@ -23,8 +23,11 @@ describe('Service: youTubeDataAPI', function (){
     beforeEach(inject( function($controller, $rootScope, $httpBackend, youTubeDataAPI) {
       httpBackend = $httpBackend;
       youtube = youTubeDataAPI;
+      youtube.default_max_results = 1;
+
       query = $controller("mockYTquery", {$scope: scope});
       error = $controller("mockYTerror", {$scope: scope});
+
       
       // Regular query search
       searchUrl = query.searchUrl.taylor_relev_any_page1;
@@ -85,7 +88,7 @@ describe('Service: youTubeDataAPI', function (){
 
     })
 
-    it('should set the serverError flag if it fails because of server error', function(){
+    it('should set the serverError flag on server error', function(){
 
       call1.respond(500, '');
       youtube.query('taylor swift');
@@ -133,6 +136,8 @@ describe('Service: youTubeDataAPI', function (){
     beforeEach(inject( function($controller, $rootScope, $httpBackend, youTubeDataAPI) {
       httpBackend = $httpBackend;
       youtube = youTubeDataAPI;
+      youtube.default_max_results = 1;
+
       query = $controller("mockYTquery", {$scope: scope});
 
       // Query: order by relevance, filter by any: Page 1 
@@ -161,8 +166,6 @@ describe('Service: youTubeDataAPI', function (){
 
     it('should get the nextPage of the current search', function(){
       
-      var result_page_2;
-
       youtube.query('taylor swift');
       httpBackend.flush();
     
@@ -192,11 +195,13 @@ describe('Service: youTubeDataAPI', function (){
 
   describe('public: query(searchTerm)', function(){
 
-    var searchRelUrl, searchRelData, videoRelUrl, videoRelData, output;
+    var searchRelUrl, searchRelData, videoRelUrl, videoRelData, expected_output;
 
     beforeEach(inject( function($controller, $rootScope, $httpBackend, youTubeDataAPI) {
       httpBackend = $httpBackend;
       youtube = youTubeDataAPI;
+      youtube.default_max_results = 1;
+
       query = $controller("mockYTquery", {$scope: scope});
       scope = $rootScope;
       
@@ -205,7 +210,7 @@ describe('Service: youTubeDataAPI', function (){
       videoRelUrl = query.videoUrl.taylor_relev_any_page1;
       videoRelData = query.videoResponse.taylor_relev_any_page1;
 
-      output = query.output.taylor_relev_any_page1;
+      expected_output = query.output.taylor_relev_any_page1;
       
       httpBackend.whenJSONP(searchRelUrl).respond(searchRelData);
       httpBackend.whenJSONP(videoRelUrl).respond(videoRelData);
@@ -218,7 +223,7 @@ describe('Service: youTubeDataAPI', function (){
     it('should run a search for the passed value and produce expected search result', function(){
       youtube.query('taylor swift');
       httpBackend.flush();
-      expect(youtube.results[0]).toEqual(output[0]);
+      expect(youtube.results[0]).toEqual(expected_output[0]);
       
     });
 
@@ -243,6 +248,8 @@ describe('Service: youTubeDataAPI', function (){
     beforeEach(inject( function($controller, $rootScope, $httpBackend, youTubeDataAPI) {
       httpBackend = $httpBackend;
       youtube = youTubeDataAPI;
+      youtube.default_max_results = 1;
+
       channel = $controller("mockYTchannel", {$scope: scope});
       
       searchRelUrl = channel.searchUrl.yale_relev_any_page1;
@@ -279,6 +286,8 @@ describe('Service: youTubeDataAPI', function (){
     beforeEach(inject( function($controller, $rootScope, $httpBackend, youTubeDataAPI) {
       httpBackend = $httpBackend;
       youtube = youTubeDataAPI;
+      youtube.default_max_results = 1;
+
       related = $controller("mockYTrelated", {$scope: scope});
       
       searchRelUrl = related.searchUrl.shakeRelated_rel_any_page1;
@@ -316,6 +325,8 @@ describe('Service: youTubeDataAPI', function (){
     beforeEach(inject( function($controller, $rootScope, $httpBackend, youTubeDataAPI) {
       httpBackend = $httpBackend;
       youtube = youTubeDataAPI;
+      youtube.default_max_results = 1;
+
       query = $controller("mockYTquery", {$scope: scope});
       
       searchRelUrl = query.searchUrl.taylor_relev_any_page1;
@@ -403,6 +414,8 @@ describe('Service: youTubeDataAPI', function (){
     beforeEach(inject( function($controller, $rootScope, $httpBackend, youTubeDataAPI) {
       httpBackend = $httpBackend;
       youtube = youTubeDataAPI;
+      youtube.default_max_results = 1;
+
       query = $controller("mockYTquery", {$scope: scope});
       
       searchRelUrl = query.searchUrl.taylor_relev_any_page1;
@@ -493,6 +506,8 @@ describe('Service: youTubeDataAPI', function (){
 
       httpBackend = $httpBackend;
       youtube = youTubeDataAPI;
+      youtube.default_max_results = 1;
+
       related = $controller("mockYTrelated", {$scope: scope});
       query = $controller("mockYTquery", {$scope: scope});
 
