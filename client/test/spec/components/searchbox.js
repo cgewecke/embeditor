@@ -8,15 +8,14 @@ describe('Controller: SearchboxCtrl:', function () {
 
   describe('search form', function(){
 
-    var scope, ctrl, form, searchButton, event;
+    var scope, ctrl, form, searchButton, event, element;
 
     beforeEach(inject( function($controller, $rootScope, $compile ) {
 
       scope = $rootScope.$new();
-      ctrl = $controller("SearchboxCtrl", {$scope: scope});
-
-      form = angular.element('<embd-search-form></embd-search-form>');
-      $compile(form)(scope);
+      form = angular.element('<embeditor-searchbox></embeditor-searchbox>');
+      element = $compile(form)(scope);
+      ctrl = element.controller('embeditor-searchbox');
       scope.$digest();
       
       spyOn(ctrl.youTube, 'query');
@@ -50,12 +49,17 @@ describe('Controller: SearchboxCtrl:', function () {
 
   describe('getSuggestions: asynch googleSuggestionAPI call', function(){
 
-    var scope, ctrl, httpBackend, results, query;
+    var scope, ctrl, httpBackend, results, query, form, element;
     
-    beforeEach(inject( function($controller, $rootScope, googleSuggestionAPI, $httpBackend) {
+    beforeEach(inject( function($rootScope, $httpBackend, $compile) {
         httpBackend = $httpBackend;
         scope = $rootScope.$new();
-        ctrl = $controller("SearchboxCtrl", {$scope: scope, googleSuggestionAPI: googleSuggestionAPI});
+
+        form = angular.element('<embeditor-searchbox></embeditor-searchbox>');
+        element = $compile(form)(scope);
+        scope.$digest();
+        ctrl = element.controller('embeditor-searchbox');
+        
         results = null;
         query = 'taylor swift';
 

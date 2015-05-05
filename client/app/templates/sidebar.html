@@ -9,48 +9,66 @@
         <md-grid-list flex md-cols="3" md-row-height="32px">
         <!-- Search Query Input -->
           <md-grid-tile md-colspan="3">
-            <embd-search-form flex></embd-search-form>
+            <embeditor-searchbox flex></embeditor-searchbox>
           </md-grid-tile>
           <!-- Sort Order Select -->
-          <md-grid-tile> <span class="twelve-point-bold">
+          <md-grid-tile> 
+            <span class="twelve-point-bold">
               <md-select class="md-accent" placeholder="Order By"
                 ng-model="order" ng-change="search.youTube.setSearchOrder(order)">
                 <md-option ng-value="'relevance'"><h6>Relevance</h6></md-option>
                 <md-option ng-value="'date'"><h6>Date</h6></md-option>
-              </md-select></span>
+              </md-select>
+            </span>
           </md-grid-tile>
           <!-- Duration Filter Select -->
-          <md-grid-tile> <span class="twelve-point-bold">
-            <md-select class="md-accent" placeholder="Filters"
-              ng-model="filter" ng-change="search.youTube.setDurationFilter(filter)">
-              <md-option ng-value="'any'"><h6>Any length</h6></md-option>
-              <md-option ng-value="'short'"><h6>Short (> 4)</h6></md-option>
-              <md-option ng-value="'long'"><h6>Long (> 20m)</h6></md-option>
-            </md-select></span>
+          <md-grid-tile> 
+            <span class="twelve-point-bold">
+              <md-select class="md-accent" placeholder="Filters"
+                ng-model="filter" ng-change="search.youTube.setDurationFilter(filter)">
+                <md-option ng-value="'any'"><h6>Any length</h6></md-option>
+                <md-option ng-value="'short'"><h6>Short (> 4)</h6></md-option>
+                <md-option ng-value="'long'"><h6>Long (> 20m)</h6></md-option>
+              </md-select>
+            </span>
           </md-grid-tile>
           <!-- History Menu Select -->
-          <md-grid-tile> <span class="twelve-point-bold">
-            <md-select md-simple-menu="true" class="md-accent" ng-model="historyItem"
-                ng-change="console.log('change heard')">
-              <md-select-label>History</md-select-label>
-              <md-option ng-attr-disabled="true" sidebar-select-option ng-repeat="previous in search.youTube.history"
-                  ng-value="previous"><h6>{{previous.item}}</h6>
-              </md-option>
-            </md-dropdown></span>
+          <md-grid-tile> 
+            <span class="twelve-point-bold">
+              <md-select class="md-accent" ng-model="historyItem">
+                <md-select-label>History</md-select-label>
+                <md-option embeditor-search-history-option
+                    ng-repeat="previous in search.youTube.history"
+                    ng-value="previous">
+                    <h6>{{previous.item}}</h6>
+                </md-option>
+              </md-select>
+            </span>
           </md-grid-tile>
       </div>
     </md-toolbar>
     <!-- End toolbar -->
     <!-- Sidebar Body -->
-    <!-- Loading and Fail Messages: Sidebar body -->
+    <!-- Fail Messages: Sidebar body -->
      <div class="sidebar-background" layout="column" layout-fill layout-align="center center"  
-          ng-show="!search.youTube.results.length"> 
+          ng-show="!search.youTube.results.length">    
       <div layout="column" layout-fill layout-align="center center" 
           ng-show="search.youTube.failed"> 
          <h1 class="noResultsMsg"> Nothing there. <br> <h3> Sorry. </h3> </h1>
       </div>
+      <!-- Server Error: Sidebar body -->
+      <div layout="column" layout-fill layout-align="center center" 
+          ng-show="search.youTube.serverError"> 
+         <h1 class="noResultsMsg"> Uh oh. <br> <h3> Something's down. </h3>
+           <md-button class="md-raised md-primary"
+              ng-click="search.youTube.getAgain(search.youTube.history[0])">
+              Try Again?
+          </md-button>
+         </h1>
+      </div>
+      <!-- Loading spinner -->
       <md-progress-circular md-mode="indeterminate" class="md-warn" 
-         ng-show="search.youTube.firstPageLoading">
+         ng-show="search.youTube.firstPageLoading && !search.youTube.serverError">
       </md-progress-circular>
     </div> 
     <!-- Search Results --> 
@@ -58,7 +76,7 @@
       <!-- Item Tiles -->
       <md-grid-tile class="searchItemContainer"
           ng-repeat="video in search.youTube.results" >    
-        <div class="searchItems">
+        <div  class="searchItems">
          <!-- Duration & Published-At: -->
          <span class="searchItemDuration" ng-bind="video.duration"></span>
          <span class="searchItemPublishedAt" ng-bind="video.publishedAt"></span>
@@ -71,7 +89,8 @@
               <span class="searchRelatedText"> Related </span> </md-tooltip> 
             <md-icon md-font-icon="fa fa-sitemap"></md-icon>
           </md-button>
-           <img  class="searchThumbnail"
+           <img  embeditor-search-thumbnail-checker onerror="console.log('heard error')"
+                 class="searchThumbnail"
                  ng-src="{{video.imageUrl}}"
                  ng-class="{ 'searchPlusHoverEffect' : row.plusHover }"> 
          </div>                        

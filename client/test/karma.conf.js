@@ -22,8 +22,8 @@ module.exports = function(config) {
     // list of files / patterns to load in the browser
     files: [
 
-      "app/scripts/misc/jquery-2.1.3.min.js",
-      "app/scripts/misc/moment.min.js",
+      'app/scripts/vendor/*.js',
+      
       // bower:js
       'bower_components/angular/angular.js',
       'bower_components/angular-animate/angular-animate.js',
