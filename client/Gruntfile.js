@@ -41,7 +41,7 @@ module.exports = function (grunt) {
         }
       },
       jsTest: {
-        files: ['test/spec/{,*/}*.js'],
+        files: ['test/unit/{,*/}*.js'],
         tasks: ['newer:jshint:test', 'karma']
       },
       compass: {
@@ -131,7 +131,7 @@ module.exports = function (grunt) {
         options: {
           jshintrc: 'test/.jshintrc'
         },
-        src: ['test/spec/{,*/}*.js']
+        src: ['test/unit/{,*/}*.js']
       }
     },
 
@@ -419,19 +419,20 @@ module.exports = function (grunt) {
 
     protractor: {
       options: {
-        configFile: "node_modules/protractor/example/conf.js", // Default config file 
+        configFile: "test/protractor.conf.js", // Default config file 
         keepAlive: true, // If false, the grunt process stops when the test fails. 
         noColor: false, // If true, protractor will not use colors in its output. 
         args: {
           // Arguments passed to the command 
         }
       },
-      your_target: {   // Grunt requires at least one target to run so you can simply put 'all: {}' here too. 
+      e2e: {   // Grunt requires at least one target to run so you can simply put 'all: {}' here too. 
         options: {
-          configFile: "e2e.conf.js", // Target-specific config file 
-          args: {} // Target-specific arguments 
+          configFile: "test/protractor.conf.js", // Default config file 
+          keepAlive: true, // If false, the grunt process stops when the test fails. 
+          noColor: false, // If true, protractor will not use colors in its output. 
         }
-      },
+      }
     }
   });
 

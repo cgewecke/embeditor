@@ -39,7 +39,7 @@ var yt_debug;
       this.serverError = false; // Dom flag - server error msg
       this.firstPageLoading = false; // Dom flag - initial load msg
       this.nextPageLoading = false; // Dom flag - loading paginated rslts msg
-      this.default_max_results = '20';
+      this.default_max_results = '30';
       
       // ------------------------- Published Events ----------------------------- 
       var queryEvent = {name: 'youTubeDataAPI:query', query: '' }; 

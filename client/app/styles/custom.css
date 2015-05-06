@@ -1,3 +1,18 @@
+
+@-moz-document url-prefix() {
+  [layout-fill] {
+    margin: 0;
+    width: 100%;
+    min-height: 100%;
+    height: inherit; } }
+
+
+.player-background {
+  background-color: #E0E0E0;
+}
+
+
+
 md-sidenav, 
 md-sidenav.md-locked-open, 
 md-sidenav.md-closed.md-locked-open-add-active {
@@ -6,43 +21,6 @@ md-sidenav.md-closed.md-locked-open-add-active {
     //max-width: 500px !important;
     
 } 
-
-md-input-container > md-dropdown {
-  margin: 0;
-  margin-top: 1.4em;
-}
-
-md-dropdown {
-  display: inline-block;
-  margin-top: 1.5em;
-  margin-bottom: 1.625em;
-  margin-left: 2px;
-  margin-right: 2px;
-  &:focus {
-    outline: none;
-  }
-  &[disabled]:hover {
-    cursor: default;
-  }
-  &:not([disabled]) {
-    &:hover {
-      cursor: pointer
-    }
-    &.ng-invalid.ng-dirty {
-      .md-select-label {
-        padding-bottom: 7px;
-        border-bottom: 2px solid;
-      }
-    }
-    &:focus {
-      .md-select-label {
-        border-bottom: 2px solid;
-        padding-bottom: $baseline-grid + 1;
-      }
-    }
-  }
-}
-
 .button-lg{
   padding: 8px;
 }

@@ -13,10 +13,11 @@ var sb_debug, sb_debugII, sb_debugIII;
 
   'use strict';
 
-  angular.module('embeditor.components.searchsidebar', ['embeditor.services.youTubeDataAPI'])
+  angular.module('embeditor.components.searchsidebar', ['embeditor.services.youTubeDataAPI', 'embeditor.services.youtubePlayerAPI'])
     
     .controller('SearchSidebarCtrl', searchSidebarCtrl)
     .directive('embeditorSearchHistoryOption', searchHistoryOption)
+    .directive('embeditorSearchPlayVideo', searchPlayVideo )
     .directive('embeditorSearchThumbnailChecker', searchThumbnailChecker);
 
     // Controller for the sidebar. Makes youtube api visible on scope and
@@ -61,17 +62,36 @@ var sb_debug, sb_debugII, sb_debugIII;
     };
     searchHistoryOption.$inject = ['youTubeDataAPI'];
 
-    // Located 
+    // Located on the play button - click closes the sidebar and
+    // loads the search result into the player
+    function searchPlayVideo(youtubePlayerAPI, $mdSidenav){
+      return{
+        restrict: 'A',
+        link: clickEventHandler
+      };
+      function clickEventHandler(scope, elem, attrs){
+        elem.bind('click', function(event){
+          $mdSidenav('search').toggle();
+          youtubePlayerAPI.load(scope.video.videoId);
+        });
+      }
+    }
+    searchPlayVideo.$inject = ['youtubePlayerAPI', '$mdSidenav'];
+
+    // Not implemented. In chrome, a 404 event when the thumbnail 
+    // link is broken, but it never triggers the 'error' event. Youtube
+    // also sends a small 1mb default image that rarely loads. Firefox
+    // successfully loads this image.
     function searchThumbnailChecker($http){
       return {
         restrict: 'A',
         link: loadErrorEventHandler
       };
       function loadErrorEventHandler(scope, elem, attrs){
-
       };
     };
     searchThumbnailChecker.$inject = ['$http'];
 
 })();
+        
 

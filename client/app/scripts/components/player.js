@@ -1,17 +1,17 @@
-'use strict';
+(function(){
 
-/**
- * @ngdoc function
- * @name embeditor.controller:PlayerCtrl
- * @description
- * # PlayerCtrl
- * Controller of the embeditor
- */
-angular.module('embeditor')
-  .controller('PlayerCtrl', function ($scope) {
-    $scope.awesomeThings = [
-      'HTML5 Boilerplate',
-      'AngularJS',
-      'Karma'
-    ];
-  });
+  'use strict';
+
+  angular.module('embeditor.components.player', ['embeditor.services.youtubePlayerAPI'])
+    
+    .controller('PlayerCtrl', playerCtrl );
+    
+    function playerCtrl(youtubePlayerAPI){
+      var self = this;
+      self.youtube = youtubePlayerAPI;
+    };
+
+    playerCtrl.$inject = ['youtubePlayerAPI'];
+
+})();
+

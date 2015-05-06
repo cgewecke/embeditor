@@ -17,9 +17,11 @@ angular
     'ngSanitize',
     'ngTouch',
     'ngMaterial',
+    'embeditor.components.player',
     'embeditor.components.searchbox',
     'embeditor.components.searchsidebar',
-    'embeditor.services.youTubeDataAPI'
+    'embeditor.services.youTubeDataAPI',
+    'embeditor.services.youtubePlayerAPI'
   ])
   .config(function($mdThemingProvider) {
   $mdThemingProvider.theme('default')
