@@ -14,10 +14,11 @@ angular.module('embeditor')
 
    // $mdSidenav will throw exceptions before sidenav is opened the first time
     this.sideNavIsOpen = function(){ 
-      if ($mdSidenav.exists && $mdSidenav('search').isOpen())
-         return true
-      else 
+      if ($mdSidenav.exists && $mdSidenav('search').isOpen()){
+         return true;
+      } else {
          return false; 
+      }    
     }
 
   }]);

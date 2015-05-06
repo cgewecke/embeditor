@@ -13,6 +13,7 @@ angular.module('embeditor.services.youtubePlayerAPI', [])
 function youtubePlayerAPI($window){
 
    var self = this;
+   var player;
 
    self.playerState;
    self.initialVideoId = "6XYzbW3bZOQ"; // Miles Davis Live in Stockholm 1972
@@ -21,7 +22,7 @@ function youtubePlayerAPI($window){
    $window.onYouTubeIframeAPIReady = function() {
       console.log("YouTube API ready");
        
-      var player = new YT.Player('player', {
+      player = new YT.Player('player', {
 
           width:          '854',
           height:         '480',
@@ -41,18 +42,16 @@ function youtubePlayerAPI($window){
               'onError': self.onPlayerError
           }
       });
-
-      getAPI(player);
    };
 
-   function getAPI(player){
+   function getAPI(){
       // Driver
-      self.load = player.loadVideoById; // params: videoId
-      self.cue = player.cueVideoById; // params: videoId
-      self.play = player.playVideo;  // params: none
-      self.pause = player.pauseVideo; // params: none
-      self.stop = player.stopVideo; // params: none
-      self.seek = player.seekTo; // params: seconds:Number, allowSeekAhead:Boolean
+      self.load = function(videoId) { player.loadVideoById(videoId) }; 
+      self.cue = function(videoId){ player.cueVideoById(videoId); }; 
+      self.play = function() { player.playVideo; };  
+      self.pause = function() { player.pauseVideo; };
+      self.stop = function() { player.stopVideo; };
+      self.seek = function(start) { player.seekTo(start) }; 
 
       // Playback
       self.getRate = player.getPlaybackRate;
@@ -86,7 +85,7 @@ function youtubePlayerAPI($window){
 
    // Player Event Listeners
    self.onPlayerReady = function(event){
-
+      getAPI();
    };
 
    self.onPlayerStateChange = function(e){
