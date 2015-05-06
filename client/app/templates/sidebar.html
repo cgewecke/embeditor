@@ -49,9 +49,10 @@
     </md-toolbar>
     <!-- End toolbar -->
     <!-- Sidebar Body -->
-    <!-- Fail Messages: Sidebar body -->
-     <div class="sidebar-background" layout="column" layout-fill layout-align="center center" 
+    <!-- Fail Messages & Spinner: Sidebar body -->
+    <div class="sidebar-background" layout="column" layout-fill layout-align="center center" 
           ng-show="!search.youTube.results.length">    
+      <!-- Empty Result set -->   
       <div layout="column" layout-fill layout-align="center center" 
           ng-show="search.youTube.failed"> 
          <h1 class="noResultsMsg"> Nothing there. <br> <h3> Sorry. </h3> </h1>
@@ -76,39 +77,12 @@
       <!-- Item Tiles -->
       <md-grid-tile class="searchItemContainer"
           ng-repeat="video in search.youTube.results" >    
-        <div  class="searchItems">
-         <!-- Duration & Published-At: -->
-         <span class="searchItemDuration" ng-bind="video.duration"></span>
-         <span class="searchItemPublishedAt" ng-bind="video.publishedAt"></span>
-         <!-- Thumbnail Container -->
-         <div embeditor-search-play-video ng-init="hover=false" 
-              ng-mouseenter="hover=true" ng-mouseleave='hover=false'>
-           <!-- Play Icon -->   
-           <span class="fa fa-play-circle fa-3x searchPlayIcon" ng-show="hover"></span>
-           <!-- Related Button -->
-           <md-button aria-label="related" class="searchRelatedIcon" ng-show="hover"
-              ng-click="search.youTube.getRelatedVideos(video); $event.stopPropagation()" >
-            <md-tooltip class="searchRelatedTooltip searchRelatedText" md-direction="left"> 
-              <span class="searchRelatedText"> Related </span> </md-tooltip> 
-            <md-icon md-font-icon="fa fa-sitemap"></md-icon>
-          </md-button>
-          <!-- Thumbnail -->
-           <img  class="searchThumbnail"
-                 ng-src="{{video.imageUrl}}"
-                 ng-class="{ 'searchPlusHoverEffect' : row.plusHover }"> 
-         </div>                        
-         <!-- Video title & Channel title -->
-         <div class="searchItemTitleContainer" ng-bind="video.title"></div>
-         <div class="searchItemChannelContainer" 
-              ng-click="search.youTube.getChannelVideos(video); $event.stopPropagation()">
-              by {{video.channelTitle}}
-         </div>   
-        </div>     
+          <embeditor-search-item video="video"></embeditor-search-item>    
       </md-grid-tile> 
        <!-- End messages: Two column Tile --> 
       <md-grid-tile md-colspan="2" class="searchItemContainer">
         <div class="searchItems">
-          <!-- End of results -->
+          <!-- Last results -->
           <md-button class="md-raised" ng-disabled="true" 
                 ng-show="search.youTube.endOfResults && search.youTube.results.length">
                 End of Results
