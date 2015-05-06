@@ -1,17 +1,18 @@
 'use strict';
 var test_I, test_II;
 
-describe('Controller: SearchboxCtrl:', function () {
+describe('Component: searchbox:', function () {
 
   // load the controller's module
   beforeEach(module('embeditor'));
 
-  describe('search form', function(){
+  describe('input and button', function(){
 
-    var scope, ctrl, form, searchButton, event, element;
+    var scope, ctrl, form, searchButton, event, element, timeout;
 
-    beforeEach(inject( function($controller, $rootScope, $compile ) {
+    beforeEach(inject( function($controller, $rootScope, $compile, $timeout ) {
 
+      timeout = $timeout;
       scope = $rootScope.$new();
       form = angular.element('<embeditor-searchbox></embeditor-searchbox>');
       element = $compile(form)(scope);
@@ -31,12 +32,31 @@ describe('Controller: SearchboxCtrl:', function () {
 
     it ('should query with the current search box contents on carriage return', function(){
       // PROTRACTOR
-      // expect(ctrl.youTube.query).toHaveBeenCalledWith('taylor swift');
+      var mdElem = form.find('md-autocomplete');
+      var mdCtrl = mdElem.isolateScope().$mdAutocompleteCtrl;
+      var inputElem = form.find('input');
+      var returnEvent = jQuery.Event('keypress');
+
+      returnEvent.which = 13;
+
+      mdElem.scope().searchText = 'taylor swift';
+      inputElem.trigger(returnEvent); 
+      mdElem.scope().$apply();
+    
+      // This works as expected in browser, and event fires/code runs within directive during test
+      // but this expect block never passes. Don't understand.
+      //expect(ctrl.youTube.query).toHaveBeenCalledWith('taylor swift');
+      
     });
 
     it ('should query with the current searchbox contents when spyglass button is pressed', function(){
-      // PROTRACTOR
-      // expect(ctrl.youTube.query).toHaveBeenCalledWith('taylor swift');
+      
+      var buttonElem = form.find('#spyglass');
+      var mdElem = form.find('md-autocomplete');
+      mdElem.scope().searchText = 'taylor swift';
+      buttonElem.triggerHandler('click');
+      expect(ctrl.youTube.query).toHaveBeenCalledWith('taylor swift');
+
     });
 
 

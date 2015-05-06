@@ -30,8 +30,8 @@ var sr_debug, sr_debugII;
                 md-item-text="item.value">\
                 <span md-highlight-text="searchText" ng-bind="item.value"></span>\
             </md-autocomplete>\
-            <md-button aria-label="search" class="md-raised" ng-click="ctrl.submit(searchText)">\
-              <md-icon id="spyglass" md-font-icon="fa fa-search"></md-icon>\
+            <md-button id="spyglass" aria-label="search" class="md-raised" ng-click="ctrl.submit(searchText)">\
+              <md-icon md-font-icon="fa fa-search"></md-icon>\
             </md-button>\
          </form>',    
          controller: searchboxCtrl,
@@ -50,6 +50,7 @@ var sr_debug, sr_debugII;
          { get: {method: 'JSONP', isArray: true}}
       );
 
+      //Public
       self.autoCompleteOn = true;
       self.synch = false;
       self.youTube = youTubeDataAPI;
@@ -65,8 +66,12 @@ var sr_debug, sr_debugII;
 
          self.autoCompleteOn = false;
 
+         // Submit will get a bogus selection call when the searchboxes' models 
+         // get synched on a query event. So, ignore and reset the flag
          if (self.synch){
             self.synch = false;
+
+         // Otherwise this is for real: run query
          } else if (searchTerm && searchTerm.length){
             self.youTube.query(searchTerm);
          }
@@ -115,8 +120,7 @@ var sr_debug, sr_debugII;
       var mdCtrl = mdScope.$mdAutocompleteCtrl;
 
       // Keeps searchText and selectedItem synched across instances of search box
-      // so that the last typed search is identical in both main toolbar and sidebar 
-      // toolbar
+      // so that the last typed search is identical in toolbar and sidebar
       scope.$on('youTubeDataAPI:query', function(event, msg){
             scope.ctrl.synch = true;
             mdScope.searchText = msg;
@@ -126,9 +130,11 @@ var sr_debug, sr_debugII;
       // Captures carriage return in input box and hacks into mdAutoComplete to execute
       // selection, close dropdown w/escape event. Does nothing if searchText is empty string 
       mdElem.bind('keypress', function(event){
+      
          if (event.which === 13 && mdScope.searchText && mdScope.searchText.length ){
-            mdCtrl.selectedItem = {value: scope.searchText}; // autocomplete watches this obj.
+            mdCtrl.selectedItem = {value: mdScope.searchText}; // autocomplete watches this obj.
             mdCtrl.keydown({keyCode: 27}); // Escape closes dropdown.
+            console.log('Executed loop');
          }
       });
    }
