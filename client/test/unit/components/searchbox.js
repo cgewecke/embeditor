@@ -5,21 +5,25 @@ describe('Component: searchbox:', function () {
 
   // load the controller's module
   beforeEach(module('embeditor'));
+  beforeEach(module('templates'));
 
   describe('input and button', function(){
 
-    var scope, ctrl, form, searchButton, event, element, timeout;
+    var scope, ctrl, form, searchButton, event, element, timeout, youtube;
 
-    beforeEach(inject( function($controller, $rootScope, $compile, $timeout ) {
+    beforeEach(inject( function($controller, $rootScope, $compile, $timeout, youTubeDataAPI ) {
 
       timeout = $timeout;
       scope = $rootScope.$new();
+      youtube = youTubeDataAPI;
+      
       form = angular.element('<embeditor-searchbox></embeditor-searchbox>');
       element = $compile(form)(scope);
-      ctrl = element.controller('embeditor-searchbox');
       scope.$digest();
       
-      spyOn(ctrl.youTube, 'query');
+      ctrl = element.scope().ctrl;
+      
+      spyOn(youtube, 'query');
 
     }));
 
@@ -27,7 +31,7 @@ describe('Component: searchbox:', function () {
       var elem = form.find('md-autocomplete');
       elem.scope().selectedItem = { value:'nikki' };
       elem.scope().$apply();
-      expect(ctrl.youTube.query).toHaveBeenCalledWith('nikki');
+      expect(youtube.query).toHaveBeenCalledWith('nikki');
     });
 
     it ('should query with the current search box contents on carriage return', function(){
@@ -55,14 +59,14 @@ describe('Component: searchbox:', function () {
       var mdElem = form.find('md-autocomplete');
       mdElem.scope().searchText = 'taylor swift';
       buttonElem.triggerHandler('click');
-      expect(ctrl.youTube.query).toHaveBeenCalledWith('taylor swift');
+      expect(youtube.query).toHaveBeenCalledWith('taylor swift');
 
     });
 
 
     it ('should not query with an empty string', function(){
       ctrl.submit('');
-      expect(ctrl.youTube.query).not.toHaveBeenCalled();
+      expect(youtube.query).not.toHaveBeenCalled();
     });
 
   });

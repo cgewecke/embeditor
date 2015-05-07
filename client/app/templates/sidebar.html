@@ -1,6 +1,20 @@
 <!-- ********************************* -->
 <!-- Sidebar: Toolbar & Search Results -->
 <!-- ********************************* -->
+<!-- 
+  UNIT TEST:
+  ss-body-msg-container:    ng-show="!search.youTube.results.length 
+  ss-no-results-msg:        ng-show="search.youTube.failed"
+  ss-server-error-msg:      ng-show="search.youTube.serverError"
+  ss-try-again-btn:         ng-click="search.youTube.getAgain(search.youTube.history[0])"
+  ss-body-loading-spinner:  ng-show="search.youTube.firstPageLoading && !search.youTube.serverError"
+  ss-tile-end-msg:          ng-show="search.youTube.endOfResults && search.youTube.results.length"
+  ss-tile-loading-spinner:  ng-show="search.youTube.nextPageLoading && search.youTube.results.length"
+  ss-tile-more-button:      ng-click="search.youTube.nextPage()"
+                            ng-show="!search.youTube.endOfResults && !search.youTube.nextPageLoading &&
+                                      search.youTube.results.length"
+-->
+
 <div ng-controller="SearchSidebarCtrl as search" layout="vertical">
   <md-sidenav class="md-sidenav-left" md-component-id="search">   
     <!-- Toolbar -->
@@ -49,50 +63,76 @@
     </md-toolbar>
     <!-- End toolbar -->
     <!-- Sidebar Body -->
-    <!-- Fail Messages & Spinner: Sidebar body -->
-    <div class="sidebar-background" layout="column" layout-fill layout-align="center center" 
-          ng-show="!search.youTube.results.length">    
+    <!-- Body-length error Messages & Spinner: -->
+    <div id="ss-body-msg-container" 
+         class="sidebar-background" 
+         layout="column" 
+         layout-fill 
+         layout-align="center center" 
+         ng-show="!search.youTube.results.length">    
       <!-- Empty Result set -->   
-      <div layout="column" layout-fill layout-align="center center" 
-          ng-show="search.youTube.failed"> 
+      <div id="ss-no-results-msg" 
+           layout="column" 
+           layout-fill 
+           layout-align="center center" 
+           ng-show="search.youTube.failed"> 
          <h1 class="noResultsMsg"> Nothing there. <br> <h3> Sorry. </h3> </h1>
       </div>
       <!-- Server Error: Sidebar body -->
-      <div layout="column" layout-fill layout-align="center center" 
-          ng-show="search.youTube.serverError"> 
+      <div id="ss-server-error-msg" 
+           layout="column" 
+           layout-fill 
+           layout-align="center center" 
+           ng-show="search.youTube.serverError"> 
          <h1 class="noResultsMsg"> Uh oh. <br> <h3> Something's down. </h3>
-           <md-button class="md-raised md-primary"
-              ng-click="search.youTube.getAgain(search.youTube.history[0])">
+           <md-button 
+               id="ss-try-again-btn"
+               class="md-raised md-primary"
+               ng-click="search.youTube.getAgain(search.youTube.history[0])">
               Try Again?
           </md-button>
          </h1>
       </div>
       <!-- Loading spinner -->
-      <md-progress-circular md-mode="indeterminate" class="md-warn" 
-         ng-show="search.youTube.firstPageLoading && !search.youTube.serverError">
+      <md-progress-circular 
+          id="ss-body-loading-spinner" 
+          class="md-warn" 
+          md-mode="indeterminate" 
+          ng-show="search.youTube.firstPageLoading && !search.youTube.serverError">
       </md-progress-circular>
     </div> 
     <!-- Search Results --> 
     <md-grid-list class="sidebar-background" md-cols="2" md-row-height="175px"> 
+      
       <!-- Item Tiles -->
-      <md-grid-tile class="searchItemContainer"
+      <md-grid-tile 
+          class="searchItemContainer"
           ng-repeat="video in search.youTube.results" >    
-          <embeditor-search-item video="video"></embeditor-search-item>    
+        <embeditor-search-item video="video"></embeditor-search-item>    
       </md-grid-tile> 
+
        <!-- End messages: Two column Tile --> 
       <md-grid-tile md-colspan="2" class="searchItemContainer">
         <div class="searchItems">
           <!-- Last results -->
-          <md-button class="md-raised" ng-disabled="true" 
-                ng-show="search.youTube.endOfResults && search.youTube.results.length">
+          <md-button
+              id="ss-tile-end-msg" 
+              class="md-raised" 
+              ng-disabled="true" 
+              ng-show="search.youTube.endOfResults && search.youTube.results.length">
                 End of Results
           </md-button> 
           <!-- Loading -->
-          <md-progress-circular md-mode="indeterminate" class="md-warn" 
+          <md-progress-circular
+              id="ss-tile-loading-spinner" 
+              class="md-warn" 
+              md-mode="indeterminate" 
               ng-show="search.youTube.nextPageLoading && search.youTube.results.length">
           </md-progress-circular>
           <!-- More -->
-          <md-button class="md-raised md-primary"
+          <md-button
+              id="ss-tile-more-button" 
+              class="md-raised md-primary"
               ng-click="search.youTube.nextPage()"
               ng-show="!search.youTube.endOfResults && !search.youTube.nextPageLoading &&
                        search.youTube.results.length">
