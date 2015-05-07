@@ -6,6 +6,7 @@ describe('Component: Search sidebar', function () {
 
   beforeEach(module('embeditor'));
   beforeEach(module('yt.search.mockdata'));
+  beforeEach(module('templates'));
 
   var ctrl, scope, compile, query, dataAPI, playerAPI, mdSidenav, httpBackend;
 

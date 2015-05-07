@@ -1,0 +1,27 @@
+<div class="searchItems">
+    <span class="searchItemDuration">{{video.duration}}</span>
+    <span class="searchItemPublishedAt">{{video.publishedAt}}</span>
+    <div class="searchItemClickArea"
+         ng-init="hover=false"
+         ng-mouseenter="hover=true"
+         ng-mouseleave="hover=false">
+         <span class="fa fa-play-circle fa-3x searchPlayIcon"
+               ng-show="hover"></span>
+         <md-button
+            aria-label="related"
+            class="searchRelatedIcon"
+            ng-show="hover"
+            ng-click="search.youTube.getRelatedVideos(video); $event.stopPropagation()">
+            <md-tooltip
+              class="searchRelatedTooltip searchRelatedText"
+              md-direction="left">
+              <span class="searchRelatedText"> Related </span> 
+            </md-tooltip>
+            <md-icon md-font-icon="fa fa-sitemap"></md-icon>
+        </md-button>
+        <img class="searchThumbnail"
+             ng-src="{{video.imageUrl}}">
+    </div>
+    <div class="searchItemTitleContainer">{{video.title}}</div>
+    <div class="searchItemChannelContainer"> by {{video.channelTitle}}</div>
+</div>'

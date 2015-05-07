@@ -16,8 +16,11 @@ var sb_debug, sb_debugII, sb_debugIII;
   angular.module('embeditor.components.searchsidebar', ['embeditor.services.youTubeDataAPI', 'embeditor.services.youtubePlayerAPI'])
     
     .controller('SearchSidebarCtrl', SearchSidebarCtrl)
+    .directive('embeditorSectionSidebar', embeditorSectionSidebar)
     .directive('embeditorSearchHistoryOption', embeditorSearchHistoryOption)
     .directive('embeditorSearchItem', embeditorSearchItem )
+
+
 
     // Controller for the sidebar. Makes youtube api visible on scope and
     // toggles sidebar open when a query is made from toolbar.
@@ -29,15 +32,18 @@ var sb_debug, sb_debugII, sb_debugIII;
 
       // Toggles sidebar open if closed
       $scope.$on('youTubeDataAPI:query', function(event, msg){
-        console.log('heard query at sidebar');
         if (!self.mdSidenav('search').isOpen()){
-          console.log('entered condition at sidebar');
           self.mdSidenav.exists = true; // exception issues for toolbar.js
           self.mdSidenav('search').toggle();
         }
       });
     };
     SearchSidebarCtrl.$inject = ['$scope', 'youTubeDataAPI', '$mdSidenav'];
+
+
+    // Outer tag for entire sidebar so we can pull it in for unit testing in 
+    // karma.
+    function embeditorSectionSidebar(){ return{ templateUrl: 'templates/sidebar.html' }};
 
     // Located on each option of the history select. This helps the select work
     // like a menu with links. We need the history fetch to occur regardless of
@@ -69,34 +75,7 @@ var sb_debug, sb_debugII, sb_debugIII;
         restrict: 'E',
         scope: { video: '=video' },
         link: searchItemEventHandlers,
-        template: '\
-          <div class="searchItems">\
-            <span class="searchItemDuration">{{video.duration}}</span>\
-            <span class="searchItemPublishedAt">{{video.publishedAt}}</span>\
-            <div class="searchItemClickArea"\
-                 ng-init="hover=false"\
-                 ng-mouseenter="hover=true"\
-                 ng-mouseleave="hover=false">\
-                 <span class="fa fa-play-circle fa-3x searchPlayIcon"\
-                       ng-show="hover"></span>\
-                 <md-button\
-                    aria-label="related"\
-                    class="searchRelatedIcon"\
-                    ng-show="hover"\
-                    ng-click="search.youTube.getRelatedVideos(video); $event.stopPropagation()">\
-                    <md-tooltip\
-                      class="searchRelatedTooltip searchRelatedText"\
-                      md-direction="left">\
-                      <span class="searchRelatedText"> Related </span> \
-                    </md-tooltip>\
-                    <md-icon md-font-icon="fa fa-sitemap"></md-icon>\
-                </md-button>\
-                <img class="searchThumbnail"\
-                     ng-src="{{video.imageUrl}}">\
-            </div>\
-            <div class="searchItemTitleContainer">{{video.title}}</div>\
-            <div class="searchItemChannelContainer"> by {{video.channelTitle}}</div>\
-          </div>'
+        templateUrl: 'templates/searchitem.html'
       };
 
       function searchItemEventHandlers(scope, elem, attrs){

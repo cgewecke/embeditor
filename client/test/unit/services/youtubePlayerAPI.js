@@ -5,6 +5,12 @@ describe('Service: youtubePlayerAPI', function () {
 
   describe('Player Controls', function(){
 
+      // mock events;
+
+      it('should disable controls until the player has loaded the video',function(){
+
+      });
+
       describe('Play button', function(){
 
          it('should start playing the video if video is paused, and display a pause icon', function(){
@@ -347,7 +353,7 @@ describe('Service: youtubePlayerAPI', function () {
          });
       })
 
-
+      // HOW TO HANDLE SKIP PLAY
       describe('Start/End points slider/setter', function(){
 
          it('should set the value of the endpoints when its handles are dragged', function(){

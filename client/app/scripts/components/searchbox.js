@@ -1,10 +1,9 @@
 var sr_debug, sr_debugII;
 /**
  * @ngdoc function
- * @name embeditor.controller:SearchboxCtrl
+ * @name embeditor.component:searchbox
  * @description
- * # SearchboxCtrl
- * Controller of the embeditor: 
+ * 
  */
 
 (function () {
@@ -17,25 +16,10 @@ var sr_debug, sr_debugII;
    // Element
    function searchbox(){
       return {
-         restrict: 'E',
-         template:  '\
-         <form layout="row" flex>\
-            <md-autocomplete flex\
-                placeholder="Search YouTube"\
-                md-selected-item="selectedItem"\
-                md-search-text="searchText"\
-                md-search-text-change="ctrl.textChange()"\
-                md-selected-item-change="ctrl.submit(selectedItem.value)"\
-                md-items="item in ctrl.getSuggestions(searchText)"\
-                md-item-text="item.value">\
-                <span md-highlight-text="searchText" ng-bind="item.value"></span>\
-            </md-autocomplete>\
-            <md-button id="spyglass" aria-label="search" class="md-raised" ng-click="ctrl.submit(searchText)">\
-              <md-icon md-font-icon="fa fa-search"></md-icon>\
-            </md-button>\
-         </form>',    
+         restrict: 'E',  
          controller: searchboxCtrl,
-         link: searchboxEventHandlers
+         link: searchboxEventHandlers,
+         templateUrl:  'templates/searchbox.html'
       };
    };
 

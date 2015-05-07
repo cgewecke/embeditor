@@ -1,12 +1,16 @@
 
-<md-content layout="row" layout-fill>
-   <div ng-controller="PlayerCtrl as player" 
-        ng-init="player.youtube.embed()" 
+<md-content ng-controller="PlayerCtrl as player"  layout="column" layout-fill>
+   <div ng-init="player.youtube.embed()" 
         layout-fill 
         layout="row" 
         layout-align="{{player.sideNavIsOpen()}}" 
         class="player-background">
       <div id="player"></div>
+   </div>
+   <div layout="row" layout-fill layout-align="{{player.sideNavIsOpen()}}" >
+      <div style="width: 854px;">
+         <md-button class="md-raised"><ng-md-icon icon="send" size="48"></ng-md-icon></md-button>
 
+      </div>
    </div>
 </md-content>

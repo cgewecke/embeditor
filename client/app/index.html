@@ -20,9 +20,10 @@
   <body ng-app="embeditor">
    <md-content layout="column" layout-fill>
       <div ng-include src="'templates/toolbar.html'" layout="column"></div>
-      <div ng-include src="'templates/sidebar.html'"></div>
+      <!-- <div ng-include src="'templates/sidebar.html'"></div> -->
+      <embeditor-section-sidebar></embeditor-section-sidebar>
       <div ng-include src="'templates/player.html'"></div>
-      hello goodbye
+      hello goodbye.
       
   </md-content>
     <!-- Google Analytics: change UA-XXXXX-X to be your site's ID -->
@@ -54,6 +55,7 @@
     <!-- endbuild -->
 
     <!-- build:js({.tmp,app}) scripts/scripts.js -->
+    <!-- <script src="//cdn.jsdelivr.net/angular-material-icons/0.4.0/angular-material-icons.min.js"></script>-->
     <script src="scripts/vendor/moment.min.js"></script>
     <script src="scripts/vendor/momentz-duration.js"></script>
     <script src="scripts/app.js"></script>
