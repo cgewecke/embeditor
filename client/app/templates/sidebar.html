@@ -2,17 +2,15 @@
 <!-- Sidebar: Toolbar & Search Results -->
 <!-- ********************************* -->
 <!-- 
-  UNIT TEST:
-  ss-body-msg-container:    ng-show="!search.youTube.results.length 
-  ss-no-results-msg:        ng-show="search.youTube.failed"
-  ss-server-error-msg:      ng-show="search.youTube.serverError"
-  ss-try-again-btn:         ng-click="search.youTube.getAgain(search.youTube.history[0])"
-  ss-body-loading-spinner:  ng-show="search.youTube.firstPageLoading && !search.youTube.serverError"
-  ss-tile-end-msg:          ng-show="search.youTube.endOfResults && search.youTube.results.length"
-  ss-tile-loading-spinner:  ng-show="search.youTube.nextPageLoading && search.youTube.results.length"
-  ss-tile-more-button:      ng-click="search.youTube.nextPage()"
-                            ng-show="!search.youTube.endOfResults && !search.youTube.nextPageLoading &&
-                                      search.youTube.results.length"
+  UNIT TESTS:
+  div#ss-body-msg-container:      
+  div#ss-no-results-msg:          
+  div#ss-server-error-msg:        
+  button#ss-try-again-btn: 
+  button#ss-tile-end-msg:  
+  button#ss-tile-more-button:      
+  md-progress-circular#ss-body-loading-spinner:    
+  md-progress-circular#ss-tile-loading-spinner:                                                   
 -->
 
 <div ng-controller="SearchSidebarCtrl as search" layout="vertical">

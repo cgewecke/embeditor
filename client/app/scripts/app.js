@@ -17,6 +17,7 @@ angular
     'ngSanitize',
     'ngTouch',
     'ngMaterial',
+    'ngMdIcons',
     'embeditor.components.player',
     'embeditor.components.searchbox',
     'embeditor.components.searchsidebar',

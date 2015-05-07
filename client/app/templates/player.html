@@ -1,4 +1,24 @@
 
+
+<!-- UNIT TEST 
+
+button#start-back-5sec-btn
+button#start-back-1sec-btn
+button#start-back-frame-btn
+button#start-play-btn
+button#start-fwd-frame-btn
+button#start-fwd-1sec-btn
+button#start-fwd-5sec-btn
+
+button#end-back-5sec-btn
+button#end-back-1sec-btn
+button#end-back-frame-btn
+button#end-play-btn
+button#end-fwd-frame-btn
+button#end-fwd-1sec-btn
+button#end-fwd-5sec-btn
+
+-->
 <md-content ng-controller="PlayerCtrl as player"  layout="column" layout-fill>
    <div ng-init="player.youtube.embed()" 
         layout-fill 
@@ -9,7 +29,29 @@
    </div>
    <div layout="row" layout-fill layout-align="{{player.sideNavIsOpen()}}" >
       <div style="width: 854px;">
-         <md-button class="md-raised"><ng-md-icon icon="send" size="48"></ng-md-icon></md-button>
+        <div layout="vertical"> 
+          <span layout="row" layout-align="start start">
+            <md-button id="start-back-5sec-btn"><ng-md-icon icon="send" size="36"></ng-md-icon></md-button>
+            <md-button id="start-back-1sec-btn"><ng-md-icon icon="send" size="36"></ng-md-icon></md-button>  
+            <md-button id="start-back-frame-btn"><ng-md-icon icon="send" size="36"></ng-md-icon></md-button> 
+            <md-button id="start-play-btn"><ng-md-icon icon="send" size="36"></ng-md-icon></md-button> 
+            <md-button id="start-fwd-frame-btn"><ng-md-icon icon="send" size="36"></ng-md-icon></md-button>
+            <md-button id="start-fwd-1sec-btn"><ng-md-icon icon="send" size="36"></ng-md-icon></md-button>
+            <md-button id="start-fwd-5sec-btn"><ng-md-icon icon="send" size="36"></ng-md-icon></md-button>
+          </span>
+        </div>
+
+        <div layout="vertical"> 
+          <span layout="row" layout-align="end start">
+            <md-button id="end-back-5sec-btn"><ng-md-icon icon="send" size="36"></ng-md-icon></md-button>
+            <md-button id="end-back-1sec-btn"><ng-md-icon icon="send" size="36"></ng-md-icon></md-button>
+            <md-button id="end-back-frame-btn"><ng-md-icon icon="send" size="36"></ng-md-icon></md-button> 
+            <md-button id="end-play-btn"><ng-md-icon icon="send" size="36"></ng-md-icon></md-button> 
+            <md-button id="end-fwd-frame-btn"><ng-md-icon icon="send" size="36"></ng-md-icon></md-button>
+            <md-button id="end-fwd-1sec-btn"><ng-md-icon icon="send" size="36"></ng-md-icon></md-button>
+            <md-button id="end-fwd-5sec-btn"><ng-md-icon icon="send" size="36"></ng-md-icon></md-button>
+          </span>
+        </div>
 
       </div>
    </div>

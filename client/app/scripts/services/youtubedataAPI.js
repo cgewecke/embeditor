@@ -189,7 +189,6 @@ var yt_debug;
       this.nextPage = function(){
 
          if (!service.endOfResults){
-            
             service.nextPageLoading = true;
             searchYouTube().then(function(){
                service.nextPageLoading = false; 
