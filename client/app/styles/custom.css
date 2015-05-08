@@ -8,11 +8,25 @@
 
 
 .player-background {
-  background-color: #E0E0E0;
+  background-color: #424242;
+}
+.controls-time-inputs{
+  width: 100px;
+}
+.controls-background{
+  background-color: #EEEEEE;
+}
+
+.controls-top{
+  padding-top: 10px;
+}
+
+.control-btn-txt{
+  font-size: 13px;
 }
 
 
-
+/* Sidebar */
 md-sidenav, 
 md-sidenav.md-locked-open, 
 md-sidenav.md-closed.md-locked-open-add-active {
