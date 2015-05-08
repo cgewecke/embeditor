@@ -19,6 +19,7 @@ angular
     'ngMaterial',
     'ngMdIcons',
     'embeditor.components.player',
+    'embeditor.components.rangefinder',
     'embeditor.components.searchbox',
     'embeditor.components.searchsidebar',
     'embeditor.services.youTubeDataAPI',

@@ -29,85 +29,88 @@ button#end-fwd-5sec-btn
    </div>
 
    <div layout="column" class="player-background" layout-fill layout-align="{{player.sideNavIsOpen()}}" >
-      <div layout="row" layout-align="space-between" style="width: 854px;">
-          <span layout="column" layout-fill>
+      <div class="controls-background controls-top" layout="row" layout-align="space-between" style="width: 854px;">
+          <span layout="column" flex="20">
             <span layout="row" layout-align="start">
-              <md-input-container>
+              <md-input-container class="controls-time-inputs">
                 <label>Start Time</label>
                 <input type="text" ng-model="player.startpoint" disabled>
               </md-input-container>
-              <ng-md-icon icon="highlight_remove"></ng-md-icon>
             </span>
           </span>
           <span layout="column" layout-fill>
+            <span layout="row" layout-align="center">
+              <embeditor-rangefinder layout-fill></embeditor-rangefinder>
+            </span>
+          </span>
+          <span layout="column" flex="20">
             <span layout="row" layout-align="end">
-              <md-input-container>
+              <md-input-container class="controls-time-inputs">
                 <label>End Time</label>
                 <input ng-model="player.endpoint" disabled>
               </md-input-container>
-              <md-button><ng-md-icon icon="highlight_remove"></ng-md-icon></md-button>
             </span>
           </span>
       </div>
-      <div layout="row" layout-align="space-between" style="width: 854px;">          
-        <span layout="row">  
+      <div layout="row" class="controls-background" layout-align="space-between" style="width: 854px;">          
+        <span layout="row" >  
             <span layout="column" layout-align="center center">
               <md-button id="start-back-5sec-btn"><ng-md-icon icon="undo" size="36"></ng-md-icon></md-button>
-              <span> 5s </span>
+              <span class="control-btn-txt"> 5s </span>
             </span>
             <span layout="column" layout-align="center center"> 
               <md-button id="start-back-1sec-btn"><ng-md-icon icon="arrow_back" size="36"></ng-md-icon></md-button> 
-              <span> 1s </span>  
+              <span class="control-btn-txt"> 1s </span>  
             </span>
             <span layout="column" layout-align="center center"> 
               <md-button id="start-back-frame-btn"><ng-md-icon icon="chevron_left" size="36"></ng-md-icon></md-button>
-              <span> frame </span>
+              <span class="control-btn-txt"> frame </span>
             </span>
             <span layout="column" layout-align="center center"> 
               <md-button id="start-play-btn"><ng-md-icon icon="play_circle_outline" size="36"></ng-md-icon></md-button> 
-              <span> &nbsp </span>
+              <span class="control-btn-txt"> &nbsp </span>
             </span>
             <span layout="column" layout-align="center center"> 
               <md-button id="start-fwd-frame-btn"><ng-md-icon icon="chevron_right" size="36"></ng-md-icon></md-button>
-              <span> frame </span>
+              <span class="control-btn-txt"> frame </span>
             </span>
             <span layout="column" layout-align="center center"> 
               <md-button id="start-fwd-1sec-btn"><ng-md-icon icon="arrow_forward" size="36"></ng-md-icon></md-button>
-              <span> 1s </span>
+              <span class="control-btn-txt"> 1s </span>
             </span>
             <span layout="column" layout-align="center center"> 
               <md-button id="start-fwd-5sec-btn"><ng-md-icon icon="redo" size="36"></ng-md-icon></md-button>
-              <span> 5s </span>
+              <span class="control-btn-txt"> 5s </span>
             </span>
         </span>
         <span layout="row">  
             <span layout="column" layout-align="center center">
               <md-button layout="column" id="end-back-5sec-btn"><ng-md-icon icon="undo" size="36"></ng-md-icon></md-button>
-              <span> 5s </span>
+              <span class="control-btn-txt"> 5s </span>
             </span>
             <span layout="column" layout-align="center center"> 
               <md-button id="end-back-1sec-btn"><ng-md-icon icon="arrow_back" size="36"></ng-md-icon></md-button> 
-              <span> 1s </span>  
+              <span class="control-btn-txt"> 1s </span>  
             </span>
             <span layout="column" layout-align="center center"> 
               <md-button id="end-back-frame-btn"><ng-md-icon icon="chevron_left" size="36"></ng-md-icon></md-button>
-              <span> frame </span>
+              <span class="control-btn-txt"> frame </span>
             </span>
             <span layout="column" layout-align="center center"> 
               <md-button id="end-play-btn"><ng-md-icon icon="play_circle_outline" size="36"></ng-md-icon></md-button> 
-              <span> &nbsp </span>
+              <span class="control-btn-txt"> &nbsp </span>
             </span>
             <span layout="column" layout-align="center center"> 
               <md-button id="end-fwd-frame-btn"><ng-md-icon icon="chevron_right" size="36"></ng-md-icon></md-button>
-              <span> frame </span>
+              <span class="control-btn-txt"> frame </span>
             </span>
             <span layout="column" layout-align="center center"> 
               <md-button id="end-fwd-1sec-btn"><ng-md-icon icon="arrow_forward" size="36"></ng-md-icon></md-button>
-              <span> 1s </span>
+              <span class="control-btn-txt"> 1s </span>
             </span>
             <span layout="column" layout-align="center center"> 
               <md-button id="end-fwd-5sec-btn"><ng-md-icon icon="redo" size="36"></ng-md-icon></md-button>
-              <span> 5s </span>
+              <span class="control-btn-txt"> 5s </span>
             </span>
         </span>
       </div>

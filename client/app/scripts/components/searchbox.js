@@ -116,9 +116,10 @@ var sr_debug, sr_debugII;
       mdElem.bind('keypress', function(event){
       
          if (event.which === 13 && mdScope.searchText && mdScope.searchText.length ){
-            mdCtrl.selectedItem = {value: mdScope.searchText}; // autocomplete watches this obj.
             mdCtrl.keydown({keyCode: 27}); // Escape closes dropdown.
-            console.log('Executed loop');
+            mdCtrl.selectedItem = {value: mdScope.searchText}; // autocomplete watches this obj.
+            
+         
          }
       });
    }
