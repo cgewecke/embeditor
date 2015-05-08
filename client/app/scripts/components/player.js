@@ -10,6 +10,8 @@
       var self = this;
 
       self.alignment = 'center center';
+      self.startpoint = "0:00";
+      self.endpoint = "10:00:77";
       self.youtube = youtubePlayerAPI;
 
       // Move player block over to right side of page on sideNavOpen
