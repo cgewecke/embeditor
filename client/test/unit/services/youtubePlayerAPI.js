@@ -37,7 +37,7 @@ describe('Service: youtubePlayerAPI', function () {
 
          });
 
-         it('should be disabled if there are alternate playback speed options', function(){
+         it('should be disabled if there are no playback speed options', function(){
 
          });
 
