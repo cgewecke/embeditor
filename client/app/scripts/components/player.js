@@ -1,18 +1,15 @@
 (function(){
-
   'use strict';
 
   angular.module('embeditor.components.player', ['embeditor.services.youtubePlayerAPI'])
     
-    .controller('PlayerCtrl', playerCtrl );
+    .controller('PlayerCtrl', playerCtrl )
     
     function playerCtrl($scope, youtubePlayerAPI, $mdSidenav){
       var self = this;
 
       self.alignment = 'center center';
-      self.startpoint = "0:00";
-      self.endpoint = "10:00:77";
-      self.youtube = youtubePlayerAPI;
+      self.API = youtubePlayerAPI;
 
       // Move player block over to right side of page on sideNavOpen
       // return on sidenNav closed. Exception gets thrown unless

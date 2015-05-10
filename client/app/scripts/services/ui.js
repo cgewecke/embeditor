@@ -14,13 +14,7 @@ angular.module('embeditor')
 
    var self = this;
 
-   self.synch = {
-      searchText: ''
-   };
 
-   $rootScope.$watch('self.synch.searchText', function(newVal, oldval){
-         console.log('searchText changed: ' + newVal);
-   });
 
    self.KEY_CODES = {
       ESCAPE: 27,

@@ -88,9 +88,8 @@ var sb_debug, sb_debugII, sb_debugIII;
 
         // Play Video click
         thumbnailElem.bind('click', function(event){
-          //$mdSidenav('search').toggle();
           console.log("video: " + scope.video.videoId);
-          playerAPI.load({videoId: scope.video.videoId});
+          playerAPI.load(scope.video);
         });
 
         // Search Related Videos click

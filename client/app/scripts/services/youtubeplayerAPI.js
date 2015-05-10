@@ -1,108 +1,159 @@
+var ytp_debug, ytp_debugII;
+
+(function(){
 'use strict';
 
-/**
- * @ngdoc function
- * @name embeditor.controller:PlayerCtrl
- * @description
- * # PlayerCtrl
- * Controller of the embeditor
- */
-angular.module('embeditor.services.youtubePlayerAPI', [])
-   .service('youtubePlayerAPI', youtubePlayerAPI);
+  angular.module('embeditor.services.youtubePlayerAPI', [])
+     .service('youtubePlayerAPI', youtubePlayerAPI);
 
-function youtubePlayerAPI($window){
+  function youtubePlayerAPI($rootScope){
 
-   var self = this;
-   var player;
+     var self = this;
+     var PLAYING;
+     var BUFFERING;
 
-   self.playerState;
-   self.initialVideoId = "6XYzbW3bZOQ"; // Miles Davis Live in Stockholm 1972
+     self.player;
+     self.initializing;
+     self.YT;
+     self.state;
+     self.stream;
+     self.frameLength = 1/25;
+     self.startpoint = { raw: 0, display: '0:00'};
+     self.endpoint = { raw: 0, display: '0:00'};
+     self.initialVideoId = "HcXNPI-IPPM"; // Die Antwoord, Baby's on Fire
+     self.altVideoId = "6XYzbW3bZOQ"; // Miles Davis Live in Stockholm 1972
+  
+     var playerStateMessages = ['ENDED','PLAYING','PAUSED','BUFFERING','UNSTARTED','CUED'];
 
-   // Initial set-up;
-   $window.onYouTubeIframeAPIReady = function() {
-      console.log("YouTube API ready");
-       
-      player = new YT.Player('player', {
+    
+     function init(){
+        self.initializing = true;
+        self.setStartpoint(0);
+        self.setEndpoint(self.player.getDuration());
+        self.play();
+        $rootScope.$apply();
+     };
 
-          width:          '854',
-          height:         '480',
-          videoId:        self.initialVideoId,
-          playerVars: {
-              'iv_load_policy': '3', //
-              'controls': '0', // No Controls
-              'disablekb': '1', // Disable keyboard
-              'fs': '0',  // No fullscreen
-              'rel':            '0', // No related videos
-              'modestbranding': '1', // No logos
-              'showinfo':       '0', // No info
-          },
-          events: {
-              'onReady': self.onPlayerReady,
-              'onStateChange': self.onPlayerStateChange,
-              'onError': self.onPlayerError
+     function getAPI(){
+
+        // Driver
+        self.load = function(video) { 
+          self.state = 'paused';
+          self.player.loadVideoById(video.videoId);
+          self.setStartpoint(0);
+          self.setEndpoint(video.seconds);
+        }; 
+        self.cue = function(videoId){ 
+          self.state = 'paused';
+          self.player.cueVideoById(videoId); 
+          init();
+        }; 
+
+        self.play = function() { 
+          self.state = 'playing';
+          self.player.playVideo(); 
+        };  
+
+        self.pause = function() { 
+          self.state = 'paused';
+          self.player.pauseVideo(); 
+        };
+  
+        self.seek = function(start) { self.player.seekTo(start) }; 
+
+        // Playback
+        self.getRate = self.player.getPlaybackRate;
+        self.setRate = self.player.setPlaybackRate;
+        self.rates = self.player.getAvailablePlaybackRates;
+
+        // Status
+        self.loaded = function() {return self.player.getVideoLoadedFraction() };
+        self.state = function(){ return self.player.getPlayerState() };
+        self.time = function(){ return self.player.getCurrentTime(); };
+
+        // Video Quality
+        self.getQuality = self.player.getPlaybackQuality;
+        self.setQuality = self.player.setPlaybackQuality;
+        self.getLevels = self.player.getAvailableQualityLevels;
+
+        // Duration
+        self.duration = function(){ self.player.getDuration };
+
+        PLAYING = YT.PlayerState.PLAYING;
+        BUFFERING = YT.PlayerState.BUFFERING;
+
+     }; 
+
+     self.togglePlay = function(){
+       ( self.state === 'playing' ) ? self.pause(): self.play();
+     };
+
+     self.startSeekForward = function(amount){
+       var time = self.time() + amount;
+       self.seek(time, false);
+       self.setStartpoint(time);
+       self.pause();
+     };
+     self.startSeekRewind = function(amount){
+       var time = self.time() - amount;
+       self.seek(time, false);
+       self.setStartpoint(time);
+       self.pause();
+     };
+     self.endSeekForward = function(amount){
+      self.pause();
+      self.seek(self.time() + amount, true);
+
+     };
+     self.endSeekRewind = function(amount){
+      self.pause();
+      self.seek(self.time() - amount, true);
+     };
+
+     self.setStartpoint = function(value){
+        self.startpoint = {raw: value, display: value.toString().toHHMMSS() };
+     };
+
+     self.setEndpoint = function(value){
+        self.endpoint = {raw: value, display: value.toString().toHHMMSS() };
+     };
+
+     // Player Event Listeners
+     self.onPlayerReady = function(event){
+        getAPI();
+        init();
+     };
+
+     self.onPlayerStateChange = function(event){
+
+        if (event.data === PLAYING){
+          
+          if (self.initializing){
+            self.pause();
+            self.state = 'paused';
+            self.initializing = false;
+
+          } else {
+             self.state = 'playing';  
           }
-      });
-   };
+        } else if ( event.data === BUFFERING ) {
+          self.state = 'playing';
+        } else {
+          self.state = 'paused';
+        }
 
-   function getAPI(){
-      // Driver
-      self.load = function(videoId) { player.loadVideoById(videoId) }; 
-      self.cue = function(videoId){ player.cueVideoById(videoId); }; 
-      self.play = function() { player.playVideo; };  
-      self.pause = function() { player.pauseVideo; };
-      self.stop = function() { player.stopVideo; };
-      self.seek = function(start) { player.seekTo(start) }; 
+        $rootScope.$apply();
 
-      // Playback
-      self.getRate = player.getPlaybackRate;
-      self.setRate = player.setPlaybackRate;
-      self.rates = player.getAvailablePlaybackRates;
+     };
 
-      // Status
-      self.loaded = player.getVideoLoadedFraction;
-      self.state = player.getPlayerState;
-      self.time = player.getCurrentTime;
+     self.onPlayerError = function(){
 
-      // Video Quality
-      self.getQuality = player.getPlaybackQuality;
-      self.setQuality = player.setPlaybackQuality;
-      self.getLevels = player.getAvailableQualityLevels;
+     }; 
 
-      // Duration
-      self.duration = player.getDuration;
-   }; 
+     youtubePlayerAPI.$inject = ['$rootScope'];
+ 
+  };
 
-   // Embed 
-   self.embed = function(){
-      // Standard You Tube embed code 
-      var tag, firstScriptTag;          
-
-      tag = document.createElement('script');
-      tag.src = (("http:" === document.location.protocol) ? "http:" : "https:") + "//www.youtube.com/iframe_api";
-      firstScriptTag = document.getElementById("player");
-      firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
-   };
-
-   // Player Event Listeners
-   self.onPlayerReady = function(event){
-      getAPI();
-   };
-
-   self.onPlayerStateChange = function(e){
-               
-   };
-
-   self.onPlayerError = function(){
-
-
-   }; 
-
-   
-
-   
-};
-
-
-youtubePlayerAPI.$inject = ['$window'];
+ })();
 
   
