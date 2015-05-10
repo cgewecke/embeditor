@@ -75,7 +75,7 @@ var yt_debug;
             
       };
 
-      // Duration String Conversion Utilities
+      /* Duration String Conversion Utilities
       String.prototype.toHHMMSS = function () {
          var d = parseInt(this, 10); // don't forget the second param
          var h = Math.floor(d / 3600);
@@ -83,7 +83,7 @@ var yt_debug;
          var s = Math.floor(d % 3600 % 60);
          return ((h > 0 ? h + ':' : '') + (m > 0 ? (h > 0 && m < 10 ? '0' : '') + 
                   m + ':' : '0:') + (s < 10 ? '0' : '') + s); 
-      };
+      };*/
 
       // YT Time is ISO 8601: 
       function formatYouTubeTime(time){
@@ -243,6 +243,7 @@ var yt_debug;
                            service.results.push({ 
                               title : item.snippet.title,
                               videoId : item.id,
+                              seconds: moment.isoDuration(item.contentDetails.duration).asSeconds(), 
                               duration : formatYouTubeTime(item.contentDetails.duration),
                               publishedAt: moment(item.snippet.publishedAt).fromNow(),
                               imageUrl: item.snippet.thumbnails.medium.url,

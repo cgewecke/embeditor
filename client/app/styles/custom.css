@@ -21,8 +21,24 @@
   padding-top: 10px;
 }
 
-.control-btn-txt{
-  font-size: 13px;
+.control-btn-txt-ctr{
+  position: relative;
+  font-size: 10px;
+  top: -15px;
+}
+
+.control-btn-txt-left{
+  position: relative;
+  font-size: 10px;
+  top: -15px;
+  left: -15px;
+}
+
+.control-btn-txt-right{
+  position: relative;
+  font-size: 10px;
+  top: -15px;
+  right: -15px;
 }
 
 
