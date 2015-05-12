@@ -6,15 +6,40 @@
     min-height: 100%;
     height: inherit; } }
 
+/* toolbar */
+.youtube-icon{
+  font-size: 56px;
 
+}
+
+/* player & player controls */
 .player-background {
   background-color: #424242;
 }
-.controls-time-inputs{
-  width: 100px;
+
+.player-loading-screen {
+  visibility: hidden;
+  position: absolute;
+  margin: 0 auto;
+  width: 854px;
+  height: 480px;
+  background: black;
+  color: white;
+}
+
+.player-loading-spinner{
+
+}
+
+.visible{
+  visibility: visible;
 }
 .controls-background{
   background-color: #EEEEEE;
+}
+
+.controls-time-inputs{
+  width: 100px;
 }
 
 .controls-top{

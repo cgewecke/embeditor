@@ -266,6 +266,7 @@ var yt_debug;
                         searchParameters.pageToken = data_a.nextPageToken;
                      }
                      deferred.resolve(); 
+                     yt_debug = service.results;
                   }                   
                ).error(function(){
                   service.serverError = true;

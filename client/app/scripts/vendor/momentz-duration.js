@@ -54,3 +54,26 @@ String.prototype.toHHMMSS = function () {
     time = 0+':'+seconds;
   return time;
 };
+
+String.prototype.toHHMMSSss = function () {
+  var time;
+
+  var sec_num = parseInt(this, 10); // don't forget the second param
+  var hours   = Math.floor(sec_num / 3600);
+  var minutes = Math.floor((sec_num - (hours * 3600)) / 60);
+  var seconds = sec_num - (hours * 3600) - (minutes * 60);
+
+  var fraction = (parseFloat(this) - sec_num).toFixed(2);
+  fraction = fraction.toString().substr(fraction.length - 3);
+  
+  if (hours && minutes < 10) {minutes = "0"+minutes;}
+  if (seconds < 10) {seconds = "0"+seconds;}
+
+  if (hours)
+    time = hours+':'+minutes+':'+ seconds + fraction;
+  else if (minutes)
+    time = minutes+':'+seconds + fraction;
+  else
+    time = 0+':'+seconds + fraction;
+  return time;
+};

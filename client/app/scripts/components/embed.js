@@ -27,7 +27,7 @@
 
                   width:          '854',
                   height:         '480',
-                  videoId:        playerAPI.initialVideoId,
+                  videoId:        playerAPI.initialVideo.videoId,
                   playerVars: {
                     'iv_load_policy': '3', //
                     'controls': '0', // No Controls
