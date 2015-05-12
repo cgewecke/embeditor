@@ -25,15 +25,36 @@ button#end-fwd-5sec-btn
         layout="row" 
         layout-align="{{player.sideNavIsOpen()}}" 
         class="player-background">
-      <div id="player"></div>
+      
+      <div id="player-wrapper">
+        <div 
+          class="player-loading-screen" 
+          ng-class="{'visible': player.API.initializing}">
+          <md-progress-circular 
+            layout="row"
+            layout-fill
+            layout-align="center center"
+            id="player-loading-spinner" 
+            class="player-loading-spinner"
+            class="md-warn" 
+            md-mode="indeterminate">
+          </md-progress-circular>
+        </div>
+        <div id="player"></div>
+      </div>
+
    </embeditor-youtube-embed>
 
-   <div layout="column" class="player-background" layout-fill layout-align="{{player.sideNavIsOpen()}}" >
-      <div class="controls-background controls-top" layout="row" layout-align="space-between" style="width: 854px;"> <!--  -->
+   
+   <div class="player-background" 
+        layout="column" 
+        layout-fill 
+        layout-align="{{player.sideNavIsOpen()}}">
+      <div class="controls-background controls-top" layout="row"  style="width: 854px;"> <!-- layout-align="space-between" -->
           <span layout="column" flex="20">
             <span layout="row" layout-align="start">
               <md-input-container class="controls-time-inputs">
-                <label>Start Time</label>
+                <label>Start Point</label>
                 <input type="text" ng-model="player.API.startpoint.display" disabled>
               </md-input-container>
             </span>
@@ -46,7 +67,7 @@ button#end-fwd-5sec-btn
           <span layout="column" flex="20">
             <span layout="row" layout-align="end">
               <md-input-container class="controls-time-inputs">
-                <label>End Time</label>
+                <label>End Point</label>
                 <input ng-model="player.API.endpoint.display" disabled>
               </md-input-container>
             </span>
