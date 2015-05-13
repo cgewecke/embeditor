@@ -73,7 +73,8 @@ button#end-fwd-5sec-btn
             </span>
           </span>
       </div>
-      <div layout="row" class="controls-background" layout-align="space-between" style="width: 854px;">          
+      <div layout="row" class="controls-background" layout-align="space-between" style="width: 854px;">  
+        <!-- STARTPOINTS -->         
         <span layout="row">  
             <!-- 5 sec rewind -->
             <span layout="column" layout-align="center center" >
@@ -155,50 +156,88 @@ button#end-fwd-5sec-btn
               <span class="control-btn-txt-right"> 5s </span>
             </span>
         </span>
-        <!-- <span layout="row">  
-            <span layout="column" layout-align="center center">
-              <md-button id="end-back-5sec-btn" class="md-raised" md-no-ink>
-                <ng-md-icon icon="undo" size="36"></ng-md-icon>
+        <!-- ENDPOINTS -->
+        <span layout="row">  
+            <!-- 5 sec rewind -->
+            <span layout="column" layout-align="center center" >
+              <md-button id="end-back-5sec-btn"
+                  ng-click="player.API.endSeekRewind(5)"
+                  class="md-raised"
+                  md-no-ink>
+                <ng-md-icon icon="fast_rewind" size="36"></ng-md-icon>
               </md-button>
-              <span class="control-btn-txt"> 5s </span>
+              <span class="control-btn-txt-left"> 5s </span>
             </span>
+             <!-- 1 sec rewind -->
             <span layout="column" layout-align="center center"> 
-              <md-button id="end-back-1sec-btn" class="md-raised">
+              <md-button id="end-back-1sec-btn"
+                  ng-click="player.API.endSeekRewind(1)"
+                  class="md-raised"
+                  md-no-ink>
                 <ng-md-icon icon="arrow_back" size="36"></ng-md-icon>
               </md-button> 
-              <span class="control-btn-txt"> 1s </span>  
+              <span class="control-btn-txt-left"> 1s </span>  
             </span>
+             <!-- Frame rewind -->
             <span layout="column" layout-align="center center"> 
-              <md-button id="end-back-frame-btn" class="md-raised">
-                <ng-md-icon icon="chevron_left" size="36"></ng-md-icon>
+              <md-button id="end-back-frame-btn"
+                  ng-click="player.API.endSeekRewind(player.API.frameLength)"
+                  class="md-raised"
+                  md-no-ink>
+                <ng-md-icon icon="chevron_left" size="36">
+                </ng-md-icon>
               </md-button>
-              <span class="control-btn-txt"> frame </span>
+              <span class="control-btn-txt-ctr"> frame </span>
             </span>
+            <!-- Play/Pause -->
             <span layout="column" layout-align="center center"> 
-              <md-button id="end-play-btn" class="md-raised">
+              <md-button id="start-play-btn" 
+                  ng-show="player.API.state === 'paused'"
+                  ng-click="player.API.togglePlay()" 
+                  class="md-raised"
+                  md-no-ink>
                 <ng-md-icon icon="play_circle_outline" size="36"></ng-md-icon>
               </md-button> 
-              <span class="control-btn-txt"> &nbsp </span>
+              <md-button id="start-play-btn" 
+                  ng-show="player.API.state === 'playing'"
+                  ng-click="player.API.togglePlay()" 
+                  class="md-raised"
+                  md-no-ink>
+                <ng-md-icon icon="pause_circle_outline" size="36"></ng-md-icon>
+              </md-button> 
+              <span class="control-btn-txt-ctr"> &nbsp </span>
             </span>
+            <!-- Frame forward -->
             <span layout="column" layout-align="center center"> 
-              <md-button id="end-fwd-frame-btn">
+              <md-button id="end-fwd-frame-btn"
+                  ng-click="player.API.endSeekForward(player.API.frameLength)"
+                  class="md-raised"
+                  md-no-ink>
                 <ng-md-icon icon="chevron_right" size="36"></ng-md-icon>
               </md-button>
-              <span class="control-btn-txt"> frame </span>
+              <span class="control-btn-txt-ctr"> frame </span>
             </span>
+            <!-- 1 sec forward -->
             <span layout="column" layout-align="center center"> 
-              <md-button id="end-fwd-1sec-btn">
+              <md-button id="end-fwd-1sec-btn"
+                  ng-click="player.API.endSeekForward(1)"
+                  class="md-raised"
+                  md-no-ink>
                 <ng-md-icon icon="arrow_forward" size="36"></ng-md-icon>
               </md-button>
-              <span class="control-btn-txt"> 1s </span>
+              <span class="control-btn-txt-right"> 1s </span>
             </span>
+             <!-- 5 sec forward -->
             <span layout="column" layout-align="center center"> 
-              <md-button id="end-fwd-5sec-btn">
-                <ng-md-icon icon="redo" size="36"></ng-md-icon>
+              <md-button id="end-fwd-5sec-btn"
+                  class="md-raised"
+                  md-no-ink
+                  ng-click="player.API.endSeekForward(5)">
+                <ng-md-icon icon="fast_forward" size="36"></ng-md-icon>
               </md-button>
-              <span class="control-btn-txt"> 5s </span>
+              <span class="control-btn-txt-right"> 5s </span>
             </span>
-        </span>!-->
+        </span>
       </div>
    </div>
 </md-content>
