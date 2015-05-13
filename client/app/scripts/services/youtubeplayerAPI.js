@@ -14,184 +14,260 @@ TO DO:
   angular.module('embeditor.services.youtubePlayerAPI', [])
      .service('youtubePlayerAPI', youtubePlayerAPI);
 
-  function youtubePlayerAPI($rootScope){
+  function youtubePlayerAPI($rootScope, $timeout){
 
-     var self = this;
-     var PLAYING;
-     var BUFFERING;
+    // Private Variables
+    var self = this;
+    var PLAYING;
+    var BUFFERING;
+    var PAUSED;
 
-     self.YT;  // The YT API wrapper
-     self.player;  // The YT API methods accessor
-     self.video; // Current video
-     self.initializing = true;  // True as page loads, false otherwise.
-     self.tapehead; // Current position of the tapehead;
+    // Published Events
+    var initEvent = {name: 'YTPlayerAPI:init'};
+    var loadEvent = {name: 'YTPlayerAPI:load'};
+    var changeEvent = {name: 'YTPlayerAPI:change'}; 
+
+    // Public Variables
+    self.YT;  // The YT API wrapper
+    self.player;  // The YT API methods accessor
+    self.video; // Current video
+    self.initializing = true;  // True as page loads, false otherwise.
+    self.tapehead; // Current position of the tapehead;
+    self.prevAction = 'play'; // Either 'set' or 'play', arbs tapehead location when setting.
+
+    self.state; // Playing/Paused condition
+    self.frameLength = 1/25;
+    self.startpoint = { val: 0, display: '0:00'};
+    self.endpoint = { val: 0, display: '0:00'};
+    self.initialVideo = {
+      duration: "6:56",
+      seconds: 415, // THIS MUST BE A SECOND SHORT OF THE END . . . .
+      videoId: "HcXNPI-IPPM"
+    };
+
+    // METHODS: 
+
+    // init(): Runs in the YT player ready callback on page load. Sets initial video, 
+    // start/end point vals and initiates stream play. When the play event is picked up
+    // by the YT event change callback, stream gets paused and player veil is removed. 
+    function init(){
+      self.initializing = true;
+      self.video = self.initialVideo;
+      self.setStartpoint(0);
+      self.setEndpoint(self.video.seconds);
+      $rootScope.$broadcast(initEvent.name);
+      self.play();
+      $rootScope.$apply();
       
-     self.state; // Playing/Paused condition
-     self.frameLength = 1/25;
-     self.startpoint = { raw: 0, display: '0:00'};
-     self.endpoint = { raw: 0, display: '0:00'};
-     self.initialVideo = {
-        duration: "6:56",
-        seconds: 416,
-        videoId: "HcXNPI-IPPM"
-     };
-     
-     var playerStateMessages = ['ENDED','PLAYING','PAUSED','BUFFERING','UNSTARTED','CUED'];
+    };
 
-     // init(): Runs in the YT player ready callback on page load. Sets initial video, 
-     // start/end point vals and initiates stream play. When the play event is picked up
-     // by the YT event change callback, stream gets paused and player veil is removed. 
-     function init(){
-        self.initializing = true;
-        self.video = self.initialVideo;
+
+    // getAPI(): Runs in the YT player ready callback - wraps the Iframe player api. 
+    function getAPI(){
+
+      // Loader
+      self.load = function(video) { 
+        self.state = 'paused';
+        self.video = video;
+        self.player.loadVideoById(video.videoId);
         self.setStartpoint(0);
-        self.setEndpoint(self.player.getDuration());
+        self.setEndpoint(video.seconds);
+        $rootScope.$broadcast(initEvent.name)
+      }; 
+      
+      // Tape head Driver
+      self.play = function() { 
+        self.state = 'playing';
+        self.player.playVideo(); 
+      };  
+
+      self.pause = function() { 
+        self.state = 'paused';
+        self.player.pauseVideo(); 
+      };
+      self.seek = function(location, stream) { self.player.seekTo(location, stream) }; 
+
+      // Playback speed
+      self.rates = function(){ return self.player.getAvailablePlaybackRates() };
+      self.getRate = function(){ return self.player.getPlaybackRate() };
+      self.setRate = function(rate){ self.player.setPlaybackRate(rate) };
+      
+
+      // Player Status
+      self.percentLoaded = function() {return self.player.getVideoLoadedFraction() };
+      self.playerStatus = function(){ return self.player.getPlayerState() };
+      self.time = function(){ return self.player.getCurrentTime(); };
+
+      // Video Quality
+      self.getQuality = self.player.getPlaybackQuality;
+      self.setQuality = self.player.setPlaybackQuality;
+      self.getLevels = self.player.getAvailableQualityLevels;
+
+      // Duration
+      self.duration = function(){ self.player.getDuration };
+
+      // Player status contants
+      PLAYING = YT.PlayerState.PLAYING;
+      BUFFERING = YT.PlayerState.BUFFERING;
+      PAUSED = YT.PlayerState.PAUSED;
+
+    }; 
+
+    // Play/Pause 
+    self.togglePlay = function(){
+      // Pause
+      if ( self.state === 'playing' ){
+        self.pause();
+
+      // Play after setting start/end point
+      } else if ( self.prevAction === 'set'){
+        self.seek(self.startpoint.val);
         self.play();
-        $rootScope.$apply();
-     };
 
-     // getAPI(): Runs in the YT player ready callback - wraps the Iframe player api. 
-     function getAPI(){
+      // Play after pause
+      } else {
+        self.play();
+      }
+      // Reset prevAction flag
+      self.prevAction = 'play';
+    };
 
-        // Loader
-        self.load = function(video) { 
-          self.state = 'paused';
-          self.video = video;
-          self.player.loadVideoById(video.videoId);
-          self.setStartpoint(0);
-          self.setEndpoint(video.seconds);
-        }; 
-        
-        // Tape head Driver
-        self.play = function() { 
-          self.state = 'playing';
-          self.player.playVideo(); 
-        };  
+    // Start/End point setting handlers
+    self.start = function(time){
+      
+      if (time >= self.endpoint.val - 1 ) time = self.endpoint.val - 1;
 
-        self.pause = function() { 
-          self.state = 'paused';
-          self.player.pauseVideo(); 
-        };
-        self.seek = function(location, stream) { self.player.seekTo(location, stream) }; 
-
-        // Playback speed
-        self.rates = function(){ return self.player.getAvailablePlaybackRates() };
-        self.getRate = function(){ return self.player.getPlaybackRate() };
-        self.setRate = function(rate){ self.player.setPlaybackRate(rate) };
-        
-
-        // Player Status
-        self.percentLoaded = function() {return self.player.getVideoLoadedFraction() };
-        self.playerStatus = function(){ return self.player.getPlayerState() };
-        self.time = function(){ return self.player.getCurrentTime(); };
-
-        // Video Quality
-        self.getQuality = self.player.getPlaybackQuality;
-        self.setQuality = self.player.setPlaybackQuality;
-        self.getLevels = self.player.getAvailableQualityLevels;
-
-        // Duration
-        self.duration = function(){ self.player.getDuration };
-
-        // Player status contants
-        PLAYING = YT.PlayerState.PLAYING;
-        BUFFERING = YT.PlayerState.BUFFERING;
-
-     }; 
-
-     // Play/Pause click handler
-     self.togglePlay = function(){
-       ( self.state === 'playing' ) ? self.pause(): self.play();
-     };
-
-     // Startpoint precision seek click handlers
-     self.startSeekForward = function(amount){
-       var time = self.time() + amount;
-       (time > self.video.seconds) ? time = self.video.seconds: time; 
-       self.seek(time, true);
-       self.setStartpoint(time);
-       self.pause();
-     };
-     self.startSeekRewind = function(amount){
-       var time = self.time() - amount;
-       (time < 0) ? time = 0: time;
-       self.seek(time, true);
-       self.setStartpoint(time);
-       self.pause();
-     };
-
-     // Endpoint precision seek click handlers
-     self.endSeekForward = function(amount){
       self.pause();
-      self.seek(self.time() + amount, false);
 
-     };
-     self.endSeekRewind = function(amount){
+      $timeout(function(){
+        self.seek(time, true);
+        self.setStartpoint(time);
+        $rootScope.$broadcast(changeEvent.name);
+      });
+    };
+
+    self.end = function(time){
+
+      if (time <= self.startpoint.val + 1 ) time = self.startpoint.val + 1;
+
       self.pause();
-      self.seek(self.time() - amount, false);
-     };
 
-     // Rangeslider drag events
-     self.dragSeekStartpoint = function(amount){
+      $timeout(function(){
+        self.seek(time, true);
+        self.setEndpoint(time);
+        $rootScope.$broadcast(changeEvent.name);
+      });
+    };
 
-     };
+    // Start/Endpoint setters
+    self.setStartpoint = function(value){
+      self.startpoint = {val: value, display: value.toString().toHHMMSSss() };
+      self.prevAction = 'set';
+    };
 
-     self.dragSeekEndpoint = function(amount){
+    self.setEndpoint = function(value){
+      self.endpoint = {val: value, display: value.toString().toHHMMSSss() };
+      self.prevAction = 'set'
+    };
 
-     };
 
-     // Rangeslider set events
-     self.dragSetStartpoint = function(){
+    // 
+    self.startSeekForward = function(amount){
+      
+      // Increment current set point by amt.
+      var time = self.startpoint.val + amount;
 
-     };
-     self.dragSetEndpoint = function(){
+      // Do not pass end
+      (time > self.video.seconds) ? time = self.video.seconds: time; 
 
-     };
+      self.start(time);
 
-     // Start/Endpoint setters
-     self.setStartpoint = function(value){
-        self.startpoint = {raw: value, display: value.toString().toHHMMSSss() };
-     };
+      
+    };
+    self.startSeekRewind = function(amount){
 
-     self.setEndpoint = function(value){
-        self.endpoint = {raw: value, display: value.toString().toHHMMSSss() };
-     };
+      // Decrement current set point by amt.
+      var time = self.startpoint.val - amount;
 
-     // Player Event Listeners
-     self.onPlayerReady = function(event){
-        getAPI();
-        init();
-     };
+      // Do not pass 0
+      (time < 0) ? time = 0: time;
 
-     // 
-     self.onPlayerStateChange = function(event){
+      self.start(time);
 
-        if (event.data === PLAYING){
-          
-          // On page load, pause opening play, make player visible, etc. 
-          if (self.initializing){
-            self.pause();
-            self.state = 'paused';
-            self.initializing = false;
+    };
+    // ************************************************************
 
-          } else {
-             self.state = 'playing';  
-          }
-        } else if ( event.data === BUFFERING ) {
-          self.state = 'playing';
+    // Endpoint precision seek 
+    self.endSeekForward = function(amount){
+      var time = self.endpoint.val + amount;
+      (time > self.video.seconds) ? time = self.video.seconds: time; 
+      self.end(time);
+
+    };
+    self.endSeekRewind = function(amount){
+      var time = self.endpoint.val - amount;
+      (time < 0) ? time = 0: time;
+      self.end(time);
+    };
+
+
+    // Player Event Listeners
+    self.onPlayerReady = function(event){
+      getAPI();
+      init();
+    };
+
+    // 
+    self.onPlayerStateChange = function(event){
+
+      var timer;
+      var loop = false;
+
+      if (event.data === PLAYING){
+        
+        // On page load, pause opening play, make player visible, etc. 
+        if (self.initializing){
+          self.pause();
+          self.state = 'paused';
+          self.initializing = false;
+
         } else {
-          self.state = 'paused';
+           self.state = 'playing'; 
+           timer = setInterval(function(){
+              if (self.time() >= self.endpoint.val){
+                self.seek(self.startpoint.val);
+              }
+           }, 150); 
+           console.log('playing');
+
         }
+      } else if ( event.data === BUFFERING ) {
+        self.state = 'playing';
+        
+      } else if ( event.data === PAUSED ){
+        self.state = 'paused';
+        clearInterval(timer);
+        //if (loop){
+          //loop = false;
+          //self.seek(self.startpoint.val);
+          //self.play();
+        //}
+        console.log('pausing');
 
-        $rootScope.$apply();
+      } else {
+        self.state = 'paused';
+      }
 
-     };
+      $rootScope.$apply();
 
-     self.onPlayerError = function(){
+    };
 
-     }; 
+    self.onPlayerError = function(){
+      console.log('player error');
 
-     youtubePlayerAPI.$inject = ['$rootScope'];
+    }; 
+
+    youtubePlayerAPI.$inject = ['$rootScope', '$timeout'];
  
   };
 
