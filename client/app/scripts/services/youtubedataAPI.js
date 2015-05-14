@@ -243,7 +243,7 @@ var yt_debug;
                            service.results.push({ 
                               title : item.snippet.title,
                               videoId : item.id,
-                              seconds: moment.isoDuration(item.contentDetails.duration).asSeconds() - 1, 
+                              seconds: moment.isoDuration(item.contentDetails.duration).asSeconds() - 2, 
                               duration : formatYouTubeTime(item.contentDetails.duration),
                               publishedAt: moment(item.snippet.publishedAt).fromNow(),
                               imageUrl: item.snippet.thumbnails.medium.url,

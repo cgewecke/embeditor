@@ -1,12 +1,6 @@
 var ytp_debug, ytp_debugII;
 /*
 
-TO DO:
-1. Loading cover . . .
-2. Timestamp in lower left corner over watermark
-3. Time display to 0:00.00
-4. Slider seeking and setting
-
 */
 (function(){
 'use strict';
@@ -25,23 +19,27 @@ TO DO:
     // Published Events
     var initEvent = {name: 'YTPlayerAPI:init'};
     var loadEvent = {name: 'YTPlayerAPI:load'};
-    var changeEvent = {name: 'YTPlayerAPI:change'}; 
+    var updateEvent = {name: 'YTPlayerAPI:update'}; 
 
     // Public Variables
     self.YT;  // The YT API wrapper
     self.player;  // The YT API methods accessor
     self.video; // Current video
+    self.timestamp = 0.00// Current playhead position
+    self.loadState = 0.00;
+    self.currentRate = 1;
+    self.playbackRates = [];
     self.initializing = true;  // True as page loads, false otherwise.
-    self.tapehead; // Current position of the tapehead;
     self.prevAction = 'play'; // Either 'set' or 'play', arbs tapehead location when setting.
 
+
     self.state; // Playing/Paused condition
-    self.frameLength = 1/25;
+    self.frameLength = .05;
     self.startpoint = { val: 0, display: '0:00'};
     self.endpoint = { val: 0, display: '0:00'};
     self.initialVideo = {
-      duration: "6:56",
-      seconds: 415, // THIS MUST BE A SECOND SHORT OF THE END . . . .
+      duration: "6:55",
+      seconds: 414, // THIS MUST BE 2 SECONDS SHORT OF THE END . . . .
       videoId: "HcXNPI-IPPM"
     };
 
@@ -51,15 +49,21 @@ TO DO:
     // start/end point vals and initiates stream play. When the play event is picked up
     // by the YT event change callback, stream gets paused and player veil is removed. 
     function init(){
+      var timer;
       self.initializing = true;
-      self.video = self.initialVideo;
-      self.setStartpoint(0);
-      self.setEndpoint(self.video.seconds);
-      $rootScope.$broadcast(initEvent.name);
-      self.play();
-      $rootScope.$apply();
-      
+      self.load(self.initialVideo);
+
     };
+
+    function setLoadState(timer){
+      if (self.percentLoaded()){
+        self.loadState = self.percentLoaded() * 100;
+      }
+    }
+
+    function playbackRatesSetup(){
+      
+    }
 
 
     // getAPI(): Runs in the YT player ready callback - wraps the Iframe player api. 
@@ -67,11 +71,13 @@ TO DO:
 
       // Loader
       self.load = function(video) { 
-        self.state = 'paused';
+        var timer;
+
         self.video = video;
         self.player.loadVideoById(video.videoId);
         self.setStartpoint(0);
         self.setEndpoint(video.seconds);
+        setInterval(function(){setLoadState(timer)}, 2000);
         $rootScope.$broadcast(initEvent.name)
       }; 
       
@@ -128,7 +134,7 @@ TO DO:
       } else {
         self.play();
       }
-      // Reset prevAction flag
+      // Reset prevAction flag to play
       self.prevAction = 'play';
     };
 
@@ -140,9 +146,10 @@ TO DO:
       self.pause();
 
       $timeout(function(){
-        self.seek(time, true);
         self.setStartpoint(time);
-        $rootScope.$broadcast(changeEvent.name);
+        self.seek(time, true);
+        self.timestamp = time;
+        $rootScope.$broadcast(updateEvent.name);
       });
     };
 
@@ -153,9 +160,10 @@ TO DO:
       self.pause();
 
       $timeout(function(){
-        self.seek(time, true);
         self.setEndpoint(time);
-        $rootScope.$broadcast(changeEvent.name);
+        self.seek(time, true);
+        self.timestamp = time;
+        $rootScope.$broadcast(updateEvent.name);
       });
     };
 
@@ -169,47 +177,6 @@ TO DO:
       self.endpoint = {val: value, display: value.toString().toHHMMSSss() };
       self.prevAction = 'set'
     };
-
-
-    // 
-    self.startSeekForward = function(amount){
-      
-      // Increment current set point by amt.
-      var time = self.startpoint.val + amount;
-
-      // Do not pass end
-      (time > self.video.seconds) ? time = self.video.seconds: time; 
-
-      self.start(time);
-
-      
-    };
-    self.startSeekRewind = function(amount){
-
-      // Decrement current set point by amt.
-      var time = self.startpoint.val - amount;
-
-      // Do not pass 0
-      (time < 0) ? time = 0: time;
-
-      self.start(time);
-
-    };
-    // ************************************************************
-
-    // Endpoint precision seek 
-    self.endSeekForward = function(amount){
-      var time = self.endpoint.val + amount;
-      (time > self.video.seconds) ? time = self.video.seconds: time; 
-      self.end(time);
-
-    };
-    self.endSeekRewind = function(amount){
-      var time = self.endpoint.val - amount;
-      (time < 0) ? time = 0: time;
-      self.end(time);
-    };
-
 
     // Player Event Listeners
     self.onPlayerReady = function(event){
@@ -225,35 +192,38 @@ TO DO:
 
       if (event.data === PLAYING){
         
-        // On page load, pause opening play, make player visible, etc. 
+        // On page load, pause opening play, make player visible, get assets 
+        // that are only availabe once the player plays. 
         if (self.initializing){
           self.pause();
           self.state = 'paused';
+          self.playbackRates = self.rates();
           self.initializing = false;
 
         } else {
            self.state = 'playing'; 
            timer = setInterval(function(){
-              if (self.time() >= self.endpoint.val){
-                self.seek(self.startpoint.val);
+              // Update timestamp as we play
+              if (self.prevAction != 'set'){
+                self.timestamp = self.time();
               }
-           }, 150); 
+              // Listen for end.
+              if (self.timestamp >= (self.endpoint.val - .25)){
+                
+                if (self.prevAction === 'play'){
+                  self.seek(self.startpoint.val)
+                } 
+                clearInterval(timer);
+              }
+              $rootScope.$apply();
+
+           }, 50); 
            console.log('playing');
 
         }
       } else if ( event.data === BUFFERING ) {
         self.state = 'playing';
         
-      } else if ( event.data === PAUSED ){
-        self.state = 'paused';
-        clearInterval(timer);
-        //if (loop){
-          //loop = false;
-          //self.seek(self.startpoint.val);
-          //self.play();
-        //}
-        console.log('pausing');
-
       } else {
         self.state = 'paused';
       }

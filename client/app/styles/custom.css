@@ -27,8 +27,32 @@
   color: white;
 }
 
-.player-loading-spinner{
+.player-cover{
+  position: absolute;
+  margin: 0 auto;
+  width: 854px;
+  height: 480px;
+  background: transparent;  
+}
 
+.loading-progress{
+  margin: 0 auto;
+  width: 854px;
+}
+
+.timestamp{
+  background: black;
+  color: white;
+  padding: 10px;
+  padding-left: 5px;
+  padding-bottom: 5px;
+  cursor: default;
+  vertical-align: top;
+}
+
+.timestamp-set-icon{
+  vertical-align: text-bottom;
+  padding-left: 2px;
 }
 
 .visible{

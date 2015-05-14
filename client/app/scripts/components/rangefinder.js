@@ -39,8 +39,7 @@ var rf_debug, rf_debugII;
          ctrl.slider = rangeElem.data("ionRangeSlider");
 
          scope.$on('YTPlayerAPI:init', function(){ ctrl.init(ctrl.API.video.seconds) });
-         //scope.$on('YTPlayerAPI:load', function(){  ctrl.update(ctrl.API.startpoint.val, ctrl.API.endpoint.val)});
-         scope.$on('YTPlayerAPI:change', function(){ ctrl.update(ctrl.API.startpoint.val, ctrl.API.endpoint.val)});
+         scope.$on('YTPlayerAPI:update', function(){ ctrl.update(ctrl.API.startpoint.val, ctrl.API.endpoint.val)});
 
       };
 
@@ -62,7 +61,7 @@ var rf_debug, rf_debugII;
             var step = 5;
   
             self.slider.update({
-              min: 0,
+              min: 0.00,
               max: limit,
               step: 5,
               from: 0,
@@ -73,18 +72,19 @@ var rf_debug, rf_debugII;
               to_max: limit
             })
 
-            oldVals = {start: 0, end: length }; // Length - 1 == attempt to address play problem.
+            oldVals = {start: 0, end: length }; 
          };
 
          // update(): Called when 
          self.update = function(start, end){
       
             var step = 5;
-            console.log("update: " + changedByFinish);
+  
             changedByUpdate = true;
-
-
+      
             self.slider.update({
+              min: 0.00,
+              max: self.API.video.seconds,
               from: start,
               from_min: 0,
               from_max: (end - 1),
@@ -101,7 +101,7 @@ var rf_debug, rf_debugII;
          // either programatically or via the handles. If rangeSlider is source of change,
          // we seek and pause allowing the user to scrub through the video.
          self.change = function(newVals){
-            console.log("change: " + changedByFinish);
+            
             var newStart = parseInt(newVals[0]);
             var newEnd = parseInt(newVals[1]);
             
@@ -113,40 +113,47 @@ var rf_debug, rf_debugII;
             self.API.pause();
         
             // Discover which end is scrubbing and update video
-            (newStart != oldVals.start) ? self.API.seek(newStart, true) : self.API.seek(newEnd, true);
-
+            if (newStart != oldVals.start){
+              self.API.seek(newStart, true)
+            } else {
+              self.API.seek(newEnd, true);
+            }
+            
             // Advance state to present
             oldVals.start = newStart;
             oldVals.end = newEnd;
-            console.log('leaving change');
-
+            self.changed = true;
          };
 
          // finish(): This is fired when the user releases the handle, and will result in a false call
          // to change(). New start/end point is set. 
          self.finish = function(newVals){
             
-            console.log('Entering finish: ' + changedByFinish);
+            var newStart = parseFloat(newVals[0]);
+            var newEnd = parseFloat(newVals[1]);
 
-            // Prevent recursive call to finish by finish's own slider update.
-            if (changedByFinish){ return; }
+            // Ignore recusive calls & initializations
+            if (changedByFinish || newStart < 0 || self.API.initializing) return;
 
-            console.log("finished: " + changedByFinish);
-            var newStart = parseInt(newVals[0]);
-            var newEnd = parseInt(newVals[1]);
-            // Ignore initializations
-            if (newStart < 0 || self.API.initializing) return;
+            self.API.pause();
 
             // Discover which end changed & update start/end point
-            (newStart != self.API.startpoint.val) ? self.API.setStartpoint(newStart) : self.API.setEndpoint(newEnd);
+            if(newStart != Math.round(self.API.startpoint.val)){
+              self.API.setStartpoint(newStart);
+              self.API.seek(newStart, true); // Make sure we sought.
+              self.API.timestamp = newStart;
+            } else{
+              self.API.setEndpoint(newEnd);
+              self.API.seek(newEnd, true); // Make sure we sought.
+              self.API.timestamp = newEnd;
 
-            changedByFinish = true;
+            } 
 
-            // Update new min/max ranges for both handles.
+            // Update new min/max ranges for both handles, handle recursion
+            changedByFinish = true; 
             self.update(newStart, newEnd);
-
             changedByFinish = false;
-
+        
             $scope.$apply();
          };
       };
