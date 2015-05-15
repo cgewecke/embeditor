@@ -78,38 +78,37 @@ button#end-fwd-5sec-btn
    
    <div class="player-background" 
         layout="column" 
-        layout-fill 
+        layout-fill
         layout-align="{{player.sideNavIsOpen()}}">
 
-      <div class="controls-background controls-top" layout="row"  style="width: 854px;"> 
-          <span layout="column" flex="20">
-            <span layout="row" layout-align="start">
-              <md-input-container class="controls-time-inputs">
-                <label>Start Point</label>
-                <input type="text" ng-model="player.API.startpoint.display" disabled>
-              </md-input-container>
+      <div class="controls-background controls-top" layout="row" layout-align="space between" style="width: 854px;"> 
+          <span layout="column" flex="15">
+            <span layout="row" layout-align="center">
+              <md-button id="start-play-btn" aria-label="seek" 
+                  ng-click="player.API.togglePlay()" 
+                  class="md-fab md-accent play-button"
+                  md-no-ink>
+                <ng-md-icon icon="play_arrow" size="40" style="fill:white"
+                    ng-show="player.API.state === 'paused'">
+                </ng-md-icon>
+                <ng-md-icon icon="pause" size="40" style="fill:white"
+                    ng-show="player.API.state === 'playing'">
+                </ng-md-icon>
+              </md-button> 
             </span>
           </span> 
-          <span layout="column" layout-fill>
+          <span layout="column" flex="75">
             <span layout="row" layout-align="center">
               <embeditor-rangefinder layout-fill></embeditor-rangefinder>
             </span>
           </span>
-          <span layout="column" flex="20">
-            <span layout="row" layout-align="end">
-              <md-input-container class="controls-time-inputs">
-                <label>End Point</label>
-                <input ng-model="player.API.endpoint.display" disabled>
-              </md-input-container>
-            </span>
-          </span> 
       </div>
-      <div layout="row" class="controls-background" layout-align="space-between" style="width: 854px;">  
+      <div layout="row" class="controls-background" layout-align="space-around" style="width: 854px;">  
         <!-- STARTPOINTS -->         
         <span layout="row">  
             <!-- 5 sec rewind -->
             <span layout="column" layout-align="center center" >
-              <md-button id="start-back-5sec-btn"
+              <md-button id="start-back-5sec-btn" aria-label="seek"
                   ng-click="player.API.start(player.API.startpoint.val - 5)"
                   class="md-raised"
                   md-no-ink>
@@ -119,7 +118,7 @@ button#end-fwd-5sec-btn
             </span>
              <!-- 1 sec rewind -->
             <span layout="column" layout-align="center center"> 
-              <md-button id="start-back-1sec-btn"
+              <md-button id="start-back-1sec-btn" aria-label="seek"
                   ng-click="player.API.start(player.API.startpoint.val - 1)"
                   class="md-raised"
                   md-no-ink>
@@ -129,7 +128,7 @@ button#end-fwd-5sec-btn
             </span>
              <!-- Frame rewind -->
             <span layout="column" layout-align="center center"> 
-              <md-button id="start-back-frame-btn"
+              <md-button id="start-back-frame-btn" aria-label="seek"
                   ng-click="player.API.start(player.API.startpoint.val - player.API.frameLength)"
                   class="md-raised"
                   md-no-ink>
@@ -138,27 +137,23 @@ button#end-fwd-5sec-btn
               </md-button>
               <span class="control-btn-txt-ctr"> frame </span>
             </span>
-            <!-- Play/Pause -->
-            <span layout="column" layout-align="center center"> 
-              <md-button id="start-play-btn" 
-                  ng-show="player.API.state === 'paused'"
-                  ng-click="player.API.togglePlay()" 
-                  class="md-raised"
+            <!-- Startpoint display -->
+            <span layout="column" layout-align="center center" > 
+              <md-button aria-label="seek"
+                  ng-click="player.API.replayStart()"
+                  class="md-raised startpoint-btn"
                   md-no-ink>
-                <ng-md-icon icon="play_circle_outline" size="36"></ng-md-icon>
-              </md-button> 
-              <md-button id="start-play-btn" 
-                  ng-show="player.API.state === 'playing'"
-                  ng-click="player.API.togglePlay()" 
-                  class="md-raised"
-                  md-no-ink>
-                <ng-md-icon icon="pause_circle_outline" size="36"></ng-md-icon>
-              </md-button> 
-              <span class="control-btn-txt-ctr"> &nbsp </span>
-            </span> 
+                <span> {{player.API.startpoint.display}}
+                
+              </md-button>
+              <span class="control-btn-txt-ctr startpoint-txt"> Startpoint </span>
+              <md-tooltip md-delay="1000" md-direction="top"> Replay from startpoint </md-tooltip>
+              
+            </span>
+            
             <!-- Frame forward -->
             <span layout="column" layout-align="center center"> 
-              <md-button id="start-fwd-frame-btn"
+              <md-button id="start-fwd-frame-btn" aria-label="seek"
                   ng-click="player.API.start(player.API.startpoint.val + player.API.frameLength)"
                   class="md-raised"
                   md-no-ink>
@@ -168,7 +163,7 @@ button#end-fwd-5sec-btn
             </span>
             <!-- 1 sec forward -->
             <span layout="column" layout-align="center center"> 
-              <md-button id="start-fwd-1sec-btn"
+              <md-button id="start-fwd-1sec-btn" aria-label="seek"
                   ng-click="player.API.start(player.API.startpoint.val + 1)"
                   class="md-raised"
                   md-no-ink>
@@ -178,7 +173,7 @@ button#end-fwd-5sec-btn
             </span>
              <!-- 5 sec forward -->
             <span layout="column" layout-align="center center"> 
-              <md-button id="start-fwd-5sec-btn"
+              <md-button id="start-fwd-5sec-btn" aria-label="seek"
                   class="md-raised"
                   md-no-ink
                   ng-click="player.API.start(player.API.startpoint.val + 5)">
@@ -192,7 +187,7 @@ button#end-fwd-5sec-btn
         <span layout="row">  
             <!-- 5 sec rewind -->
             <span layout="column" layout-align="center center" >
-              <md-button id="end-back-5sec-btn"
+              <md-button id="end-back-5sec-btn" aria-label="seek"
                   ng-click="player.API.end(player.API.endpoint.val - 5)"
                   class="md-raised"
                   md-no-ink>
@@ -202,7 +197,7 @@ button#end-fwd-5sec-btn
             </span>
              <!-- 1 sec rewind -->
             <span layout="column" layout-align="center center"> 
-              <md-button id="end-back-1sec-btn"
+              <md-button id="end-back-1sec-btn" aria-label="seek"
                   ng-click="player.API.end(player.API.endpoint.val - 1)"
                   class="md-raised"
                   md-no-ink>
@@ -212,7 +207,7 @@ button#end-fwd-5sec-btn
             </span>
              <!-- Frame rewind -->
             <span layout="column" layout-align="center center"> 
-              <md-button id="end-back-frame-btn"
+              <md-button id="end-back-frame-btn" aria-label="seek"
                   ng-click="player.API.end(player.API.endpoint.val - player.API.frameLength)"
                   class="md-raised"
                   md-no-ink>
@@ -221,27 +216,22 @@ button#end-fwd-5sec-btn
               </md-button>
               <span class="control-btn-txt-ctr"> frame </span>
             </span>
-            <!-- Play/Pause -->
+
+            <!--Endpoint display ng-disabled="true"-->
             <span layout="column" layout-align="center center"> 
-              <md-button id="start-play-btn" 
-                  ng-show="player.API.state === 'paused'"
-                  ng-click="player.API.togglePlay()" 
-                  class="md-raised"
+              <md-button aria-label="seek"
+                  ng-click="player.API.replayEnd()"
+                  class="md-raised startpoint-btn"
                   md-no-ink>
-                <ng-md-icon icon="play_circle_outline" size="36"></ng-md-icon>
-              </md-button> 
-              <md-button id="start-play-btn" 
-                  ng-show="player.API.state === 'playing'"
-                  ng-click="player.API.togglePlay()" 
-                  class="md-raised"
-                  md-no-ink>
-                <ng-md-icon icon="pause_circle_outline" size="36"></ng-md-icon>
-              </md-button> 
-              <span class="control-btn-txt-ctr"> &nbsp </span>
-            </span> 
+                <span> {{player.API.endpoint.display}}
+              </md-button>
+              <span class="control-btn-txt-ctr startpoint-txt"> Endpoint </span>
+              <md-tooltip md-delay="1000" md-direction="top"> Replay near endpoint </md-tooltip>
+            </span>
+  
             <!-- Frame forward -->
             <span layout="column" layout-align="center center"> 
-              <md-button id="end-fwd-frame-btn"
+              <md-button id="end-fwd-frame-btn" aria-label="seek"
                   ng-click="player.API.end(player.API.endpoint.val + player.API.frameLength)"
                   class="md-raised"
                   md-no-ink>
@@ -251,7 +241,7 @@ button#end-fwd-5sec-btn
             </span>
             <!-- 1 sec forward -->
             <span layout="column" layout-align="center center"> 
-              <md-button id="end-fwd-1sec-btn"
+              <md-button id="end-fwd-1sec-btn" aria-label="seek"
                   ng-click="player.API.end(player.API.endpoint.val + 1)"
                   class="md-raised"
                   md-no-ink>
@@ -261,7 +251,7 @@ button#end-fwd-5sec-btn
             </span>
              <!-- 5 sec forward -->
             <span layout="column" layout-align="center center"> 
-              <md-button id="end-fwd-5sec-btn"
+              <md-button id="end-fwd-5sec-btn" aria-label="seek"
                   class="md-raised"
                   md-no-ink
                   ng-click="player.API.end(player.API.endpoint.val + 5)">
@@ -272,14 +262,26 @@ button#end-fwd-5sec-btn
         </span>
       </div>
       <div layout="row" class="controls-background" style="width: 854px;"> 
-        <span flex="20"> Playback Rate </span>
-        <md-slider flex="50" 
-          class="md-warn" 
-          md-discrete 
-          ng-model="player.API.currentRate" 
-          step=".50" min=".50" max="2" 
-          aria-label="playback">
-        </md-slider>
+        <span flex="5"></span>
+        <md-input-container class="playback-input-container" flex="50">
+          <label class="close-label"> Playback Rate </label> 
+          <md-slider flex 
+            class="md-warn playback-slider" 
+            md-discrete 
+            ng-model="player.API.currentRate" 
+            step=".50" min=".50" max="1.5" 
+            aria-label="playback">
+          </md-slider>
+        </md-input-container>
+        <md-input-container flex="25" class="playback-input-container">
+          <label class="close-label"> Loop </label>
+          <md-switch flex 
+            ng-model="player.API.loop" 
+            class="md-warn playback-slider"
+            aria-label="loop">
+          </md-switch>  
+        </md-input-container>    
       </div>
+      <div layout="column" class="controls-background" layout-fill style="width: 854px"></div>
    </div>
 </md-content>
