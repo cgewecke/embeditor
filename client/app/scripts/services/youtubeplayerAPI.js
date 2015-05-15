@@ -91,6 +91,7 @@ BUGS:
     // Executes in the YT state change callback.
     function setStop(){
       var timer;
+      var offset = 0.10;
       console.log('setting stop');
       timer = setInterval(function(){
 
@@ -100,10 +101,12 @@ BUGS:
           self.timestamp = self.time();
         }
         // Listen for end.
-        if (self.timestamp >= (self.endpoint.val - .25)){
+        if (self.timestamp >= (self.endpoint.val - offset)){
           
-          // If we are playing, loop back to startpoint.
-          if (self.prevAction === 'play'){
+          // If we are playing & looping, loop back to startpoint.
+          if (!self.loop){
+            self.pause();
+          } else if (self.prevAction === 'play'){
             self.seek(self.startpoint.val)
           } 
           clearInterval(timer);
@@ -178,6 +181,7 @@ BUGS:
     // Play/Pause 
     self.togglePlay = function(){
 
+      var time;
       // Pause
       if ( self.state === 'playing' ){
         self.pause();
@@ -187,9 +191,16 @@ BUGS:
         self.seek(self.startpoint.val);
         self.play();
 
-      // Otherwise play from current tapehead pos after pause
+      // Otherwise play after pause:
+      // from: start if tapehead at end, or 
+      // from: tapehead otherwise
       } else {
-        self.play();
+        if ((self.time() + .25) > self.endpoint.val){
+          self.seek(self.startpoint.val);
+          self.play();
+        } else {
+          self.play();
+        }
       }
       // Reset prevAction flag to play
       self.prevAction = 'play';
