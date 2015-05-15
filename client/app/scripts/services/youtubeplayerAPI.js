@@ -1,6 +1,9 @@
 var ytp_debug, ytp_debugII;
 /*
-
+BUGS:
+1. CORRECT OVERSHOOT UNDERSHOOT BY PLAYBACK SPEED
+2. PLAYBACK SPEED NOT SET ON LOAD FROM SEARCH
+3. SETTING THE timestamp ON LOAD?
 */
 (function(){
 'use strict';
@@ -12,6 +15,7 @@ var ytp_debug, ytp_debugII;
 
     // Private Variables
     var self = this;
+    var scope = $rootScope;
     var PLAYING;
     var BUFFERING;
     var PAUSED;
@@ -21,19 +25,21 @@ var ytp_debug, ytp_debugII;
     var loadEvent = {name: 'YTPlayerAPI:load'};
     var updateEvent = {name: 'YTPlayerAPI:update'}; 
 
-    // Public Variables
+    // Public Variables   
     self.YT;  // The YT API wrapper
     self.player;  // The YT API methods accessor
     self.video; // Current video
     self.timestamp = 0.00// Current playhead position
-    self.loadState = 0.00;
-    self.currentRate = 1;
-    self.playbackRates = [];
+    self.loadState = 0.00; // Fractional percentage loaded
+    self.currentRate = 1; // Normal playback rate
+    self.speeds = false; // Has playback rate options 
     self.initializing = true;  // True as page loads, false otherwise.
-    self.prevAction = 'play'; // Either 'set' or 'play', arbs tapehead location when setting.
+    self.setNewRate = false; // True during video load, triggers rate set when rates become avail.
+    self.prevAction = 'play'; // Vals: 'set' or 'play', arbs tapehead location when setting.
+    self.videoLoaded = false; // False during video load, true when the stream initiates.
+    self.loop = true;
 
-
-    self.state; // Playing/Paused condition
+    self.state; // Vals: 'playing' or 'paused', toggles icon. 
     self.frameLength = .05;
     self.startpoint = { val: 0, display: '0:00'};
     self.endpoint = { val: 0, display: '0:00'};
@@ -43,7 +49,9 @@ var ytp_debug, ytp_debugII;
       videoId: "HcXNPI-IPPM"
     };
 
-    // METHODS: 
+    scope.self = self;
+
+    // -------------------------  Private ---------------------------------------
 
     // init(): Runs in the YT player ready callback on page load. Sets initial video, 
     // start/end point vals and initiates stream play. When the play event is picked up
@@ -55,17 +63,58 @@ var ytp_debug, ytp_debugII;
 
     };
 
-    function setLoadState(timer){
-      if (self.percentLoaded()){
-        self.loadState = self.percentLoaded() * 100;
+    // setLoadState: Assigns fractional amt loaded * 100 to loadState
+    // in a setInterval.
+    function setLoadState(){
+      var timer;
+
+      timer = setInterval(function(){
+        if (self.percentLoaded()){
+          self.loadState = self.percentLoaded() * 100;
+        }
+      }, 2000);
+    };
+
+    // verifyRates(): playback rates info only available once the player
+    // starts playing, so this executes in the YT state change callback.
+    function verifyRates(){
+      (self.rates().length > 1) ? self.speeds = true: self.speeds = false;
+
+      if (self.speeds && self.setNewRate){
+        self.setRate(self.currentRate);
+        self.setNewRate = false;
       }
     }
 
-    function playbackRatesSetup(){
-      
-    }
+    // setStop(): an interval timer to watch for end of clip, update
+    // timestamp as we play. Loop or stop when the end is reached.
+    // Executes in the YT state change callback.
+    function setStop(){
+      var timer;
+      console.log('setting stop');
+      timer = setInterval(function(){
 
+        // Update timestamp as we play, 
+        //'set' handles it's own update.
+        if (self.prevAction != 'set'){
+          self.timestamp = self.time();
+        }
+        // Listen for end.
+        if (self.timestamp >= (self.endpoint.val - .25)){
+          
+          // If we are playing, loop back to startpoint.
+          if (self.prevAction === 'play'){
+            self.seek(self.startpoint.val)
+          } 
+          clearInterval(timer);
+        }
+        $rootScope.$apply();
 
+      }, 50);
+    };
+    
+    // ---------------------------- Public: YT API Wrapper ----------------------------------
+    
     // getAPI(): Runs in the YT player ready callback - wraps the Iframe player api. 
     function getAPI(){
 
@@ -74,10 +123,14 @@ var ytp_debug, ytp_debugII;
         var timer;
 
         self.video = video;
+        self.setNewRate = true;
+        self.videoLoaded = false;
         self.player.loadVideoById(video.videoId);
+        
         self.setStartpoint(0);
         self.setEndpoint(video.seconds);
-        setInterval(function(){setLoadState(timer)}, 2000);
+        self.prevAction = 'play';
+        setLoadState();
         $rootScope.$broadcast(initEvent.name)
       }; 
       
@@ -118,19 +171,23 @@ var ytp_debug, ytp_debugII;
       PAUSED = YT.PlayerState.PAUSED;
 
     }; 
+    
+
+    // --------------- Public: Embeditor --------------------------------------------
 
     // Play/Pause 
     self.togglePlay = function(){
+
       // Pause
       if ( self.state === 'playing' ){
         self.pause();
 
-      // Play after setting start/end point
+      // Play from startpoint after setting start or end points
       } else if ( self.prevAction === 'set'){
         self.seek(self.startpoint.val);
         self.play();
 
-      // Play after pause
+      // Otherwise play from current tapehead pos after pause
       } else {
         self.play();
       }
@@ -141,7 +198,9 @@ var ytp_debug, ytp_debugII;
     // Start/End point setting handlers
     self.start = function(time){
       
+      // Don't get closer than 1 sec from endpoint, or less than 0
       if (time >= self.endpoint.val - 1 ) time = self.endpoint.val - 1;
+      if (time < 0) time = 0;
 
       self.pause();
 
@@ -155,7 +214,9 @@ var ytp_debug, ytp_debugII;
 
     self.end = function(time){
 
+      // Don't get closer than 1 sec from startpoint, or greater than video length
       if (time <= self.startpoint.val + 1 ) time = self.startpoint.val + 1;
+      if (time > self.video.seconds) time = self.video.seconds;
 
       self.pause();
 
@@ -178,7 +239,25 @@ var ytp_debug, ytp_debugII;
       self.prevAction = 'set'
     };
 
-    // Player Event Listeners
+    // replay: Convenience methods to play near or at
+    // the start/endpoints 
+    self.replayStart = function(){
+      self.seek(self.startpoint.val);
+      self.play();
+      self.prevAction = 'play';
+    };
+
+    self.replayEnd = function(){
+      var newTime = self.endpoint.val - 2;
+      if (newTime < (self.startpoint.val + 1)) 
+        newTime = self.startpoint.val + 1;
+
+      self.seek(newTime);
+      self.play();
+      self.prevAction = 'play';
+    }
+
+    // YT Player Event Callbacks, registered on embedding in embeditor-youtube-player
     self.onPlayerReady = function(event){
       getAPI();
       init();
@@ -187,39 +266,24 @@ var ytp_debug, ytp_debugII;
     // 
     self.onPlayerStateChange = function(event){
 
-      var timer;
-      var loop = false;
-
       if (event.data === PLAYING){
         
-        // On page load, pause opening play, make player visible, get assets 
-        // that are only availabe once the player plays. 
-        if (self.initializing){
-          self.pause();
-          self.state = 'paused';
-          self.playbackRates = self.rates();
-          self.initializing = false;
+        self.videoLoaded = true;
 
+        // On page load, pause opening play, make player visible, get assets 
+        // that are only available once the player plays. 
+        if (self.initializing){
+          self.pause();       
+          verifyRates();
+          self.initializing = false;
+          
+        // All other plays, including the loading play when a 
+        // a search item is selected.  
         } else {
            self.state = 'playing'; 
-           timer = setInterval(function(){
-              // Update timestamp as we play
-              if (self.prevAction != 'set'){
-                self.timestamp = self.time();
-              }
-              // Listen for end.
-              if (self.timestamp >= (self.endpoint.val - .25)){
-                
-                if (self.prevAction === 'play'){
-                  self.seek(self.startpoint.val)
-                } 
-                clearInterval(timer);
-              }
-              $rootScope.$apply();
-
-           }, 50); 
+           verifyRates();
+           setStop(); 
            console.log('playing');
-
         }
       } else if ( event.data === BUFFERING ) {
         self.state = 'playing';
@@ -227,9 +291,7 @@ var ytp_debug, ytp_debugII;
       } else {
         self.state = 'paused';
       }
-
       $rootScope.$apply();
-
     };
 
     self.onPlayerError = function(){

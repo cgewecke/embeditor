@@ -51,7 +51,7 @@
 }
 
 .timestamp-set-icon{
-  vertical-align: text-bottom;
+  vertical-align: inherit;
   padding-left: 2px;
 }
 
@@ -68,9 +68,11 @@
 
 .controls-top{
   padding-top: 10px;
+  padding-bottom: 24px;
 }
 
 .control-btn-txt-ctr{
+
   position: relative;
   font-size: 10px;
   top: -15px;
@@ -88,6 +90,32 @@
   font-size: 10px;
   top: -15px;
   right: -15px;
+}
+
+.startpoint-txt{
+  color: white;
+}
+
+.startpoint-btn{
+  background: black !important;
+  color: white !important;
+  height: 50px;
+  cursor: default;
+}
+
+.playback-input-container{
+  padding-top: 26px;
+  padding-left: 10px;
+  padding-right: 10px;
+}
+
+.close-label{
+  -webkit-transform: none !important;
+  transform: none !important;
+}
+
+.playback-slider{
+  height: 10px;
 }
 
 

@@ -49,8 +49,7 @@ var rf_debug, rf_debugII;
          var self = this;
          var oldVals = {start: null, end: null}; // Track prev change values
          var changedByUpdate = false; // Track to/from updates originating outside slider
-         var changedByFinish = false; // Tracks finish event, voids weird recursion w/ limit updates
-
+         
          self.slider;
          self.API = youtubePlayerAPI;
 
@@ -77,7 +76,7 @@ var rf_debug, rf_debugII;
 
          // update(): Called when 
          self.update = function(start, end){
-      
+            console.log("update");
             var step = 5;
   
             changedByUpdate = true;
@@ -94,14 +93,13 @@ var rf_debug, rf_debugII;
             });
 
             oldVals = {start: start, end: end};
-
          };
 
          // change(): This is fired as 'to' & 'from' params change,
          // either programatically or via the handles. If rangeSlider is source of change,
          // we seek and pause allowing the user to scrub through the video.
          self.change = function(newVals){
-            
+            console.log("change");
             var newStart = parseInt(newVals[0]);
             var newEnd = parseInt(newVals[1]);
             
@@ -112,7 +110,7 @@ var rf_debug, rf_debugII;
 
             self.API.pause();
         
-            // Discover which end is scrubbing and update video
+            // Discover which end is scrubbing and seek to new tapehead pos.
             if (newStart != oldVals.start){
               self.API.seek(newStart, true)
             } else {
@@ -125,7 +123,33 @@ var rf_debug, rf_debugII;
             self.changed = true;
          };
 
-         // finish(): This is fired when the user releases the handle, and will result in a false call
+         // finish(): New start/end point is set. This is fired when the user 
+         // releases the handle. 
+         self.finish = function(newVals){
+            console.log("finish");
+            var newStart = parseFloat(newVals[0]);
+            var newEnd = parseFloat(newVals[1]);
+
+             // Ignore initializations
+            if ( newStart < 0 || self.API.initializing) return;
+
+            self.API.pause();
+
+            // Discover which end changed & update start/end point
+            if(newStart != Math.round(self.API.startpoint.val)){
+              self.API.start(newStart);
+            } else{
+              self.API.end(newEnd);
+            } 
+
+            $scope.$apply();
+         };
+      };
+      rangefinderCtrl.$inject = ['$scope', '$timeout', 'youtubePlayerAPI'];
+})();
+
+
+/* // finish(): This is fired when the user releases the handle, and will result in a false call
          // to change(). New start/end point is set. 
          self.finish = function(newVals){
             
@@ -155,13 +179,7 @@ var rf_debug, rf_debugII;
             changedByFinish = false;
         
             $scope.$apply();
-         };
-      };
-      rangefinderCtrl.$inject = ['$scope', '$timeout', 'youtubePlayerAPI'];
-})();
-
-
-
+         };*/
 
 
 
