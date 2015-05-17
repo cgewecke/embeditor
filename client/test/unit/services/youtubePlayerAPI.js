@@ -1,67 +1,164 @@
-describe('Service: youtubePlayerAPI', function () {
+var plt_debug, plt_debugII, plt_debugIII
+
+describe('Component: playercontrols & Service: youtubePlayerAPI', function () {
 
   // load the controller's module
   beforeEach(module('embeditor'));
+  beforeEach(module('yt.player.mockapi'));
+  beforeEach(module('templates'));
 
   describe('Player Controls', function(){
 
-      // mock events;
+      var scope, compile, playerAPI, player, YT;
+      
+      beforeEach(inject(function ($controller, $rootScope, $compile, _youtubePlayerAPI_ ) {
+
+         scope = $rootScope.$new();
+         compile = $compile;
+         playerAPI = _youtubePlayerAPI_;
+
+         ctrl = $controller('PlayerCtrl', {$scope: scope });
+         YT = $controller("mockYTPlayerAPI", {$scope: scope });
+
+         YT.attachMockAPI(playerAPI);
+
+         player = angular.element('<embeditor-section-player-controls></embeditor-section-player-controls>');
+         compile(player)(scope);
+         scope.$digest();
+      }));
 
       it('should disable controls until the player has loaded the video',function(){
 
       });
 
       describe('Play button', function(){
+         var playBtn, playIcon, pauseIcon;
+
+         
+         beforeEach(function(){
+            playBtn = player.find('button#play-btn');
+            playIcon = player.find('ng-md-icon#play-icon');
+            pauseIcon = player.find('ng-md-icon#pause-icon');
+         })
 
          it('should start playing the video if video is paused, and display a pause icon', function(){
+            
+            spyOn(playerAPI, 'play');
+
+            playerAPI.state = 'paused';
+            scope.$apply();
+            playBtn.triggerHandler('click');
+            scope.$apply();
+            expect(playerAPI.play).toHaveBeenCalled();
+            expect(playIcon.hasClass('ng-hide')).toBe(false);
+            expect(pauseIcon.hasClass('ng-hide')).toBe(true);
 
          });
 
          it('should pause the video if the video is playing and display a play icon', function(){
+            spyOn(playerAPI, 'pause');
+
+            playerAPI.state = 'playing';
+            playBtn.triggerHandler('click');
+            scope.$apply();
+            expect(playerAPI.pause).toHaveBeenCalled();
+            expect(playIcon.hasClass('ng-hide')).toBe(true);
+            expect(pauseIcon.hasClass('ng-hide')).toBe(false);
 
          });
 
-      });
+         it('should restart the video from the beginning if the playhead is within 250ms of clip endpoint', function(){
+            playerAPI.setStartpoint(0);
+            playerAPI.setEndpoint(5);
 
-      describe('Loading indicator', function(){
+            YT.mockTime = 4.76;
+            playerAPI.state = 'paused';
 
-         it('should display the amount of video that has loaded', function(){
+            playBtn.triggerHandler('click');
+            scope.$apply();
+            expect(YT.mockTime).toEqual(0);
 
          });
 
       });
 
       describe('Playback speed setter', function(){
-         
-         it('should set the player playback speed', function(){
+         var slider;
+         beforeEach(function(){
+            slider = player.find('md-slider#playback-speed-slider');
+            
+         });
+         it('should be bound to the value of playerAPI.currentRate', function(){
+            playerAPI.currentRate = .5;
+            scope.$apply();
+            expect(slider.isolateScope().modelValue).toBe(.5);
 
+            playerAPI.currentRate = 1.5;
+            scope.$apply();
+            expect(slider.isolateScope().modelValue).toBe(1.5);
+   
          });
 
-         it('should be disabled if there are no playback speed options', function(){
+         it('should have a default value of 1', function(){
+            expect(slider.isolateScope().modelValue).toBe(1);
+            
+         })
+         it('should change the playback speed when the model is changed', function(){
+            playerAPI.videoLoaded = true;
+            spyOn(playerAPI, 'setRate');
 
+            playerAPI.currentRate = 0.5;
+            scope.$apply();
+            expect(playerAPI.setRate).toHaveBeenCalledWith(.5);
+            
+         })
+
+         it('should be disabled if there are no playback speed options', function(){
+                     
          });
 
          it('should have a tooltip that explains why it is disabled', function(){
-
+            
          });
       });
 
       describe('Loop toggle', function(){
-
-         it('should cause the player to loop when on', function(){
-
+         var loopswitch, ngModel;
+         beforeEach(function(){
+            loopswitch = player.find('md-switch#loop-switch');
          });
 
-         it('should cause the player to stop playing at the endpoint when off', function(){
+         it('should be bound to the value of playerAPI.loop', function(){
+           
+            ngModel = loopswitch.controller('ngModel');
+         
+            playerAPI.loop = true;
+            scope.$apply();
+            expect(ngModel.$modelValue).toBe(true);
+
+            playerAPI.loop = false;
+            scope.$apply();
+            expect(ngModel.$modelValue).toBe(false);
 
          });
 
          it('should be on by default', function(){
 
-         }); 
+            
+         });
+
+         it('should cause the player to loop when on', function(){
+
+            
+         });
+
+         it('should cause the player to stop playing at the endpoint when off', function(){
+
+            
+         });
 
       })
-
+      /*
       describe('Advanced Options menu', function(){
          it('should show all the iframe parameters and allow the user to set them', function(){
 
@@ -368,7 +465,7 @@ describe('Service: youtubePlayerAPI', function () {
 
          });
 
-      });
+      });*/
 
       
 

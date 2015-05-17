@@ -20,7 +20,9 @@ var sb_debug, sb_debugII, sb_debugIII;
     .directive('embeditorSearchHistoryOption', embeditorSearchHistoryOption)
     .directive('embeditorSearchItem', embeditorSearchItem )
 
-
+    // <embeditor-section-sidebar></embeditor-section-sidebar>
+    // Outer tag for entire sidebar so we can pull it in for unit testing.
+    function embeditorSectionSidebar(){ return{ templateUrl: 'templates/sidebar.html' }};
 
     // Controller for the sidebar. Makes youtube api visible on scope and
     // toggles sidebar open when a query is made from toolbar.
@@ -39,11 +41,6 @@ var sb_debug, sb_debugII, sb_debugIII;
       });
     };
     SearchSidebarCtrl.$inject = ['$scope', 'youTubeDataAPI', '$mdSidenav'];
-
-
-    // Outer tag for entire sidebar so we can pull it in for unit testing in 
-    // karma.
-    function embeditorSectionSidebar(){ return{ templateUrl: 'templates/sidebar.html' }};
 
     // Located on each option of the history select. This helps the select work
     // like a menu with links. We need the history fetch to occur regardless of
