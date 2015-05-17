@@ -4,7 +4,13 @@
   angular.module('embeditor.components.player', ['embeditor.services.youtubePlayerAPI'])
     
     .controller('PlayerCtrl', playerCtrl )
+    .directive('embeditorSectionPlayerControls', embeditorSectionPlayerControls);
+
+    // <embeditor-section-player-controls></embeditor-section-player-controls>
+    // Outer tag for player controls that we can access for unit testing.
+    function embeditorSectionPlayerControls(){ return{ templateUrl: 'templates/playercontrols.html' }};
     
+
     function playerCtrl($scope, youtubePlayerAPI, $mdSidenav){
       var self = this;
 
@@ -26,7 +32,6 @@
       // watch(API.currentRate): ng-modelled on the playback rates slider
       $scope.$watch('API.currentRate', function(newval, oldval){
         if (self.API.videoLoaded){
-            console.log('Changing playback rate: ' + newval);
             self.API.setRate(newval);
         }
       });

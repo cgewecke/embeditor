@@ -127,7 +127,6 @@ var yt_debug;
       
       // Search by string query
       this.query = function(searchTerm){
-         console.log('in query');
          initSearch();
          searchParameters.q = searchTerm;
          service.history.unshift({item: searchParameters.q, params: searchParameters });
@@ -157,7 +156,6 @@ var yt_debug;
       // getChannelVideos - passes video's channel id 
       // and retrieves channel's video list
       this.getChannelVideos = function(video){
-         console.log('in channel');
          if (video.channelId){
             initSearch();
             searchParameters.channelId = video.channelId;
