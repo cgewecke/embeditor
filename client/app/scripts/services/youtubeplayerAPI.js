@@ -11,14 +11,14 @@ BUGS:
   angular.module('embeditor.services.youtubePlayerAPI', [])
      .service('youtubePlayerAPI', youtubePlayerAPI);
 
-  function youtubePlayerAPI($rootScope, $timeout){
+  function youtubePlayerAPI($rootScope, $timeout, $interval){
 
     // Private Variables
     var self = this;
     var scope = $rootScope;
-    var PLAYING;
-    var BUFFERING;
-    var PAUSED;
+    var PLAYING = 1;
+    var BUFFERING = 3;
+    var PAUSED = 2;
 
     // Published Events
     var initEvent = {name: 'YTPlayerAPI:init'};
@@ -49,6 +49,7 @@ BUGS:
       videoId: "HcXNPI-IPPM"
     };
 
+    self.scope = $rootScope; // TESTING . . .
     scope.self = self;
 
     // -------------------------  Private ---------------------------------------
@@ -68,7 +69,7 @@ BUGS:
     function setLoadState(){
       var timer;
 
-      timer = setInterval(function(){
+      timer = $interval(function(){
         if (self.percentLoaded()){
           self.loadState = self.percentLoaded() * 100;
         }
@@ -77,9 +78,12 @@ BUGS:
 
     // verifyRates(): playback rates info only available once the player
     // starts playing, so this executes in the YT state change callback.
+    // Rate setting carries over from video to video.
     function verifyRates(){
-      (self.rates().length > 1) ? self.speeds = true: self.speeds = false;
 
+      (self.rates().length > 1) ? self.speeds = true: self.speeds = false;
+      console.log('verifyRates: ' + self.rates().length);
+      console.log('speeds: ' + self.speeds);
       if (self.speeds && self.setNewRate){
         self.setRate(self.currentRate);
         self.setNewRate = false;
@@ -92,9 +96,9 @@ BUGS:
     function setStop(){
       var timer;
       var offset = 0.10;
-      console.log('setting stop');
-      timer = setInterval(function(){
-
+    
+      timer = $interval(function(){
+        
         // Update timestamp as we play, 
         //'set' handles it's own update.
         if (self.prevAction != 'set'){
@@ -109,9 +113,9 @@ BUGS:
           } else if (self.prevAction === 'play'){
             self.seek(self.startpoint.val)
           } 
-          clearInterval(timer);
+          $interval.cancel(timer);
         }
-        $rootScope.$apply();
+        //$rootScope.$apply();
 
       }, 50);
     };
@@ -166,7 +170,7 @@ BUGS:
       self.getLevels = self.player.getAvailableQualityLevels;
 
       // Duration
-      self.duration = function(){ self.player.getDuration };
+      self.duration = function(){ return self.player.getDuration() };
 
       // Player status contants
       PLAYING = YT.PlayerState.PLAYING;
@@ -207,8 +211,9 @@ BUGS:
     };
 
     // Start/End point setting handlers
-    self.start = function(time){
-      
+    self.start = function(change){
+
+      var time = self.startpoint.val + change;
       // Don't get closer than 1 sec from endpoint, or less than 0
       if (time >= self.endpoint.val - 1 ) time = self.endpoint.val - 1;
       if (time < 0) time = 0;
@@ -217,13 +222,18 @@ BUGS:
 
       $timeout(function(){
         self.setStartpoint(time);
-        self.seek(time, true);
+        self.seek(time);
         self.timestamp = time;
         $rootScope.$broadcast(updateEvent.name);
       });
     };
 
-    self.end = function(time){
+    self.end = function(change){
+
+      var time = self.endpoint.val + change;
+      console.log('time: ' + time);
+      console.log('endpoint.val: ' + self.endpoint.val);
+      console.log('change: ' + change);
 
       // Don't get closer than 1 sec from startpoint, or greater than video length
       if (time <= self.startpoint.val + 1 ) time = self.startpoint.val + 1;
@@ -233,7 +243,7 @@ BUGS:
 
       $timeout(function(){
         self.setEndpoint(time);
-        self.seek(time, true);
+        self.seek(time);
         self.timestamp = time;
         $rootScope.$broadcast(updateEvent.name);
       });
@@ -261,7 +271,7 @@ BUGS:
     self.replayEnd = function(){
       var newTime = self.endpoint.val - 2;
       if (newTime < (self.startpoint.val + 1)) 
-        newTime = self.startpoint.val + 1;
+        newTime = self.startpoint.val;
 
       self.seek(newTime);
       self.play();
@@ -276,13 +286,12 @@ BUGS:
 
     // 
     self.onPlayerStateChange = function(event){
-
+    
       if (event.data === PLAYING){
-        
-        self.videoLoaded = true;
+        self.videoLoaded = true; // Rate & Quality assets now available
 
-        // On page load, pause opening play, make player visible, get assets 
-        // that are only available once the player plays. 
+        // On page load, pause opening play, make player visible,
+        // Get playback rates 
         if (self.initializing){
           self.pause();       
           verifyRates();
@@ -310,7 +319,7 @@ BUGS:
 
     }; 
 
-    youtubePlayerAPI.$inject = ['$rootScope', '$timeout'];
+    youtubePlayerAPI.$inject = ['$rootScope', '$timeout', '$interval'];
  
   };
 
