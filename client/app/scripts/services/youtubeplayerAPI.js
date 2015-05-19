@@ -16,10 +16,8 @@ BUGS:
     // Private Variables
     var self = this;
     var scope = $rootScope;
-    var PLAYING = 1;
-    var BUFFERING = 3;
-    var PAUSED = 2;
-
+    var PLAYING = 1, PAUSED = 2, BUFFERING = 3;
+  
     // Published Events
     var initEvent = {name: 'YTPlayerAPI:init'};
     var loadEvent = {name: 'YTPlayerAPI:load'};
@@ -94,30 +92,33 @@ BUGS:
     // timestamp as we play. Loop or stop when the end is reached.
     // Executes in the YT state change callback.
     function setStop(){
+      console.log('in setStop');
       var timer;
-      var offset = 0.10;
+      var offset = 0.150;
     
       timer = $interval(function(){
         
+        var time = self.time();
+
         // Update timestamp as we play, 
         //'set' handles it's own update.
         if (self.prevAction != 'set'){
-          self.timestamp = self.time();
+          self.timestamp = time;
         }
         // Listen for end.
-        if (self.timestamp >= (self.endpoint.val - offset)){
-          
+        if (time >= (self.endpoint.val - offset)){
+          //console.log('timestamp: ' + time.toString().toHHMMSSss());
+          //console.log('raw time: ' + time);
           // If we are playing & looping, loop back to startpoint.
           if (!self.loop){
             self.pause();
           } else if (self.prevAction === 'play'){
-            self.seek(self.startpoint.val)
+            self.seek(self.startpoint.val);
           } 
           $interval.cancel(timer);
         }
-        //$rootScope.$apply();
 
-      }, 50);
+      }, 150);
     };
     
     // ---------------------------- Public: YT API Wrapper ----------------------------------

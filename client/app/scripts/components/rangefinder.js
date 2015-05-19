@@ -72,7 +72,7 @@ var rf_debug, rf_debugII;
               to_max: limit
             })
 
-            oldVals = {start: 0, end: length }; 
+            oldVals = {start: 0, end: limit }; 
          };
 
          // update(): Called when 
@@ -100,22 +100,24 @@ var rf_debug, rf_debugII;
          // either programatically or via the handles. If rangeSlider is source of change,
          // we seek and pause allowing the user to scrub through the video.
          self.change = function(newVals){
-            console.log("change");
+            
             var newStart = parseInt(newVals[0]);
             var newEnd = parseInt(newVals[1]);
             
+            console.log("change called: " + (newStart < 0) + " " + self.API.initializing + " " + changedByUpdate);
             // Ignore initializations
             if (newStart < 0 || self.API.initializing) return;
             // Ignore externally initiated changes.
             if (changedByUpdate) { changedByUpdate = false; return; }
 
             self.API.pause();
-        
+            
+
             // Discover which end is scrubbing and seek to new tapehead pos.
             if (newStart != oldVals.start){
-              self.API.seek(newStart, true)
+              self.API.seek(newStart)
             } else {
-              self.API.seek(newEnd, true);
+              self.API.seek(newEnd);
             }
             
             // Advance state to present
@@ -152,37 +154,7 @@ var rf_debug, rf_debugII;
 })();
 
 
-/* // finish(): This is fired when the user releases the handle, and will result in a false call
-         // to change(). New start/end point is set. 
-         self.finish = function(newVals){
-            
-            var newStart = parseFloat(newVals[0]);
-            var newEnd = parseFloat(newVals[1]);
 
-            // Ignore recusive calls & initializations
-            if (changedByFinish || newStart < 0 || self.API.initializing) return;
-
-            self.API.pause();
-
-            // Discover which end changed & update start/end point
-            if(newStart != Math.round(self.API.startpoint.val)){
-              self.API.setStartpoint(newStart);
-              self.API.seek(newStart, true); // Make sure we sought.
-              self.API.timestamp = newStart;
-            } else{
-              self.API.setEndpoint(newEnd);
-              self.API.seek(newEnd, true); // Make sure we sought.
-              self.API.timestamp = newEnd;
-
-            } 
-
-            // Update new min/max ranges for both handles, handle recursion
-            changedByFinish = true; 
-            self.update(newStart, newEnd);
-            changedByFinish = false;
-        
-            $scope.$apply();
-         };*/
 
 
 
