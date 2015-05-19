@@ -231,10 +231,7 @@ BUGS:
     self.end = function(change){
 
       var time = self.endpoint.val + change;
-      console.log('time: ' + time);
-      console.log('endpoint.val: ' + self.endpoint.val);
-      console.log('change: ' + change);
-
+      
       // Don't get closer than 1 sec from startpoint, or greater than video length
       if (time <= self.startpoint.val + 1 ) time = self.startpoint.val + 1;
       if (time > self.video.seconds) time = self.video.seconds;

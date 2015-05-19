@@ -57,6 +57,7 @@ var rf_debug, rf_debugII;
          // **************** SMART STEP *********************
          self.init = function(limit){
 
+            console.log("init: " + limit);
             var step = 5;
   
             self.slider.update({
