@@ -12,13 +12,13 @@ var rf_debug, rf_debugII;
          return {
             restrict: 'E',  
             controller: rangefinderCtrl,
-            link: rangefinderInit,
+            link: rangefinderLink,
             template:  '<input id="embeditor-range-finder" type="text" name="rf" value="">'
          };
       };
     
       // Link
-      function rangefinderInit(scope, elem, attrs, ctrl){
+      function rangefinderLink(scope, elem, attrs, ctrl){
 
          var rangeElem = elem.find('input');
          rangeElem.ionRangeSlider({
@@ -57,6 +57,7 @@ var rf_debug, rf_debugII;
          // **************** SMART STEP *********************
          self.init = function(limit){
 
+            console.log("init: " + limit);
             var step = 5;
   
             self.slider.update({
@@ -137,9 +138,11 @@ var rf_debug, rf_debugII;
 
             // Discover which end changed & update start/end point
             if(newStart != Math.round(self.API.startpoint.val)){
-              self.API.start(newStart);
+              self.API.setStartpoint(newStart);
+              self.API.start(0);
             } else{
-              self.API.end(newEnd);
+              self.API.setEndpoint(newEnd);
+              self.API.end(0);
             } 
 
             $scope.$apply();

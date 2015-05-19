@@ -1,3 +1,23 @@
+<!-- UNIT TEST 
+
+button#start-back-5sec-btn
+button#start-back-1sec-btn
+button#start-back-frame-btn
+button#start-play-btn
+button#start-fwd-frame-btn
+button#start-fwd-1sec-btn
+button#start-fwd-5sec-btn
+
+button#end-back-5sec-btn
+button#end-back-1sec-btn
+button#end-back-frame-btn
+button#end-play-btn
+button#end-fwd-frame-btn
+button#end-fwd-1sec-btn
+button#end-fwd-5sec-btn
+
+-->
+
 <div 
   ng-controller="PlayerCtrl as player"
   class="player-background" 
@@ -35,7 +55,7 @@
        <!-- 5 sec rewind -->
         <span layout="column" layout-align="center center" >
           <md-button id="start-back-5sec-btn" aria-label="seek"
-              ng-click="player.API.start(player.API.startpoint.val - 5)"
+              ng-click="player.API.start(-5)"
               class="md-raised"
               md-no-ink>
             <ng-md-icon icon="fast_rewind" size="36"></ng-md-icon>
@@ -45,7 +65,7 @@
          <!-- 1 sec rewind -->
         <span layout="column" layout-align="center center"> 
           <md-button id="start-back-1sec-btn" aria-label="seek"
-              ng-click="player.API.start(player.API.startpoint.val - 1)"
+              ng-click="player.API.start(-1)"
               class="md-raised"
               md-no-ink>
             <ng-md-icon icon="arrow_back" size="36"></ng-md-icon>
@@ -55,7 +75,7 @@
          <!-- Frame rewind -->
         <span layout="column" layout-align="center center"> 
           <md-button id="start-back-frame-btn" aria-label="seek"
-              ng-click="player.API.start(player.API.startpoint.val - player.API.frameLength)"
+              ng-click="player.API.start(-(player.API.frameLength))"
               class="md-raised"
               md-no-ink>
             <ng-md-icon icon="chevron_left" size="36">
@@ -66,6 +86,7 @@
         <!-- Startpoint display -->
         <span layout="column" layout-align="center center" > 
           <md-button aria-label="seek"
+              id="startpoint-display-btn"
               ng-click="player.API.replayStart()"
               class="md-raised startpoint-btn"
               md-no-ink>
@@ -80,7 +101,7 @@
         <!-- Frame forward -->
         <span layout="column" layout-align="center center"> 
           <md-button id="start-fwd-frame-btn" aria-label="seek"
-              ng-click="player.API.start(player.API.startpoint.val + player.API.frameLength)"
+              ng-click="player.API.start(player.API.frameLength)"
               class="md-raised"
               md-no-ink>
             <ng-md-icon icon="chevron_right" size="36"></ng-md-icon>
@@ -90,7 +111,7 @@
         <!-- 1 sec forward -->
         <span layout="column" layout-align="center center"> 
           <md-button id="start-fwd-1sec-btn" aria-label="seek"
-              ng-click="player.API.start(player.API.startpoint.val + 1)"
+              ng-click="player.API.start(1)"
               class="md-raised"
               md-no-ink>
             <ng-md-icon icon="arrow_forward" size="36"></ng-md-icon>
@@ -102,7 +123,7 @@
           <md-button id="start-fwd-5sec-btn" aria-label="seek"
               class="md-raised"
               md-no-ink
-              ng-click="player.API.start(player.API.startpoint.val + 5)">
+              ng-click="player.API.start(5)">
             <ng-md-icon icon="fast_forward" size="36"></ng-md-icon>
           </md-button>
           <span class="control-btn-txt-right"> 5s </span>
@@ -114,7 +135,7 @@
         <!-- 5 sec rewind -->
         <span layout="column" layout-align="center center" >
           <md-button id="end-back-5sec-btn" aria-label="seek"
-              ng-click="player.API.end(player.API.endpoint.val - 5)"
+              ng-click="player.API.end(-5)"
               class="md-raised"
               md-no-ink>
             <ng-md-icon icon="fast_rewind" size="36"></ng-md-icon>
@@ -124,7 +145,7 @@
          <!-- 1 sec rewind -->
         <span layout="column" layout-align="center center"> 
           <md-button id="end-back-1sec-btn" aria-label="seek"
-              ng-click="player.API.end(player.API.endpoint.val - 1)"
+              ng-click="player.API.end(-1)"
               class="md-raised"
               md-no-ink>
             <ng-md-icon icon="arrow_back" size="36"></ng-md-icon>
@@ -134,7 +155,7 @@
          <!-- Frame rewind -->
         <span layout="column" layout-align="center center"> 
           <md-button id="end-back-frame-btn" aria-label="seek"
-              ng-click="player.API.end(player.API.endpoint.val - player.API.frameLength)"
+              ng-click="player.API.end(-(player.API.frameLength))"
               class="md-raised"
               md-no-ink>
             <ng-md-icon icon="chevron_left" size="36">
@@ -146,6 +167,7 @@
         <!--Endpoint display ng-disabled="true"-->
         <span layout="column" layout-align="center center"> 
           <md-button aria-label="seek"
+              id="endpoint-display-btn"
               ng-click="player.API.replayEnd()"
               class="md-raised startpoint-btn"
               md-no-ink>
@@ -158,7 +180,7 @@
         <!-- Frame forward -->
         <span layout="column" layout-align="center center"> 
           <md-button id="end-fwd-frame-btn" aria-label="seek"
-              ng-click="player.API.end(player.API.endpoint.val + player.API.frameLength)"
+              ng-click="player.API.end(player.API.frameLength)"
               class="md-raised"
               md-no-ink>
             <ng-md-icon icon="chevron_right" size="36"></ng-md-icon>
@@ -168,7 +190,7 @@
         <!-- 1 sec forward -->
         <span layout="column" layout-align="center center"> 
           <md-button id="end-fwd-1sec-btn" aria-label="seek"
-              ng-click="player.API.end(player.API.endpoint.val + 1)"
+              ng-click="player.API.end(1)"
               class="md-raised"
               md-no-ink>
             <ng-md-icon icon="arrow_forward" size="36"></ng-md-icon>
@@ -180,7 +202,7 @@
           <md-button id="end-fwd-5sec-btn" aria-label="seek"
               class="md-raised"
               md-no-ink
-              ng-click="player.API.end(player.API.endpoint.val + 5)">
+              ng-click="player.API.end(5)">
             <ng-md-icon icon="fast_forward" size="36"></ng-md-icon>
           </md-button>
           <span class="control-btn-txt-right"> 5s </span>
@@ -197,6 +219,7 @@
         id="playback-speed-slider"
         class="md-warn playback-slider" 
         md-discrete 
+        ng-disabled="!player.API.speeds"
         ng-model="player.API.currentRate" 
         step=".50" min=".50" max="1.5" 
         aria-label="playback">

@@ -18,6 +18,13 @@
       self.API = youtubePlayerAPI;
       $scope.API = youtubePlayerAPI;
 
+      // Called by button on timestamp, sets new startpoint at the 
+      // current tapehead location 
+      self.startFromTimestamp = function(){
+        self.API.setStartpoint(self.API.timestamp);
+        self.API.start(0);
+      };
+
       // Move player block over to right side of page on sideNavOpen
       // return on sidenNav closed. Exception gets thrown unless
       // sideNav has been instantiated the first time.
