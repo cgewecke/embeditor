@@ -50,8 +50,7 @@ describe('Component: PlayerControls', function () {
             
             spyOn(playerAPI, 'play');
             
-            playerAPI.state = 'paused';
-            scope.$apply();
+            playerAPI.pause();
             playBtn.triggerHandler('click');
             scope.$apply();
             
@@ -64,7 +63,7 @@ describe('Component: PlayerControls', function () {
          it('should pause the video if the video is playing and display a play icon', function(){
             spyOn(playerAPI, 'pause');
 
-            playerAPI.state = 'playing';
+            playerAPI.play();
             playBtn.triggerHandler('click');
             scope.$apply();
             
@@ -243,7 +242,7 @@ describe('Component: PlayerControls', function () {
             expect(forward5.length).toBe(1);
          });
 
-         it('should wire the buttons correctly', function(){
+         it('should wire the buttons to the playerAPI correctly', function(){
             spyOn(playerAPI, 'end');
             
             back5.triggerHandler('click');
@@ -304,6 +303,25 @@ describe('Component: PlayerControls', function () {
             spyOn(playerAPI, 'replayStart');
             disp.triggerHandler('click');
             expect(playerAPI.replayStart).toHaveBeenCalled();
+         });
+      })
+
+      describe('progress bar', function(){
+
+         it('should periodically update itself by checking how much of the stream has loaded', function(){
+
+         });
+
+         it('should seek find when clicked', function(){
+
+         });
+
+         it('should preserve play/paused state when clicked', function(){
+
+         })
+
+         it('its entire length should represent the time window demarcated by the start/end points', function(){
+
          });
       })
 

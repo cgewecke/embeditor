@@ -244,7 +244,7 @@ describe('Service: youtubePlayerAPI', function () {
             playerAPI.togglePlay();
             playerAPI.onPlayerStateChange({data: PLAYING}); // Simulate player event . . .
             YT.mockTime = 10;
-            interval.flush(55);
+            interval.flush(155);
             expect(playerAPI.pause).toHaveBeenCalled();
             expect(playerAPI.endpoint.val).toEqual(YT.mockTime);
 

@@ -21,11 +21,11 @@ button#end-fwd-5sec-btn
 -->
 <md-content layout="column" layout-fill>
    <embeditor-youtube-embed 
-        layout-fill 
-        layout="row" 
-        layout-align="{{player.sideNavIsOpen()}}" 
-        ng-controller="PlayerCtrl as player"
-        class="player-background">
+      ng-controller="PlayerCtrl as player"
+      layout-fill 
+      layout="row" 
+      layout-align="{{player.alignWithSidenav('row')}}" 
+      class="player-background">
       
       <div id="player-wrapper">
         
@@ -33,6 +33,7 @@ button#end-fwd-5sec-btn
         <div class="loading-progress"> 
           <span layout="row" layout-fill>
             <md-progress-linear 
+              ng-click="player.parseProgressClick($event)"
               class="md-warn" 
               md-mode="determinate" 
               ng-value="player.API.loadState">

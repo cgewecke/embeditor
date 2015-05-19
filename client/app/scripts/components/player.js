@@ -1,3 +1,5 @@
+var pctl_debug, pctl_debugII;
+
 (function(){
   'use strict';
 
@@ -28,12 +30,18 @@
       // Move player block over to right side of page on sideNavOpen
       // return on sidenNav closed. Exception gets thrown unless
       // sideNav has been instantiated the first time.
-      self.sideNavIsOpen = function(){ 
+      self.alignWithSidenav = function(type){ 
+         var alignment = 'center center';
          if ($mdSidenav.exists && $mdSidenav('search').isOpen()){
-            return 'end center';
-         } else {
-            return 'center center';  
-         }
+            (type === 'row') ? alignment = 'end center': alignment = 'center end';
+         } 
+         return alignment;
+      };
+
+      self.parseProgressClick = function($event){
+        pctl_debug = $event;
+        console.log('clicked progress');
+
       };
 
       // watch(API.currentRate): ng-modelled on the playback rates slider
