@@ -26,7 +26,10 @@ button#end-fwd-5sec-btn
   layout-align="{{player.alignWithSidenav('column')}}">
 
   <!-- Play Button & Range Finder Row -->
-  <div class="controls-background controls-top" layout="row" layout-align="space between" style="width: 854px;"> 
+  <div class="controls-background controls-top" 
+      layout="row" 
+      layout-align="space between" 
+      style="width: 854px;"> 
       <span layout="column" flex="15">
         <span layout="row" layout-align="center">
           <md-button id="play-btn" aria-label="seek" 
@@ -48,8 +51,23 @@ button#end-fwd-5sec-btn
         </span>
       </span>
   </div>
+  
+  <div class="controls-background precision-btn-row" 
+       layout="row" 
+       layout-fill 
+       layout-align="end center"
+       style="width: 854px;"> 
+       <span class="warning-text" 
+             ng-class="{'visible': player.API.minLengthWarning}"> 
+             * Minimum clip length is 1 second 
+       </span>
+       <span flex="5"></span>
+  </div> 
   <!-- Startpoint & Endpoint Seek Row -->
-  <div layout="row" class="controls-background" layout-align="space-around" style="width: 854px;">  
+  <div class="controls-background" 
+       layout="row"
+       layout-align="space-around" 
+       style="width: 854px;"> 
     <!-- STARTPOINTS -->  
     <span layout="row">              
        <!-- 5 sec rewind -->
