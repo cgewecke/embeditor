@@ -16,6 +16,7 @@ BUGS:
     // Private Variables
     var self = this;
     var scope = $rootScope;
+    var loadProgressTimer = null;
     var PLAYING = 1, PAUSED = 2, BUFFERING = 3;
   
     // Published Events
@@ -29,12 +30,14 @@ BUGS:
     self.video; // Current video
     self.timestamp = 0.00// Current playhead position
     self.loadState = 0.00; // Fractional percentage loaded
+    self.percentPlayed = 0.00; // Location of tapehead as percentage of current time window
     self.currentRate = 1; // Normal playback rate
     self.speeds = false; // Has playback rate options 
     self.initializing = true;  // True as page loads, false otherwise.
     self.setNewRate = false; // True during video load, triggers rate set when rates become avail.
     self.prevAction = 'play'; // Vals: 'set' or 'play', arbs tapehead location when setting.
     self.videoLoaded = false; // False during video load, true when the stream initiates.
+    self.minLengthWarning = false; // True when start/endpoints are 1 sec apart, false otherwise.
     self.loop = true;
 
     self.state; // Vals: 'playing' or 'paused', toggles icon. 
@@ -63,15 +66,27 @@ BUGS:
     };
 
     // setLoadState: Assigns fractional amt loaded * 100 to loadState
-    // in a setInterval.
+    // in a setInterval. destroy old timers!!!!!
     function setLoadState(){
-      var timer;
+      var timer, offset;
 
       timer = $interval(function(){
+        // Load Progress
         if (self.percentLoaded()){
           self.loadState = self.percentLoaded() * 100;
         }
-      }, 2000);
+        // Play Progress
+        //self.percentPlayed = 0.00;
+        if (self.video){
+          if ((self.endpoint.val - self.startpoint.val) < 60){
+            self.percentPlayed = 100;
+          } else {
+            offset = self.timestamp - self.startpoint.val;
+            self.percentPlayed = (offset/(self.endpoint.val - self.startpoint.val)) * 100.00;
+            if (self.percentPlayed < 0) self.percentPlayed = 0;
+          }
+        }
+      }, 1000);
     };
 
     // verifyRates(): playback rates info only available once the player
@@ -213,10 +228,15 @@ BUGS:
 
     // Start/End point setting handlers
     self.start = function(change){
-
+      console.log('start');
       var time = self.startpoint.val + change;
       // Don't get closer than 1 sec from endpoint, or less than 0
-      if (time >= self.endpoint.val - 1 ) time = self.endpoint.val - 1;
+      if (time >= self.endpoint.val - 1 ){
+         time = self.endpoint.val - 1;
+         self.minLengthWarning = true;
+      } else {
+        self.minLengthWarning = false;
+      }
       if (time < 0) time = 0;
 
       self.pause();
@@ -230,11 +250,17 @@ BUGS:
     };
 
     self.end = function(change){
-
+      console.log('end');
       var time = self.endpoint.val + change;
       
       // Don't get closer than 1 sec from startpoint, or greater than video length
-      if (time <= self.startpoint.val + 1 ) time = self.startpoint.val + 1;
+      if (time <= self.startpoint.val + 1 ){
+        time = self.startpoint.val + 1;
+        self.minLengthWarning = true;
+      } else {
+        self.minLengthWarning = false;
+      }
+
       if (time > self.video.seconds) time = self.video.seconds;
 
       self.pause();

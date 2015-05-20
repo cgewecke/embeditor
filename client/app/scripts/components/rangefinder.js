@@ -104,15 +104,13 @@ var rf_debug, rf_debugII;
             var newStart = parseInt(newVals[0]);
             var newEnd = parseInt(newVals[1]);
             
-            console.log("change called: " + (newStart < 0) + " " + self.API.initializing + " " + changedByUpdate);
             // Ignore initializations
             if (newStart < 0 || self.API.initializing) return;
             // Ignore externally initiated changes.
             if (changedByUpdate) { changedByUpdate = false; return; }
 
             self.API.pause();
-            
-
+          
             // Discover which end is scrubbing and seek to new tapehead pos.
             if (newStart != oldVals.start){
               self.API.seek(newStart)

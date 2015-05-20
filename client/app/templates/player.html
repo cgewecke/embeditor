@@ -1,25 +1,5 @@
-
-
-<!-- UNIT TEST 
-
-button#start-back-5sec-btn
-button#start-back-1sec-btn
-button#start-back-frame-btn
-button#start-play-btn
-button#start-fwd-frame-btn
-button#start-fwd-1sec-btn
-button#start-fwd-5sec-btn
-
-button#end-back-5sec-btn
-button#end-back-1sec-btn
-button#end-back-frame-btn
-button#end-play-btn
-button#end-fwd-frame-btn
-button#end-fwd-1sec-btn
-button#end-fwd-5sec-btn
-
--->
-<md-content layout="column" layout-fill>
+<div layout="column" layout-fill>
+  <!-- Embed Code Directive -->
    <embeditor-youtube-embed 
       ng-controller="PlayerCtrl as player"
       layout-fill 
@@ -27,19 +7,8 @@ button#end-fwd-5sec-btn
       layout-align="{{player.alignWithSidenav('row')}}" 
       class="player-background">
       
-      <div id="player-wrapper">
+      <div id="player-wrapper" class="player-wrapper"> <!--  -->
         
-        <!-- Loading progress bar -->
-        <div class="loading-progress"> 
-          <span layout="row" layout-fill>
-            <md-progress-linear 
-              ng-click="player.parseProgressClick($event)"
-              class="md-warn" 
-              md-mode="determinate" 
-              ng-value="player.API.loadState">
-            </md-progress-linear>
-          </span>
-        </div>
         <!-- Loading screen -->
         <div class="player-loading-screen" 
              ng-class="{'visible': player.API.initializing}">
@@ -52,7 +21,7 @@ button#end-fwd-5sec-btn
               md-mode="indeterminate">
             </md-progress-circular>
         </div>
-        <!-- Timestamp & Transparent cover-->
+        <!-- Timestamp & Transparent cover -->
         <div class="player-cover">
           <span layout="row" 
                 layout-fill 
@@ -72,9 +41,27 @@ button#end-fwd-5sec-btn
         </div>
         <!-- Player -->
         <div id="player"></div>
-
-      </div>
-
+        <!-- Loading progress bar md-buffer-value="{{player.API.loadState}}"-->
+        <embeditor-player-progress-bar class="loading-progress"></embeditor-player-progress-bar> 
+        <!-- <div layout="row" 
+             layout-fill class="loading-progress" 
+             ng-click="player.progressBarClick($event)" 
+             ng-mouseover="player.mouseover($event)"> 
+            <ng-md-icon 
+              class="progress-bar-icon" 
+              icon="lens" 
+              size="12"
+              style="fill:rgb(255,82,82)">
+              <md-tooltip md-direction="top"> Y </md-tooltip>
+            </ng-md-icon>
+            <md-progress-linear 
+              class="md-primary" 
+              md-mode="determinate"
+              value="100">
+            </md-progress-linear>
+        </div> -->
+    </div>
    </embeditor-youtube-embed>
    <embeditor-section-player-controls></embeditor-section-player-controls>
-</md-content>
+</div>
+<!-- </md-content> -->
