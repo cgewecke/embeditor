@@ -57,60 +57,80 @@ var pctl_debug, pctl_debugII;
         link: progressBarEventHandlers,
         controller: playerCtrl,
         template: '\
-          <div layout="row" layout-fill>\
+          <div id="time-bar" layout="row" layout-fill\
+            ng-mousemove="updateTimeDot($event)"\
+            ng-mouseleave="hideTimeDot()"\
+            ng-click="seekVideoToTimeDot()">\
             <ng-md-icon class="progress-bar-icon"\
               icon="lens" size="12" style="fill:rgb(255,82,82)">\
-              <md-tooltip md-direction="top">{{time}}</md-tooltip>\
             </ng-md-icon>\
+            <span class="progress-bar-time">{{time}}</span>\
             <md-progress-linear class="md-primary"\
               md-mode="determinate" value="100">\
             </md-progress-linear>\
-          </div>'
+          </div>\
+          '
       };
     };
-
+  
     function progressBarEventHandlers(scope, elem, attr, ctrl){
       
       var dot = elem.find('ng-md-icon');
+      var value = elem.find('span.progress-bar-time');
+      var lowLimit = 20;
+      var highLimit = 844;
       var xCoord = 0;
 
       scope.showDot = false;
       scope.time = (0).toString().toHHMMSSss();
 
-      function calculateTimeValue(){
+      // calculateTimeDotValue(): Translates space to time.
+      function calculateTimeDotValue(){
         var ratio = (xCoord/854);
-        var newTime = (ctrl.API.endpoint.val - ctrl.API.startpoint.val) * ratio;
+        var time = (ctrl.API.endpoint.val - ctrl.API.startpoint.val) * ratio;
       
-        return ctrl.API.startpoint.val + newTime;
+        return ctrl.API.startpoint.val + time;
       };
 
-      // mouseenter() Shows dot/time value represented by the
-      // location the cursor hovers over. We have to save offsetX
-      // value to xCoord because it won't be correct on the $event
-      // data once the dot materializes.
-      elem.bind('mousemove', function($event){
+      // updateTimeDot: ng-mousemove 
+      // Shows dot/time value mapped by location the cursor hovers over. 
+      scope.updateTimeDot = function($event){
+        console.log('in updateTimeDot');
+        pctl_debugII = $event;
         xCoord = $event.offsetX;
-        scope.time = calculateTimeValue().toString().toHHMMSSss();
-        // BOOLEAN TRIGGER TOOLTIP
-        dot.css('left', ($event.offsetX + 5) + 'px');
-        dot.css('visibility', 'visible');
-      });
+        var offset = elem.offset();
+        var dotXPos = (xCoord + 5) + 'px';
+        var valueXPos = (offset.left + xCoord - 10) + 'px';
+        var valueYPos = (offset.top - 35) + 'px';
 
-      // mouseleave() Hides dot.
-      elem.bind('mouseleave', function($event){
+        // Ignore false offset values that occur when mouse
+        // suddenly moves over dot & stop from running off end.
+        if (xCoord > lowLimit && xCoord < highLimit){
+          scope.time = calculateTimeDotValue().toString().toHHMMSSss();
+          dot.css('left', dotXPos);
+          dot.css('visibility', 'visible');
+          value.css('left', valueXPos);
+          value.css('top', valueYPos);
+          value.css('visibility', 'visible');
+        }
+      };
+
+      scope.hideTimeDot = function(){
         dot.css('visibility', 'hidden');
-      })
+        value.css('visibility', 'hidden');
+      };
 
-      // click(): Calculates the time to seek to based on location of progress
-      // bar click. Length of bar represents the time window between start 
-      // and endpoints. Updates timestamp. 
-      elem.bind('click', function($event){
-        pctl_debug = $event;
-        var time = calculateTimeValue();
-        console.log('time: ' + time.toString().toHHMMSSss());
-        ctrl.API.timestamp = time;
-        ctrl.API.seek(time);
-      });
+      // seekVideoToTimeDot() - ng-clicked. 
+      scope.seekVideoToTimeDot = function(){
+
+        //Ignore false offset values
+        if (xCoord > lowLimit && xCoord < highLimit){
+
+          var time = calculateTimeDotValue();
+          ctrl.API.timestamp = time;
+          ctrl.API.seek(time);
+        }
+      };
 
     };
 

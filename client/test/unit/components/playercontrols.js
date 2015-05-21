@@ -307,44 +307,79 @@ describe('Component: PlayerControls', function () {
       })
 
       describe('progress bar', function(){
+         var progress, API, progressDiv;
 
-         it('should periodically update itself by checking how much of the stream has loaded', function(){
+         var video = {
+            duration: "6:55",
+            seconds: 414, 
+            videoId: "HcXNPI-IPPM"
+         };
 
+         beforeEach( function(){
+            progress = angular.element('<embeditor-player-progress-bar></embeditor-player-progress-bar>');
+            compile(progress)(scope);
+            scope.$digest();
+            API = progress.scope().API;
+            API.load(video);
+            progressDiv = progress.find('div#time-bar');
          });
 
-         it('should seek find when clicked', function(){
+         it('should be wired correctly', function(){
+            expect(progressDiv.attr('ng-mousemove')).toEqual('updateTimeDot($event)');
+            expect(progressDiv.attr('ng-mouseleave')).toEqual('hideTimeDot()');
+            expect(progressDiv.attr('ng-click')).toEqual('seekVideoToTimeDot()');
+         })
 
-         });
+         it('should correctly translate the x position of the click to time position in the video', function(){
+
+            var divMidPoint = 854/2;
+            var videoMidPoint = 414/2;
+
+            spyOn(API, 'seek');
+            progressDiv.scope().updateTimeDot({offsetX: divMidPoint });
+
+            expect(progressDiv.scope().time).toEqual(videoMidPoint.toString().toHHMMSSss());
+
+            progressDiv.triggerHandler('click');
+            scope.$apply();
+            expect(API.seek).toHaveBeenCalledWith(videoMidPoint);
+
+         })
+         
 
          it('should preserve play/paused state when clicked', function(){
+            var divMidPoint = 854/2;
+            var videoMidPoint = 414/2;
 
+            API.play();
+            progressDiv.scope().updateTimeDot({offsetX: divMidPoint });
+            progressDiv.triggerHandler('click');
+            scope.$apply();
+            expect(API.state).toEqual('playing');
+
+            API.pause();
+            progressDiv.scope().updateTimeDot({offsetX: divMidPoint });
+            progressDiv.triggerHandler('click');
+            scope.$apply();
+            expect(API.state).toEqual('paused');
          })
 
          it('its entire length should represent the time window demarcated by the start/end points', function(){
+            var divMidPoint = 854/2;
+            var videoMidPoint = ((314-100)/2) + 100;
+            spyOn(API, 'seek');
 
+            API.setStartpoint(100);
+            API.setEndpoint(314);
+            scope.$apply();
+
+            progressDiv.scope().updateTimeDot({offsetX: divMidPoint });
+            progressDiv.triggerHandler('click');
+            scope.$apply();
+
+            expect(API.seek).toHaveBeenCalledWith(videoMidPoint);
          });
       })
-
-
-      /*
-      // HOW TO HANDLE SKIP PLAY
-      describe('Start/End points slider/setter', function(){
-
-         it('should set the value of the endpoints when its handles are dragged', function(){
-
-         });
-
-         it('should show the appropriate keyframes in the view as the handles are dragged', function(){
-
-         });
-
-         it('should always maintain a minimum distance of 1 second between endpoints', function(){
-
-         });
-
-      });*/
-
-      
 
   })
 
