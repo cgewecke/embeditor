@@ -14,8 +14,9 @@
 
 /* player & player controls */
 
+/* removes weird div gap */
 .player-wrapper{
-  height: 480px;
+  font-size: 0px 
 }
 
 .player-background {
@@ -50,12 +51,23 @@
   visibility: hidden;
   width: 0px;
   height: 0px;
-  top: -10px;
+  top: -8px;
   left: 50px;
   z-index: 50;
 }
 
+.progress-bar-time{
+  position: absolute;
+  visibility: hidden;
+  background-color: rgba(0,0,0,0.54);
+  color: white;
+  padding: 5px;
+  border-radius: 10%;
+  font-size: 14px; 
+}
+
 md-progress-linear .md-container{
+  height: 10px;
   top: -3px;
 }
 
@@ -67,6 +79,7 @@ md-progress-linear .md-dashed:before{
 }
 
 .timestamp{
+  font-size: 16px;
   background: black;
   color: white;
   padding: 10px;
