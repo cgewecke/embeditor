@@ -1,4 +1,11 @@
 var pctl_debug, pctl_debugII;
+var testcode = '\
+  <script>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod\
+tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,\
+quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo\
+consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse\
+cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non\
+proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</script>';
 
 (function(){
   'use strict';
@@ -6,15 +13,16 @@ var pctl_debug, pctl_debugII;
   angular.module('embeditor.components.player', ['embeditor.services.youtubePlayerAPI'])
     
     .controller('PlayerCtrl', playerCtrl )
-    .directive('embeditorPlayerProgressBar', embeditorPlayerProgressBar)
+    .directive('embeditorPlayerTimeBar', embeditorPlayerTimeBar)
     .directive('embeditorSectionPlayerControls', embeditorSectionPlayerControls);
 
-    function playerCtrl($scope, youtubePlayerAPI, $mdSidenav){
+    function playerCtrl($scope, youtubePlayerAPI, $mdSidenav, $mdDialog){
       var self = this;
+      var codeDialog;
 
       self.alignment = 'center center';
       self.API = youtubePlayerAPI;
-      $scope.API = youtubePlayerAPI;
+      $scope.API = youtubePlayerAPI; // This is for testing
 
       // Called by button on timestamp, sets new startpoint at the 
       // current tapehead location 
@@ -34,6 +42,23 @@ var pctl_debug, pctl_debugII;
          return alignment;
       };
 
+
+      self.openEmbedCodeDialog = function(event){
+        codeDialog = {
+          clickOutsideToClose: true,  
+          templateUrl: 'templates/embedcode.html',
+          controller: embedCodeDialogCtrl
+        };
+
+        $mdDialog.show(codeDialog).finally(function(){
+          codeDialog = undefined;
+        });
+      }
+
+      self.closeEmbedCodeDialog = function() {
+        $mdDialog.hide();
+      };
+
       // watch(API.currentRate): ng-modelled on the playback rates slider
       $scope.$watch('API.currentRate', function(newval, oldval){
         if (self.API.videoLoaded){
@@ -42,7 +67,18 @@ var pctl_debug, pctl_debugII;
       });
     };
 
-    playerCtrl.$inject = ['$scope', 'youtubePlayerAPI', '$mdSidenav'];
+    playerCtrl.$inject = ['$scope', 'youtubePlayerAPI', '$mdSidenav', '$mdDialog'];
+
+    /*********************************/
+
+    function embedCodeDialogCtrl($scope, youtubePlayerAPI){
+      $scope.API = youtubePlayerAPI;
+      $scope.format = 'raw';
+      $scope.code = testcode;
+      $scope.help = function(){};
+    }
+
+    embedCodeDialogCtrl.$inject = ['$scope', 'youtubePlayerAPI'];
 
     // <embeditor-section-player-controls></embeditor-section-player-controls>
     // Outer tag for player controls that we can access for unit testing.
@@ -51,29 +87,16 @@ var pctl_debug, pctl_debugII;
     }};
 
     // <embeditor-player-progress-bar></embeditor-player-progress-bar>
-    function embeditorPlayerProgressBar(){
+    function embeditorPlayerTimeBar(){
       return {
         restrict: 'E',
-        link: progressBarEventHandlers,
+        link: timeBarEventHandlers,
         controller: playerCtrl,
-        template: '\
-          <div id="time-bar" layout="row" layout-fill\
-            ng-mousemove="updateTimeDot($event)"\
-            ng-mouseleave="hideTimeDot()"\
-            ng-click="seekVideoToTimeDot()">\
-            <ng-md-icon class="progress-bar-icon"\
-              icon="lens" size="12" style="fill:rgb(255,82,82)">\
-            </ng-md-icon>\
-            <span class="progress-bar-time">{{time}}</span>\
-            <md-progress-linear class="md-primary"\
-              md-mode="determinate" value="100">\
-            </md-progress-linear>\
-          </div>\
-          '
+        templateUrl: 'templates/timebar.html'    
       };
     };
   
-    function progressBarEventHandlers(scope, elem, attr, ctrl){
+    function timeBarEventHandlers(scope, elem, attr, ctrl){
       
       var dot = elem.find('ng-md-icon');
       var value = elem.find('span.progress-bar-time');
@@ -95,8 +118,7 @@ var pctl_debug, pctl_debugII;
       // updateTimeDot: ng-mousemove 
       // Shows dot/time value mapped by location the cursor hovers over. 
       scope.updateTimeDot = function($event){
-        console.log('in updateTimeDot');
-        pctl_debugII = $event;
+    
         xCoord = $event.offsetX;
         var offset = elem.offset();
         var dotXPos = (xCoord + 5) + 'px';
@@ -134,5 +156,6 @@ var pctl_debug, pctl_debugII;
 
     };
 
+    
 })();
 

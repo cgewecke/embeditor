@@ -316,7 +316,7 @@ describe('Component: PlayerControls', function () {
          };
 
          beforeEach( function(){
-            progress = angular.element('<embeditor-player-progress-bar></embeditor-player-progress-bar>');
+            progress = angular.element('<embeditor-player-time-bar></embeditor-player-time-bar>');
             compile(progress)(scope);
             scope.$digest();
             API = progress.scope().API;

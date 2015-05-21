@@ -12,6 +12,43 @@
 
 }
 
+/* embed code window */
+.embed-instructions{
+  font-size: 14px;
+  cursor: default;
+}
+
+.embed-title{
+  font-size: 24px;
+}
+
+.embed-help-link{
+  font-style: underline;
+}
+
+.embed-help-link:hover{
+  color:white;
+}
+
+.embed-radio-btn{
+  display: inline-block;
+}
+
+.embed-code-text{
+  font-size: 14px;
+  color: rgba(0,0,0,0.26);
+  padding-top: 5px !important;
+  padding-bottom: 5px !important;
+
+}
+
+.embed-dialog-content{
+  height: 100px;
+}
+
+.embed-copy-btn-row{
+  padding: 24px;
+}
 /* player & player controls */
 
 /* removes weird div gap */
@@ -154,6 +191,10 @@ md-progress-linear .md-dashed:before{
   cursor: default;
 }
 
+.set-btn-block-label{
+  color: rgba(0,0,0,0.26) !important;
+}
+
 .playback-input-container{
   padding-top: 26px;
   padding-left: 10px;
@@ -165,19 +206,32 @@ md-progress-linear .md-dashed:before{
   transform: none !important;
 }
 
+.center-label{
+  text-align: center;
+}
+
 .playback-slider{
   height: 10px;
 }
 
+.code-text{
+
+}
+
+.code-btn{
+  /*height: 10px;*/
+  background-color: rgba(0,0,0,0.12);
+}
+
+.code-icon{
+
+}
 
 /* Sidebar */
 md-sidenav, 
 md-sidenav.md-locked-open, 
 md-sidenav.md-closed.md-locked-open-add-active {
-    min-width: 450px !important;
-    //width: 85vw !important;
-    //max-width: 500px !important;
-    
+  min-width: 450px !important;  
 } 
 .button-lg{
   padding: 8px;
@@ -193,7 +247,6 @@ md-sidenav.md-closed.md-locked-open-add-active {
 }
 
 .sidebar-background{
-  //background-color: #f7f7f7;
   background-color: #E0E0E0;
 }
 .searchPlayIcon{

@@ -1,23 +1,3 @@
-<!-- UNIT TEST 
-
-button#start-back-5sec-btn
-button#start-back-1sec-btn
-button#start-back-frame-btn
-button#start-play-btn
-button#start-fwd-frame-btn
-button#start-fwd-1sec-btn
-button#start-fwd-5sec-btn
-
-button#end-back-5sec-btn
-button#end-back-1sec-btn
-button#end-back-frame-btn
-button#end-play-btn
-button#end-fwd-frame-btn
-button#end-fwd-1sec-btn
-button#end-fwd-5sec-btn
-
--->
-
 <div 
   ng-controller="PlayerCtrl as player"
   class="player-background" 
@@ -52,6 +32,7 @@ button#end-fwd-5sec-btn
       </span>
   </div>
   
+  <!-- Proximity Warning for Start/Endpoint button row --> 
   <div class="controls-background precision-btn-row" 
        layout="row" 
        layout-fill 
@@ -227,8 +208,15 @@ button#end-fwd-5sec-btn
         </span>
     </span>
   </div>
+  <div layout="row" class="controls-background" style="width: 854px">
+    <span flex="5"></span>
+    <span flex="40" class="set-btn-block-label"> Set Startpoint </span>
+    <span flex="10"></span>
+    <span flex="40" class="set-btn-block-label"> Set Endpoint </span>
+    <span flex></span>
+  </div>
   <!-- Slider/Loop/Embed Button Row -->
-  <div layout="row" class="controls-background" style="width: 854px;"> 
+  <div layout="row" flex class="controls-background" style="width: 854px;"> 
     <span flex="5"></span>
     <!-- Playback Slider -->
     <md-input-container class="playback-input-container" flex="50">
@@ -244,15 +232,38 @@ button#end-fwd-5sec-btn
       </md-slider>
     </md-input-container>
     <!-- Loop Switch -->
-    <md-input-container flex="25" class="playback-input-container">
-      <label class="close-label"> Loop </label>
+    <md-input-container flex="10" class="playback-input-container">
+      <label class="close-label center-label"> Loop </label>
       <md-switch flex 
         id="loop-switch"
         ng-model="player.API.loop" 
         class="md-warn playback-slider"
         aria-label="loop">
       </md-switch>  
-    </md-input-container>    
+    </md-input-container>  
+    <!-- Verbose Help Switch -->
+     <md-input-container flex="10" class="playback-input-container">
+      <label class="close-label center-label"> Help </label>
+      <md-switch flex 
+        id="help-switch"
+        ng-disabled="true"
+        class="md-warn playback-slider"
+        aria-label="loop">
+      </md-switch>  
+    </md-input-container>  
+    <span flex="5"></span>
+    <md-input-container flex="15" class="playback-input-container">
+      <label class="close-label"> Embed </label>
+      <md-button flex
+        id="embed-dialog-btn"
+        ng-click='player.openEmbedCodeDialog($event)'
+        class="code-btn"
+        aria-label="dialog">
+        <span class="fa fa-code fa-lg code-icon"></span> 
+        <span class="code-text"> Code </span>
+      </md-button>  
+    </md-input-container>  
   </div>
-  <div layout="column" class="controls-background" layout-fill style="width: 854px"></div>
+
+  
 </div>

@@ -1,0 +1,21 @@
+<!-- Template for embeditor-time-bar directive -->
+<div id="time-bar" 
+  layout="row" 
+  layout-fill
+  ng-mousemove="updateTimeDot($event)"
+  ng-mouseleave="hideTimeDot()"
+  ng-click="seekVideoToTimeDot()">
+  <ng-md-icon 
+    class="progress-bar-icon"
+    icon="lens" 
+    size="12" 
+    style="fill:rgb(255,82,82)">
+  </ng-md-icon>
+  <span class="progress-bar-time">{{time}}</span>
+  <md-progress-linear 
+    class="md-primary"
+    md-mode="determinate" 
+    value="100">
+  </md-progress-linear>
+</div>
+          
