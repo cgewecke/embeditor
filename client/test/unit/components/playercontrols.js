@@ -1,4 +1,6 @@
-var plt_debug, plt_debugII, plt_debugIII
+"use strict"
+
+var plt_debug, plt_debugII, plt_debugIII;
 
 describe('Component: PlayerControls', function () {
 
@@ -9,10 +11,7 @@ describe('Component: PlayerControls', function () {
 
   describe('Player Controls', function(){
 
-      var scope, compile, interval, timeout, playerAPI, player, YT;
-      var PLAYING = 1;
-      var BUFFERING = 3;
-      var PAUSED = 2;
+      var scope, compile, interval, timeout, playerAPI, player, ctrl, YT;
       
       beforeEach(inject(function ($controller, $rootScope, $compile, $interval, $timeout, _youtubePlayerAPI_ ) {
 
@@ -103,7 +102,7 @@ describe('Component: PlayerControls', function () {
          it('should be bound to the value of playerAPI.currentRate', function(){
             playerAPI.currentRate = 0.5;
             scope.$apply();
-            expect(slider.isolateScope().modelValue).toBe(.5);
+            expect(slider.isolateScope().modelValue).toBe(0.5);
 
             playerAPI.currentRate = 1.5;
             scope.$apply();
@@ -118,7 +117,7 @@ describe('Component: PlayerControls', function () {
 
             playerAPI.currentRate = 0.5;
             scope.$apply();
-            expect(playerAPI.setRate).toHaveBeenCalledWith(.5);
+            expect(playerAPI.setRate).toHaveBeenCalledWith(0.5);
             
          })
 
@@ -349,8 +348,7 @@ describe('Component: PlayerControls', function () {
 
          it('should preserve play/paused state when clicked', function(){
             var divMidPoint = 854/2;
-            var videoMidPoint = 414/2;
-
+   
             API.play();
             progressDiv.scope().updateTimeDot({offsetX: divMidPoint });
             progressDiv.triggerHandler('click');

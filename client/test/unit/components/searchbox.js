@@ -9,7 +9,7 @@ describe('Component: searchbox:', function () {
 
   describe('input and button', function(){
 
-    var scope, ctrl, form, searchButton, event, element, timeout, youtube;
+    var scope, ctrl, form, element, timeout, youtube;
 
     beforeEach(inject( function($controller, $rootScope, $compile, $timeout, youTubeDataAPI ) {
 
@@ -37,7 +37,6 @@ describe('Component: searchbox:', function () {
     it ('should query with the current search box contents on carriage return', function(){
       // PROTRACTOR
       var mdElem = form.find('md-autocomplete');
-      var mdCtrl = mdElem.isolateScope().$mdAutocompleteCtrl;
       var inputElem = form.find('input');
       var returnEvent = jQuery.Event('keypress');
 

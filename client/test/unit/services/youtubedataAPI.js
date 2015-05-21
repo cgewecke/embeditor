@@ -3,7 +3,7 @@ var t_debug, t_debugII;
 
 describe('Service: youTubeDataAPI', function (){
 
-  var httpBackend, youtube, scope, query, channel, error, $controller;
+  var httpBackend, youtube, scope, query, channel, error;
 
   // load the service's module
   beforeEach(module('embeditor'))
@@ -131,7 +131,7 @@ describe('Service: youTubeDataAPI', function (){
     var searchRelUrl2, searchRelData2, videoRelUrl2, videoRelData2, 
         searchPage2Url, searchPage2Data, videoPage2Url, videoPage2Data, 
         query_expected, page2_expected,
-        related, query;
+        query;
 
     beforeEach(inject( function($controller, $rootScope, $httpBackend, youTubeDataAPI) {
       httpBackend = $httpBackend;
@@ -581,7 +581,7 @@ describe('Service: youTubeDataAPI', function (){
     });
 
     it('should apply the current settings for order', function(){
-      var initial_result, result_from_getAgain, result_ord_by_date, result_filt_by_short;
+      var initial_result, result_from_getAgain, result_ord_by_date;
 
       youtube.query('taylor swift');
       httpBackend.flush();

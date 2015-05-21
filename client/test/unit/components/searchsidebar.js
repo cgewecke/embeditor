@@ -30,7 +30,7 @@ describe('Component: Search sidebar', function () {
 
   it('should get toggled open when youTubeData executes a string query', function () {
 
-    var sidenav, sidenavService, searchUrl, searchData, videoUrl, videoData;
+    var searchUrl, searchData, videoUrl, videoData;
  
     // Regular query search
     searchUrl = query.searchUrl.taylor_relev_any_page1;
@@ -83,7 +83,7 @@ describe('Component: Search sidebar', function () {
 
   it('should show/hide the "server error" msg div when the "server error" flag is t/f', function(){
 
-    var msgDiv, tryBtn;
+    var msgDiv;
 
     msgDiv = sidebar.find("div#ss-server-error-msg");
     
@@ -99,7 +99,7 @@ describe('Component: Search sidebar', function () {
 
   it('should try to refetch the most recent search when the server error try again button is clicked', function(){
 
-    var tryBtn, msgDiv, searchUrl, searchData, videoUrl, videoData;
+    var tryBtn, searchUrl, searchData, videoUrl, videoData;
  
     // Regular query search
     searchUrl = query.searchUrl.taylor_relev_any_page1;

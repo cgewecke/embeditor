@@ -1,6 +1,8 @@
+"use strict"
+
 var rft_debug;
 
-describe('Component: RangeFinder', function () {
+describe('Component: RangeFinder', function(){
 
   // load the controller's module
   beforeEach(module('embeditor'));
@@ -9,7 +11,7 @@ describe('Component: RangeFinder', function () {
 
   describe('RangeFinder', function(){
 
-      var scope, compile, interval, timeout, playerAPI, player, rangefinder, rangeElem, YT;
+      var scope, compile, interval, timeout, playerAPI, player, ctrl, rangeCtrl, rangeElem, YT;
       var video = { seconds: 414 };
 
       beforeEach(inject(function ($controller, $rootScope, $compile, $interval, $timeout, _youtubePlayerAPI_ ) {

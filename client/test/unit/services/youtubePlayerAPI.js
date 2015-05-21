@@ -1,3 +1,4 @@
+"use strict"
 var plt_debug, plt_debugII, plt_debugIII
 
 describe('Service: youtubePlayerAPI', function () {
@@ -8,10 +9,9 @@ describe('Service: youtubePlayerAPI', function () {
 
   describe('Player Controls', function(){
 
-      var scope, compile, interval, timeout, playerAPI, player, YT;
+      var scope, compile, interval, timeout, ctrl, playerAPI, YT;
       var PLAYING = 1;
-      var BUFFERING = 3;
-      var PAUSED = 2;
+
       
       beforeEach(inject(function ($controller, $rootScope, $compile, $interval, $timeout, _youtubePlayerAPI_ ) {
 
@@ -178,7 +178,6 @@ describe('Service: youtubePlayerAPI', function () {
             spyOn(playerAPI, 'play');
 
             playerAPI.setStartpoint(10);
-            mockTime = 20;
             playerAPI.replayStart();
 
             expect(playerAPI.seek).toHaveBeenCalledWith(10);

@@ -23,11 +23,11 @@
 }
 
 .embed-help-link{
-  font-style: underline;
+  color:white;
 }
 
 .embed-help-link:hover{
-  color:white;
+  text-decoration: underline;
 }
 
 .embed-radio-btn{
