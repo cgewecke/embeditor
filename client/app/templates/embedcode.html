@@ -1,0 +1,52 @@
+<md-dialog flex="40">
+   <md-toolbar layout="row" layout-align="start center">
+      <div class="md-toolbar-tools">
+         <md-button aria-label="embeditor-icon" class="md-warn" > 
+            <ng-md-icon icon="album" size="48"></ng-md-icon>
+         </md-button>
+         <div class="embed-instructions" flex="80">
+            <span class="embed-title"> Embed </span>
+            <br>
+            <span> Paste the code below anywhere
+                   that will let you.
+            </span> 
+         </div>
+         <span flex></span>
+     </div>
+   </md-toolbar>
+   <md-radio-group ng-model="format">
+      <md-radio-button class="embed-radio-btn" value="iframe" ng-disabled="true"> 
+         IFrame 
+      </md-radio-button>
+      <md-radio-button class="embed-radio-btn" value="raw"> 
+         HTML & JS 
+      </md-radio-button>
+      <md-radio-button class="embed-radio-btn" value="embedly" ng-disabled="true"> 
+         Embedly
+      </md-radio-button>
+   </md-radio-group>
+   <md-dialog-content id="embed-dialog-content" 
+      layout="row" layout-align="center" layout-fill
+      class="embed-dialog-content" > 
+      <md-content flex class="embed-code-text"> 
+         {{code}} 
+      </md-content>      
+   </md-dialog-content>
+   <div class="embed-copy-btn-row" layout="row" layout-align="center center" layout-fill>
+      <md-button class="code-btn"> Copy to clipboard </md-button>
+   </div>
+   
+   <md-toolbar layout="row" layout-align="start center">
+      <div class="md-toolbar-tools md-warn">
+         <div class="embed-instructions" flex="80">
+            <span class="embed-title"> Need help embedding?</span>
+            <br>
+            <span> Check out the </span> 
+            <span class="embed-help-link" ng-click="help()"> help tab. </span> 
+         </div>
+         <span flex></span>
+     </div>
+   </md-toolbar>
+
+
+</md-dialog>
