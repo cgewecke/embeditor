@@ -5,12 +5,13 @@
   
    function codeGenerator(){
       var self = this;
+
       self.options = {
          quality: 'auto',
          autoplay: 'false',
          loop: 'false',
          mute: 'false',
-         speed: '1.0',
+         rate: '1.0',
          start: '0.0',
          end: '0.0',
       };
@@ -29,8 +30,9 @@
       }
 
       self.set = function(option, value){
-         self[option] = value.toString();
+         (value != undefined ) ? self.options[option] = value.toString() : false;
       };
+
 
       self.generate = function(){
 
@@ -63,7 +65,7 @@
             'quality = ' + self.options.quality + ';' +
             'mute = ' + self.options.autoplay + ';' +
             'mute = ' + self.options.mute + ';' +
-            'speed = ' + self.options.speed + ';' +
+            'rate = ' + self.options.rate + ';' +
             'start = ' + self.options.start + ';' + 
             'end = ' + self.options.quality + ';' +
             'init = true' + 
@@ -81,13 +83,15 @@
                   setStop();\
                   if (init){\
                      (mute) ? player.mute() : false;\
-                     (speed != 1) ? player.setPlaybackSpeed(speed) : false;\
+                     (speed != 1) ? player.setPlaybackRate(rate) : false;\
                      (autoplay) ? player.play() : player.pause();\
                      init = false;}}}\
             function onPlayerError(){console.log("Hmmmm. Problems. - Embeditor");}'
 
          );
       };
+
+
    };
 
 })()

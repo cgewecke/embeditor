@@ -163,14 +163,23 @@ describe('Component: PlayerControls', function () {
          });
 
       })
-      /*
+
+      describe('reset Button', function(){
+         it('should be wired correctly', function(){
+            spyOn(playerAPI, 'reset');
+            var reset = player.find("button#reset-button");
+            reset.triggerHandler('click');
+            expect(playerAPI.reset).toHaveBeenCalled();
+         })
+      })
+      
       describe('Advanced Options menu', function(){
          it('should show all the iframe parameters and allow the user to set them', function(){
-
+            console.log('TEST NOT IMPLEMENTED: Player Controls: Advanced Options menu');
          });
       })
 
-      */
+      
 
       describe('Startpoint precision seek button block', function(){
          var back5, back1, backFrame, forward5, forward1, forwardFrame;

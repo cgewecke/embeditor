@@ -9,14 +9,16 @@ var pctl_debug, pctl_debugII;
     .directive('embeditorPlayerTimeBar', embeditorPlayerTimeBar)
     .directive('embeditorSectionPlayerControls', embeditorSectionPlayerControls);
 
-    /*--------------------- Player Controller --------------------------------*/
-    function playerCtrl($scope, youtubePlayerAPI, $mdSidenav, embedCodeDialog ){
+    /*--------------------- Controller --------------------------------*/
+    function playerCtrl($scope, codeGenerator, youtubePlayerAPI, $mdSidenav, embedCodeDialog ){
       var self = this;
       
-      self.alignment = 'center center';
-      self.API = youtubePlayerAPI;
-      self.dialog = embedCodeDialog;
+      self.alignment = 'center center'; // Alignment config relative to sidebar. (open/closed)
+      self.API = youtubePlayerAPI;   // Public alias for playerAPI
+      self.dialog = embedCodeDialog; // Public alias for the dialog service
+      self.code = codeGenerator; // Public alias for the codeGenerator service
 
+      // ------------------------ Public ----------------------------------
       // Called by button on timestamp, sets new startpoint at the 
       // current tapehead location 
       self.startFromTimestamp = function(){
@@ -35,16 +37,39 @@ var pctl_debug, pctl_debugII;
          return alignment;
       };
 
+      // ----------------------- Watches -------------------------------
+
       // watch(API.currentRate): ng-modelled on the playback rates slider
       $scope.$watch('API.currentRate', function(newval, oldval){
         if (self.API.videoLoaded){
             self.API.setRate(newval);
+            self.code.set('rate', newval);
         }
       });
-    };
-    playerCtrl.$inject = ['$scope', 'youtubePlayerAPI', '$mdSidenav', 'embedCodeDialog'];
 
-    /*--------------------- Player Time Bar Directive --------------------------------*/
+      // watch(API.loop): ng-modelled on the loop switch. 
+      // set code;
+      $scope.$watch('API.loop', function(newval, oldval){
+        self.code.set('loop', newval);
+      });
+
+      // watch(API.mute): ng-modelled on the mute switch. 
+      // Listened for by codeGenerator Service
+      $scope.$watch('API.mute', function(newval, oldval){
+        self.code.set('mute', newval);
+      });
+
+      $scope.$on('YTPlayerAPI:set', function(event, msg){
+        self.code.set(msg.type, msg.value);
+        pctl_debug = self.code.options;
+      })
+
+
+
+    };
+    playerCtrl.$inject = ['$scope', 'codeGenerator', 'youtubePlayerAPI', '$mdSidenav', 'embedCodeDialog'];
+
+    /*------------------------- Time Bar Directive --------------------------------*/
     /*-------------------- <embeditor-player-time-bar> -------------------------------*/
 
     function embeditorPlayerTimeBar(){

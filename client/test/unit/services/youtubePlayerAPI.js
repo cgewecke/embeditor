@@ -211,6 +211,18 @@ describe('Service: youtubePlayerAPI', function () {
 
          });
       })
+
+      describe('playerAPI: reset', function(){
+
+         it('should set startpoint to 0, endpoint to video length', function(){
+            console.log('TEST NOT IMPLEMENTED: playerAPI: reset');
+         });
+
+         it('should update the rangefinder values', function(){
+            console.log('TEST NOT IMPLEMENTED: playerAPI: reset');
+         });
+
+      })
             
       describe('self.loop', function(){
          
@@ -249,27 +261,7 @@ describe('Service: youtubePlayerAPI', function () {
 
          });
 
-      })
-      /*
-      // HOW TO HANDLE SKIP PLAY
-      describe('Start/End points slider/setter', function(){
-
-         it('should set the value of the endpoints when its handles are dragged', function(){
-
-         });
-
-         it('should show the appropriate keyframes in the view as the handles are dragged', function(){
-
-         });
-
-         it('should always maintain a minimum distance of 1 second between endpoints', function(){
-
-         });
-
-      });*/
-
-      
-
+      });
   })
 
 });

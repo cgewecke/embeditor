@@ -25,9 +25,17 @@
           </md-button> 
         </span>
       </span> 
-      <span layout="column" flex="75">
+      <span layout="column" flex="70">
         <span layout="row" layout-align="center">
           <embeditor-rangefinder layout-fill></embeditor-rangefinder>
+        </span>
+      </span>
+      <span layout="column" flex="15" layout-align="center">
+        <span layout="row" layout-align="center center">
+          <md-button id="reset-button" class="code-btn"
+            ng-click="player.API.reset()">
+            <ng-md-icon icon="cancel" size="32" style="fill:white"></ng-md-icon>
+          </md-button>
         </span>
       </span>
   </div>
