@@ -13,17 +13,11 @@ describe('Component: Embed Code Dialog Window', function(){
 
   });
 
-  it('should close when "copy to clipboard" button is clicked', function(){
-
-  })
-
-  it('should close when ctrl c is pressed', function(){
+  it('should close when the dismiss icon is clicked', function(){
 
   });
 
-  it('should close when the help link is clicked', function(){
 
-  });
 
   describe('formatting options radio button group', function(){
 
@@ -38,11 +32,20 @@ describe('Component: Embed Code Dialog Window', function(){
       it('should format the code text as an embedly link when embedly is selected', function(){
 
       });
-      
+
   });
 
   describe('code text', function(){
+    
       it('should be selected when the dialog opens', function(){
+
+      });
+
+      it('should get deselected when a copy event occurs', function(){
+
+      })
+
+      it('should get re-selected when the format options are changed', function(){
 
       });
 
@@ -52,9 +55,19 @@ describe('Component: Embed Code Dialog Window', function(){
   });
 
   describe('copy to clipboard button', function(){
-      it('should copy the code text to the clipboard', function(){
 
-      })
+      it('should copy the current code text to the clipboard', function(){
+
+      });
+
+      it('should say "Copied." after the copy event', function(){
+
+      });
+
+      it('should say "Click to copy" when format options are changed', function(){
+
+      });
+
   });
 
   describe('help link', function(){

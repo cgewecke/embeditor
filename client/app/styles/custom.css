@@ -30,6 +30,9 @@
   text-decoration: underline;
 }
 
+.embed-radio-group{
+  border: none !important;
+}
 .embed-radio-btn{
   display: inline-block;
 }
@@ -40,6 +43,10 @@
   padding-top: 5px !important;
   padding-bottom: 5px !important;
 
+}
+
+.embed-code-highlight{
+  background: #FFFDE7;
 }
 
 .embed-dialog-content{
