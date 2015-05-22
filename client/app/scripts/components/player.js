@@ -1,11 +1,4 @@
 var pctl_debug, pctl_debugII;
-var testcode = '\
-  <script>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod\
-tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,\
-quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo\
-consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse\
-cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non\
-proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</script>';
 
 (function(){
   'use strict';
@@ -16,13 +9,13 @@ proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</script
     .directive('embeditorPlayerTimeBar', embeditorPlayerTimeBar)
     .directive('embeditorSectionPlayerControls', embeditorSectionPlayerControls);
 
-    function playerCtrl($scope, youtubePlayerAPI, $mdSidenav, $mdDialog){
+    /*--------------------- Player Controller --------------------------------*/
+    function playerCtrl($scope, youtubePlayerAPI, $mdSidenav, embedCodeDialog ){
       var self = this;
-      var codeDialog;
-
+      
       self.alignment = 'center center';
       self.API = youtubePlayerAPI;
-      $scope.API = youtubePlayerAPI; // This is for testing
+      self.dialog = embedCodeDialog;
 
       // Called by button on timestamp, sets new startpoint at the 
       // current tapehead location 
@@ -42,23 +35,6 @@ proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</script
          return alignment;
       };
 
-
-      self.openEmbedCodeDialog = function(event){
-        codeDialog = {
-          clickOutsideToClose: true,  
-          templateUrl: 'templates/embedcode.html',
-          controller: embedCodeDialogCtrl
-        };
-
-        $mdDialog.show(codeDialog).finally(function(){
-          codeDialog = undefined;
-        });
-      }
-
-      self.closeEmbedCodeDialog = function() {
-        $mdDialog.hide();
-      };
-
       // watch(API.currentRate): ng-modelled on the playback rates slider
       $scope.$watch('API.currentRate', function(newval, oldval){
         if (self.API.videoLoaded){
@@ -66,27 +42,11 @@ proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</script
         }
       });
     };
+    playerCtrl.$inject = ['$scope', 'youtubePlayerAPI', '$mdSidenav', 'embedCodeDialog'];
 
-    playerCtrl.$inject = ['$scope', 'youtubePlayerAPI', '$mdSidenav', '$mdDialog'];
+    /*--------------------- Player Time Bar Directive --------------------------------*/
+    /*-------------------- <embeditor-player-time-bar> -------------------------------*/
 
-    /*********************************/
-
-    function embedCodeDialogCtrl($scope, youtubePlayerAPI){
-      $scope.API = youtubePlayerAPI;
-      $scope.format = 'raw';
-      $scope.code = testcode;
-      $scope.help = function(){};
-    }
-
-    embedCodeDialogCtrl.$inject = ['$scope', 'youtubePlayerAPI'];
-
-    // <embeditor-section-player-controls></embeditor-section-player-controls>
-    // Outer tag for player controls that we can access for unit testing.
-    function embeditorSectionPlayerControls(){ 
-      return{ templateUrl: 'templates/playercontrols.html' 
-    }};
-
-    // <embeditor-player-progress-bar></embeditor-player-progress-bar>
     function embeditorPlayerTimeBar(){
       return {
         restrict: 'E',
@@ -155,6 +115,12 @@ proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</script
       };
 
     };
+
+    /*--------------------- (SECTION DIRECTIVE FOR UNIT TESTING ) --------------------------------*/
+    //---------------------- <embeditor-section-player-controls> ----------------------------------
+    function embeditorSectionPlayerControls(){ 
+      return{ templateUrl: 'templates/playercontrols.html' 
+    }};
 
     
 })();

@@ -19,6 +19,7 @@ angular
     'ngMaterial',
     'ngMdIcons',
     'embeditor.components.embed',
+    'embeditor.components.embedcodedialog',
     'embeditor.components.player',
     'embeditor.components.rangefinder',
     'embeditor.components.searchbox',

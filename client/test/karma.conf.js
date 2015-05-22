@@ -26,6 +26,7 @@ module.exports = function(config) {
       'app/scripts/vendor/ion.rangeSlider.min.js',
       'app/scripts/vendor/moment.min.js',
       'app/scripts/vendor/momentz-duration.js',
+      'app/scripts/vendor/ZeroClipboard.min.js',
       
       // bower:js
             'bower_components/angular/angular.js',

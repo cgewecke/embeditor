@@ -109,6 +109,11 @@ var sr_debug, sr_debugII;
             scope.ctrl.synch = true;
             mdScope.searchText = msg;
             mdScope.selectedItem = {value: msg}
+
+            // Might get rid of weird sticking open when sidenav closes . . .
+            mdCtrl.keydown({keyCode: 27}); // Escape closes dropdown.
+            mdCtrl.selectedItem = {value: mdScope.searchText}; // autocomplete watches this obj.
+            
       });
 
       // Captures carriage return in input box and hacks into mdAutoComplete to execute

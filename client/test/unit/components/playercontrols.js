@@ -132,8 +132,8 @@ describe('Component: PlayerControls', function () {
                      
          });
 
-         it('should have a tooltip that explains why it is disabled', function(){
-            
+         it('should show a message that explains why it is disabled', function(){
+   
          });
       });
 
@@ -318,7 +318,7 @@ describe('Component: PlayerControls', function () {
             progress = angular.element('<embeditor-player-time-bar></embeditor-player-time-bar>');
             compile(progress)(scope);
             scope.$digest();
-            API = progress.scope().API;
+            API = playerAPI;
             API.load(video);
             progressDiv = progress.find('div#time-bar');
          });
@@ -364,11 +364,13 @@ describe('Component: PlayerControls', function () {
 
          it('its entire length should represent the time window demarcated by the start/end points', function(){
             var divMidPoint = 854/2;
-            var videoMidPoint = ((314-100)/2) + 100;
+            var newStartpoint = 100;
+            var newEndpoint = 314;
+            var videoMidPoint = newStartpoint + ((newEndpoint - newStartpoint)/2);
             spyOn(API, 'seek');
 
-            API.setStartpoint(100);
-            API.setEndpoint(314);
+            API.setStartpoint(newStartpoint);
+            API.setEndpoint(newEndpoint);
             scope.$apply();
 
             progressDiv.scope().updateTimeDot({offsetX: divMidPoint });
