@@ -113,6 +113,7 @@
 md-progress-linear .md-container{
   height: 10px;
   top: -3px;
+  cursor: pointer;
 }
 
 md-progress-linear .md-dashed:before{
