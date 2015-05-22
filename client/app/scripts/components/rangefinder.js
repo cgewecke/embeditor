@@ -54,10 +54,9 @@ var rf_debug, rf_debugII;
          self.API = youtubePlayerAPI;
 
          // init() Page load state (negative so we can detect it when the actual video values are loaded)
-         // **************** SMART STEP *********************
+         // **************** SMART STEP BASED ON VIDEO LENGTH? *********************
          self.init = function(limit){
 
-            console.log("init: " + limit);
             var step = 5;
   
             self.slider.update({

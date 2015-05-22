@@ -11,7 +11,7 @@ BUGS:
   angular.module('embeditor.services.youtubePlayerAPI', [])
      .service('youtubePlayerAPI', youtubePlayerAPI);
 
-  function youtubePlayerAPI($rootScope, $timeout, $interval){
+  function youtubePlayerAPI($rootScope, $timeout, $interval ){
 
     // Private Variables
     var self = this;
@@ -20,9 +20,10 @@ BUGS:
     var PLAYING = 1, PAUSED = 2, BUFFERING = 3;
   
     // Published Events
-    var initEvent = {name: 'YTPlayerAPI:init'};
+    var initEvent = {name: 'YTPlayerAPI:init'}; // Cast on video load
     var loadEvent = {name: 'YTPlayerAPI:load'};
-    var updateEvent = {name: 'YTPlayerAPI:update'}; 
+    var updateEvent = {name: 'YTPlayerAPI:update'};  // Cast when tapehead is reset to start/endpoint
+    var setEvent = {name: 'YTPlayerAPI:set'}; // Cast when start/endpoints vals change
 
     // Public Variables   
     self.YT;  // The YT API wrapper
@@ -95,8 +96,7 @@ BUGS:
     function verifyRates(){
 
       (self.rates().length > 1) ? self.speeds = true: self.speeds = false;
-      console.log('verifyRates: ' + self.rates().length);
-      console.log('speeds: ' + self.speeds);
+
       if (self.speeds && self.setNewRate){
         self.setRate(self.currentRate);
         self.setNewRate = false;
@@ -107,7 +107,7 @@ BUGS:
     // timestamp as we play. Loop or stop when the end is reached.
     // Executes in the YT state change callback.
     function setStop(){
-      console.log('in setStop');
+      
       var timer;
       var offset = 0.150;
     
@@ -122,8 +122,7 @@ BUGS:
         }
         // Listen for end.
         if (time >= (self.endpoint.val - offset)){
-          //console.log('timestamp: ' + time.toString().toHHMMSSss());
-          //console.log('raw time: ' + time);
+
           // If we are playing & looping, loop back to startpoint.
           if (!self.loop){
             self.pause();
@@ -154,7 +153,9 @@ BUGS:
         self.setEndpoint(video.seconds);
         self.prevAction = 'play';
         setLoadState();
+        
         $rootScope.$broadcast(initEvent.name)
+        $rootScope.$broadcast(setEvent.name, {type: 'videoId', value: video.videoId });
       }; 
       
       // Tape head Driver
@@ -172,7 +173,8 @@ BUGS:
       // Playback speed
       self.rates = function(){ return self.player.getAvailablePlaybackRates() };
       self.getRate = function(){ return self.player.getPlaybackRate() };
-      self.setRate = function(rate){ self.player.setPlaybackRate(rate) };
+
+      self.setRate = function(rate){ self.player.setPlaybackRate(rate);};
       
 
       // Player Status
@@ -228,7 +230,7 @@ BUGS:
 
     // Start/End point setting handlers
     self.start = function(change){
-      console.log('start');
+     
       var time = self.startpoint.val + change;
       // Don't get closer than 1 sec from endpoint, or less than 0
       if (time >= self.endpoint.val - 1 ){
@@ -250,7 +252,7 @@ BUGS:
     };
 
     self.end = function(change){
-      console.log('end');
+     
       var time = self.endpoint.val + change;
       
       // Don't get closer than 1 sec from startpoint, or greater than video length
@@ -277,11 +279,13 @@ BUGS:
     self.setStartpoint = function(value){
       self.startpoint = {val: value, display: value.toString().toHHMMSSss() };
       self.prevAction = 'set';
+      $rootScope.$broadcast(setEvent.name, {type: 'start', value: value });
     };
 
     self.setEndpoint = function(value){
       self.endpoint = {val: value, display: value.toString().toHHMMSSss() };
-      self.prevAction = 'set'
+      self.prevAction = 'set';
+      $rootScope.$broadcast(setEvent.name, {type: 'end', value: value });
     };
 
     // replay: Convenience methods to play near or at
@@ -300,6 +304,20 @@ BUGS:
       self.seek(newTime);
       self.play();
       self.prevAction = 'play';
+    }
+
+    // reset() resets the start/stop back to video min/max
+    self.reset = function(){
+
+      // Start
+      self.setStartpoint(0);
+      $rootScope.$broadcast(updateEvent.name);
+      // End
+      self.setEndpoint(self.video.seconds);
+      $rootScope.$broadcast(updateEvent.name);
+
+      // Keep state: play -> continue playing: paused -> seek to beginning;
+      (self.state === 'playing') ? self.prevAction = 'play' : self.seek(0);
     }
 
     // YT Player Event Callbacks, registered on embedding in embeditor-youtube-player
@@ -327,7 +345,7 @@ BUGS:
            self.state = 'playing'; 
            verifyRates();
            setStop(); 
-           console.log('playing');
+           
         }
       } else if ( event.data === BUFFERING ) {
         self.state = 'playing';
