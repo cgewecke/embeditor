@@ -47,7 +47,7 @@ describe('Component: Search sidebar', function () {
     // Cannot spy on $mdSidnav('search').toggle
     // because we don't publicly expose the function instance created in 
     // the event watch (?) . . . but 'exists' is added to the service in the 
-    // same block, so we know it runs.
+    // same block, verifying that it ran.
     expect(ctrl.mdSidenav.exists).not.toBeUndefined();
 
   });

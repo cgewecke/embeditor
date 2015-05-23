@@ -18,28 +18,33 @@ proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</script
     
       // dialogCtrl(): Controller for the dialog window and 
       // the copy button directive
-      function dialogCtrl($scope, $mdDialog, youtubePlayerAPI){
+      function dialogCtrl($scope, $mdDialog, codeGenerator){
 
          var defaultButtonMessage = "Click to copy";
+         var formats = {
+            script: codeGenerator.script, 
+            iframe: codeGenerator.iframe, 
+            embedly: codeGenerator.embedly
+         };
 
-         $scope.API = youtubePlayerAPI;
-         $scope.format = 'raw';
+         $scope.format = 'iframe';
          $scope.highlight= true;
          $scope.copyButtonMessage = defaultButtonMessage;
-         $scope.code = testcode;
+         $scope.code = formats["iframe"]();
          $scope.help = function(){ console.log('help clicked')};
          $scope.closeDialog = function(){$mdDialog.hide();}
 
          // Radio Button changes
          $scope.$watch('format', function(newVal, oldVal){
             if(oldVal){
+               ed_debug = newVal;
                $scope.copyButtonMessage = defaultButtonMessage;
                $scope.highlight = true;
-            // REFORMAT scope.code . . . .
+               $scope.code = formats[newVal]();
             }  
          });
       };
-      dialogCtrl.$inject = ['$scope', '$mdDialog', 'youtubePlayerAPI'];
+      dialogCtrl.$inject = ['$scope', '$mdDialog', 'codeGenerator'];
 
       // Service. Open and close methods
       function embedCodeDialog($mdDialog){
