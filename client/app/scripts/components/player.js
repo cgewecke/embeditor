@@ -20,7 +20,7 @@ var pctl_debug, pctl_debugII;
 
       // ------------------------ Public ----------------------------------
       // Called by button on timestamp, sets new startpoint at the 
-      // current tapehead location 
+      // current tapehead pos.
       self.startFromTimestamp = function(){
         self.API.setStartpoint(self.API.timestamp);
         self.API.start(0);
@@ -59,13 +59,16 @@ var pctl_debug, pctl_debugII;
         self.code.set('mute', newval);
       });
 
+      // listen for video load - update code 
+      $scope.$on('YTPlayerAPI:init', function(){
+        self.code.set('videoId', self.API.video.videoId);
+      })
+
+      // listen for updates to (API.startpoint, API.endpoint)
       $scope.$on('YTPlayerAPI:set', function(event, msg){
         self.code.set(msg.type, msg.value);
         pctl_debug = self.code.options;
       })
-
-
-
     };
     playerCtrl.$inject = ['$scope', 'codeGenerator', 'youtubePlayerAPI', '$mdSidenav', 'embedCodeDialog'];
 

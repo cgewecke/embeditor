@@ -154,8 +154,7 @@ BUGS:
         self.prevAction = 'play';
         setLoadState();
         
-        $rootScope.$broadcast(initEvent.name)
-        $rootScope.$broadcast(setEvent.name, {type: 'videoId', value: video.videoId });
+        $rootScope.$broadcast(initEvent.name);
       }; 
       
       // Tape head Driver

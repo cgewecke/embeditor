@@ -5,13 +5,7 @@ describe('Component: Embed Code Dialog Window', function(){
   beforeEach(module('embeditor'));
   beforeEach(module('templates'));
 
-  it('should open when the embed code button is clicked', function(){
-    console.log('TEST NOT IMPLEMENTED: Component: Embed Code Dialog Window');
-  });
-
-  it('should close on click outside the dialog', function(){
-    console.log('TEST NOT IMPLEMENTED: Component: Embed Code Dialog Window');
-  });
+  
 
   it('should close when the dismiss icon is clicked', function(){
     console.log('TEST NOT IMPLEMENTED: Component: Embed Code Dialog Window');

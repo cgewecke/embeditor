@@ -7,6 +7,7 @@
       var self = this;
 
       self.options = {
+         videoId: undefined,
          quality: 'auto',
          autoplay: 'false',
          loop: 'false',
@@ -19,7 +20,6 @@
       self.frame = {
          width: 854,
          height: 480,
-         videoId: undefined,
          iv_load_policy: 3,
          controls: 0,
          disablekb: 1,
@@ -27,14 +27,17 @@
          rel: 0,
          modestbranding: 1, 
          showinfo: 0
-      }
+      };
 
       self.set = function(option, value){
          (value != undefined ) ? self.options[option] = value.toString() : false;
       };
 
+      self.iframe = function(){ 
+         return '<iframe src="http://fake/embed/123456789"></iframe>';
+      };
 
-      self.generate = function(){
+      self.script = function(){
 
          return ('\
          <div id="player"></div>\
@@ -48,7 +51,7 @@
             player = new YT.Player("player", {' +
                'width:' + "'" + self.frame.width + "'," +
                'height:' + "'" + self.frame.height + "'," +
-               'videoId:' + "'" + self.frame.videoId + "'," +
+               'videoId:' + "'" + self.options.videoId + "'," +
                'playerVars:{' +
                   'iv_load_policy:' + "'" + self.frame.iv_load_policy + "'," +
                   'controls:' + "'" + self.frame.controls + "'," +
@@ -67,7 +70,7 @@
             'mute = ' + self.options.mute + ';' +
             'rate = ' + self.options.rate + ';' +
             'start = ' + self.options.start + ';' + 
-            'end = ' + self.options.quality + ';' +
+            'end = ' + self.options.end + ';' +
             'init = true' + 
 
             '\
@@ -86,12 +89,12 @@
                      (speed != 1) ? player.setPlaybackRate(rate) : false;\
                      (autoplay) ? player.play() : player.pause();\
                      init = false;}}}\
-            function onPlayerError(){console.log("Hmmmm. Problems. - Embeditor");}'
+            function onPlayerError(){console.log("Please inform the local constable\
+                that dangerous patients have jumped the fence");}'
 
          );
       };
 
-
-   };
+   };  
 
 })()

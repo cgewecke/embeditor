@@ -2,14 +2,14 @@
 
 var plt_debug, plt_debugII, plt_debugIII;
 
-describe('Component: PlayerControls', function () {
+describe('Component: control panel', function () {
 
   // load the controller's module
   beforeEach(module('embeditor'));
   beforeEach(module('yt.player.mockapi'));
   beforeEach(module('templates'));
 
-  describe('Player Controls', function(){
+  describe('Control panel', function(){
 
       var scope, compile, interval, timeout, playerAPI, player, ctrl, YT;
       
@@ -32,7 +32,7 @@ describe('Component: PlayerControls', function () {
       }));
 
       it('should disable controls until the player has loaded the video',function(){
-
+         console.log('TEST NOT IMPLEMENTED: Component: Player Controls: Disable controls');
       });
 
       describe('playerAPI.togglePlay()/Play button', function(){
@@ -132,9 +132,10 @@ describe('Component: PlayerControls', function () {
                      
          });
 
-         it('should show a message that explains why it is disabled', function(){
-   
+         it('should show a message that explains why its disabled when disabled', function(){
+            console.log('TEST NOT IMPLEMENTED: Player Controls: playback disabled message');
          });
+
       });
 
       describe('Loop toggle', function(){
@@ -164,13 +165,43 @@ describe('Component: PlayerControls', function () {
 
       })
 
+      describe('mute toggle', function(){
+         
+         console.log('TEST NOT IMPLEMENTED: Player Controls: mute toggle');
+
+         /*var mutewitch, ngModel;
+         beforeEach(function(){
+            muteswitch = player.find('md-switch#mute-switch');
+         });
+
+         it('should be on by default', function(){
+            ngModel = muteswitch.controller('ngModel');
+            expect(ngModel.$modelValue).toBe(true);
+         });
+
+         it('should be bound to the value of playerAPI.mute', function(){
+           
+            ngModel = muteswitch.controller('ngModel');
+         
+            playerAPI.mute = true;
+            scope.$apply();
+            expect(ngModel.$modelValue).toBe(true);
+
+            playerAPI.mute = false;
+            scope.$apply();
+            expect(ngModel.$modelValue).toBe(false);
+
+         });*/
+
+      });
+
       describe('reset Button', function(){
          it('should be wired correctly', function(){
-            spyOn(playerAPI, 'reset');
             var reset = player.find("button#reset-button");
+            spyOn(playerAPI, 'reset');
             reset.triggerHandler('click');
             expect(playerAPI.reset).toHaveBeenCalled();
-         })
+         });
       })
       
       describe('Advanced Options menu', function(){
@@ -192,7 +223,7 @@ describe('Component: PlayerControls', function () {
             forward5 = player.find('button#start-fwd-5sec-btn')
 
          })
-         it('should have six buttons', function(){
+         it('should have six seek buttons', function(){
             expect(back5.length).toBe(1);
             expect(back1.length).toBe(1);
             expect(backFrame.length).toBe(1);
@@ -241,7 +272,7 @@ describe('Component: PlayerControls', function () {
             forward5 = player.find('button#end-fwd-5sec-btn')
             playerAPI.load(video);
          })
-         it('should have six buttons', function(){
+         it('should have six seek buttons', function(){
             expect(back5.length).toBe(1);
             expect(back1.length).toBe(1);
             expect(backFrame.length).toBe(1);
@@ -314,7 +345,14 @@ describe('Component: PlayerControls', function () {
          });
       })
 
-      describe('progress bar', function(){
+      describe('embed code button', function(){
+         it('should be wired correctly', function(){
+            console.log('TEST NOT IMPLEMENTED: Component: Player controls, code Dialog button');
+         });
+      });
+      
+
+      describe('time bar', function(){
          var progress, API, progressDiv;
 
          var video = {
@@ -340,8 +378,8 @@ describe('Component: PlayerControls', function () {
 
          it('should correctly translate the x position of the click to time position in the video', function(){
 
-            var divMidPoint = 854/2;
-            var videoMidPoint = 414/2;
+            var divMidPoint = 854/2; // Default player width: 854px
+            var videoMidPoint = 414/2; // Default video length: 414 sec.
 
             spyOn(API, 'seek');
             progressDiv.scope().updateTimeDot({offsetX: divMidPoint });
