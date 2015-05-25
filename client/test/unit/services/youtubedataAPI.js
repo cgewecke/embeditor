@@ -38,24 +38,6 @@ describe('Service: youTubeDataAPI', function (){
       call1 = httpBackend.whenJSONP(searchUrl).respond(searchData);
       call2 = httpBackend.whenJSONP(videoUrl).respond(videoData);
 
-      // Gibberish query search that returns 0 results
-      searchUrlGibberish = error.searchUrl.gibberish;
-      searchDataGibberish = error.searchResponse.gibberish;
-      videoUrlGibberish = error.videoUrl.gibberish;
-      videoDataGibberish = error.videoResponse.gibberish
-
-      httpBackend.whenJSONP(searchUrlGibberish).respond(searchDataGibberish);
-      httpBackend.whenJSONP(videoUrlGibberish).respond(videoDataGibberish);
-
-      // Terminal result of a query search
-      searchUrlLast = error.searchUrl.lastResult;
-      searchDataLast = error.searchResponse.lastResult;
-      videoUrlLast = error.videoUrl.lastResult;
-      videoDataLast = error.videoResponse.lastResult;
-
-      httpBackend.whenJSONP(searchUrlLast).respond(searchDataLast);
-      httpBackend.whenJSONP(videoUrlLast).respond(videoDataLast);
-      
     }));
     
 
@@ -107,6 +89,15 @@ describe('Service: youTubeDataAPI', function (){
 
     it('should set the failed flag if there are no results', function(){
 
+      // Gibberish query search that returns 0 results
+      searchUrlGibberish = error.searchUrl.gibberish;
+      searchDataGibberish = error.searchResponse.gibberish;
+      videoUrlGibberish = error.videoUrl.gibberish;
+      videoDataGibberish = error.videoResponse.gibberish
+
+      httpBackend.whenJSONP(searchUrlGibberish).respond(searchDataGibberish);
+      httpBackend.whenJSONP(videoUrlGibberish).respond(videoDataGibberish);
+
       youtube.query('fjdksljfklds');
       expect(youtube.failed).toBe(false);
       httpBackend.flush();
@@ -116,6 +107,15 @@ describe('Service: youTubeDataAPI', function (){
     });
 
     it('should set the endOfResults flag if the current results are the last possible', function(){
+
+      // Terminal result of a query search: 'taylor'
+      searchUrlLast = error.searchUrl.lastResult;
+      searchDataLast = error.searchResponse.lastResult;
+      videoUrlLast = error.videoUrl.lastResult;
+      videoDataLast = error.videoResponse.lastResult;
+
+      httpBackend.whenJSONP(searchUrlLast).respond(searchDataLast);
+      httpBackend.whenJSONP(videoUrlLast).respond(videoDataLast);
 
       youtube.query('taylor');
       expect(youtube.endOfResults).toBe(false);

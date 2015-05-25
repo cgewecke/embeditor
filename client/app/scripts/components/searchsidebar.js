@@ -31,12 +31,17 @@ var sb_debug, sb_debugII, sb_debugIII;
       var self = this;
       self.youTube = youTubeDataAPI;
       self.mdSidenav = $mdSidenav; 
+      self.isOpen = false; 
 
-      // Toggles sidebar open if closed
+      // Toggles sidebar open if closed. 
+      // isOpen stops results from attempting to render before sidebar is open. 
       $scope.$on('youTubeDataAPI:query', function(event, msg){
         if (!self.mdSidenav('search').isOpen()){
           self.mdSidenav.exists = true; // exception issues for toolbar.js
-          self.mdSidenav('search').toggle();
+          self.isOpen = false;
+          self.mdSidenav('search').toggle().then(function(){ 
+            self.isOpen = true;
+          });
         }
       });
     };

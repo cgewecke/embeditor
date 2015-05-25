@@ -222,7 +222,29 @@ describe('Service: youtubePlayerAPI', function () {
             console.log('TEST NOT IMPLEMENTED: playerAPI: reset');
          });
 
-      })
+      });
+
+      describe('playerAPI: setTapehead(val)', function(){
+         it('should update timestamp to val & seek to val', function(){
+
+            var video = {
+               duration: "6:55",
+               seconds: 414, 
+               videoId: "HcXNPI-IPPM"
+            };         
+
+            playerAPI.load(video);
+
+            spyOn(playerAPI, 'seek');
+
+            playerAPI.setTapehead(10);
+            expect(playerAPI.timestamp).toEqual(10);
+            expect(playerAPI.seek).toHaveBeenCalledWith(10);
+            expect(playerAPI.prevAction).toEqual('play');
+         });
+
+
+      });
             
       describe('self.loop', function(){
          

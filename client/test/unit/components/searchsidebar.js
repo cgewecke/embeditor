@@ -194,7 +194,7 @@ describe('Component: Search sidebar', function () {
 
     });
 
-    it('more button should load more results', function(){
+    it('should load more results when the more button is clicked', function(){
 
       spyOn(dataAPI, 'nextPage');
       msgBtn.triggerHandler('click');
@@ -202,7 +202,7 @@ describe('Component: Search sidebar', function () {
 
     });
 
-    it('more button should show if there are current results and more possible results', function(){
+    it('should show a more button if there are current results and more possible results', function(){
       
       dataAPI.results = [];
       scope.$apply();
