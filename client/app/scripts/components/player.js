@@ -137,8 +137,7 @@ var pctl_debug, pctl_debugII;
         if (xCoord > lowLimit && xCoord < highLimit){
 
           var time = calculateTimeDotValue();
-          ctrl.API.timestamp = time;
-          ctrl.API.seek(time);
+          ctrl.API.setTapehead(time);
         }
       };
 

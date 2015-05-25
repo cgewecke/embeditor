@@ -319,6 +319,14 @@ BUGS:
       (self.state === 'playing') ? self.prevAction = 'play' : self.seek(0);
     }
 
+    // setTapehead the tapehead & timestamp to value. Behaviorally equivalent to
+    // play 
+    self.setTapehead = function(time){
+      self.timestamp = time;
+      self.prevAction = 'play';
+      self.seek(time);
+    };
+
     // YT Player Event Callbacks, registered on embedding in embeditor-youtube-player
     self.onPlayerReady = function(event){
       getAPI();

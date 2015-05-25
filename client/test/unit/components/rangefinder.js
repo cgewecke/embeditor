@@ -89,6 +89,10 @@ describe('Component: RangeFinder', function(){
           expect(playerAPI.seek).toHaveBeenCalledWith(11);
         });
 
+        it('should do nothing if there is no difference between new and previous values', function(){
+            console.log('TEST NOT IMPLEMENTED: rangefinder finish: no diff');
+        });
+
         it('should seek player to the new end value when it changes', function(){
           spyOn(playerAPI, 'seek');
           playerAPI.load(video);
@@ -127,6 +131,10 @@ describe('Component: RangeFinder', function(){
       });
 
       describe('finish()', function(){
+
+        it('should do nothing if there is no difference between new and previous values', function(){
+          console.log('TEST NOT IMPLEMENTED: rangefinder finish: no diff');
+        });
 
         it('should set the start/end points to their new value', function(){
           playerAPI.load(video);

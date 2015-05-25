@@ -110,6 +110,9 @@ var rf_debug, rf_debugII;
 
             self.API.pause();
           
+            // Ignore self-identical repositionings. 
+            if( newStart === oldVals.start && newEnd === oldVals.end) return;
+
             // Discover which end is scrubbing and seek to new tapehead pos.
             if (newStart != oldVals.start){
               self.API.seek(newStart)
@@ -129,11 +132,16 @@ var rf_debug, rf_debugII;
             console.log("finish");
             var newStart = parseFloat(newVals[0]);
             var newEnd = parseFloat(newVals[1]);
+            var oldStart = Math.round(self.API.startpoint.val);
+            var oldEnd = Math.round(self.API.endpoint.val);
 
              // Ignore initializations
             if ( newStart < 0 || self.API.initializing) return;
 
             self.API.pause();
+
+            // Ignore self-identical repositionings. 
+            if( newStart === oldStart && newEnd === oldEnd) return;
 
             // Discover which end changed & update start/end point
             if(newStart != Math.round(self.API.startpoint.val)){

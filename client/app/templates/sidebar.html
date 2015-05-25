@@ -96,11 +96,11 @@
           id="ss-body-loading-spinner" 
           class="md-warn" 
           md-mode="indeterminate" 
-          ng-show="search.youTube.firstPageLoading && !search.youTube.serverError">
+          ng-show="(search.youTube.firstPageLoading && !search.youTube.serverError)">
       </md-progress-circular>
     </div> 
     <!-- Search Results --> 
-    <md-grid-list class="sidebar-background" md-cols="2" md-row-height="175px"> 
+    <md-grid-list class="sidebar-background" md-cols="2" md-row-height="175px" ng-show="search.isOpen"> 
       
       <!-- Item Tiles -->
       <md-grid-tile 

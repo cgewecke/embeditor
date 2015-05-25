@@ -89,8 +89,8 @@
                      (speed != 1) ? player.setPlaybackRate(rate) : false;\
                      (autoplay) ? player.play() : player.pause();\
                      init = false;}}}\
-            function onPlayerError(){console.log("Please inform the local constable\
-                that dangerous patients have jumped the fence");}'
+            function onPlayerError(){console.error("Please inform your local constable\
+                that a very dangerous patient is missing from the premises. Her name is YouTube.");}'
 
          );
       };
