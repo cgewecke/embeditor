@@ -18,7 +18,7 @@
       };
 
       self.frame = {
-         width: 854,
+         width: 660,
          height: 480,
          iv_load_policy: 3,
          controls: 0,
@@ -39,62 +39,183 @@
 
       self.script = function(){
 
-         return ('\
-         <div id="player"></div>\
-         <script>\
-            var tag, firstScriptTag, player, loop, quality, mute, speed, start, end, init;\
-            tag = document.createElement("script");\
-            tag.src = (("http:" === document.location.protocol) ? "http:" : "https:") + "//www.youtube.com/iframe_api";\
-            firstScriptTag = document.getElementById("player");\
-            firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);\
-            window.onYouTubeIframeAPIReady = function() {\
-            player = new YT.Player("player", {' +
-               'width:' + "'" + self.frame.width + "'," +
-               'height:' + "'" + self.frame.height + "'," +
-               'videoId:' + "'" + self.options.videoId + "'," +
-               'playerVars:{' +
-                  'iv_load_policy:' + "'" + self.frame.iv_load_policy + "'," +
-                  'controls:' + "'" + self.frame.controls + "'," +
-                  'disablekb:' + "'" + self.frame.disablekb + "'," +
-                  'fs:' + "'" + self.frame.fs + "'," +
-                  'modestbranding:' + "'" + self.frame.modestbranding + "'," +
-                  'showinfo:' + "'" + self.frame.showinfo + "'," +
-               'events: {' +
-                  'onReady: onPlayerReady,' + 
-                  'onStateChange: onPlayerStateChange,' +
-                  'onError: onPlayerError}});' + 
+         var functionId = 'embedlam' + Date.now().toString();
+         var playerId = 'player' + Date.now().toString();
+         var overlayId = 'overlay' + Date.now().toString();
 
-            'loop = ' + self.options.loop + ';' +
-            'quality = ' + self.options.quality + ';' +
-            'mute = ' + self.options.autoplay + ';' +
-            'mute = ' + self.options.mute + ';' +
-            'rate = ' + self.options.rate + ';' +
-            'start = ' + self.options.start + ';' + 
-            'end = ' + self.options.end + ';' +
-            'init = true' + 
+         var css = '"\
+            .embedlam-overlay{\
+              position: absolute;\
+              visibility: visible;\
+              top: 0;\
+              left: 0;\
+              background-color: #757575;\
+              height: 100%;\
+              width: 100%;\
+            }\
+            .embedlam-spinner {\
+              width: 60px;\
+              height: 60px;\
+              position: relative;\
+              top: 50%;\
+              transform: translateY(-200%);\
+              margin: 0 auto;\
+            }\
+            .embedlam-loader {\
+              margin: 6em auto;\
+              font-size: 10px;\
+              position: relative;\
+              text-indent: -9999em;\
+              border-top: 1.1em solid rgba(255, 255, 255, 0.2);\
+              border-right: 1.1em solid rgba(255, 255, 255, 0.2);\
+              border-bottom: 1.1em solid rgba(255, 255, 255, 0.2);\
+              border-left: 1.1em solid #ffffff;\
+              -webkit-transform: translateZ(0);\
+              -ms-transform: translateZ(0);\
+              transform: translateZ(0);\
+              -webkit-animation: load8 1.1s infinite linear;\
+              animation: load8 1.1s infinite linear;\
+            }\
+            .embedlam-loader,\
+            .embedlam-loader:after {\
+              border-radius: 50%;\
+              width: 10em;\
+              height: 10em;\
+            }\
+            @-webkit-keyframes load8 {\
+              0% {\
+                -webkit-transform: rotate(0deg);\
+                transform: rotate(0deg);\
+              }\
+              100% {\
+                -webkit-transform: rotate(360deg);\
+                transform: rotate(360deg);\
+              }\
+            }\
+            @keyframes load8 {\
+              0% {\
+                -webkit-transform: rotate(0deg);\
+                transform: rotate(0deg);\
+              }\
+              100% {\
+                -webkit-transform: rotate(360deg);\
+                transform: rotate(360deg);\
+              }\
+            }"';
+   
+         return (
 
-            '\
-            function setStop(){var timer;var offset = 0.150;\
-               timer = setInterval(function(){\
-                 var time = player.time();\
-                 if (time >= (end - offset)){\
-                   (!loop) ? player.pause() : player.seek(start);\
-                   clearInterval(timer);}}, 150);};\
-            function onPlayerReady(){player.seek(start);player.play();};\
-            function onPlayerStateChange(event){\
-               if (event.data === YT.PlayerState.PLAYING){\
-                  setStop();\
-                  if (init){\
-                     (mute) ? player.mute() : false;\
-                     (speed != 1) ? player.setPlaybackRate(rate) : false;\
-                     (autoplay) ? player.play() : player.pause();\
-                     init = false;}}}\
-            function onPlayerError(){console.error("Please inform your local constable\
-                that a very dangerous patient is missing from the premises. Her name is YouTube.");}'
+         // HTML    
+         '<div> <div style="position: relative">' +
+            '<div id="' + overlayId + '" class="embedlam-overlay">' +
+                  '<div class="embedlam-spinner">' +
+                     '<div class="embedlam-loader"></div>' +
+                  '</div>' +
+               '</div>' +
+               '<div id="' + playerId + '"></div>' +
+         '</div></div>' + 
+         
+         // SCRIPT
+         '<script>' +
+            'var embdebug;' + 
+            // INJECT CSS
+            'var css = ' + css + ';' +         
+            'var head = document.head || document.getElementsByTagName("head")[0];' +
+            'var style = document.createElement("style");'+
+            'style.type = "text/css";'+
+            'if (style.styleSheet){'+
+              'style.styleSheet.cssText = css;' +
+            '} else {'+
+              'style.appendChild(document.createTextNode(css));'+
+            '}'+
+            'head.appendChild(style);' + 
 
-         );
+            // EMBED INSTANCE
+            'function ' + functionId + '(){' +
+               'var tag, firstScriptTag, player, loop, quality, mute, speed, start, end, init, overlay;' +
+
+               // Options & Overlay
+               'loop = ' + self.options.loop  + ';' +
+               'quality = "' + self.options.quality + '";' +
+               'autoplay = ' + self.options.autoplay + ';' +
+               'mute = ' + self.options.mute + ';' +
+               'rate = ' + self.options.rate + ';' +
+               'start = '+ self.options.start + ';' +
+               'end = ' + self.options.end + ';' + 
+               'init = true;' + 
+               'overlay = document.getElementById("' + overlayId + '");' +
+
+               // See if YT API already loaded. Skip otherwise
+               'if (typeof YT === "undefined"){' +
+                  'console.log("loading player api");' + 
+                  'tag = document.createElement("script");' +              
+                  'tag.src = (("http:" === document.location.protocol) ? "http:" : "https:") + "//www.youtube.com/iframe_api";' +
+                  'firstScriptTag = document.getElementById("' + playerId + '"); ' +             
+                  'firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);' +              
+                  'window.onYouTubeIframeAPIReady = function(){ loadPlayer(); }'+
+               '} else {'+
+                  'console.log("loading player");' + 
+                  'loadPlayer();'+
+               '}' +
+
+               // Player instance
+               'function loadPlayer(){' + 
+                  'embdebug = player = new YT.Player("' + playerId + '", {' +
+                     'width:' + "'" + self.frame.width + "'," +
+                     'height:' + "'" + self.frame.height + "'," +
+                     'videoId:' + "'" + self.options.videoId + "'," +
+                     'playerVars:{' +
+                        'iv_load_policy:' + "'" + self.frame.iv_load_policy + "'," +
+                        'controls:' + "'" + self.frame.controls + "'," +
+                        'disablekb:' + "'" + self.frame.disablekb + "'," +
+                        'fs:' + "'" + self.frame.fs + "'," +
+                        'modestbranding:' + "'" + self.frame.modestbranding + "'," +
+                        'showinfo:' + "'" + self.frame.showinfo + "'" + 
+                     '},' + 
+                     'events: {' +
+                        'onReady: onPlayerReady,' + 
+                        'onStateChange: onPlayerStateChange,' + 
+                        'onError: onPlayerError' +
+                     '}' +
+                  '});' +
+               '};' + 
+
+         
+               // Embed driver 
+               '\
+               function setStop(){var timer;var offset = 0.150;\
+                  timer = setInterval(function(){\
+                    var time = player.getCurrentTime();\
+                    if (time >= (end - offset)){\
+                      (!loop) ? player.pauseVideo() : player.seekTo(start);\
+                      clearInterval(timer);\
+                    }\
+                  }, 150);\
+               };\
+               function onPlayerReady(){player.mute(); player.seekTo(start);player.playVideo();};\
+               function onPlayerStateChange(event){\
+                  if (event.data === YT.PlayerState.PLAYING){\
+                     setStop();\
+                     if (init){\
+                        player.pauseVideo();\
+                        player.seekTo(start);\
+                        (speed != 1) ? player.setPlaybackRate(rate) : false;\
+                        (autoplay) ? player.playVideo() : player.pauseVideo();\
+                        (!mute) ? player.unMute(): false;\
+                        init = false;\
+                        setTimeout(function(){ overlay.style.visibility = "hidden" }, 250);\
+                     }\
+                  }\
+               };\
+               function onPlayerError(){ console.error("Her name is YouTube."); };\
+            };' +
+            
+            // Do it. 
+            functionId + '();' + 
+
+         '</script>');
       };
 
    };  
-
+   //
 })()

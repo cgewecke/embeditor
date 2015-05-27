@@ -1,1 +1,105 @@
 <p>This is the about view.</p>
+<div> <div style="position: relative"><div id="overlay1432715757680" class="overlay"><div class="spinner"><div class="loader"></div></div></div><div id="player1432715757680"></div></div></div><script>var embdebug;var css = "            .overlay{              position: absolute;              visibility: visible;              top: 0;              left: 0;              background-color: #757575;              height: 480px;              width: 660px;            }            .spinner {              width: 60px;              height: 60px;              position: relative;              top: 50%;              transform: translateY(-200%);              margin: 0 auto;            }            .loader {              margin: 6em auto;              font-size: 10px;              position: relative;              text-indent: -9999em;              border-top: 1.1em solid rgba(255, 255, 255, 0.2);              border-right: 1.1em solid rgba(255, 255, 255, 0.2);              border-bottom: 1.1em solid rgba(255, 255, 255, 0.2);              border-left: 1.1em solid #ffffff;              -webkit-transform: translateZ(0);              -ms-transform: translateZ(0);              transform: translateZ(0);              -webkit-animation: load8 1.1s infinite linear;              animation: load8 1.1s infinite linear;            }            .loader,            .loader:after {              border-radius: 50%;              width: 10em;              height: 10em;            }            @-webkit-keyframes load8 {              0% {                -webkit-transform: rotate(0deg);                transform: rotate(0deg);              }              100% {                -webkit-transform: rotate(360deg);                transform: rotate(360deg);              }            }            @keyframes load8 {              0% {                -webkit-transform: rotate(0deg);                transform: rotate(0deg);              }              100% {                -webkit-transform: rotate(360deg);                transform: rotate(360deg);              }            }";var head = document.head || document.getElementsByTagName("head")[0];var style = document.createElement("style");style.type = "text/css";if (style.styleSheet){style.styleSheet.cssText = css;} else {style.appendChild(document.createTextNode(css));}head.appendChild(style);function embedlam1432715757680(){var tag, firstScriptTag, player, loop, quality, mute, speed, start, end, init, overlay;loop = true;quality = "auto";autoplay = false;mute = false;rate = 1.0;start = 155;end = 160;init = true;overlay = document.getElementById("overlay1432715757680");if (typeof YT === "undefined"){tag = document.createElement("script");tag.src = (("http:" === document.location.protocol) ? "http:" : "https:") + "//www.youtube.com/iframe_api";firstScriptTag = document.getElementById("player1432715757680"); firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);window.onYouTubeIframeAPIReady = function(){ loadPlayer(); }} else {loadPlayer();}function loadPlayer(){embdebug = player = new YT.Player("player1432715757680", {width:'660',height:'480',videoId:'HcXNPI-IPPM',playerVars:{iv_load_policy:'3',controls:'0',disablekb:'1',fs:'0',modestbranding:'1',showinfo:'0'},events: {onReady: onPlayerReady,onStateChange: onPlayerStateChange,onError: onPlayerError}});};               function setStop(){var timer;var offset = 0.150;                  timer = setInterval(function(){                    var time = player.getCurrentTime();                    if (time >= (end - offset)){                      (!loop) ? player.pauseVideo() : player.seekTo(start);                      clearInterval(timer);                    }                  }, 150);               };               function onPlayerReady(){player.mute(); player.seekTo(start);player.playVideo();};               function onPlayerStateChange(event){                  if (event.data === YT.PlayerState.PLAYING){                     setStop();                     if (init){                        player.pauseVideo();                        player.seekTo(start);                        (speed != 1) ? player.setPlaybackRate(rate) : false;                        (autoplay) ? player.playVideo() : player.pauseVideo();                        (!mute) ? player.unMute(): false;                        init = false;                        setTimeout(function(){ overlay.style.visibility = "hidden" }, 250);                     }                  }               };               function onPlayerError(){ console.error("Her name is YouTube."); };            };embedlam1432715757680();</script>
+<!-- <div>
+   <div style="position: relative">
+      <div id="overlay1432700737788" class="overlay">
+         <div class="spinner">
+            <div class="loader"></div>
+         </div>
+      </div>
+      <div id="player1432700737788"></div>
+   </div>
+</div>
+
+
+<script> 
+var embdebug; 
+function embedlam1432700737788(){               
+   var tag, firstScriptTag, player, loop, quality, mute, speed, start, end, init, overlay;
+
+   loop = true;
+   quality = 'auto';
+   autoplay = false;
+   mute = false;
+   rate = 1.0;
+   start = 0;
+   end = 414;
+   init = true; 
+   overlay = document.getElementById("overlay1432700737788");
+
+
+
+   if (typeof YT === 'undefined'){
+      tag = document.createElement("script");               
+      tag.src = (("http:" === document.location.protocol) ? "http:" : "https:") + "//www.youtube.com/iframe_api";
+      firstScriptTag = document.getElementById("player1432700737788");               
+      firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);               
+      window.onYouTubeIframeAPIReady = function(){ loadPlayer(); }
+   } else {
+      loadPlayer();
+   }              
+
+   function setStop(){
+      var timer;
+      var offset = 0.150;                  
+      timer = setInterval(function(){                    
+         var time = player.getCurrentTime();                   
+         if (time >= (end - offset)){                     
+           (!loop) ? player.pauseVideo() : player.seekTo(start); 
+           clearInterval(timer);                    
+         }                 
+      }, 150);               
+   };   
+
+   function loadPlayer(){
+      embdebug = player = new YT.Player("player1432700737788", 
+         {width:'854',
+         height:'480',
+         videoId:'HcXNPI-IPPM',
+         playerVars:{iv_load_policy:'3',
+         controls:'0',
+         disablekb:'1',
+         fs:'0',
+         modestbranding:'1',
+         showinfo:'0'},
+         events: {
+            onReady: onPlayerReady,
+            onStateChange: onPlayerStateChange,
+            onError: onPlayerError
+         }
+      });
+   }             
+   function onPlayerReady(){
+      player.mute(); 
+      player.seekTo(start);
+      player.playVideo();
+   };               
+
+   function onPlayerStateChange(event){                  
+      if (event.data === YT.PlayerState.PLAYING){                     
+         setStop();                     
+         if (init){                        
+            (speed != 1) ? player.setPlaybackRate(rate) : false;                       
+            (autoplay) ? player.playVideo() : player.pauseVideo();                        
+            (!mute) ? player.unMute(): false;                        
+            init = false;  
+            overlay.style.visibility = 'hidden';                   
+         }                  
+      }               
+   };               
+   function onPlayerError(){ console.error("Her name is YouTube."); };            
+};
+embedlam1432700737788();
+
+</script>*/ -->
+
+
+
+
+
+
+
+
+
+
+

@@ -20,11 +20,12 @@
     <!-- endbuild -->
   </head>
   <body ng-app="embeditor">
-   <md-content layout="column" layout-fill>
+    <ng-view></ng-view>
+   <!-- <md-content layout="column" layout-fill>
       <div ng-include src="'templates/toolbar.html'" layout="column"></div>
       <embeditor-section-sidebar></embeditor-section-sidebar>
       <div ng-include src="'templates/player.html'"></div>
-  </md-content>
+  </md-content> -->
     <!-- Google Analytics: change UA-XXXXX-X to be your site's ID -->
      <script>
        !function(A,n,g,u,l,a,r){A.GoogleAnalyticsObject=l,A[l]=A[l]||function(){
