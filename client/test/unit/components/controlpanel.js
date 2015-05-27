@@ -11,7 +11,7 @@ describe('Component: control panel', function () {
 
   describe('Control panel', function(){
 
-      var scope, compile, interval, timeout, playerAPI, player, ctrl, YT;
+      var scope, compile, interval, timeout, playerAPI, player, ctrl, YT, dialog;
       
       beforeEach(inject(function ($controller, $rootScope, $compile, $interval, $timeout, _youtubePlayerAPI_ ) {
 
@@ -20,6 +20,7 @@ describe('Component: control panel', function () {
          interval = $interval;
          timeout = $timeout;
          playerAPI = _youtubePlayerAPI_;
+
 
          ctrl = $controller('PlayerCtrl', {$scope: scope });
          YT = $controller("mockYTPlayerAPI", {$scope: scope });
@@ -133,6 +134,7 @@ describe('Component: control panel', function () {
          });
 
          it('should show a message that explains why its disabled when disabled', function(){
+            playerAPI.speeds = false;
             console.log('TEST NOT IMPLEMENTED: Player Controls: playback disabled message');
          });
 
@@ -347,7 +349,14 @@ describe('Component: control panel', function () {
 
       describe('embed code button', function(){
          it('should be wired correctly', function(){
-            console.log('TEST NOT IMPLEMENTED: Component: Player controls, code Dialog button');
+            var btn = player.find('button#embed-dialog-btn');
+            var dialog = ctrl.dialog;
+
+            spyOn(dialog, 'openEmbedCodeDialog');
+         
+            btn.triggerHandler('click');
+            expect(dialog.openEmbedCodeDialog).toHaveBeenCalled();
+            
          });
       });
       
