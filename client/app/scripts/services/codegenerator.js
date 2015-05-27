@@ -54,15 +54,12 @@
               width: 100%;\
             }\
             .embedlam-spinner {\
-              width: 60px;\
-              height: 60px;\
               position: relative;\
               top: 50%;\
-              transform: translateY(-200%);\
-              margin: 0 auto;\
+              transform: translateY(-50%);\
             }\
             .embedlam-loader {\
-              margin: 6em auto;\
+              margin: 0 auto;\
               font-size: 10px;\
               position: relative;\
               text-indent: -9999em;\
@@ -117,7 +114,11 @@
          
          // SCRIPT
          '<script>' +
+            
             'var embdebug;' + 
+
+            // DEFINE EMBEDLAM GLOBALLY TO PREVENT YT IFRAME API DOUBLE LOAD
+            '(window.embedlam === undefined) ? window.embedlam = false : window.embedlam = true;' +
             // INJECT CSS
             'var css = ' + css + ';' +         
             'var head = document.head || document.getElementsByTagName("head")[0];' +
@@ -146,16 +147,19 @@
                'overlay = document.getElementById("' + overlayId + '");' +
 
                // See if YT API already loaded. Skip otherwise
-               'if (typeof YT === "undefined"){' +
-                  'console.log("loading player api");' + 
+               'if (!window.embedlam){' +
                   'tag = document.createElement("script");' +              
                   'tag.src = (("http:" === document.location.protocol) ? "http:" : "https:") + "//www.youtube.com/iframe_api";' +
                   'firstScriptTag = document.getElementById("' + playerId + '"); ' +             
                   'firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);' +              
                   'window.onYouTubeIframeAPIReady = function(){ loadPlayer(); }'+
                '} else {'+
-                  'console.log("loading player");' + 
-                  'loadPlayer();'+
+                  'var timer = setInterval(function(){' +
+                    'if (typeof YT != "undefined" && YT.Player ){' +
+                      'loadPlayer();' +
+                      'clearInterval(timer);' +
+                    '}' +
+                  '}, 250);' +
                '}' +
 
                // Player instance
@@ -217,5 +221,5 @@
       };
 
    };  
-   //
+   // 
 })()
