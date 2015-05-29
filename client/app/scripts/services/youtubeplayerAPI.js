@@ -40,6 +40,8 @@ BUGS:
     self.videoLoaded = false; // False during video load, true when the stream initiates.
     self.minLengthWarning = false; // True when start/endpoints are 1 sec apart, false otherwise.
     self.loop = true;
+    self.mute = false;
+    self.autoplay = false;
 
     self.state; // Vals: 'playing' or 'paused', toggles icon. 
     self.frameLength = .05;
@@ -172,9 +174,11 @@ BUGS:
       // Playback speed
       self.rates = function(){ return self.player.getAvailablePlaybackRates() };
       self.getRate = function(){ return self.player.getPlaybackRate() };
-
       self.setRate = function(rate){ self.player.setPlaybackRate(rate);};
       
+      // Mute/Unmute 
+      self.silence = function(){ self.player.mute() };
+      self.noise = function(){ self.player.unMute() };
 
       // Player Status
       self.percentLoaded = function() {return self.player.getVideoLoadedFraction() };

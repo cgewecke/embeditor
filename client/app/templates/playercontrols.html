@@ -227,7 +227,7 @@
   <div layout="row" flex class="controls-background" style="width: 854px;"> 
     <span flex="5"></span>
     <!-- Playback Slider -->
-    <md-input-container class="playback-input-container" flex="50">
+    <md-input-container class="playback-input-container" flex="45">
       <label class="close-label"> Playback Rate </label> 
       <md-slider flex 
         id="playback-speed-slider"
@@ -249,27 +249,36 @@
         aria-label="loop">
       </md-switch>  
     </md-input-container>  
-    <!-- Verbose Help Switch -->
-     <md-input-container flex="10" class="playback-input-container">
-      <label class="close-label center-label"> Help </label>
+    <!-- Loop Switch -->
+    <md-input-container flex="10" class="playback-input-container">
+      <label class="close-label center-label"> Mute </label>
       <md-switch flex 
-        id="help-switch"
-        ng-disabled="true"
+        id="mute-switch"
+        ng-model="player.API.mute" 
         class="md-warn playback-slider"
-        aria-label="loop">
+        aria-label="mute">
+      </md-switch>  
+    </md-input-container> 
+    <!-- Autostart Switch -->
+     <md-input-container flex="10" class="playback-input-container">
+      <label class="close-label center-label"> Auto </label>
+      <md-switch flex 
+        id="auto-switch"
+        ng-model="player.API.autoplay"
+        class="md-warn playback-slider"
+        aria-label="Auto-play">
       </md-switch>  
     </md-input-container>  
-    <span flex="5"></span>
     <!-- Embed Dialog Window Button -->
     <md-input-container flex="15" class="playback-input-container">
-      <label class="close-label"> Embed </label>
+      <!-- <label class="close-label"> Embed </label> -->
       <md-button flex
         id="embed-dialog-btn"
         ng-click='player.dialog.openEmbedCodeDialog($event)'
-        class="code-btn"
-        aria-label="dialog">
+        class="code-btn md-whiteframe-z1"
+        aria-label="embed code">
         <span class="fa fa-code fa-lg code-icon"></span> 
-        <span class="code-text"> Code </span>
+        <span class="code-text"> Embed </span>
       </md-button>  
     </md-input-container>  
   </div>
