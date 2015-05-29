@@ -38,6 +38,7 @@ var pctl_debug, pctl_debugII;
       };
 
       // ----------------------- Watches -------------------------------
+      // Call relevant API functions and/or update the code generator values
 
       // watch(API.currentRate): ng-modelled on the playback rates slider
       $scope.$watch('API.currentRate', function(newval, oldval){
@@ -56,7 +57,15 @@ var pctl_debug, pctl_debugII;
       // watch(API.mute): ng-modelled on the mute switch. 
       // Listened for by codeGenerator Service
       $scope.$watch('API.mute', function(newval, oldval){
-        self.code.set('mute', newval);
+        if (self.API.videoLoaded && newval){
+            (newval) ? self.API.silence() : self.API.noise();
+            self.code.set('mute', newval);
+        };
+        
+      });
+
+      $scope.$watch('API.autoplay', function(newval, oldval){
+        self.code.set('autoplay', newval);
       });
 
       // listen for video load - update code 
@@ -67,7 +76,6 @@ var pctl_debug, pctl_debugII;
       // listen for updates to (API.startpoint, API.endpoint)
       $scope.$on('YTPlayerAPI:set', function(event, msg){
         self.code.set(msg.type, msg.value);
-        pctl_debug = self.code.options;
       })
     };
     playerCtrl.$inject = ['$scope', 'codeGenerator', 'youtubePlayerAPI', '$mdSidenav', 'embedCodeDialog'];

@@ -140,7 +140,7 @@ describe('Component: control panel', function () {
 
       });
 
-      describe('Loop toggle', function(){
+      describe('Loop switch', function(){
          var loopswitch, ngModel;
          beforeEach(function(){
             loopswitch = player.find('md-switch#loop-switch');
@@ -167,18 +167,18 @@ describe('Component: control panel', function () {
 
       })
 
-      describe('mute toggle', function(){
+      describe('mute switch', function(){
          
          console.log('TEST NOT IMPLEMENTED: Player Controls: mute toggle');
 
-         /*var mutewitch, ngModel;
+         var muteswitch, ngModel;
          beforeEach(function(){
             muteswitch = player.find('md-switch#mute-switch');
          });
 
-         it('should be on by default', function(){
+         it('should be off by default', function(){
             ngModel = muteswitch.controller('ngModel');
-            expect(ngModel.$modelValue).toBe(true);
+            expect(ngModel.$modelValue).toBe(false);
          });
 
          it('should be bound to the value of playerAPI.mute', function(){
@@ -193,7 +193,37 @@ describe('Component: control panel', function () {
             scope.$apply();
             expect(ngModel.$modelValue).toBe(false);
 
-         });*/
+         });
+
+      });
+
+      describe('auto switch', function(){
+         
+         console.log('TEST NOT IMPLEMENTED: Player Controls: mute toggle');
+
+         var autoswitch, ngModel;
+         beforeEach(function(){
+            autoswitch = player.find('md-switch#auto-switch');
+         });
+
+         it('should be off by default', function(){
+            ngModel = autoswitch.controller('ngModel');
+            expect(ngModel.$modelValue).toBe(false);
+         });
+
+         it('should be bound to the value of playerAPI.autoplay', function(){
+           
+            ngModel = autoswitch.controller('ngModel');
+         
+            playerAPI.autoplay = true;
+            scope.$apply();
+            expect(ngModel.$modelValue).toBe(true);
+
+            playerAPI.autoplay = false;
+            scope.$apply();
+            expect(ngModel.$modelValue).toBe(false);
+
+         });
 
       });
 

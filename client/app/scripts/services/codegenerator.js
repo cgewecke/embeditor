@@ -1,3 +1,5 @@
+var cg_debug; 
+
 (function(){ 
    'use strict';
    angular.module('embeditor.services.codeGenerator', [])
@@ -39,9 +41,11 @@
 
       self.script = function(){
 
+         // Generate unique ids so multiple <script> based embeds don't conflict
          var functionId = 'embedlam' + Date.now().toString();
          var playerId = 'player' + Date.now().toString();
          var overlayId = 'overlay' + Date.now().toString();
+         var n = '\n';
 
          var css = '"\
             .embedlam-overlay{\
@@ -103,86 +107,88 @@
          return (
 
          // HTML    
-         '<div> <div style="position: relative">' +
-            '<div id="' + overlayId + '" class="embedlam-overlay">' +
-                  '<div class="embedlam-spinner">' +
-                     '<div class="embedlam-loader"></div>' +
-                  '</div>' +
-               '</div>' +
-               '<div id="' + playerId + '"></div>' +
-         '</div></div>' + 
+         '<div> <div style="position: relative">' + n +
+            '<div id="' + overlayId + '" class="embedlam-overlay">' + n +
+                  '<div class="embedlam-spinner">' + n +
+                     '<div class="embedlam-loader"></div>' + n +
+                  '</div>' + n +
+               '</div>' + n +
+               '<div id="' + playerId + '"></div>' + n +
+         '</div></div>' + n +
          
          // SCRIPT
-         '<script>' +
+         '<script>' + n +
             
-            'var embdebug;' + 
+            'var embdebug;' + n +
 
             // DEFINE EMBEDLAM GLOBALLY TO PREVENT YT IFRAME API DOUBLE LOAD
-            '(window.embedlam === undefined) ? window.embedlam = false : window.embedlam = true;' +
+            '(window.embedlam === undefined) ? window.embedlam = false : window.embedlam = true;' + n +
             // INJECT CSS
-            'var css = ' + css + ';' +         
-            'var head = document.head || document.getElementsByTagName("head")[0];' +
-            'var style = document.createElement("style");'+
-            'style.type = "text/css";'+
-            'if (style.styleSheet){'+
-              'style.styleSheet.cssText = css;' +
-            '} else {'+
-              'style.appendChild(document.createTextNode(css));'+
-            '}'+
-            'head.appendChild(style);' + 
+            'var css = ' + css + ';' + n +        
+            'var head = document.head || document.getElementsByTagName("head")[0];' + n +
+            'var style = document.createElement("style");'+ n +
+            'style.type = "text/css";'+ n +
+            'if (style.styleSheet){'+ n +
+              'style.styleSheet.cssText = css;' + n +
+            '} else {'+ n + 
+              'style.appendChild(document.createTextNode(css));'+ n +
+            '}'+ n +
+            'head.appendChild(style);' + n +
 
             // EMBED INSTANCE
-            'function ' + functionId + '(){' +
-               'var tag, firstScriptTag, player, loop, quality, mute, speed, start, end, init, overlay;' +
+            'function ' + functionId + '(){' + n +
+               'var tag, firstScriptTag, player, loop, quality, mute, rate, start, end, init, overlay;' + n +
 
                // Options & Overlay
-               'loop = ' + self.options.loop  + ';' +
-               'quality = "' + self.options.quality + '";' +
-               'autoplay = ' + self.options.autoplay + ';' +
-               'mute = ' + self.options.mute + ';' +
-               'rate = ' + self.options.rate + ';' +
-               'start = '+ self.options.start + ';' +
-               'end = ' + self.options.end + ';' + 
+               'loop = ' + self.options.loop  + ';' + n +
+               'quality = "' + self.options.quality + '";' + n +
+               'autoplay = ' + self.options.autoplay + ';' + n +
+               'mute = ' + self.options.mute + ';' + n +
+               'rate = ' + self.options.rate + ';' + n +
+               'start = '+ self.options.start + ';' + n +
+               'end = ' + self.options.end + ';' + n +
                'init = true;' + 
-               'overlay = document.getElementById("' + overlayId + '");' +
+               'overlay = document.getElementById("' + overlayId + '");' + n +
 
                // See if YT API already loaded. Skip otherwise
-               'if (!window.embedlam){' +
-                  'tag = document.createElement("script");' +              
-                  'tag.src = (("http:" === document.location.protocol) ? "http:" : "https:") + "//www.youtube.com/iframe_api";' +
-                  'firstScriptTag = document.getElementById("' + playerId + '"); ' +             
-                  'firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);' +              
-                  'window.onYouTubeIframeAPIReady = function(){ loadPlayer(); }'+
-               '} else {'+
-                  'var timer = setInterval(function(){' +
-                    'if (typeof YT != "undefined" && YT.Player ){' +
-                      'loadPlayer();' +
-                      'clearInterval(timer);' +
-                    '}' +
-                  '}, 250);' +
-               '}' +
+               'if (!window.embedlam){' + n +
+                  'tag = document.createElement("script");' + n +             
+                  'tag.src = (("http:" === document.location.protocol) ? "http:" : "https:") + "//www.youtube.com/iframe_api";' + n +
+                  'firstScriptTag = document.getElementById("' + playerId + '"); ' +       n +      
+                  'firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);' +  n +            
+                  'window.onYouTubeIframeAPIReady = function(){ loadPlayer(); }'+ n +
+               '} else {'+ n +
+                  'var timer = setInterval(function(){' + n +
+                    'if (typeof YT != "undefined"){' + n + // && Operator is getting urlencoded . . .
+                      'if(YT.Player ){' + n +
+                        'loadPlayer();' + n +
+                        'clearInterval(timer);' + n +
+                      '}' + n +
+                    '}' + n +
+                  '}, 250);' + n +
+               '}' + n +
 
                // Player instance
-               'function loadPlayer(){' + 
-                  'embdebug = player = new YT.Player("' + playerId + '", {' +
-                     'width:' + "'" + self.frame.width + "'," +
-                     'height:' + "'" + self.frame.height + "'," +
-                     'videoId:' + "'" + self.options.videoId + "'," +
-                     'playerVars:{' +
-                        'iv_load_policy:' + "'" + self.frame.iv_load_policy + "'," +
-                        'controls:' + "'" + self.frame.controls + "'," +
-                        'disablekb:' + "'" + self.frame.disablekb + "'," +
-                        'fs:' + "'" + self.frame.fs + "'," +
-                        'modestbranding:' + "'" + self.frame.modestbranding + "'," +
-                        'showinfo:' + "'" + self.frame.showinfo + "'" + 
-                     '},' + 
-                     'events: {' +
-                        'onReady: onPlayerReady,' + 
-                        'onStateChange: onPlayerStateChange,' + 
-                        'onError: onPlayerError' +
-                     '}' +
-                  '});' +
-               '};' + 
+               'function loadPlayer(){' + n +
+                  'embdebug = player = new YT.Player("' + playerId + '", {' + n +
+                     'width:' + "'" + self.frame.width + "'," + n +
+                     'height:' + "'" + self.frame.height + "'," + n +
+                     'videoId:' + "'" + self.options.videoId + "'," + n +
+                     'playerVars:{' + n +
+                        'iv_load_policy:' + "'" + self.frame.iv_load_policy + "'," + n +
+                        'controls:' + "'" + self.frame.controls + "'," + n +
+                        'disablekb:' + "'" + self.frame.disablekb + "'," + n +
+                        'fs:' + "'" + self.frame.fs + "'," + n +
+                        'modestbranding:' + "'" + self.frame.modestbranding + "'," + n +
+                        'showinfo:' + "'" + self.frame.showinfo + "'" + n +
+                     '},' + n +
+                     'events: {' + n +
+                        'onReady: onPlayerReady,' + n +
+                        'onStateChange: onPlayerStateChange,' + n +
+                        'onError: onPlayerError' + n +
+                     '}' + n +
+                  '});' + n +
+               '};' + n +
 
          
                // Embed driver 
@@ -196,18 +202,24 @@
                     }\
                   }, 150);\
                };\
-               function onPlayerReady(){player.mute(); player.seekTo(start);player.playVideo();};\
+               function onPlayerReady(){\
+                player.mute();\
+                player.seekTo(start);\
+                player.playVideo();\
+              };\
                function onPlayerStateChange(event){\
                   if (event.data === YT.PlayerState.PLAYING){\
                      setStop();\
                      if (init){\
                         player.pauseVideo();\
                         player.seekTo(start);\
-                        (speed != 1) ? player.setPlaybackRate(rate) : false;\
+                        (rate != 1) ? player.setPlaybackRate(rate) : false;\
                         (autoplay) ? player.playVideo() : player.pauseVideo();\
-                        (!mute) ? player.unMute(): false;\
                         init = false;\
-                        setTimeout(function(){ overlay.style.visibility = "hidden" }, 250);\
+                        setTimeout(function(){\
+                         overlay.style.visibility = "hidden";\
+                         (!mute) ? player.unMute(): false;\
+                        }, 250);\
                      }\
                   }\
                };\

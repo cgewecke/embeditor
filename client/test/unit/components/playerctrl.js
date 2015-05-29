@@ -60,6 +60,12 @@ describe('Controller: PlayerCtrl', function () {
     });
   });
 
+  describe('API.mute watch', function(){
+    it('should update codeGenerator mute option on value change', function(){
+      console.log('TEST NOT IMPLEMENTED: PlayerCtrl');
+    });
+  });
+  
   describe('API.startpoint, endpoint listener', function(){
     it('should update codeGenerator start/end point options on value change', function(){
       console.log('TEST NOT IMPLEMENTED: PlayerCtrl');
