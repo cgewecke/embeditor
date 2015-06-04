@@ -25,6 +25,7 @@ angular
     'embeditor.components.searchbox',
     'embeditor.components.searchsidebar',
     'embeditor.services.codeGenerator',
+    'embeditor.services.cyclopseDataAPI',
     'embeditor.services.youTubeDataAPI',
     'embeditor.services.youtubePlayerAPI'
   ])

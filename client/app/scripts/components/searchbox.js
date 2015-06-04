@@ -19,7 +19,7 @@ var sr_debug, sr_debugII;
          restrict: 'E',  
          controller: searchboxCtrl,
          link: searchboxEventHandlers,
-         templateUrl:  'templates/searchbox.html'
+         templateUrl:  'app/templates/searchbox.html'
       };
    };
 

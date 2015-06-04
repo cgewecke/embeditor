@@ -57,11 +57,10 @@ var pctl_debug, pctl_debugII;
       // watch(API.mute): ng-modelled on the mute switch. 
       // Listened for by codeGenerator Service
       $scope.$watch('API.mute', function(newval, oldval){
-        if (self.API.videoLoaded && newval){
+        if (self.API.videoLoaded && newval != undefined){
             (newval) ? self.API.silence() : self.API.noise();
             self.code.set('mute', newval);
-        };
-        
+        };        
       });
 
       $scope.$watch('API.autoplay', function(newval, oldval){

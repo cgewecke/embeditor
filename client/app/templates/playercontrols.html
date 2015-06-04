@@ -32,7 +32,7 @@
       </span>
       <span layout="column" flex="15" layout-align="center">
         <span layout="row" layout-align="center center">
-          <md-button id="reset-button" class="code-btn"
+          <md-button id="reset-button" class="code-btn" aria-label="reset"
             ng-click="player.API.reset()">
             <ng-md-icon icon="cancel" size="32" style="fill:white"></ng-md-icon>
           </md-button>
@@ -249,7 +249,7 @@
         aria-label="loop">
       </md-switch>  
     </md-input-container>  
-    <!-- Loop Switch -->
+    <!-- Mute Switch -->
     <md-input-container flex="10" class="playback-input-container">
       <label class="close-label center-label"> Mute </label>
       <md-switch flex 
@@ -275,13 +275,10 @@
       <md-button flex
         id="embed-dialog-btn"
         ng-click='player.dialog.openEmbedCodeDialog($event)'
-        class="code-btn md-whiteframe-z1"
-        aria-label="embed code">
+        class="code-btn md-whiteframe-z1">
         <span class="fa fa-code fa-lg code-icon"></span> 
         <span class="code-text"> Embed </span>
       </md-button>  
     </md-input-container>  
-  </div>
-
-  
+  </div>  
 </div>
