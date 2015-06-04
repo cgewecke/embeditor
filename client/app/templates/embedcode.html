@@ -1,10 +1,11 @@
 <!-- Embed Code Dialog Template -->
+<!-- <script type="text/ng-template" id="embedcode.html"> -->
 <md-dialog flex="40">
    <!-- Toolbar -->
    <md-toolbar layout="row" layout-align="start center">
       <div class="md-toolbar-tools">
          <!-- Icon -->
-         <md-button aria-label="embeditor-icon" class="md-warn" > 
+         <md-button aria-label="embeditor-icon" class="md-warn" aria-label="icon"> 
             <ng-md-icon icon="album" size="48"></ng-md-icon>
          </md-button>
          <!-- Instructions -->
@@ -16,7 +17,7 @@
          </div>
          <span flex></span>
          <!-- Close button -->
-         <md-button ng-click="closeDialog()">
+         <md-button ng-click="closeDialog()" aria-label="close">
             <ng-md-icon icon="clear"></ng-md-icon>
          </md-button>
      </div>
@@ -25,15 +26,15 @@
    <!-- Formatting Radio Buttons -->
    <md-radio-group class="embed-radio-group" ng-model="format">
       <!-- Iframe -->
-      <md-radio-button class="embed-radio-btn" value="iframe" ng-disabled="false"> 
+      <md-radio-button class="embed-radio-btn" value="iframe" ng-disabled="false" aria-label="iframe"> 
          IFrame 
       </md-radio-button>
       <!-- Raw HTML/JS -->
-      <md-radio-button class="embed-radio-btn" value="script"> 
+      <md-radio-button class="embed-radio-btn" value="script" aria-label="html"> 
          HTML & JS 
       </md-radio-button>
       <!-- Embedly -->
-      <md-radio-button class="embed-radio-btn" value="embedly" ng-disabled="true"> 
+      <md-radio-button class="embed-radio-btn" value="embedly" ng-disabled="true" aria-label="embedly"> 
          Embedly
       </md-radio-button>
    </md-radio-group>
@@ -50,7 +51,7 @@
 
    <!-- Copy Button --> 
    <div class="embed-copy-btn-row" layout="row" layout-align="center center" layout-fill>
-      <md-button id="code-copy-button" embeditor-copy-code-button
+      <md-button id="code-copy-button" embeditor-copy-code-button aria-label="copy"
        class="code-btn md-whiteframe-z1"> 
          {{copyButtonMessage}} 
       </md-button>
@@ -72,3 +73,4 @@
      </div>
    </md-toolbar>
 </md-dialog>
+<!-- </script> -->

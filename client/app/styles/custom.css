@@ -181,9 +181,9 @@
 }
 
 md-progress-linear .md-container{
-  height: 10px;
+  height: 15px;
   top: -3px;
-  cursor: pointer;
+  cursor: ne-resize;
 }
 
 md-progress-linear .md-dashed:before{
@@ -336,7 +336,7 @@ md-sidenav.md-closed.md-locked-open-add-active {
 }
 .searchRelatedIcon{
   position:absolute;
-  //opacity: .8;
+  /*opacity: .8;*/
   top: 0px;
   right: 0px;
   background-color: white !important;

@@ -42,6 +42,7 @@ var ed_debug, ed_debugII;
          var self = this;
 
          self.openEmbedCodeDialog = function(event){
+            console.log('opening dialog');
             var codeDialog = {
                clickOutsideToClose: true,  
                templateUrl: 'templates/embedcode.html',

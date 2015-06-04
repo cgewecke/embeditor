@@ -17,11 +17,12 @@ var cg_debug;
          rate: '1.0',
          start: '0.0',
          end: '0.0',
+         width: 660,
+         height: 480
       };
 
       self.frame = {
-         width: 660,
-         height: 480,
+
          iv_load_policy: 3,
          controls: 0,
          disablekb: 1,
@@ -171,8 +172,8 @@ var cg_debug;
                // Player instance
                'function loadPlayer(){' + n +
                   'embdebug = player = new YT.Player("' + playerId + '", {' + n +
-                     'width:' + "'" + self.frame.width + "'," + n +
-                     'height:' + "'" + self.frame.height + "'," + n +
+                     'width:' + "'" + self.options.width + "'," + n +
+                     'height:' + "'" + self.options.height + "'," + n +
                      'videoId:' + "'" + self.options.videoId + "'," + n +
                      'playerVars:{' + n +
                         'iv_load_policy:' + "'" + self.frame.iv_load_policy + "'," + n +

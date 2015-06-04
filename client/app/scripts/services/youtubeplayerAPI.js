@@ -1,9 +1,7 @@
 var ytp_debug, ytp_debugII;
 /*
 BUGS:
-1. CORRECT OVERSHOOT UNDERSHOOT BY PLAYBACK SPEED
-2. PLAYBACK SPEED NOT SET ON LOAD FROM SEARCH
-3. SETTING THE timestamp ON LOAD?
+1. CORRECT OVERSHOOT UNDERSHOOT BY PLAYBACK SPEED (??)
 */
 (function(){
 'use strict';
@@ -39,9 +37,9 @@ BUGS:
     self.prevAction = 'play'; // Vals: 'set' or 'play', arbs tapehead location when setting.
     self.videoLoaded = false; // False during video load, true when the stream initiates.
     self.minLengthWarning = false; // True when start/endpoints are 1 sec apart, false otherwise.
-    self.loop = true;
-    self.mute = false;
-    self.autoplay = false;
+    self.loop = true; // When true, player loops back to startpoint from endpoint
+    self.mute = false; // When true, player is muted. 
+    self.autoplay = false; // When true, embed will auto-play on iframe load
 
     self.state; // Vals: 'playing' or 'paused', toggles icon. 
     self.frameLength = .05;
