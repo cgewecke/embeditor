@@ -2,6 +2,7 @@
 <html class="no-js">
   <head>
     <meta charset="utf-8">
+    <base href="/"> 
     <title></title>
     <meta name="description" content="">
     <meta name="viewport" content="width=device-width">
@@ -21,11 +22,7 @@
   </head>
   <body ng-app="embeditor">
     <ng-view></ng-view>
-   <!-- <md-content layout="column" layout-fill>
-      <div ng-include src="'templates/toolbar.html'" layout="column"></div>
-      <embeditor-section-sidebar></embeditor-section-sidebar>
-      <div ng-include src="'templates/player.html'"></div>
-  </md-content> -->
+  
     <!-- Google Analytics: change UA-XXXXX-X to be your site's ID -->
      <script>
        !function(A,n,g,u,l,a,r){A.GoogleAnalyticsObject=l,A[l]=A[l]||function(){
@@ -66,8 +63,9 @@
     <script src="scripts/app.js"></script>
 
     <script src="scripts/services/codegenerator.js"></script>
-    <script src="scripts/services/youTubeDataAPI.js"></script>
-    <script src="scripts/services/youtubePlayerAPI.js"></script>
+    <script src="scripts/services/cyclopsedataAPI.js"></script>
+    <script src="scripts/services/youtubedataAPI.js"></script>
+    <script src="scripts/services/youtubeplayerAPI.js"></script>
     
     <script src="scripts/components/embed.js"></script>
     <script src="scripts/components/embedcodedialog.js"></script>

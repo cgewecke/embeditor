@@ -8,23 +8,26 @@ var ed_debug, ed_debugII;
       .service('embedCodeDialog', embedCodeDialog )
       .directive('embeditorCopyCodeButton', copyCodeButton);
     
-      // dialogCtrl(): Controller for the dialog window and 
-      // the copy button directive
+      // -------------------- CONTROLLER: dialogCtrl(): ---------------------------------
+      // For dialog window and the copy button directive
       function dialogCtrl($scope, $mdDialog, codeGenerator){
 
-         var defaultButtonMessage = "Click to copy";
+         var defaultButtonMessage = "Click to copy";  
+
+         // Code generating functions
          var formats = {
             script: codeGenerator.script, 
             iframe: codeGenerator.iframe, 
             embedly: codeGenerator.embedly
          };
 
-         $scope.format = 'iframe';
-         $scope.highlight= true;
-         $scope.copyButtonMessage = defaultButtonMessage;
-         $scope.code = formats["iframe"]();
-         $scope.help = function(){ console.log('help clicked')};
-         $scope.closeDialog = function(){$mdDialog.hide();}
+         $scope.format = 'iframe'; // Default radio btn group model val
+         $scope.ready = false; // When false, spinner occupies code window
+         $scope.highlight= true; // When true code is faux-highlighted
+         $scope.copyButtonMessage = defaultButtonMessage; // 'Click to Copy' || 'Copied'
+         $scope.code = ''; // Contents of code window
+         $scope.help = function(){}; // Redirect to /help
+         $scope.closeDialog = function(){$mdDialog.hide();} // Dismiss btn fn
 
          // Radio Button changes
          $scope.$watch('format', function(newVal, oldVal){
@@ -34,20 +37,32 @@ var ed_debug, ed_debugII;
                $scope.code = formats[newVal]();
             }  
          });
+
+         // Event broadcast by embedCodeDialog service on DB call.
+         // Item id & iframe address available/ Dismiss spinner
+         $scope.$on('embedCodeDialog:videoCreated', function(){
+            $scope.code = formats["iframe"]();
+            $scope.ready = true;
+         });
       };
       dialogCtrl.$inject = ['$scope', '$mdDialog', 'codeGenerator'];
 
-      // Service. Open and close methods
-      function embedCodeDialog($mdDialog){
+      // ----------------- SERVICE: --------------------
+      function embedCodeDialog($rootScope, $mdDialog, Videos, codeGenerator){
          var self = this;
+         var code = codeGenerator;
+         var createEvent = {name: 'embedCodeDialog:videoCreated'};
 
+         // Open and close methods
          self.openEmbedCodeDialog = function(event){
-            console.log('opening dialog');
+         
             var codeDialog = {
                clickOutsideToClose: true,  
                templateUrl: 'templates/embedcode.html',
                controller: dialogCtrl
             };
+
+            createVideo();
 
             $mdDialog.show(codeDialog).finally(function(){
                codeDialog = undefined;
@@ -58,9 +73,26 @@ var ed_debug, ed_debugII;
            $mdDialog.hide();
          };
 
+         // createVideo(): Create DB object, get DB id for 
+         // iframe address
+         function createVideo(){
+            var video = new Videos(code.options);
+            video.$save().then(
+               function(saved){
+                  console.log("DB SAVE: " + window.location.href);
+                  code.options._id = saved.video._id;
+                  $rootScope.$broadcast(createEvent.name);
+               },
+               function(error){
+                  console.log('ERROR creating video');
+                  ed_debug = error;
+               }
+            );
+         }
       };
-      embedCodeDialog.$inject = ['$mdDialog'];
+      embedCodeDialog.$inject = ['$rootScope', '$mdDialog', 'Videos', 'codeGenerator'];
 
+      // ------------------- DIRECTIVES ------------------------------
       // embeditor-copy-code-button: Attribute of md-button#code-copy-button
       // ZeroClipboard: copies scope.code to native clipboard on click
       function copyCodeButton(){
