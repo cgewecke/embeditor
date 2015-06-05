@@ -35,7 +35,7 @@ describe('Component: searchbox:', function () {
     });
 
     it ('should query with the current search box contents on carriage return', function(){
-      // PROTRACTOR
+  
       var mdElem = form.find('md-autocomplete');
       var inputElem = form.find('input');
       var returnEvent = jQuery.Event('keypress');

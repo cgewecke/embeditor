@@ -14,10 +14,7 @@ router.get('/videos/:id', function(req, res){
    var params = req.params
    var opType = "get";
 
-   Videos.findOne({
-      '_id': params.id
-
-   }, function(err, video){
+   Videos.findById( params.id, function(err, video){
       (err) ? 
          responder(res, err, body, opType) : // Error
          responder(res, err, video, opType); // Success
@@ -27,6 +24,7 @@ router.get('/videos/:id', function(req, res){
 // POST /videos (create video)
 router.post('/videos', function (req, res) {
 
+   console.log('In post videos: ' + req.body);
    var body = req.body;
    var params = req.params
    var opType = "create";
@@ -59,26 +57,25 @@ router.post('/videos/:id', function (req, res) {
    var params = req.params
    var opType = "update";
 
-   Videos.findOne({
-      '_id': params.id
-
-   }, function(err, video){
+   console.log('params.id + ' + params.id);
+   Videos.findById(params.id, function(err, video){
 
       if (err) responder(res, err, body, opType)
       else {
-         video.update(
-            { videoId: body.videoId },
-            { quality: body.quality },
-            { autoplay: body.autoplay },
-            { loop: body.loop },
-            { mute: body.mute },
-            { rate: body.rate },
-            { start: body.start },
-            { end: body.end },
-            { width: body.width },
-            { height: body.height },
+
+         video.videoId = body.videoId;
+         video.quality = body.quality;
+         video.autoplay = body.autoplay;
+         video.loop = body.loop;
+         video.mute = body.mute;
+         video.rate = body.rate;
+         video.start = body.start;
+         video.end = body.end;
+         video.width = body.width;
+         video.height = body.height;
+
+         video.save(function (err, savedVideo) { 
          
-         function (err, savedVideo) { 
             (err) ? 
                responder(res, err, body, opType):       //Error
                responder(res, err, savedVideo, opType); //Success
