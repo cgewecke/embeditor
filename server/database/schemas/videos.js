@@ -4,6 +4,7 @@
 var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
 
+
 // Definition
 var videoSchema = new Schema({
 
@@ -15,44 +16,44 @@ var videoSchema = new Schema({
     rate: { type: String, required: true },
     start: { type: String, required: true },
     end: { type: String, required: true },
-    created_at: {type: Date, required: true },
-    updated_at: {type: Date, required: true },
+    created_at: {type: Date},
+    updated_at: {type: Date},
 
-    width: { type: Number, required: true },
-    height: { type: Number, required: true },
-    iv_load_policy: { type: Number, required: true },
-    controls: { type: Number, required: true },
-    disablekb: { type: Number, required: true },
-    fs: { type: Number, required: true },
-    rel: { type: Number, required: true },
-    modestbranding: { type: Number, required: true }, 
-    showinfo: { type: Number, required: true },
+    width: { type: Number},
+    height: { type: Number},
+    iv_load_policy: { type: Number},
+    controls: { type: Number},
+    disablekb: { type: Number},
+    fs: { type: Number},
+    rel: { type: Number},
+    modestbranding: { type: Number}, 
+    showinfo: { type: Number}
 
-    
 });
 
 // Creation/Update times
 videoSchema.pre('save', function (next) {
 
+    console.log("In videoSchema pre");
+
     var video = this;
     var currentDate = new Date();
 
-    this.updated_at = currentDate;
+    video.updated_at = currentDate;
 
     // if created_at doesn't exist, add to that field
-    if (!this.created_at)
-        this.created_at = currentDate;
+    if (!video.created_at)
+        video.created_at = currentDate;
 
-    this.iv_load_policy = 3;
-    this.controls = 0;
-    this.disablekb =1;
-    this.fs = 0;
-    this.rel = 0;
-    this.modestbranding = 1; 
-    this.showinfo = 0;
+    video.iv_load_policy = 3;
+    video.controls = 0;
+    video.disablekb =1;
+    video.fs = 0;
+    video.rel = 0;
+    video.modestbranding = 1; 
+    video.showinfo = 0;
 
     next();
-
 
 });
 

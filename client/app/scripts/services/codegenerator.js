@@ -9,14 +9,15 @@ var cg_debug;
       var self = this;
 
       self.options = {
+         _id: undefined,
          videoId: undefined,
          quality: 'auto',
-         autoplay: 'false',
-         loop: 'false',
-         mute: 'false',
-         rate: '1.0',
-         start: '0.0',
-         end: '0.0',
+         autoplay: false,
+         loop: false,
+         mute: false,
+         rate: 1.0,
+         start: 0.0,
+         end: 0.0,
          width: 660,
          height: 480
       };
@@ -33,11 +34,17 @@ var cg_debug;
       };
 
       self.set = function(option, value){
-         (value != undefined ) ? self.options[option] = value.toString() : false;
+         (value != undefined ) ? self.options[option] = value : false;
       };
 
       self.iframe = function(){ 
-         return '<iframe src="http://fake/embed/123456789"></iframe>';
+
+         return '<iframe src="' + 
+                window.location.href + 'embed/' + 
+                self.options._id + '"' + ' style="height: ' + 
+                self.options.height + 'px; width: ' +
+                self.options.width + 'px; overflow: hidden; border: none;"' +
+                'scrolling="no" seamless="seamless"></iframe>';
       };
 
       self.script = function(){
@@ -108,7 +115,7 @@ var cg_debug;
          return (
 
          // HTML    
-         '<div> <div style="position: relative">' + n +
+         '<div> <div style="position: relative;">' + n +
             '<div id="' + overlayId + '" class="embedlam-overlay">' + n +
                   '<div class="embedlam-spinner">' + n +
                      '<div class="embedlam-loader"></div>' + n +

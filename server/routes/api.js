@@ -1,12 +1,13 @@
 /**
- * This handles the signing up of users
+ * This handles creation and retrieval of 'video' assets 
+ * from the database
  */
 var express = require('express');
 var router = express.Router();
 var db = require('../database');
 var Videos = db.videos;
 
-// POST /videos (create video)
+// GET /videos (create video)
 router.get('/videos/:id', function(req, res){
 
    var body = req.body;
@@ -43,7 +44,7 @@ router.post('/videos', function (req, res) {
       height: body.height
    });
 
-   newVideo.save( function(err, savedVideo){
+   newVideo.save(function(err, savedVideo){
       (err) ? 
          responder(res, err, body, opType) :      // Error
          responder(res, err, savedVideo, opType); // Success
@@ -91,16 +92,15 @@ function responder(res, err, video, opType){
 
    // Log error
    if (err) {
-     console.log('Problem with' + opType + ' video due to ' + err);
-     res.status(500).json({'message': 'Database error ' + opType + ' video: ' + savedVideo.videoId });
+     console.log('Problem with ' + opType + ' video due to ' + err);
+     res.status(500).json({'message': 'Database error ' + opType + ' video: ' + video.videoId });
    
    // Log success + return document w/id
    } else {
-      
-      console.log('Success: ' + opType + ' new video: ' + savedVideo._id);
+      console.log('Success: ' + opType + ' video: ' + video._id);
       res.status(201).json({
-        'message': 'Success: '+ opType + ' new user',
-        'client': savedVideo
+        'message': 'Success: '+ opType + ' video',
+        'video': video
       });  
    }
 }
