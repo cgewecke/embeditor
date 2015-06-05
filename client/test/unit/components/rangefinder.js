@@ -89,10 +89,6 @@ describe('Component: RangeFinder', function(){
           expect(playerAPI.seek).toHaveBeenCalledWith(11);
         });
 
-        it('should do nothing if there is no difference between new and previous values', function(){
-            console.log('TEST NOT IMPLEMENTED: rangefinder finish: no diff');
-        });
-
         it('should seek player to the new end value when it changes', function(){
           spyOn(playerAPI, 'seek');
           playerAPI.load(video);
@@ -113,7 +109,7 @@ describe('Component: RangeFinder', function(){
           expect(playerAPI.pause).toHaveBeenCalled();
         })
 
-        it('should know which end changed, i.e work twice in a row', function(){
+        it('should detect which end changed, i.e work twice in a row', function(){
           spyOn(playerAPI, 'seek');
           playerAPI.load(video);
           playerAPI.initializing = false;
@@ -127,14 +123,14 @@ describe('Component: RangeFinder', function(){
           expect(playerAPI.seek).toHaveBeenCalledWith(100);
 
         })
+
+        it('should do nothing if there is no difference between new and previous values', function(){
+            console.log('TEST NOT IMPLEMENTED: rangefinder finish: no diff');
+        });
       
       });
 
       describe('finish()', function(){
-
-        it('should do nothing if there is no difference between new and previous values', function(){
-          console.log('TEST NOT IMPLEMENTED: rangefinder finish: no diff');
-        });
 
         it('should set the start/end points to their new value', function(){
           playerAPI.load(video);
@@ -182,6 +178,10 @@ describe('Component: RangeFinder', function(){
           expect(rangeCtrl.slider.options.to_min).toEqual(11);
 
         })
+
+        it('should do nothing if there is no difference between new and previous values', function(){
+          console.log('TEST NOT IMPLEMENTED: rangefinder finish: no diff');
+        });
       })
 
   });
