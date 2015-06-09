@@ -4,33 +4,45 @@ describe('Service: Code Generator', function(){
 
   beforeEach(module('embeditor'));
   
-  describe('public: set', function(){
-    it('should convert values to strings and assign them to the relevant key in options', function(){
+  describe('public: set(option, value)', function(){
+    it('should set relevant "option" to "value"', function(){
        console.log('TEST NOT IMPLEMENTED: Code Generator Service: public: set');
     })
   })
-  describe('public: raw', function(){
-    it('should return a string that encodes the specified embeditor clip', function(){
-      console.log('TEST NOT IMPLEMENTED: Code Generator Service: public: raw');
 
+  describe('public: create', function(){
+    it('should attempt to create a video clip record in the DB', function(){
+
+    });
+
+    it('should update the codeGenerator options object with the new DB object id', function(){
+
+    });
+
+    it('should return a promise', function(){
+
+    });
+  })
+
+  describe('public: script', function(){
+    console.log('Code Generator Service script tests not implemented');
+
+    it('should return a string that encodes the specified embeditor clip', function(){
     });
 
     it('should correctly encode the selected iframe options', function(){
-      console.log('TEST NOT IMPLEMENTED: Code Generator Service: public: raw');
     })
 
     it('should correctly encode the playback speed settings', function(){
-      console.log('TEST NOT IMPLEMENTED: Code Generator Service: public: raw');
     });
 
     it('should correctly encode loop setting', function(){
-      console.log('TEST NOT IMPLEMENTED: Code Generator Service: public: raw');
     });
   });
 
   describe('public: iframe', function(){
+    console.log('Code Generator service iframe() tests not implemented');
     it('should return an iframe tag src linked to the correct asset', function(){
-      console.log('TEST NOT IMPLEMENTED: Code Generator Service: public: iframe');
     })
   });
 });

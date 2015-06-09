@@ -90,7 +90,7 @@ var sb_debug, sb_debugII, sb_debugIII;
 
         // Play Video click
         thumbnailElem.bind('click', function(event){
-          console.log("video: " + scope.video.videoId);
+          console.log("video: " + scope.video.seconds);
           playerAPI.load(scope.video);
         });
 

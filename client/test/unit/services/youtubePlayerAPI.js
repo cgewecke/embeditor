@@ -214,12 +214,44 @@ describe('Service: youtubePlayerAPI', function () {
 
       describe('playerAPI: reset', function(){
 
+         var video = {
+            duration: "6:55",
+            seconds: 414, 
+            videoId: "HcXNPI-IPPM"
+         };
+
+         beforeEach(function(){
+            playerAPI.load(video);
+         })
+
          it('should set startpoint to 0, endpoint to video length', function(){
-            console.log('TEST NOT IMPLEMENTED: playerAPI: reset');
+
+            playerAPI.start(10);
+            playerAPI.end(-10);
+            timeout.flush();
+
+            expect(playerAPI.startpoint.val).toEqual(10);
+            expect(playerAPI.endpoint.val).toEqual(404);
+
+            playerAPI.reset();
+            expect(playerAPI.startpoint.val).toEqual(0);
+            expect(playerAPI.endpoint.val).toEqual(414);
+
          });
 
          it('should update the rangefinder values', function(){
-            console.log('TEST NOT IMPLEMENTED: playerAPI: reset');
+            playerAPI.start(10);
+            playerAPI.end(-10);
+            timeout.flush();
+
+            expect(playerAPI.startpoint.val).toEqual(10);
+            expect(playerAPI.endpoint.val).toEqual(404);
+
+            var serviceScope = playerAPI.scope;
+            spyOn(serviceScope, '$broadcast');
+            playerAPI.reset()
+            expect(serviceScope.$broadcast).toHaveBeenCalledWith('YTPlayerAPI:update');
+   
          });
 
       });

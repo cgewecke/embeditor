@@ -17,14 +17,14 @@
          </div>
          <span flex></span>
          <!-- Close button -->
-         <md-button ng-click="close()" aria-label="close">
+         <md-button id="code-dialog-dismiss-btn" ng-click="mdDialog.hide()" aria-label="close">
             <ng-md-icon icon="clear"></ng-md-icon>
          </md-button>
      </div>
    </md-toolbar>
 
    <!-- Formatting Radio Buttons -->
-   <md-radio-group class="embed-radio-group" ng-model="format">
+   <md-radio-group id='code-dialog-format-group' class="embed-radio-group" ng-model="format">
       <!-- Iframe -->
       <md-radio-button class="embed-radio-btn" value="iframe" ng-disabled="false" aria-label="iframe"> 
          IFrame 
@@ -43,7 +43,7 @@
    <md-dialog-content class="embed-dialog-content"
       layout="row" layout-align="center" layout-fill> 
       <md-content flex class="embed-code-text"> 
-         <span ng-class="{'embed-code-highlight': highlight}">
+         <span id='embed-code-text' ng-class="{'embed-code-highlight': highlight}">
           {{code}} 
          </span>
       </md-content>      

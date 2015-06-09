@@ -76,7 +76,7 @@ var rf_debug, rf_debugII;
 
          // update(): Called when 
          self.update = function(start, end){
-            console.log("update");
+
             var step = 5;
   
             changedByUpdate = true;
@@ -129,7 +129,7 @@ var rf_debug, rf_debugII;
          // finish(): New start/end point is set. This is fired when the user 
          // releases the handle. 
          self.finish = function(newVals){
-            console.log("finish");
+    
             var newStart = parseFloat(newVals[0]);
             var newEnd = parseFloat(newVals[1]);
             var oldStart = Math.round(self.API.startpoint.val);

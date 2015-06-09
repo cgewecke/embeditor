@@ -6,10 +6,50 @@ var ed_debug, ed_debugII;
   angular.module('embeditor.components.embedcodedialog', ['embeditor.services.youtubePlayerAPI'])
     
       .service('embedCodeDialog', embedCodeDialog )
-      .directive('embeditorCopyCodeButton', copyCodeButton);
+      .controller('CodeDialogCtrl', dialogCtrl)
+      .directive('embeditorCopyCodeButton', copyCodeButton)
+      .directive('embeditorSectionCodeDialog', embeditorSectionCodeDialog);
     
+      // ---------------------------- SERVICE: ---------------------------------
+      // Injected into PlayerCtrl - the open() method is called on embed btn click
+      function embedCodeDialog($rootScope, $mdDialog, codeGenerator){
+         var self = this;
+         var code = codeGenerator;
+
+         // Open()
+         self.open = function(event){
+         
+            // Dialog def
+            var codeDialog = {
+               clickOutsideToClose: true,  
+               templateUrl: 'templates/embedcode.html',
+               controller: dialogCtrl
+            };
+
+            // Create record of the current clip in DB
+            code.create().then(
+               function(success){
+                  $rootScope.$broadcast('embedCodeDialog:ready');
+               },
+               function(error){
+                  $rootScope.$broadcast('embedCodeDialog:database-error')
+               }
+            );
+
+            // Launch
+            $mdDialog.show(codeDialog).finally(function(){
+               codeDialog = undefined;
+            });
+         }
+
+         // Close();
+         self.close = function() { $mdDialog.hide(); };
+
+      };
+      embedCodeDialog.$inject = ['$rootScope', '$mdDialog', 'codeGenerator'];
+
       // -------------------- CONTROLLER: dialogCtrl(): ---------------------------------
-      // For dialog window and the copy button directive
+      // Injected into the dialog window and the copy button directive
       function dialogCtrl($scope, $mdDialog, codeGenerator){
 
          var defaultButtonMessage = "Click to copy";  
@@ -24,11 +64,11 @@ var ed_debug, ed_debugII;
          $scope.format = 'iframe'; // Default radio btn group model val
          $scope.ready = false; // When false, spinner occupies code window
          $scope.creationError = false; // When true . . . .
-         $scope.highlight= true; // When true code is faux-highlighted, false after copy btn is clicked.
+         $scope.highlight= true; // When true, code is faux-highlighted, false after copy btn is clicked.
          $scope.copyButtonMessage = defaultButtonMessage; // 'Click to Copy' || 'Copied'
          $scope.code = ''; // Contents of code window
+         $scope.mdDialog = $mdDialog; 
          $scope.help = function(){}; // Redirect to /help
-         $scope.close = function(){ $mdDialog.hide();} // Dismiss btn fn
 
          // Radio Button changes
          $scope.$watch('format', function(newVal, oldVal){
@@ -52,44 +92,6 @@ var ed_debug, ed_debugII;
       };
       dialogCtrl.$inject = ['$scope', '$mdDialog', 'codeGenerator'];
 
-      // ---------------------------- SERVICE: ---------------------------------
-      // 
-      function embedCodeDialog($rootScope, $mdDialog, codeGenerator){
-         var self = this;
-         var code = codeGenerator;
-
-         // Open()
-         self.open = function(event){
-         
-            // Dialog def
-            var codeDialog = {
-               clickOutsideToClose: true,  
-               templateUrl: 'templates/embedcode.html',
-               controller: dialogCtrl
-            };
-
-            // Create record
-            code.create().then(
-               function(success){
-                  $rootScope.$broadcast('embedCodeDialog:ready');
-               },
-               function(error){
-                  $rootScope.$broadcast('embedCodeDialog:database-error')
-               }
-            );
-
-            // Launch
-            $mdDialog.show(codeDialog).finally(function(){
-               codeDialog = undefined;
-            });
-         }
-
-         // Close();
-         self.close = function() { $mdDialog.hide(); };
-
-      };
-      embedCodeDialog.$inject = ['$rootScope', '$mdDialog', 'codeGenerator'];
-
       // ------------------- DIRECTIVES ------------------------------
       // embeditor-copy-code-button: Attribute of md-button#code-copy-button
       // ZeroClipboard: copies scope.code to native clipboard on click
@@ -104,14 +106,28 @@ var ed_debug, ed_debugII;
             var clipboard;
             var client = new ZeroClipboard(elem);
 
-            client.on( "copy", function (event) {
-               clipboard = event.clipboardData;
-               clipboard.setData( "text/plain", scope.code );
+            // Proxy for ZeroClipBoard callback, unit testing
+            scope.onCopy = function(event){
+               
+               if (event){
+                  clipboard = event.clipboardData;
+                  clipboard.setData( "text/plain", scope.code );
+               }  
                scope.copyButtonMessage = "Copied."
                scope.highlight = false;
                scope.$apply();
+            }
+
+            // ZeroClipBoard callback
+            client.on( "copy", function (event) { 
+               scope.onCopy(event);
             });
          };
+      };
+
+      // Template compiled for Dialog Unit tests 
+      function embeditorSectionCodeDialog(){
+         return{ templateUrl: 'templates/embedcode.html' }
       };
 
       
