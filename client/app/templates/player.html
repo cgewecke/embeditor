@@ -11,6 +11,7 @@
         
         <!-- Loading screen -->
         <div class="player-loading-screen" 
+             id="player-loading-screen"
              ng-class="{'visible': player.API.initializing}">
             <md-progress-circular 
               layout="row"
@@ -29,6 +30,7 @@
 
                 <span class="timestamp">
                   <ng-md-icon 
+                    id="timestamp-btn"
                     icon="get_app" 
                     style="fill:white" 
                     ng-click="player.startFromTimestamp()"

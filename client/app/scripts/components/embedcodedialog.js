@@ -23,11 +23,12 @@ var ed_debug, ed_debugII;
 
          $scope.format = 'iframe'; // Default radio btn group model val
          $scope.ready = false; // When false, spinner occupies code window
-         $scope.highlight= true; // When true code is faux-highlighted
+         $scope.creationError = false; // When true . . . .
+         $scope.highlight= true; // When true code is faux-highlighted, false after copy btn is clicked.
          $scope.copyButtonMessage = defaultButtonMessage; // 'Click to Copy' || 'Copied'
          $scope.code = ''; // Contents of code window
          $scope.help = function(){}; // Redirect to /help
-         $scope.closeDialog = function(){$mdDialog.hide();} // Dismiss btn fn
+         $scope.close = function(){ $mdDialog.hide();} // Dismiss btn fn
 
          // Radio Button changes
          $scope.$watch('format', function(newVal, oldVal){
@@ -38,59 +39,56 @@ var ed_debug, ed_debugII;
             }  
          });
 
-         // Event broadcast by embedCodeDialog service on DB call.
+         // Events broadcast by embedCodeDialog service on DB call.
          // Item id & iframe address available/ Dismiss spinner
-         $scope.$on('embedCodeDialog:videoCreated', function(){
+         $scope.$on('embedCodeDialog:ready', function(){
             $scope.code = formats["iframe"]();
             $scope.ready = true;
          });
+
+         $scope.$on('embedCodeDialog:database-error', function(){
+            $scope.creationError = true;
+         })
       };
       dialogCtrl.$inject = ['$scope', '$mdDialog', 'codeGenerator'];
 
-      // ----------------- SERVICE: --------------------
-      function embedCodeDialog($rootScope, $mdDialog, Videos, codeGenerator){
+      // ---------------------------- SERVICE: ---------------------------------
+      // 
+      function embedCodeDialog($rootScope, $mdDialog, codeGenerator){
          var self = this;
          var code = codeGenerator;
-         var createEvent = {name: 'embedCodeDialog:videoCreated'};
 
-         // Open and close methods
-         self.openEmbedCodeDialog = function(event){
+         // Open()
+         self.open = function(event){
          
+            // Dialog def
             var codeDialog = {
                clickOutsideToClose: true,  
                templateUrl: 'templates/embedcode.html',
                controller: dialogCtrl
             };
 
-            createVideo();
+            // Create record
+            code.create().then(
+               function(success){
+                  $rootScope.$broadcast('embedCodeDialog:ready');
+               },
+               function(error){
+                  $rootScope.$broadcast('embedCodeDialog:database-error')
+               }
+            );
 
+            // Launch
             $mdDialog.show(codeDialog).finally(function(){
                codeDialog = undefined;
             });
          }
 
-         self.closeEmbedCodeDialog = function() {
-           $mdDialog.hide();
-         };
+         // Close();
+         self.close = function() { $mdDialog.hide(); };
 
-         // createVideo(): Create DB object, get DB id for 
-         // iframe address
-         function createVideo(){
-            var video = new Videos(code.options);
-            video.$save().then(
-               function(saved){
-                  console.log("DB SAVE: " + window.location.href);
-                  code.options._id = saved.video._id;
-                  $rootScope.$broadcast(createEvent.name);
-               },
-               function(error){
-                  console.log('ERROR creating video');
-                  ed_debug = error;
-               }
-            );
-         }
       };
-      embedCodeDialog.$inject = ['$rootScope', '$mdDialog', 'Videos', 'codeGenerator'];
+      embedCodeDialog.$inject = ['$rootScope', '$mdDialog', 'codeGenerator'];
 
       // ------------------- DIRECTIVES ------------------------------
       // embeditor-copy-code-button: Attribute of md-button#code-copy-button

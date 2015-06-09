@@ -33,7 +33,7 @@ describe('Component: control panel', function () {
       }));
 
       it('should disable controls until the player has loaded the video',function(){
-         console.log('TEST NOT IMPLEMENTED: Component: Player Controls: Disable controls');
+         console.log('TEST NOT IMPLEMENTED: Component: control panel: Disable controls');
       });
 
       describe('playerAPI.togglePlay()/Play button', function(){
@@ -85,7 +85,6 @@ describe('Component: control panel', function () {
             expect(YT.mockTime).toEqual(0);
 
          });
-
       });
 
       describe('Playback speed setter', function(){
@@ -135,7 +134,7 @@ describe('Component: control panel', function () {
 
          it('should show a message that explains why its disabled when disabled', function(){
             playerAPI.speeds = false;
-            console.log('TEST NOT IMPLEMENTED: Player Controls: playback disabled message');
+            console.log('TEST NOT IMPLEMENTED: control panel: playback slider disabled message');
          });
 
       });
@@ -169,8 +168,6 @@ describe('Component: control panel', function () {
 
       describe('mute switch', function(){
          
-         console.log('TEST NOT IMPLEMENTED: Player Controls: mute toggle');
-
          var muteswitch, ngModel;
          beforeEach(function(){
             muteswitch = player.find('md-switch#mute-switch');
@@ -199,8 +196,6 @@ describe('Component: control panel', function () {
 
       describe('auto switch', function(){
          
-         console.log('TEST NOT IMPLEMENTED: Player Controls: mute toggle');
-
          var autoswitch, ngModel;
          beforeEach(function(){
             autoswitch = player.find('md-switch#auto-switch');
@@ -236,14 +231,6 @@ describe('Component: control panel', function () {
          });
       })
       
-      describe('Advanced Options menu', function(){
-         it('should show all the iframe parameters and allow the user to set them', function(){
-            console.log('TEST NOT IMPLEMENTED: Player Controls: Advanced Options menu');
-         });
-      })
-
-      
-
       describe('Startpoint precision seek button block', function(){
          var back5, back1, backFrame, forward5, forward1, forwardFrame;
          beforeEach(function(){
@@ -382,10 +369,10 @@ describe('Component: control panel', function () {
             var btn = player.find('button#embed-dialog-btn');
             var dialog = ctrl.dialog;
 
-            spyOn(dialog, 'openEmbedCodeDialog');
+            spyOn(dialog, 'open');
          
             btn.triggerHandler('click');
-            expect(dialog.openEmbedCodeDialog).toHaveBeenCalled();
+            expect(dialog.open).toHaveBeenCalled();
             
          });
       });

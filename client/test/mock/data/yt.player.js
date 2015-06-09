@@ -6,6 +6,9 @@ angular
 
       var self = this;
       var PLAYING, BUFFERING, PAUSED;
+      var initEvent = {name: 'YTPlayerAPI:init'}; // Cast on video load
+      var updateEvent = {name: 'YTPlayerAPI:update'};  // Cast when tapehead is reset to start/endpoint
+      var setEvent = {name: 'YTPlayerAPI:set'}; // Cast when start/endpoints vals change
 
       this.mockTime = 0.00; 
       
@@ -22,7 +25,7 @@ angular
            service.setEndpoint(video.seconds);
            service.prevAction = 'play';
    
-           //$rootScope.$broadcast(initEvent.name)
+           $rootScope.$broadcast(initEvent.name)
          }; 
          
          // Tape head Driver
@@ -50,9 +53,14 @@ angular
          service.getQuality = function(){};
          service.setQuality = function(){};
          service.getLevels = function(){};
+
          // Duration
          service.duration = function(){};
 
+         // Sound
+         service.noise = function(){};
+         service.silence = function(){};
+         
          // Player status constants
          PLAYING = 1;
          BUFFERING = 3;
