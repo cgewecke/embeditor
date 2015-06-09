@@ -7,8 +7,8 @@ var pctl_debug, pctl_debugII;
     
     .controller('PlayerCtrl', playerCtrl )
     .directive('embeditorPlayerTimeBar', embeditorPlayerTimeBar)
-    .directive('embeditorSectionPlayerControls', embeditorSectionPlayerControls)  // Unit test wrapper 
-    .directive('embeditorSectionApp', embeditorSectionApp); // Unit test wrapper
+    .directive('embeditorSectionPlayerControls', embeditorSectionPlayerControls)  
+    .directive('embeditorSectionApp', embeditorSectionApp);                       
 
     /*--------------------- Controller --------------------------------*/
     function playerCtrl($scope, codeGenerator, youtubePlayerAPI, $mdSidenav, embedCodeDialog ){
@@ -123,7 +123,7 @@ var pctl_debug, pctl_debugII;
         var valueYPos = (offset.top - 35) + 'px';
 
         // Ignore false offset values that occur when mouse
-        // suddenly moves over dot & stop from running off end.
+        // suddenly moves over dot && stop from running off end.
         if (xCoord > lowLimit && xCoord < highLimit){
           scope.time = calculateTimeDotValue().toString().toHHMMSSss();
           dot.css('left', dotXPos);

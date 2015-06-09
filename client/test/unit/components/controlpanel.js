@@ -33,7 +33,7 @@ describe('Component: control panel', function () {
       }));
 
       it('should disable controls until the player has loaded the video',function(){
-         console.log('TEST NOT IMPLEMENTED: Component: control panel: Disable controls');
+         console.log('Disable controls not implemented: Component: control panel:');
       });
 
       describe('playerAPI.togglePlay()/Play button', function(){
@@ -134,7 +134,7 @@ describe('Component: control panel', function () {
 
          it('should show a message that explains why its disabled when disabled', function(){
             playerAPI.speeds = false;
-            console.log('TEST NOT IMPLEMENTED: control panel: playback slider disabled message');
+            console.log('playback slider disabled message NOT IMPLEMENTED: control panel: ');
          });
 
       });

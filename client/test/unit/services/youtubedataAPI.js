@@ -5,7 +5,6 @@ describe('Service: youTubeDataAPI', function (){
 
   var httpBackend, youtube, scope, query, channel, error;
 
-  // load the service's module
   beforeEach(module('embeditor'))
   beforeEach(module('yt.search.mockdata'));
 

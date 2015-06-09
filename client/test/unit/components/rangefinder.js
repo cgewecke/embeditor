@@ -125,7 +125,20 @@ describe('Component: RangeFinder', function(){
         })
 
         it('should do nothing if there is no difference between new and previous values', function(){
-            console.log('TEST NOT IMPLEMENTED: rangefinder finish: no diff');
+          
+          playerAPI.load(video);
+          playerAPI.initializing = false;
+          rangeCtrl.init(video.seconds);
+          rangeCtrl.change(['0', '400']);
+          rangeElem.scope().$apply();
+
+          rangeCtrl.change(['100', '400']);
+          rangeElem.scope().$apply();
+
+          spyOn(playerAPI, 'seek');
+          rangeCtrl.change(['100', '400']);
+          rangeElem.scope().$apply();
+          expect(playerAPI.seek).not.toHaveBeenCalled();
         });
       
       });
@@ -180,7 +193,21 @@ describe('Component: RangeFinder', function(){
         })
 
         it('should do nothing if there is no difference between new and previous values', function(){
-          console.log('TEST NOT IMPLEMENTED: rangefinder finish: no diff');
+          playerAPI.load(video);
+          playerAPI.initializing = false;
+          rangeCtrl.finish(['10', '414']);
+          rangeElem.scope().$apply();
+      
+          rangeCtrl.finish(['10', '400']);
+          rangeElem.scope().$apply();
+
+          spyOn(playerAPI, 'setStartpoint');
+          spyOn(playerAPI, 'setEndpoint');
+          rangeCtrl.finish(['10', '400']);
+          rangeElem.scope().$apply();
+          expect(playerAPI.setEndpoint).not.toHaveBeenCalled();
+          expect(playerAPI.setStartpoint).not.toHaveBeenCalled();
+
         });
       })
 

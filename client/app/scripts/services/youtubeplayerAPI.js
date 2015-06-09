@@ -46,10 +46,16 @@ BUGS:
     self.startpoint = { val: 0, display: '0:00'};
     self.endpoint = { val: 0, display: '0:00'};
     self.initialVideo = {
-      duration: "6:55",
-      seconds: 414, // THIS MUST BE 2 SECONDS SHORT OF THE END . . . .
-      videoId: "HcXNPI-IPPM"
+      // Baby's On Fire: Die Antwoord
+      //seconds: 414, // THIS MUST BE 2 SECONDS SHORT OF THE END . . . .
+      //videoId: "HcXNPI-IPPM"
+
+      // Cafe scene from Le feu follet
+      seconds: 144,
+      videoId: 'IwSQxlwMzr8'
     };
+
+    
 
     self.scope = $rootScope; // TESTING . . .
     scope.self = self;
@@ -344,9 +350,11 @@ BUGS:
         // On page load, pause opening play, make player visible,
         // Get playback rates 
         if (self.initializing){
-          self.pause();       
+          self.pause();  
+          self.end(-8);
+          self.start(32);     
           verifyRates();
-          self.initializing = false;
+          $timeout(function(){ self.initializing = false; }, 500);
           
         // All other plays, including the loading play when a 
         // a search item is selected.  
