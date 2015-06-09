@@ -14,6 +14,13 @@ var pctl_debug, pctl_debugII;
     function playerCtrl($scope, codeGenerator, youtubePlayerAPI, $mdSidenav, embedCodeDialog ){
       var self = this;
       
+      var framesizes = {
+        small: {width: 560, height: 315},
+        medium: {width: 640, height: 360},
+        large: {width: 853, height: 480},
+        xlarge: {width: 1280, height: 720}
+      };
+      
       self.alignment = 'center center'; // Alignment config relative to sidebar. (open/closed)
       self.API = youtubePlayerAPI;   // Public alias for playerAPI
       self.dialog = embedCodeDialog; // Public alias for the dialog service
@@ -50,14 +57,20 @@ var pctl_debug, pctl_debugII;
         }
       });
 
+      // watch(API.framesize): ng-modelled on the framesize slider
+      $scope.$watch('API.framesize', function(newval, oldval){       
+        if (newval){
+          self.code.set('width', sizes[newval].width);
+          self.code.set('height', sizes[newval].height);
+        }
+      })
+
       // watch(API.loop): ng-modelled on the loop switch. 
-      // set code;
       $scope.$watch('API.loop', function(newval, oldval){
         self.code.set('loop', newval);
       });
 
       // watch(API.mute): ng-modelled on the mute switch. 
-      // Listened for by codeGenerator Service
       $scope.$watch('API.mute', function(newval, oldval){
         if (self.API.videoLoaded && newval != undefined){
             (newval) ? self.API.silence() : self.API.noise();
@@ -65,11 +78,12 @@ var pctl_debug, pctl_debugII;
         };        
       });
 
+      // watch(API.autoplay): ng-modelled on the auto switch. 
       $scope.$watch('API.autoplay', function(newval, oldval){
         self.code.set('autoplay', newval);
       });
 
-      // listen for video load - update code 
+      // listen for video load - update codeGen videoId
       $scope.$on('YTPlayerAPI:init', function(){
         self.code.set('videoId', self.API.video.videoId);
       })
