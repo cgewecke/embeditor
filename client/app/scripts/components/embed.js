@@ -17,7 +17,10 @@
           tag = document.createElement('script');
           tag.src = (("http:" === document.location.protocol) ? "http:" : "https:") + "//www.youtube.com/iframe_api";
           firstScriptTag = document.getElementById("player");
-          firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
+
+          // Unit test issue getting parent node here.
+          if (firstScriptTag)
+            firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
 
           // Initial set-up;
            $window.onYouTubeIframeAPIReady = function() {

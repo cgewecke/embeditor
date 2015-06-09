@@ -5,7 +5,7 @@ var cg_debug;
    angular.module('embeditor.services.codeGenerator', [])
       .service('codeGenerator', codeGenerator);
   
-   function codeGenerator(){
+    function codeGenerator($q, Videos){
       var self = this;
 
       self.options = {
@@ -32,6 +32,27 @@ var cg_debug;
          modestbranding: 1, 
          showinfo: 0
       };
+
+      // create(). Returns promise. Generates database asset and sets
+      // options._id to db key. 
+      self.create = function(){
+
+          var deferred = $q.defer();
+          var video = new Videos(self.options);
+          
+          delete video['_id'];
+
+          video.$save().then(
+             function(saved){
+                self.options._id = saved.video._id;
+                deferred.resolve(saved);
+             },
+             function(error){
+                deferred.reject(error);
+             }
+          );
+          return deferred.promise;
+      }
 
       self.set = function(option, value){
          (value != undefined ) ? self.options[option] = value : false;
@@ -240,6 +261,7 @@ var cg_debug;
          '</script>');
       };
 
-   };  
+    }; 
+    codeGenerator.$inject = ['$q', 'Videos'];
    // 
 })()

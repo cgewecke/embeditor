@@ -7,7 +7,8 @@ var pctl_debug, pctl_debugII;
     
     .controller('PlayerCtrl', playerCtrl )
     .directive('embeditorPlayerTimeBar', embeditorPlayerTimeBar)
-    .directive('embeditorSectionPlayerControls', embeditorSectionPlayerControls);
+    .directive('embeditorSectionPlayerControls', embeditorSectionPlayerControls)  // Unit test wrapper 
+    .directive('embeditorSectionApp', embeditorSectionApp); // Unit test wrapper
 
     /*--------------------- Controller --------------------------------*/
     function playerCtrl($scope, codeGenerator, youtubePlayerAPI, $mdSidenav, embedCodeDialog ){
@@ -22,6 +23,7 @@ var pctl_debug, pctl_debugII;
       // Called by button on timestamp, sets new startpoint at the 
       // current tapehead pos.
       self.startFromTimestamp = function(){
+        console.log('startFromTimestamp: ' + self.API.timestamp);
         self.API.setStartpoint(self.API.timestamp);
         self.API.start(0);
       };
@@ -152,9 +154,14 @@ var pctl_debug, pctl_debugII;
 
     /*--------------------- (SECTION DIRECTIVE FOR UNIT TESTING ) --------------------------------*/
     //---------------------- <embeditor-section-player-controls> ----------------------------------
+    //---------------------- <embeditor-section-app> ----------------------------------
     function embeditorSectionPlayerControls(){ 
-      return{ templateUrl: 'templates/playercontrols.html' 
-    }};
+      return{ templateUrl: 'templates/playercontrols.html' }
+    };
+
+    function embeditorSectionApp(){
+      return { templateUrl: 'templates/player.html' }
+    };
 
     
 })();

@@ -19,7 +19,7 @@ var sr_debug, sr_debugII;
          restrict: 'E',  
          controller: searchboxCtrl,
          link: searchboxEventHandlers,
-         templateUrl:  'app/templates/searchbox.html'
+         templateUrl:  'templates/searchbox.html'
       };
    };
 
@@ -112,8 +112,6 @@ var sr_debug, sr_debugII;
 
             // Might get rid of weird sticking open when sidenav closes . . .
             mdCtrl.keydown({keyCode: 27}); // Escape closes dropdown.
-            mdCtrl.selectedItem = {value: mdScope.searchText}; // autocomplete watches this obj.
-            
       });
 
       // Captures carriage return in input box and hacks into mdAutoComplete to execute
