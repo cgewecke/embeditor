@@ -23,7 +23,6 @@ var pctl_debug, pctl_debugII;
       // Called by button on timestamp, sets new startpoint at the 
       // current tapehead pos.
       self.startFromTimestamp = function(){
-        console.log('startFromTimestamp: ' + self.API.timestamp);
         self.API.setStartpoint(self.API.timestamp);
         self.API.start(0);
       };
@@ -51,13 +50,11 @@ var pctl_debug, pctl_debugII;
       });
 
       // watch(API.loop): ng-modelled on the loop switch. 
-      // set code;
       $scope.$watch('API.loop', function(newval, oldval){
         self.code.set('loop', newval);
       });
 
       // watch(API.mute): ng-modelled on the mute switch. 
-      // Listened for by codeGenerator Service
       $scope.$watch('API.mute', function(newval, oldval){
         if (self.API.videoLoaded && newval != undefined){
             (newval) ? self.API.silence() : self.API.noise();
@@ -65,11 +62,12 @@ var pctl_debug, pctl_debugII;
         };        
       });
 
+      // watch(API.autoplay): ng-modelled on the auto switch. 
       $scope.$watch('API.autoplay', function(newval, oldval){
         self.code.set('autoplay', newval);
       });
 
-      // listen for video load - update code 
+      // listen for video load - update codeGen videoId
       $scope.$on('YTPlayerAPI:init', function(){
         self.code.set('videoId', self.API.video.videoId);
       })
@@ -97,8 +95,8 @@ var pctl_debug, pctl_debugII;
       
       var dot = elem.find('ng-md-icon');
       var value = elem.find('span.progress-bar-time');
-      var lowLimit = 20;
-      var highLimit = 844;
+      var lowLimit = 20; // pixel . . . 
+      var highLimit = 844; // pixel. These are bullshit.
       var xCoord = 0;
 
       scope.showDot = false;
@@ -134,12 +132,13 @@ var pctl_debug, pctl_debugII;
         }
       };
 
+      // hideTimeDot: ng-mouseleave
       scope.hideTimeDot = function(){
         dot.css('visibility', 'hidden');
         value.css('visibility', 'hidden');
       };
 
-      // seekVideoToTimeDot() - ng-clicked. 
+      // seekVideoToTimeDot() - ng-click. 
       scope.seekVideoToTimeDot = function(){
 
         //Ignore false offset values

@@ -36,7 +36,7 @@ describe('Component: control panel', function () {
          console.log('Disable controls not implemented: Component: control panel:');
       });
 
-      describe('playerAPI.togglePlay()/Play button', function(){
+      describe('play button logic', function(){
          var playBtn, playIcon, pauseIcon;
 
          
@@ -145,11 +145,6 @@ describe('Component: control panel', function () {
             loopswitch = player.find('md-switch#loop-switch');
          });
 
-         it('should be on by default', function(){
-            ngModel = loopswitch.controller('ngModel');
-            expect(ngModel.$modelValue).toBe(true);
-         });
-
          it('should be bound to the value of playerAPI.loop', function(){
            
             ngModel = loopswitch.controller('ngModel');
@@ -164,6 +159,11 @@ describe('Component: control panel', function () {
 
          });
 
+         it('should be on by default', function(){
+            ngModel = loopswitch.controller('ngModel');
+            expect(ngModel.$modelValue).toBe(true);
+         });
+
       })
 
       describe('mute switch', function(){
@@ -171,11 +171,6 @@ describe('Component: control panel', function () {
          var muteswitch, ngModel;
          beforeEach(function(){
             muteswitch = player.find('md-switch#mute-switch');
-         });
-
-         it('should be off by default', function(){
-            ngModel = muteswitch.controller('ngModel');
-            expect(ngModel.$modelValue).toBe(false);
          });
 
          it('should be bound to the value of playerAPI.mute', function(){
@@ -192,6 +187,11 @@ describe('Component: control panel', function () {
 
          });
 
+         it('should be off by default', function(){
+            ngModel = muteswitch.controller('ngModel');
+            expect(ngModel.$modelValue).toBe(false);
+         });
+
       });
 
       describe('auto switch', function(){
@@ -199,11 +199,6 @@ describe('Component: control panel', function () {
          var autoswitch, ngModel;
          beforeEach(function(){
             autoswitch = player.find('md-switch#auto-switch');
-         });
-
-         it('should be off by default', function(){
-            ngModel = autoswitch.controller('ngModel');
-            expect(ngModel.$modelValue).toBe(false);
          });
 
          it('should be bound to the value of playerAPI.autoplay', function(){
@@ -220,10 +215,15 @@ describe('Component: control panel', function () {
 
          });
 
+         it('should be off by default', function(){
+            ngModel = autoswitch.controller('ngModel');
+            expect(ngModel.$modelValue).toBe(false);
+         });
+
       });
 
       describe('reset Button', function(){
-         it('should be wired correctly', function(){
+         it('should call playerAPI.reset() when clicked', function(){
             var reset = player.find("button#reset-button");
             spyOn(playerAPI, 'reset');
             reset.triggerHandler('click');
@@ -365,7 +365,7 @@ describe('Component: control panel', function () {
       })
 
       describe('embed code button', function(){
-         it('should be wired correctly', function(){
+         it('should call dialog service open() when clicked', function(){
             var btn = player.find('button#embed-dialog-btn');
             var dialog = ctrl.dialog;
 
@@ -452,7 +452,7 @@ describe('Component: control panel', function () {
 
             expect(API.seek).toHaveBeenCalledWith(videoMidPoint);
          });
-      })
+      });
 
   })
 

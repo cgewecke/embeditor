@@ -11,7 +11,7 @@ describe('Service: Code Generator', function(){
   })
 
   describe('public: create', function(){
-    it('should attempt to create a video clip record in the DB', function(){
+    it('should create a video clip record in the DB', function(){
 
     });
 
@@ -19,7 +19,14 @@ describe('Service: Code Generator', function(){
 
     });
 
+
     it('should return a promise', function(){
+
+    });
+  });
+
+  describe('public: update', function(){
+    it('should update the video clip record in the DB', function(){
 
     });
   })

@@ -40,7 +40,7 @@ BUGS:
     self.loop = true; // When true, player loops back to startpoint from endpoint
     self.mute = false; // When true, player is muted. 
     self.autoplay = false; // When true, embed will auto-play on iframe load
-
+    
     self.state; // Vals: 'playing' or 'paused', toggles icon. 
     self.frameLength = .05;
     self.startpoint = { val: 0, display: '0:00'};
@@ -109,9 +109,10 @@ BUGS:
       }
     }
 
-    // setStop(): an interval timer to watch for end of clip, update
-    // timestamp as we play. Loop or stop when the end is reached.
-    // Executes in the YT state change callback.
+    // setStop(): an interval timer to update the timestamp, and a
+    // timeout for the end of the clip, Loop or stop when the end is reached.
+    // Called in the YT state change callback, which executes after every
+    // seek.
     function setStop(){
       
       var timer;
@@ -330,7 +331,9 @@ BUGS:
     // setTapehead the tapehead & timestamp to value. Behaviorally equivalent to
     // play 
     self.setTapehead = function(time){
-      self.timestamp = time;
+
+      (self.state !== 'playing') ? self.timestamp = time : false;
+
       self.prevAction = 'play';
       self.seek(time);
     };
@@ -361,8 +364,7 @@ BUGS:
         } else {
            self.state = 'playing'; 
            verifyRates();
-           setStop(); 
-           
+           setStop();        
         }
       } else if ( event.data === BUFFERING ) {
         self.state = 'playing';

@@ -12,7 +12,7 @@
          <div class="embed-instructions" flex="70">
             <span class="embed-title"> Embed </span>
             <br>
-            <span> Paste the code below whereever you may.
+            <span> Paste the code below in your post or site.
             </span> 
          </div>
          <span flex></span>
@@ -23,29 +23,48 @@
      </div>
    </md-toolbar>
 
-   <!-- Formatting Radio Buttons -->
-   <md-radio-group id='code-dialog-format-group' class="embed-radio-group" ng-model="format">
-      <!-- Iframe -->
-      <md-radio-button class="embed-radio-btn" value="iframe" ng-disabled="false" aria-label="iframe"> 
-         IFrame 
-      </md-radio-button>
-      <!-- Raw HTML/JS -->
-      <md-radio-button class="embed-radio-btn" value="script" aria-label="html"> 
-         HTML & JS 
-      </md-radio-button>
-      <!-- Embedly -->
-      <md-radio-button class="embed-radio-btn" value="embedly" ng-disabled="true" aria-label="embedly"> 
-         Embedly
-      </md-radio-button>
-   </md-radio-group>
-
+   <!-- Options Row --> 
+   <div layout="row" id="embed-options-div">
+      <!-- Formatting Radio Buttons -->
+      <md-radio-group id='code-dialog-format-group' class="embed-radio-group" ng-model="format">
+         <!-- Iframe -->
+         <md-radio-button id="embed-iframe-btn" class="embed-radio-btn" value="iframe" 
+                          ng-disabled="!ready" aria-label="iframe"> 
+            IFrame 
+         </md-radio-button>
+         <!-- Raw HTML/JS -->
+         <md-radio-button id="embed-script-btn" class="embed-radio-btn" value="script" 
+                          ng-disabled="!ready" aria-label="html"> 
+            HTML & JS 
+         </md-radio-button>
+      </md-radio-group>
+      <!-- Frame Size Select -->
+      <span flex> 
+         <md-select flex 
+            class="md-accent embed-framesize-select" 
+            ng-disabled="!ready"
+            ng-change="setFramesize(framesize)"
+            ng-model="framesize">
+           <md-select-label> Frame size </md-select-label>
+           <md-option 
+               ng-repeat="option in codeGenerator.framesizes.keys" 
+               ng-value='option.name'>
+                  {{option.name}} 
+                  <span class="embed-select-option-numbers"> ({{option.size}})</span>
+            </md-option>
+         </md-select>
+      </span>
+   </div>
+       
    <!-- Code Window -->
    <md-dialog-content class="embed-dialog-content"
       layout="row" layout-align="center" layout-fill> 
       <md-content flex class="embed-code-text"> 
-         <span id='embed-code-text' ng-class="{'embed-code-highlight': highlight}">
-          {{code}} 
+         <span ng-show="ready" id='embed-code-text' ng-class="{'embed-code-highlight': highlight}">
+          {{code}}
          </span>
+         <md-progress-circular md-mode="indeterminate" class="md-warn embed-code-spinner" ng-show="!ready">
+         </md-progress-circular>
       </md-content>      
    </md-dialog-content>
 
