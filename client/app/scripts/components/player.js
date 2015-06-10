@@ -14,13 +14,6 @@ var pctl_debug, pctl_debugII;
     function playerCtrl($scope, codeGenerator, youtubePlayerAPI, $mdSidenav, embedCodeDialog ){
       var self = this;
       
-      var framesizes = {
-        small: {width: 560, height: 315},
-        medium: {width: 640, height: 360},
-        large: {width: 853, height: 480},
-        xlarge: {width: 1280, height: 720}
-      };
-      
       self.alignment = 'center center'; // Alignment config relative to sidebar. (open/closed)
       self.API = youtubePlayerAPI;   // Public alias for playerAPI
       self.dialog = embedCodeDialog; // Public alias for the dialog service
@@ -30,7 +23,6 @@ var pctl_debug, pctl_debugII;
       // Called by button on timestamp, sets new startpoint at the 
       // current tapehead pos.
       self.startFromTimestamp = function(){
-        console.log('startFromTimestamp: ' + self.API.timestamp);
         self.API.setStartpoint(self.API.timestamp);
         self.API.start(0);
       };
@@ -56,14 +48,6 @@ var pctl_debug, pctl_debugII;
             self.code.set('rate', newval);
         }
       });
-
-      // watch(API.framesize): ng-modelled on the framesize slider
-      $scope.$watch('API.framesize', function(newval, oldval){       
-        if (newval){
-          self.code.set('width', sizes[newval].width);
-          self.code.set('height', sizes[newval].height);
-        }
-      })
 
       // watch(API.loop): ng-modelled on the loop switch. 
       $scope.$watch('API.loop', function(newval, oldval){
@@ -111,8 +95,8 @@ var pctl_debug, pctl_debugII;
       
       var dot = elem.find('ng-md-icon');
       var value = elem.find('span.progress-bar-time');
-      var lowLimit = 20;
-      var highLimit = 844;
+      var lowLimit = 20; // pixel . . . 
+      var highLimit = 844; // pixel. These are bullshit.
       var xCoord = 0;
 
       scope.showDot = false;
@@ -148,12 +132,13 @@ var pctl_debug, pctl_debugII;
         }
       };
 
+      // hideTimeDot: ng-mouseleave
       scope.hideTimeDot = function(){
         dot.css('visibility', 'hidden');
         value.css('visibility', 'hidden');
       };
 
-      // seekVideoToTimeDot() - ng-clicked. 
+      // seekVideoToTimeDot() - ng-click. 
       scope.seekVideoToTimeDot = function(){
 
         //Ignore false offset values

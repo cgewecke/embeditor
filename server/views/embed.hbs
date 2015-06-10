@@ -123,7 +123,10 @@
             }; 
       
             // Embed driver 
-            function setStop(){var timer;var offset = 0.150;
+            function setStop(){
+               var timer;
+               var offset = 0.150;
+               
                timer = setInterval(function(){
                  var time = player.getCurrentTime();
                  if (time >= (end - offset)){

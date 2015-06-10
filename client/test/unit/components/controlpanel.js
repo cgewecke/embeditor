@@ -454,53 +454,6 @@ describe('Component: control panel', function () {
          });
       });
 
-      describe('frame size options setter', function(){
-         // 560 x 315 small
-         // 640 x 360 medium
-         // 853 x 480 large 
-         // 1280 x 720 x-large
-         /*
-         var slider;
-         beforeEach(function(){
-            slider = player.find('md-slider#frame-size-slider');
-            
-         });
-
-         it('should have a default value of medium', function(){
-            expect(slider.isolateScope().modelValue).toBe('medium');
-            
-         });
-
-         it('should be bound to the value of playerAPI.framesize', function(){
-            playerAPI.framesize = 'small';
-            scope.$apply();
-            expect(slider.isolateScope().modelValue).toBe('small');
-
-            playerAPI.framesize = 'large';
-            scope.$apply();
-            expect(slider.isolateScope().modelValue).toBe('large');
-   
-         });
-
-         
-         it('should update the codeGenerator options when the model is changed', function(){
-            
-            spyOn(code, 'set');
-
-            playerAPI.framesize = 'xlarge';
-            scope.$apply();
-            expect(code.set).toHaveBeenCalledWith('width', 1280);
-            expect(code.set).toHaveBeenCalledWith('height', 720);
-
-            playerAPI.framesize = 'small';
-            scope.$apply();
-            expect(code.set).toHaveBeenCalledWith('width', 560);
-            expect(code.set).toHaveBeenCalledWith('height', 315);
-        
-         })*/
-
-      })
-
   })
 
 });

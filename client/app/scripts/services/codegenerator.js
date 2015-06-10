@@ -18,8 +18,8 @@ var cg_debug;
          rate: 1.0,
          start: 0.0,
          end: 0.0,
-         width: 660,
-         height: 480
+         width: 640,
+         height: 360
       };
 
       self.frame = {
@@ -31,6 +31,21 @@ var cg_debug;
          rel: 0,
          modestbranding: 1, 
          showinfo: 0
+      };
+
+      self.framesizes = {
+        keys: [
+          { name: 'Small', size: '560px x 315px'},
+          { name: 'Medium', size: '640px x 360px'},
+          { name: 'Large', size: '854px x 480px'},
+          { name: 'X-large', size: '1280px x 720px'}
+        ],
+        vals: {
+          'Small': { width: 560, height: 315},
+          'Medium': { width: 640, height: 360},
+          'Large': { width: 853, height: 480},
+          'X-large': { width: 1280, height: 720}
+        }
       };
 
       // create(). Returns promise. Generates database asset and sets
@@ -54,6 +69,23 @@ var cg_debug;
           return deferred.promise;
       }
 
+      // update(). Returns promise. Generates database asset and sets
+      // options._id to db key. 
+      self.update = function(){
+
+          var deferred = $q.defer();
+          var video = new Videos(self.options);
+        
+          video.$save().then(
+             function(saved){ deferred.resolve(saved);
+             },
+             function(error){ deferred.reject(error);
+                console.log('error updating video in code generator')
+             }
+          );
+          return deferred.promise;
+      }
+
       self.set = function(option, value){
          (value != undefined ) ? self.options[option] = value : false;
       };
@@ -62,9 +94,9 @@ var cg_debug;
 
          return '<iframe src="' + 
                 window.location.href + 'embed/' + 
-                self.options._id + '"' + ' style="height: ' + 
-                self.options.height + 'px; width: ' +
-                self.options.width + 'px; overflow: hidden; border: none;"' +
+                self.options._id + '"' + ' style="width: ' + 
+                self.options.width + 'px; height: ' +
+                self.options.height + 'px; overflow: hidden; border: none;"' +
                 'scrolling="no" seamless="seamless"></iframe>';
       };
 

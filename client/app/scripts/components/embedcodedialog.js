@@ -23,18 +23,9 @@ var ed_debug, ed_debugII;
             var codeDialog = {
                clickOutsideToClose: true,  
                templateUrl: 'templates/embedcode.html',
-               controller: dialogCtrl
+               controller: dialogCtrl,
+               onComplete: createClip
             };
-
-            // Create record of the current clip in DB
-            code.create().then(
-               function(success){
-                  $rootScope.$broadcast('embedCodeDialog:ready');
-               },
-               function(error){
-                  $rootScope.$broadcast('embedCodeDialog:database-error')
-               }
-            );
 
             // Launch
             $mdDialog.show(codeDialog).finally(function(){
@@ -45,12 +36,20 @@ var ed_debug, ed_debugII;
          // Close();
          self.close = function() { $mdDialog.hide(); };
 
+         // Create record of the current clip in DB
+         function createClip(){
+            code.create().then(
+               function(success){ $rootScope.$broadcast('embedCodeDialog:ready');},
+               function(error){ $rootScope.$broadcast('embedCodeDialog:database-error');}
+            );
+         };
+
       };
       embedCodeDialog.$inject = ['$rootScope', '$mdDialog', 'codeGenerator'];
 
       // -------------------- CONTROLLER: dialogCtrl(): ---------------------------------
       // Injected into the dialog window and the copy button directive
-      function dialogCtrl($scope, $mdDialog, codeGenerator){
+      function dialogCtrl($scope, $mdDialog, codeGenerator, youtubePlayerAPI){
 
          var defaultButtonMessage = "Click to copy";  
 
@@ -62,15 +61,28 @@ var ed_debug, ed_debugII;
          };
 
          $scope.format = 'iframe'; // Default radio btn group model val
+         $scope.framesize = 'Medium'; // //Vals: Small, Medium, Large, X-large. Embed framesize
          $scope.ready = false; // When false, spinner occupies code window
          $scope.creationError = false; // When true . . . .
          $scope.highlight= true; // When true, code is faux-highlighted, false after copy btn is clicked.
          $scope.copyButtonMessage = defaultButtonMessage; // 'Click to Copy' || 'Copied'
          $scope.code = ''; // Contents of code window
          $scope.mdDialog = $mdDialog; 
+         $scope.codeGenerator = codeGenerator;
+         $scope.API = youtubePlayerAPI;
          $scope.help = function(){}; // Redirect to /help
 
-         // Radio Button changes
+         // Framesize selection
+         $scope.setFramesize = function(size){
+      
+            codeGenerator.set('width', codeGenerator.framesizes.vals[size].width);
+            codeGenerator.set('height', codeGenerator.framesizes.vals[size].height);
+
+            // Save changes & update code text
+            codeGenerator.update();
+            $scope.code = formats[$scope.format]();
+         }
+         // Format changes
          $scope.$watch('format', function(newVal, oldVal){
             if(oldVal){
                $scope.copyButtonMessage = defaultButtonMessage;
@@ -90,7 +102,7 @@ var ed_debug, ed_debugII;
             $scope.creationError = true;
          })
       };
-      dialogCtrl.$inject = ['$scope', '$mdDialog', 'codeGenerator'];
+      dialogCtrl.$inject = ['$scope', '$mdDialog', 'codeGenerator', 'youtubePlayerAPI'];
 
       // ------------------- DIRECTIVES ------------------------------
       // embeditor-copy-code-button: Attribute of md-button#code-copy-button
