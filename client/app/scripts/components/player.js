@@ -129,6 +129,8 @@ var pctl_debug, pctl_debugII;
           value.css('left', valueXPos);
           value.css('top', valueYPos);
           value.css('visibility', 'visible');
+        } else {
+          scope.hideTimeDot();
         }
       };
 

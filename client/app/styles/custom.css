@@ -141,7 +141,7 @@
 .progress-bar-time{
   position: absolute;
   visibility: hidden;
-  background-color: rgba(0,0,0,0.54);
+  background-color: black;
   color: white;
   padding: 5px;
   border-radius: 10%;
