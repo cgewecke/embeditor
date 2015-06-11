@@ -67,6 +67,8 @@ var pctl_debug, pctl_debugII;
         self.code.set('autoplay', newval);
       });
 
+      // ----------------------- Events ------------------------------
+      
       // listen for video load - update codeGen videoId
       $scope.$on('YTPlayerAPI:init', function(){
         self.code.set('videoId', self.API.video.videoId);
@@ -129,6 +131,8 @@ var pctl_debug, pctl_debugII;
           value.css('left', valueXPos);
           value.css('top', valueYPos);
           value.css('visibility', 'visible');
+        } else {
+          scope.hideTimeDot();
         }
       };
 

@@ -14,7 +14,9 @@ BUGS:
     // Private Variables
     var self = this;
     var scope = $rootScope;
-    var loadProgressTimer = null;
+    var timeout = null; // $timeout promise - cancelled at killStop()
+    var interval = null; // $interval promise - cancelled at killStop()
+    //var kill = false; // True in killStop(), false in setStop() $timeout;
     var PLAYING = 1, PAUSED = 2, BUFFERING = 3;
   
     // Published Events
@@ -109,39 +111,67 @@ BUGS:
       }
     }
 
+    /*--------------------------- TIMERS --------------------------------------*/
     // setStop(): an interval timer to update the timestamp, and a
-    // timeout for the end of the clip, Loop or stop when the end is reached.
-    // Called in the YT state change callback, which executes after every
-    // seek.
+    //            timeout for the end of the clip, Loops or stop at endpoint.
+    // killStop(): cancels timers
+    //  
+    // setStop() is called: 
+    //  1. on non-initial-load changes to 'playing' state in onPlayerStateChange().
+    //     (this happens on each loop)
+    //  2. 'continuing play' condition in reset(), when the start/endpoints are reset
+    //
+    // killStop is called:
+    // 1. in setStop() when the $timeout function executes
+    // 2. in setRates(), because the duration needs to change
+    // 3. in reset() in the 'continue play' condition, before setStop()
+    //    because old starts/stops must be abandoned.
+
+    // setStop()
     function setStop(){
-      
-      var timer;
-      var offset = 0.150;
     
-      timer = $interval(function(){
+      var ms = timeoutLength();
+      interval = $interval(function(){
         
         var time = self.time();
+        (self.prevAction != 'set') ? self.timestamp = time : false;
 
-        // Update timestamp as we play, 
-        //'set' handles it's own update.
-        if (self.prevAction != 'set'){
-          self.timestamp = time;
-        }
-        // Listen for end.
-        if (time >= (self.endpoint.val - offset)){
+      }, 150);
 
-          // If we are playing & looping, loop back to startpoint.
+       // If we are playing & looping, loop back to startpoint.
+      timeout = $timeout(function(){
+          
+          console.log('Executing timeout');
           if (!self.loop){
             self.pause();
           } else if (self.prevAction === 'play'){
             self.seek(self.startpoint.val);
           } 
-          $interval.cancel(timer);
-        }
+          killStop(); 
 
-      }, 150);
+      }, ms );
     };
     
+    // killStop(): 
+    function killStop(){
+      
+      $interval.cancel(interval);
+      $timeout.cancel(timeout);
+      console.log('Kill stop: ' + self.time());
+    }
+
+    // timeoutLength() - returns duration for $timeout, calibrated to playback rate, 
+    // +/- arbitrary player response delays.
+    function timeoutLength(){
+
+      var ms = Math.floor( (self.endpoint.val - self.time()) * 1000 );
+
+      if (self.currentRate == 0.5) return (ms * 2);
+      if (self.currentRate == 1 ) return (ms);
+      if (self.currentRate == 1.5) return Math.floor(ms * .66);
+      
+      return ms;
+    }
     // ---------------------------- Public: YT API Wrapper ----------------------------------
     
     // getAPI(): Runs in the YT player ready callback - wraps the Iframe player api. 
@@ -179,7 +209,11 @@ BUGS:
       // Playback speed
       self.rates = function(){ return self.player.getAvailablePlaybackRates() };
       self.getRate = function(){ return self.player.getPlaybackRate() };
-      self.setRate = function(rate){ self.player.setPlaybackRate(rate);};
+      self.setRate = function(rate){ 
+        self.player.setPlaybackRate(rate);
+        killStop();
+        (self.state === 'playing') ? setStop() : false;
+      };
       
       // Mute/Unmute 
       self.silence = function(){ self.player.mute() };
@@ -324,8 +358,17 @@ BUGS:
       self.setEndpoint(self.video.seconds);
       $rootScope.$broadcast(updateEvent.name);
 
-      // Keep state: play -> continue playing: paused -> seek to beginning;
-      (self.state === 'playing') ? self.prevAction = 'play' : self.seek(0);
+      // Keep state: play -> continue playing: paused -> do nothing.
+      // Reset timers
+      if (self.state === 'playing'){
+        self.prevAction = 'play';
+        killStop();
+        setStop();
+      } else {
+        killStop();
+        //self.seek(0);
+        //self.timestamp = 0;
+      }
     }
 
     // setTapehead the tapehead & timestamp to value. Behaviorally equivalent to
@@ -367,10 +410,14 @@ BUGS:
            setStop();        
         }
       } else if ( event.data === BUFFERING ) {
+        console.log('Buffering state Change: ' + event.data)
         self.state = 'playing';
+        killStop();
         
       } else {
+        console.log('Other state Change: ' + event.data)
         self.state = 'paused';
+        killStop();
       }
       $rootScope.$apply();
     };
@@ -385,5 +432,40 @@ BUGS:
   };
 
  })();
+
+ /*
+ // setStop(): an interval timer to update the timestamp, and a
+    // timeout for the end of the clip, Loop or stop when the end is reached.
+    // Called in the YT state change callback, which executes after every
+    // seek.
+    function setStop(){
+      
+      var timer;
+      var offset = 0.250;
+    
+      timer = $interval(function(){
+        
+        var time = self.time();
+
+        // Update timestamp as we play, 
+        //'set' handles it's own update.
+        if (self.prevAction != 'set'){
+          self.timestamp = time;
+        }
+        // Listen for end.
+        if (time >= (self.endpoint.val - offset)){
+
+          // If we are playing & looping, loop back to startpoint.
+          if (!self.loop){
+            self.pause();
+          } else if (self.prevAction === 'play'){
+            self.seek(self.startpoint.val);
+          } 
+          $interval.cancel(timer);
+        }
+
+      }, 150);
+    };
+*/
 
   

@@ -78,7 +78,7 @@
          
          function cyclopse_loader(){
 
-            var tag, firstScriptTag, player, loop, quality, mute, rate, start, end, init, overlay;
+            var tag, firstScriptTag, player, loop, quality, mute, rate, start, end, init, overlay, timer;
 
             // Options & Overlay
             loop = {{video.loop}};
@@ -122,20 +122,38 @@
                }); 
             }; 
       
-            // Embed driver 
+            // Timing - setStop(), killStop(), getOffset()
+            // See client/scripts/services/ytplayerAPI.js 
             function setStop(){
-               var timer;
-               var offset = 0.150;
+  
+               var ms = timeoutLength();
                
-               timer = setInterval(function(){
-                 var time = player.getCurrentTime();
-                 if (time >= (end - offset)){
-                   (!loop) ? player.pauseVideo() : player.seekTo(start);
-                   clearInterval(timer);
-                 }
-               }, 150);
+               timer = setTimeout(function(){
+                   
+                  (!loop) ? 
+                    player.pauseVideo() : 
+                    player.seekTo(start); 
+                  
+                  killStop();
+
+               }, ms);
             };
 
+            function killStop(){
+              clearTimeout(timer);
+            }
+
+            function timeoutLength(){
+              var ms = Math.floor( (end - player.getCurrentTime()) * 1000 );
+
+              if (rate == 0.5) return (ms * 2);
+              if (rate == 1 ) return (ms);
+              if (rate == 1.5) return Math.floor(ms * .66);
+
+              return ms; 
+            }
+
+            // YT Player callbacks
             function onPlayerReady(){
                player.mute();
                player.seekTo(start);
@@ -146,19 +164,34 @@
                if (event.data === YT.PlayerState.PLAYING){
                   setStop();
                   if (init){
-                     player.pauseVideo();
-                     player.seekTo(start);
-                     (rate != 1) ? player.setPlaybackRate(rate) : false;
-                     (autoplay) ? player.playVideo() : player.pauseVideo();
-                     init = false;
-                     setTimeout(function(){
+
+                    init = false;
+                    player.pauseVideo();
+                    player.seekTo(start);
+                    
+                    (rate != 1) ? 
+                      player.setPlaybackRate(rate) : 
+                      false;
+                    
+                    (autoplay) ? 
+                      player.playVideo() : 
+                      player.pauseVideo();
+                     
+                    
+                    setTimeout(function(){
                       overlay.style.visibility = "hidden";
-                      (!mute) ? player.unMute(): false;
-                     }, 250);
+                      
+                      (!mute) ? 
+                        player.unMute(): 
+                        false;
+                     
+                    }, 250);
                   }
+               } else {
+                 killStop();
                }
             };
-            function onPlayerError(){ console.error("Cyclop.se v YouTube: 0-1. Play again?"); };
+            function onPlayerError(){ console.error("Cyclop.se v YouTube.com: 0-1"); };
          };
          
          // Do it. 
