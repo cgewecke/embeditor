@@ -14,5 +14,5 @@ Heroku Production notes:
 
 6. push to github
 
-7. push to heroku
+7. push to heroku: git push heroku production:master
 
