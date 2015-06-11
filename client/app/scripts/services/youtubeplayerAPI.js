@@ -130,8 +130,7 @@ BUGS:
     // setStop()
     function setStop(){
     
-      var ms = getOffset();
-      console.log('Set stop: ' + ms);
+      var ms = timeoutLength();
       interval = $interval(function(){
         
         var time = self.time();
@@ -161,15 +160,15 @@ BUGS:
       console.log('Kill stop: ' + self.time());
     }
 
-    // getOffset() - returns duration for $timeout, calibrated to playback rate, 
+    // timeoutLength() - returns duration for $timeout, calibrated to playback rate, 
     // +/- arbitrary player response delays.
-    function getOffset(){
+    function timeoutLength(){
 
       var ms = Math.floor( (self.endpoint.val - self.time()) * 1000 );
 
-      if (self.currentRate == 0.5) return (ms * 2) - 200;
-      if (self.currentRate == 1 ) return (ms - 200);
-      if (self.currentRate == 1.5) return Math.floor(ms * .66) - 200;
+      if (self.currentRate == 0.5) return (ms * 2);
+      if (self.currentRate == 1 ) return (ms);
+      if (self.currentRate == 1.5) return Math.floor(ms * .66);
       
       return ms;
     }
@@ -359,7 +358,7 @@ BUGS:
       self.setEndpoint(self.video.seconds);
       $rootScope.$broadcast(updateEvent.name);
 
-      // Keep state: play -> continue playing: paused -> seek to beginning;
+      // Keep state: play -> continue playing: paused -> do nothing.
       // Reset timers
       if (self.state === 'playing'){
         self.prevAction = 'play';
@@ -367,8 +366,8 @@ BUGS:
         setStop();
       } else {
         killStop();
-        self.seek(0);
-        self.timestamp = 0;
+        //self.seek(0);
+        //self.timestamp = 0;
       }
     }
 
