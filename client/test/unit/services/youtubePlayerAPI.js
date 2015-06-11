@@ -292,7 +292,7 @@ describe('Service: youtubePlayerAPI', function () {
             playerAPI.togglePlay();
             playerAPI.onPlayerStateChange({data: PLAYING}); // Simulate player event 'playing'
             YT.mockTime = 10; // Set time to end
-            interval.flush(55); // Run time listener in setStop()
+            timeout.flush(55); // Run time listener in setStop()
             expect(playerAPI.seek).toHaveBeenCalledWith(5);
          });
 
@@ -309,7 +309,7 @@ describe('Service: youtubePlayerAPI', function () {
             playerAPI.togglePlay();
             playerAPI.onPlayerStateChange({data: PLAYING}); // Simulate player event . . .
             YT.mockTime = 10;
-            interval.flush(155);
+            timeout.flush(155);
             expect(playerAPI.pause).toHaveBeenCalled();
             expect(playerAPI.endpoint.val).toEqual(YT.mockTime);
 
