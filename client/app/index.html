@@ -6,18 +6,17 @@
     <title></title>
     <meta name="description" content="">
     <meta name="viewport" content="width=device-width">
+     <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
     <!-- Place favicon.ico and apple-touch-icon.png in the root directory -->
     <!-- build:css(.) styles/vendor.css -->
     <!-- bower:css -->
+    <link rel="stylesheet" href="bower_components/angular-material/angular-material.css" />
     <!-- endbower -->
     <!-- endbuild -->
-    <!-- build:css(.tmp) styles/main.css -->
-    <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
-    <link rel="stylesheet" href="styles/angular-material.css">
+    <!-- build:css({.tmp, app}) styles/main.css -->
     <link rel="stylesheet" href="styles/ion.rangeSlider.css">
     <link rel="stylesheet" href="styles/ion.rangeSlider.skinFlat.css">
     <link rel="stylesheet" href="styles/custom.css">
-    <link rel="stylesheet" href="styles/main.css">
     <!-- endbuild -->
   </head>
   <body ng-app="embeditor">
@@ -34,11 +33,9 @@
        ga('send', 'pageview');
     </script>
 
-    <!-- jQuery -->
-    <script src="scripts/vendor/jquery-2.1.3.min.js"></script>
-    
     <!-- build:js(.) scripts/vendor.js -->
     <!-- bower:js -->
+    <script src="bower_components/jquery/dist/jquery.js"></script>
     <script src="bower_components/angular/angular.js"></script>
     <script src="bower_components/angular-animate/angular-animate.js"></script>
     <script src="bower_components/angular-cookies/angular-cookies.js"></script>
@@ -48,14 +45,13 @@
     <script src="bower_components/angular-touch/angular-touch.js"></script>
     <script src="bower_components/angular-aria/angular-aria.js"></script>
     <script src="bower_components/angular-material/angular-material.js"></script>
+    <script src="bower_components/angular-material-icons/angular-material-icons.min.js"></script>
     <!-- endbower -->
     <!-- endbuild -->
 
     <!-- build:js({.tmp,app}) scripts/scripts.js -->
 
     <!-- DEPLOY MATERIAL FONTS W/ CDN --> 
-    <!-- <script src="//cdn.jsdelivr.net/angular-material-icons/0.4.0/angular-material-icons.min.js"></script>-->
-    <script src="fonts/angular-material-icons.min.js"></script>
     <script src="scripts/vendor/moment.min.js"></script>
     <script src="scripts/vendor/momentz-duration.js"></script>
     <script src="scripts/vendor/ion.rangeSlider.min.js"></script>

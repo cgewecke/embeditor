@@ -29,6 +29,7 @@ module.exports = function(config) {
       'app/scripts/vendor/ZeroClipboard.min.js',
       
       // bower:js
+            'bower_components/jquery/dist/jquery.js',
             'bower_components/angular/angular.js',
             'bower_components/angular-animate/angular-animate.js',
             'bower_components/angular-cookies/angular-cookies.js',
@@ -38,6 +39,7 @@ module.exports = function(config) {
             'bower_components/angular-touch/angular-touch.js',
             'bower_components/angular-aria/angular-aria.js',
             'bower_components/angular-material/angular-material.js',
+            'bower_components/angular-material-icons/angular-material-icons.min.js',
             'bower_components/angular-mocks/angular-mocks.js',
             // endbower
       "app/fonts/*.js",
