@@ -1,28 +1,40 @@
-#embeditor
-
 Heroku Production notes:
 
-1. In the client folder run:$ grunt build
+Make a production branch at github
 
-2. In the server, move zeroclipboard.swf into the dist/scripts folder
+In embeditor-production, navigate to root, git pull, checkout production
 
-3. Move client outside the repo
+In the client folder run: $ npm install
 
-4. Move server/node-modules outside the repo
+In the client folder run: $ bower update (pick Angular 1.3.16 option when asked)
 
-5. Move everything else out of 'server' folder so that it's in the root.
+In the client folder run:$ grunt build
 
-6. push to github
+In the server, move zeroclipboard.swf into the dist/scripts folder
 
-7. push to heroku: git push heroku production:master
+Move client outside the repo
 
-8. delete production branch locally, remotely: 
+Move server/node-modules outside the repo
 
-  $ git checkout master
+Move everything else out of 'server' folder so that it's in the root.
 
-  $ git branch -D production
+push to github
 
-  $ git push origin --delete production
+$ git add -A
+
+$ git commit -a -m 'Compiled assets '
+
+push to heroku:
+
+git push -f heroku production:master
+
+delete production branch locally, remotely:
+
+$ git checkout master
+
+$ git branch -D production
+
+$ git push origin --delete production
 
 
 
