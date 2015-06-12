@@ -16,3 +16,13 @@ Heroku Production notes:
 
 7. push to heroku: git push heroku production:master
 
+8. delete production branch locally, remotely: 
+
+  $ git checkout master
+
+  $ git branch -D production
+
+  $ git push origin --delete production
+
+
+
