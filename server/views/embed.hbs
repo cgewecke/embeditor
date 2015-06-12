@@ -74,9 +74,7 @@
                
                (iOS && looping) ? ms = timeoutLength_IOS() : ms = timeoutLength();
 
-               console.log('setting stop: ' + ms + ' START: '+ start + ' END: ' + end );
                timer = setTimeout(function(){
-                   console.log('firing function');
                   (!loop) ? 
                     player.pauseVideo() : 
                     player.seekTo(start); 
@@ -87,7 +85,6 @@
             };
 
             function killStop(looping){
-              console.log('killing timer');
               clearTimeout(timer);
               (iOS && looping) ? setStop(looping) : false;
             }
@@ -102,8 +99,11 @@
               return ms; 
             }
 
+            // iOS is missing the pause event, so 
+            // it needs its new stop set directly in the kill on 
+            // loop, and the time duration needs to be set to 
+            // to clip length, or else there's a weird skip.
             function timeoutLength_IOS(){
-              console.log('ios length');
               var ms = Math.floor( (end - start) * 1000 );
               if (rate == 0.5) return (ms * 2);
               if (rate == 1 ) return (ms);
@@ -116,8 +116,6 @@
               player.mute();
               
               if (!iOS){
-                console.log('not ios');
-                console.log('start: ' + start);
                 player.seekTo(start);
                 player.playVideo();
               } else {
@@ -127,12 +125,9 @@
             };
 
             function onPlayerStateChange(event){
-               console.log('PLAYER STATE EVENT: ' + event.data)
                if (event.data === YT.PlayerState.PLAYING){
                   setStop();
                   if (init){
-                    
-                    (iOS) ? overlay.style.visibility = "visible" : false;
                     
                     init = false;
                     player.pauseVideo();
