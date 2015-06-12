@@ -96,6 +96,33 @@
 
 /* player & player controls */
 
+/* range-slider - amber */
+
+.irs-from {
+  background-color: #FFC107;
+}
+
+.irs-to{
+  background-color: #FFC107;
+}
+
+.irs-single{
+  background-color: #FFC107;
+}
+
+.irs-from:after {
+  border-top-color: #FFC107
+}
+
+.irs-to:after {
+  border-top-color: #FFC107;
+}
+
+.irs-single:after{
+  border-top-color: #FFC107;
+}
+
+
 /* removes weird div gap */
 .player-wrapper{
   font-size: 0px 
@@ -357,6 +384,7 @@ md-sidenav.md-closed.md-locked-open-add-active {
   text-overflow: ellipsis;
   font-size: 12px;
   font-style: italic;
+  font-weight: bold;
   cursor: default;
 }
 
@@ -369,8 +397,8 @@ md-sidenav.md-closed.md-locked-open-add-active {
   padding: 1px;
   font-size: 11px;
   font-weight: bold;
-  top: 102px;
-  right: 10px;
+  top: 101px;
+  right: 13px;
   color: white;
   background-color: black;
   
@@ -381,8 +409,8 @@ md-sidenav.md-closed.md-locked-open-add-active {
   font-size: 10px;
   padding: 2px; 
   font-weight: bold;
-  top: 7px;
-  left: 11px;
+  top: 6px;
+  left: 8px;
   color: white;
   background-color: black;
   
