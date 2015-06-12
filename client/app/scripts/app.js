@@ -32,7 +32,7 @@ angular
   .config(function($mdThemingProvider) {
   $mdThemingProvider.theme('default')
     .primaryPalette('amber', {'hue-1': '200'})
-    .accentPalette('red', {'hue-1': '200'})
+    .accentPalette('orange' ) // {'hue-1': '200'})
     .backgroundPalette('grey')
   })
   .config(function ($locationProvider, $routeProvider) {
