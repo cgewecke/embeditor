@@ -6,7 +6,7 @@ var VideoModel = require('./schemas/videos');
 
 // Connections
 var developmentDb = 'mongodb://localhost/test';
-var productionDb = 'process.env.MONGOLAB_URI';
+var productionDb = process.env.MONGOLAB_URI;
 var usedDb;
 
 // If we're in development...

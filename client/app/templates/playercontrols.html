@@ -14,12 +14,12 @@
         <span layout="row" layout-align="center">
           <md-button id="play-btn" aria-label="seek" 
               ng-click="player.API.togglePlay()" 
-              class="md-fab md-accent play-button"
+              class="code-btn md-whiteframe-z1"
               md-no-ink>
-            <ng-md-icon id="play-icon" icon="play_arrow" size="40" style="fill:white"
+            <ng-md-icon id="play-icon" icon="play_arrow" size="40" style="fill:black"
                 ng-show="player.API.state === 'paused'">
             </ng-md-icon>
-            <ng-md-icon id="pause-icon" icon="pause" size="40" style="fill:white"
+            <ng-md-icon id="pause-icon" icon="pause" size="40" style="fill:black"
                 ng-show="player.API.state === 'playing'">
             </ng-md-icon>
           </md-button> 
@@ -34,7 +34,7 @@
         <span layout="row" layout-align="center center">
           <md-button id="reset-button" class="code-btn" aria-label="reset"
             ng-click="player.API.reset()">
-            <ng-md-icon icon="cancel" size="32" style="fill:white"></ng-md-icon>
+            <ng-md-icon icon="cancel" size="32" style="fill:black"></ng-md-icon>
           </md-button>
         </span>
       </span>

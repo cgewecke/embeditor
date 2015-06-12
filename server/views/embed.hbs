@@ -1,71 +1,14 @@
 <html lang="en">
    <head>
    <meta charset="utf-8">
-   <title></title>
+   <title> Cyclopse </title>
    <!-- CSS --> 
-   <style>
-      body {
-         margin: 0;
-      }
-      .embedlam-overlay{
-        position: absolute;
-        visibility: visible;
-        top: 0;
-        left: 0;
-        background-color: #757575;
-        height: 100%;
-        width: 100%;
-      }
-      .embedlam-spinner {
-        position: relative;
-        top: 50%;
-        transform: translateY(-50%);
-      }
-      .embedlam-loader {
-        margin: 0 auto;
-        font-size: 10px;
-        position: relative;
-        text-indent: -9999em;
-        border-top: 1.1em solid rgba(255, 255, 255, 0.2);
-        border-right: 1.1em solid rgba(255, 255, 255, 0.2);
-        border-bottom: 1.1em solid rgba(255, 255, 255, 0.2);
-        border-left: 1.1em solid #ffffff;
-        -webkit-transform: translateZ(0);
-        -ms-transform: translateZ(0);
-        transform: translateZ(0);
-        -webkit-animation: load8 1.1s infinite linear;
-        animation: load8 1.1s infinite linear;
-      }
-      .embedlam-loader,
-      .embedlam-loader:after {
-        border-radius: 50%;
-        width: 10em;
-        height: 10em;
-      }
-      @-webkit-keyframes load8 {
-        0% {
-          -webkit-transform: rotate(0deg);
-          transform: rotate(0deg);
-        }
-        100% {
-          -webkit-transform: rotate(360deg);
-          transform: rotate(360deg);
-        }
-      }
-      @keyframes load8 {
-        0% {
-          -webkit-transform: rotate(0deg);
-          transform: rotate(0deg);
-        }
-        100% {
-          -webkit-transform: rotate(360deg);
-          transform: rotate(360deg);
-        }
-      }
-   </style>
+   <link rel="stylesheet" href="../css/iframe.css" />
+   <link rel="stylesheet" href="../css/material.css" />
+   </head>
    <body>
       <!-- FRAME --> 
-      <div style="position: relative; width: 100%; height: 100%">
+      <div style="position: relative;">
          <div id="cyclopse-overlay" class="embedlam-overlay">
                <div class="embedlam-spinner">
                   <div class="embedlam-loader"></div>
@@ -79,6 +22,7 @@
          function cyclopse_loader(){
 
             var tag, firstScriptTag, player, loop, quality, mute, rate, start, end, init, overlay, timer;
+            var iOS = ( navigator.userAgent.match(/(iPad|iPhone|iPod)/g) ? true : false );
 
             // Options & Overlay
             loop = {{video.loop}};
@@ -124,23 +68,25 @@
       
             // Timing - setStop(), killStop(), getOffset()
             // See client/scripts/services/ytplayerAPI.js 
-            function setStop(){
+            function setStop(looping){
   
-               var ms = timeoutLength();
+               var ms;
                
+               (iOS && looping) ? ms = timeoutLength_IOS() : ms = timeoutLength();
+
                timer = setTimeout(function(){
-                   
                   (!loop) ? 
                     player.pauseVideo() : 
                     player.seekTo(start); 
                   
-                  killStop();
+                  killStop(true);
 
                }, ms);
             };
 
-            function killStop(){
+            function killStop(looping){
               clearTimeout(timer);
+              (iOS && looping) ? setStop(looping) : false;
             }
 
             function timeoutLength(){
@@ -153,18 +99,36 @@
               return ms; 
             }
 
+            // iOS is missing the pause event, so 
+            // it needs its new stop set directly in the kill on 
+            // loop, and the time duration needs to be set to 
+            // to clip length, or else there's a weird skip.
+            function timeoutLength_IOS(){
+              var ms = Math.floor( (end - start) * 1000 );
+              if (rate == 0.5) return (ms * 2);
+              if (rate == 1 ) return (ms);
+              if (rate == 1.5) return Math.floor(ms * .66);
+              return ms; 
+            }
+
             // YT Player callbacks
             function onPlayerReady(){
-               player.mute();
-               player.seekTo(start);
-               player.playVideo();
+              player.mute();
+              
+              if (!iOS){
+                player.seekTo(start);
+                player.playVideo();
+              } else {
+                overlay.style.visibility = "hidden";
+                autoplay = true;
+              } 
             };
 
             function onPlayerStateChange(event){
                if (event.data === YT.PlayerState.PLAYING){
                   setStop();
                   if (init){
-
+                    
                     init = false;
                     player.pauseVideo();
                     player.seekTo(start);
