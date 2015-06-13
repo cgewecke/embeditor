@@ -1,40 +1,42 @@
 Heroku Production notes:
 
-Make a production branch at github
+1. Make a production branch at github
 
-In embeditor-production, navigate to root, git pull, checkout production
+2. In embeditor-production, navigate to root, git pull, checkout production
 
-In the client folder run: $ npm install
+  In the client folder run: $ npm install
 
-In the client folder run: $ bower update (pick Angular 1.3.16 option when asked)
+  In the client folder run: $ bower update (pick Angular 1.3.16 option when asked)
+  
+  In client/app/styles: rename all .css as .scss
 
-In the client folder run:$ grunt build
+  In the client folder run:$ grunt build
 
-In the server, move zeroclipboard.swf into the dist/scripts folder
+3. In the server, move zeroclipboard.swf into the dist/scripts folder
 
-Move client outside the repo
+4. Move client outside the repo
 
-Move server/node-modules outside the repo
+5. Move server/node-modules outside the repo
 
-Move everything else out of 'server' folder so that it's in the root.
+6. Move everything else out of 'server' folder so that it's in the root.
 
-push to github
+7. push to github
 
-$ git add -A
+  $ git add -A
 
-$ git commit -a -m 'Compiled assets '
+  $ git commit -a -m 'Compiled assets '
 
-push to heroku:
+8. push to heroku:
 
-git push -f heroku production:master
+  $ git push -f heroku production:master
 
-delete production branch locally, remotely:
+9. delete production branch locally, remotely:
 
-$ git checkout master
+  $ git checkout master
 
-$ git branch -D production
+  $ git branch -D production
 
-$ git push origin --delete production
+  $ git push origin --delete production
 
 
 
