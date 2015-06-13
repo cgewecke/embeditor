@@ -296,4 +296,4 @@ var cg_debug;
     }; 
     codeGenerator.$inject = ['$q', 'Videos'];
    // 
-})()
+})();

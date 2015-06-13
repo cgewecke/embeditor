@@ -22,11 +22,7 @@ module.exports = function(config) {
     // list of files / patterns to load in the browser
     files: [
 
-      'app/scripts/vendor/jquery-2.1.3.min.js',
-      'app/scripts/vendor/ion.rangeSlider.min.js',
-      'app/scripts/vendor/moment.min.js',
-      'app/scripts/vendor/momentz-duration.js',
-      'app/scripts/vendor/ZeroClipboard.min.js',
+      
       
       // bower:js
             'bower_components/jquery/dist/jquery.js',
@@ -42,6 +38,14 @@ module.exports = function(config) {
             'bower_components/angular-material-icons/angular-material-icons.min.js',
             'bower_components/angular-mocks/angular-mocks.js',
             // endbower
+
+      // Vendor dependencies
+      'app/scripts/vendor/ion.rangeSlider.min.js',
+      'app/scripts/vendor/moment.min.js',
+      'app/scripts/vendor/momentz-duration.js',
+      'app/scripts/vendor/ZeroClipboard.min.js',
+
+      // Cyclopse code
       "app/fonts/*.js",
       "app/scripts/**/*.js",
       'app/templates/*.html',
