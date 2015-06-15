@@ -1,7 +1,58 @@
 <html>
    <body>
       <div>
-       <iframe src="http://10.0.0.2:3000/embed/557a5d20cd3beaa9284115fd" style="width: 640px; height: 360px; overflow: hidden; border: none;"scrolling="no" seamless="seamless"></iframe>
+       <div id="cyclopse-youtube-player"></div>
+
+         <script>
+         var tag, firstScriptTag, player;
+
+         tag = document.createElement("script");          
+         tag.src = (("http:" === document.location.protocol) ? "http:" : "https:") + "//www.youtube.com/iframe_api"; 
+         firstScriptTag = document.getElementById('cyclopse-youtube-player');    
+         firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);          
+
+         // Main
+         window.onYouTubeIframeAPIReady = function(){ loadPlayer(); }
+
+         function loadPlayer(){
+            console.log('loading player');
+            player = new YT.Player('cyclopse-youtube-player', {
+
+               width: 640,
+               height: 360,
+               events: {
+                  onReady: onPlayerReady, 
+                  onStateChange: onPlayerStateChange, 
+                  onError: onPlayerError 
+               } 
+            }); 
+         }
+
+         function onPlayerReady(){
+            console.log('player ready');
+            player.cueVideoById({
+               videoId: "u1ZB_rGFyeU",
+               startSeconds: 60,
+               endSeconds: 80
+            })
+         }
+         function onPlayerError(){
+            console.log('Error');
+         }
+
+         function onPlayerStateChange(event){
+            switch(event.data){
+               case -1: console.log('unstarted'); break;
+               case 0: console.log('ended'); break;
+               case 1: console.log('playing'); break;
+               case 2: console.log('paused'); break;
+               case 3: console.log('buffering'); break;
+               case 5: console.log('cued'); break;
+
+            }
+         };
+
+         </script>
       </div>
    </body>
 <html>

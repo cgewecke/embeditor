@@ -3,7 +3,15 @@ var pctl_debug, pctl_debugII;
 (function(){
   'use strict';
 
-  angular.module('embeditor.components.player', ['embeditor.services.youtubePlayerAPI'])
+  angular.module('embeditor.components.player', [
+    
+    'ngMaterial',
+    'embeditor.components.embedcodedialog',
+    'embeditor.services.youtubePlayerAPI', 
+    'embeditor.services.codeGenerator',
+    'embeditor.services.layoutManager' 
+
+    ])
     
     .controller('PlayerCtrl', playerCtrl )
     .directive('embeditorPlayerTimeBar', embeditorPlayerTimeBar)
@@ -11,13 +19,13 @@ var pctl_debug, pctl_debugII;
     .directive('embeditorSectionApp', embeditorSectionApp);                       
 
     /*--------------------- Controller --------------------------------*/
-    function playerCtrl($scope, codeGenerator, youtubePlayerAPI, $mdSidenav, embedCodeDialog ){
+    function playerCtrl($scope, codeGenerator, youtubePlayerAPI, $mdSidenav, embedCodeDialog, layoutManager ){
       var self = this;
       
-      self.alignment = 'center center'; // Alignment config relative to sidebar. (open/closed)
-      self.API = youtubePlayerAPI;   // Public alias for playerAPI
-      self.dialog = embedCodeDialog; // Public alias for the dialog service
-      self.code = codeGenerator; // Public alias for the codeGenerator service
+      self.API = youtubePlayerAPI;   
+      self.dialog = embedCodeDialog; 
+      self.code = codeGenerator; 
+      self.layout = layoutManager; 
 
       // ------------------------ Public ----------------------------------
       // Called by button on timestamp, sets new startpoint at the 
@@ -25,17 +33,6 @@ var pctl_debug, pctl_debugII;
       self.startFromTimestamp = function(){
         self.API.setStartpoint(self.API.timestamp);
         self.API.start(0);
-      };
-
-      // Move player block over to right side of page on sideNavOpen
-      // return on sidenNav closed. Exception gets thrown unless
-      // sideNav has been instantiated at least once.
-      self.alignWithSidenav = function(type){ 
-         var alignment = 'center center';
-         if ($mdSidenav.exists && $mdSidenav('search').isOpen()){
-            (type === 'row') ? alignment = 'end center': alignment = 'center end';
-         } 
-         return alignment;
       };
 
       // ----------------------- Watches -------------------------------
@@ -79,7 +76,8 @@ var pctl_debug, pctl_debugII;
         self.code.set(msg.type, msg.value);
       })
     };
-    playerCtrl.$inject = ['$scope', 'codeGenerator', 'youtubePlayerAPI', '$mdSidenav', 'embedCodeDialog'];
+    playerCtrl.$inject = ['$scope', 'codeGenerator', 'youtubePlayerAPI', '$mdSidenav', 
+                          'embedCodeDialog', 'layoutManager'];
 
     /*------------------------- Time Bar Directive --------------------------------*/
     /*-------------------- <embeditor-player-time-bar> -------------------------------*/

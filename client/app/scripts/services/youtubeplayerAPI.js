@@ -366,8 +366,6 @@ BUGS:
         setStop();
       } else {
         killStop();
-        //self.seek(0);
-        //self.timestamp = 0;
       }
     }
 

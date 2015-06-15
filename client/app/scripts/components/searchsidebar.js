@@ -13,16 +13,17 @@ var sb_debug, sb_debugII, sb_debugIII;
 
   'use strict';
 
-  angular.module('embeditor.components.searchsidebar', ['embeditor.services.youTubeDataAPI', 'embeditor.services.youtubePlayerAPI'])
+  angular.module('embeditor.components.searchsidebar', [
+    
+    'embeditor.services.youTubeDataAPI', 
+    'embeditor.services.youtubePlayerAPI'
+
+    ])
     
     .controller('SearchSidebarCtrl', SearchSidebarCtrl)
     .directive('embeditorSectionSidebar', embeditorSectionSidebar)
     .directive('embeditorSearchHistoryOption', embeditorSearchHistoryOption)
     .directive('embeditorSearchItem', embeditorSearchItem )
-
-    // <embeditor-section-sidebar></embeditor-section-sidebar>
-    // Outer tag for entire sidebar so we can pull it in for unit testing.
-    function embeditorSectionSidebar(){ return{ templateUrl: 'templates/sidebar.html' }};
 
     // Controller for the sidebar. Makes youtube api visible on scope and
     // toggles sidebar open when a query is made from toolbar.
@@ -109,6 +110,9 @@ var sb_debug, sb_debugII, sb_debugIII;
     embeditorSearchItem.$inject = ['youTubeDataAPI', 'youtubePlayerAPI', '$mdSidenav'];
 
     
+    // <embeditor-section-sidebar></embeditor-section-sidebar>
+    // Outer tag for entire sidebar so we can pull it in for unit testing.
+    function embeditorSectionSidebar(){ return{ templateUrl: 'templates/sidebar.html' }};
 
 })();
       
