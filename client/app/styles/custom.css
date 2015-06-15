@@ -1,11 +1,13 @@
 
+/* Browser patches */
+
+/* Moz */
 @-moz-document url-prefix() {
   [layout-fill] {
     margin: 0;
     width: 100%;
     min-height: 100%;
     height: inherit; } }
-
 
 /*-------------------*/
 
@@ -216,6 +218,7 @@ md-progress-linear .md-dashed:before{
 
 .reset-text{
   text-align: center;
+  cursor: default;
 }
 
 .precision-btn-row{
@@ -240,6 +243,9 @@ md-progress-linear .md-dashed:before{
   position: relative;
   font-size: 10px;
   top: -15px;
+  pointer-events: none;
+  cursor: default;
+
 }
 
 .control-btn-txt-left{
@@ -247,6 +253,8 @@ md-progress-linear .md-dashed:before{
   font-size: 10px;
   top: -15px;
   left: -15px;
+  pointer-events: none;
+  cursor: default;
 }
 
 .control-btn-txt-right{
@@ -254,6 +262,8 @@ md-progress-linear .md-dashed:before{
   font-size: 10px;
   top: -15px;
   right: -15px;
+  pointer-events: none;
+  cursor: default;
 }
 
 .startpoint-txt{
@@ -269,6 +279,7 @@ md-progress-linear .md-dashed:before{
 
 .set-btn-block-label{
   color: rgba(0,0,0,0.26) !important;
+  cursor: default;
 }
 
 .playback-input-container{
@@ -280,6 +291,7 @@ md-progress-linear .md-dashed:before{
 .close-label{
   -webkit-transform: none !important;
   transform: none !important;
+  cursor: default;
 }
 
 .center-label{

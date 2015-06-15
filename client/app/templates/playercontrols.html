@@ -3,7 +3,7 @@
   class="player-background" 
   layout="column" 
   layout-fill
-  layout-align="{{player.alignWithSidenav('column')}}">
+  layout-align="{{player.layout.alignWithSidenav('search', 'column')}}">
 
   <!-- Play Button & Range Finder Row -->
   <div class="controls-background controls-top" 
@@ -223,6 +223,7 @@
         </span>
     </span>
   </div>
+  <!-- Label row for precision set buttons  -->
   <div layout="row" class="controls-background" style="width: 854px">
     <span flex="5"></span>
     <span flex="40" class="set-btn-block-label"> Precision set startpoint </span>
@@ -278,7 +279,6 @@
     </md-input-container>  
     <!-- Embed Dialog Window Button -->
     <md-input-container flex="15" class="playback-input-container">
-      <!-- <label class="close-label"> Embed </label> -->
       <md-button flex
         id="embed-dialog-btn"
         ng-click='player.dialog.open($event)'

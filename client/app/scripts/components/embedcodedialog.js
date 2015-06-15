@@ -3,7 +3,13 @@ var ed_debug, ed_debugII;
 (function(){
   'use strict';
 
-  angular.module('embeditor.components.embedcodedialog', ['embeditor.services.youtubePlayerAPI'])
+  angular.module('embeditor.components.embedcodedialog', [
+
+      'ngMaterial',
+      'embeditor.services.youtubePlayerAPI',
+      'embeditor.services.codeGenerator',
+
+      ])
     
       .service('embedCodeDialog', embedCodeDialog )
       .controller('CodeDialogCtrl', dialogCtrl)
@@ -40,7 +46,7 @@ var ed_debug, ed_debugII;
          function createClip(){
             code.create().then(
                function(success){ $rootScope.$broadcast('embedCodeDialog:ready');},
-               function(error){ $rootScope.$broadcast('embedCodeDialog:database-error');}
+               function(error){   $rootScope.$broadcast('embedCodeDialog:database-error');}
             );
          };
 

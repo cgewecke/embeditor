@@ -24,8 +24,10 @@ angular
     'embeditor.components.rangefinder',
     'embeditor.components.searchbox',
     'embeditor.components.searchsidebar',
+    'embeditor.components.toolbar',
     'embeditor.services.codeGenerator',
     'embeditor.services.cyclopseDataAPI',
+    'embeditor.services.layoutManager',
     'embeditor.services.youTubeDataAPI',
     'embeditor.services.youtubePlayerAPI'
   ])

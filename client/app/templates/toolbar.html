@@ -1,7 +1,12 @@
 <md-toolbar ng-controller="ToolbarCtrl as toolbar" 
   class="md-medium-tall" 
-  md-scroll-shrink layout="row" layout-align="start center">
-  <div class="md-toolbar-tools" md-simple-menu>
+  md-scroll-shrink 
+  layout="row" 
+  layout-align="start center">
+ 
+  <div class="md-toolbar-tools"
+    layout="row">
+    <!-- Icon and Title -->
     <md-button aria-label="embeditor-icon" class="md-warn" > 
       <ng-md-icon icon="album" size="64"></ng-md-icon>
     </md-button>
@@ -12,9 +17,20 @@
     </div>
     
     <span flex="5"></span>
-    <div layout="row" flex ng-show="!toolbar.sideNavIsOpen()">
+    <!-- Search Box --> 
+    <div layout="row" flex ng-show="!toolbar.layout.sidenavIsOpen('search')">
       <embeditor-searchbox flex id="toolbar-searchbox"></embeditor-searchbox>
     </div>
     <span flex></span>
+
+    <!-- Alternate Icon and Title: Sidenav is open -->
+    <md-button aria-label="embeditor-icon" class="md-warn" ng-show="toolbar.layout.sidenavIsOpen('search')"> 
+      <ng-md-icon icon="album" size="64"></ng-md-icon>
+    </md-button>
+    
+    <div class="titlebar-title" ng-show="toolbar.layout.sidenavIsOpen('search')">
+        <div class="titlebar-cyclopse"> cyclop.se </div>
+        <div class="titlebar-beta"> beta </div>
+    </div>
   </div>
 </md-toolbar>

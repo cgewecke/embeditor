@@ -2,7 +2,7 @@ var cg_debug;
 
 (function(){ 
    'use strict';
-   angular.module('embeditor.services.codeGenerator', [])
+   angular.module('embeditor.services.codeGenerator', ['embeditor.services.cyclopseDataAPI'])
       .service('codeGenerator', codeGenerator);
   
     function codeGenerator($q, Videos){
@@ -296,4 +296,4 @@ var cg_debug;
     }; 
     codeGenerator.$inject = ['$q', 'Videos'];
    // 
-})()
+})();

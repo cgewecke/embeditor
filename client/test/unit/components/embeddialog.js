@@ -41,7 +41,7 @@ describe('Component: Embed Code Dialog Window', function(){
   describe('embedCodeDialog Service', function(){
 
     it('should create a DB record for the clip on window open', function(){
-      console.log('unit tests: embeddialog.js: codeDialogService tests missing');
+      console.log('unit tests: embeddialog.js: DB tests are missing');
     });
 
     it('should fire a ready event when the DB call returns with DB id', function(){
@@ -198,7 +198,40 @@ describe('Component: Embed Code Dialog Window', function(){
         expect(select.attr('disabled')).toBeUndefined();
      });
 
-  })
+     it('should not have selection styling on any option if the API.framesize value is "custom"', function(){
+        console.log('unit tests: embeddialog.js: selection style "custom" test is missing');
+     })
+
+  });
+
+  describe('framesize inputs', function(){
+    console.log('unit tests: embeddialog.js: framesize inputs tests are missing');
+    
+    it('should be bound to the value of API.framesize', function(){
+
+    });
+
+    it('should set API.framesize to "custom" if the inputs dont match a default val', function(){
+
+    });
+
+    it('should not allow any values other than whole integers', function(){
+
+    });
+
+    it('should show value of selected option, if one is selected', function(){
+
+    });
+
+    it('should update the code options & save to DB when height/width are changed', function(){
+
+    });
+
+    it('should not update/save illegal values', function(){
+
+    });
+
+  });
 
   describe('code text', function(){
     
