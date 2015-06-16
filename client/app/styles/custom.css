@@ -7,7 +7,8 @@
     margin: 0;
     width: 100%;
     min-height: 100%;
-    height: inherit; } }
+    height: inherit; } 
+}
 
 /*-------------------*/
 
@@ -60,6 +61,10 @@
   font-size: 24px;
 }
 
+.embed-radio-btn-row{
+  background-color: palegoldenrod;
+}
+
 .embed-help-link{
   color:white;
 }
@@ -98,6 +103,14 @@
 
 }
 
+
+md-progress-circular.embed-btn-spinner{
+  -webkit-transform: scale(.5) !important;
+  transform: scale(.5) !important;
+  display: inline-block;
+  margin: 0 auto;
+}
+
 .embed-code-highlight{
   background: #FFFDE7;
 }
@@ -109,6 +122,7 @@
 .embed-copy-btn-row{
   padding: 24px;
 }
+
 
 
 /* player & player controls */
@@ -138,7 +152,6 @@
 .irs-single:after{
   border-top-color: #FFC107;
 }
-
 
 /* removes weird div gap */
 .player-wrapper{
@@ -192,7 +205,7 @@
   font-size: 14px; 
 }
 
-md-progress-linear .md-container{
+md-progress-linear.time-bar .md-container {
   height: 15px;
   top: -3px;
   cursor: ne-resize;
@@ -240,6 +253,7 @@ md-progress-linear .md-dashed:before{
   padding-top: 10px;
   padding-bottom: 2px;
 }
+
 .controls-background{
   background-color: #EEEEEE;
 }
@@ -336,9 +350,11 @@ md-sidenav.md-locked-open,
 md-sidenav.md-closed.md-locked-open-add-active {
   min-width: 450px !important;  
 } 
+
 .button-lg{
   padding: 8px;
 }
+
 .twelve-point-bold{
    font-size: 12px;
    font-weight: bold;

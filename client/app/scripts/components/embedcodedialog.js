@@ -23,6 +23,8 @@ var ed_debug, ed_debugII;
          var self = this;
          var code = codeGenerator;
 
+         self.opening = false; // Triggers spinner on button during dialog open
+
          // Open()
          self.open = function(event){
          
@@ -31,8 +33,10 @@ var ed_debug, ed_debugII;
                clickOutsideToClose: true,  
                templateUrl: 'templates/embedcode.html',
                controller: dialogCtrl,
-               onComplete: createClip
+               onComplete: onOpen,
             };
+
+            self.opening = true;
 
             // Launch
             $mdDialog.show(codeDialog).finally(function(){
@@ -43,8 +47,10 @@ var ed_debug, ed_debugII;
          // Close();
          self.close = function() { $mdDialog.hide(); };
 
-         // Create record of the current clip in DB
-         function createClip(){
+         // Hide btn spinner & create record of the current clip in DB
+         function onOpen(){
+
+            self.opening = false;
             code.create().then(
                function(success){ $rootScope.$broadcast('embedCodeDialog:ready');},
                function(error){   $rootScope.$broadcast('embedCodeDialog:database-error');}
@@ -104,7 +110,6 @@ var ed_debug, ed_debugII;
             ( $scope.frameHeight === undefined || $scope.frameHeight === null ) ?
                 $scope.frameHeight = $scope.codeGenerator.options.height: false;
 
-            console.log('post reset: ' + $scope.frameWidth)
             // Save changes & update code text
             codeGenerator.set('width', $scope.frameWidth);
             codeGenerator.set('height', $scope.frameHeight);
@@ -116,7 +121,6 @@ var ed_debug, ed_debugII;
          /*$scope.isDefaultFramesize = function(){
 
          }*/
-
 
          // Format changes
          $scope.$watch('format', function(newVal, oldVal){
@@ -176,7 +180,5 @@ var ed_debug, ed_debugII;
       // Template compiled for Dialog Unit tests 
       function embeditorSectionCodeDialog(){
          return{ templateUrl: 'templates/embedcode.html' }
-      };
-
-      
+      };      
 })();
