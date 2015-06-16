@@ -6,6 +6,7 @@ var ed_debug, ed_debugII;
   angular.module('embeditor.components.embedcodedialog', [
 
       'ngMaterial',
+      'ngMessages',
       'embeditor.services.youtubePlayerAPI',
       'embeditor.services.codeGenerator',
 
@@ -68,6 +69,8 @@ var ed_debug, ed_debugII;
 
          $scope.format = 'iframe'; // Default radio btn group model val
          $scope.framesize = 'Medium'; // //Vals: Small, Medium, Large, X-large. Embed framesize
+         $scope.frameHeight = codeGenerator.framesizes.vals[$scope.framesize].height;;
+         $scope.frameWidth = codeGenerator.framesizes.vals[$scope.framesize].width;
          $scope.ready = false; // When false, spinner occupies code window
          $scope.creationError = false; // When true . . . .
          $scope.highlight= true; // When true, code is faux-highlighted, false after copy btn is clicked.
@@ -79,15 +82,42 @@ var ed_debug, ed_debugII;
          $scope.help = function(){}; // Redirect to /help
 
          // Framesize selection
-         $scope.setFramesize = function(size){
+         $scope.setDefaultFramesize = function(size){
       
             codeGenerator.set('width', codeGenerator.framesizes.vals[size].width);
             codeGenerator.set('height', codeGenerator.framesizes.vals[size].height);
+
+            $scope.frameWidth = codeGenerator.framesizes.vals[size].width;
+            $scope.frameHeight = codeGenerator.framesizes.vals[size].height;
 
             // Save changes & update code text
             codeGenerator.update();
             $scope.code = formats[$scope.format]();
          }
+
+         $scope.setCustomFramesize = function(){
+            
+            // Set to most recent values;
+            ( $scope.frameWidth === undefined || $scope.frameWidth === null ) ?
+                $scope.frameWidth = $scope.codeGenerator.options.width: false;
+
+            ( $scope.frameHeight === undefined || $scope.frameHeight === null ) ?
+                $scope.frameHeight = $scope.codeGenerator.options.height: false;
+
+            console.log('post reset: ' + $scope.frameWidth)
+            // Save changes & update code text
+            codeGenerator.set('width', $scope.frameWidth);
+            codeGenerator.set('height', $scope.frameHeight);
+
+            codeGenerator.update();
+            $scope.code = formats[$scope.format]();
+         }
+
+         /*$scope.isDefaultFramesize = function(){
+
+         }*/
+
+
          // Format changes
          $scope.$watch('format', function(newVal, oldVal){
             if(oldVal){

@@ -52,7 +52,8 @@
 }
 
 .embed-framesize-select{
-  margin-top: 11px;
+  margin-left: 15px;
+  padding-bottom: 32px;
 }
 
 .embed-title{
@@ -67,11 +68,25 @@
   text-decoration: underline;
 }
 
+.embed-radio-text{
+  color: rgba(0,0,0,0.54);
+  margin-top: 18px;
+}
+
 .embed-radio-group{
   border: none !important;
 }
 .embed-radio-btn{
   display: inline-block;
+}
+
+.embed-framesize-input{
+  display: inline-block;
+  width: 120px;
+}
+
+.embed-input-label{
+  font-size: 12px;
 }
 
 .embed-code-text{
