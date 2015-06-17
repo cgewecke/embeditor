@@ -98,7 +98,7 @@ var ed_debug, ed_debugII;
 
             // Save changes & update code text
             codeGenerator.update();
-            $scope.code = formats[$scope.format]();
+            resetDisplay();
          }
 
          $scope.setCustomFramesize = function(){
@@ -115,20 +115,15 @@ var ed_debug, ed_debugII;
             codeGenerator.set('height', $scope.frameHeight);
 
             codeGenerator.update();
-            $scope.code = formats[$scope.format]();
+            resetDisplay();
          }
-
-         /*$scope.isDefaultFramesize = function(){
-
-         }*/
-
+         
+         // ------------------- Watches/Events --------------------
          // Format changes
          $scope.$watch('format', function(newVal, oldVal){
-            if(oldVal){
-               $scope.copyButtonMessage = defaultButtonMessage;
-               $scope.highlight = true;
-               $scope.code = formats[newVal]();
-            }  
+            (oldVal) ?
+               resetDisplay():
+               false;  
          });
 
          // Events broadcast by embedCodeDialog service on DB call.
@@ -141,6 +136,13 @@ var ed_debug, ed_debugII;
          $scope.$on('embedCodeDialog:database-error', function(){
             $scope.creationError = true;
          })
+
+         // -------------------  Private --------------------
+         function resetDisplay(){
+            $scope.copyButtonMessage = defaultButtonMessage;
+            $scope.highlight = true;
+            $scope.code = formats[$scope.format]();
+         }
       };
       dialogCtrl.$inject = ['$scope', '$mdDialog', 'codeGenerator', 'youtubePlayerAPI'];
 
