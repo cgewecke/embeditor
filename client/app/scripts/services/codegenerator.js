@@ -96,7 +96,8 @@ var cg_debug;
                 window.location.href + 'embed/' + 
                 self.options._id + '"' + ' style="width: ' + 
                 self.options.width + 'px; height: ' +
-                self.options.height + 'px; overflow: hidden; border: none;"' +
+                self.options.height + 'px; ' +
+                'overflow: hidden; border: none;" ' +
                 'scrolling="no" seamless="seamless"></iframe>';
       };
 

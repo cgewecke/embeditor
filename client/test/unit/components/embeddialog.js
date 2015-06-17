@@ -289,6 +289,10 @@ describe('Component: Embed Code Dialog Window', function(){
 
       });
 
+      it('should reset to "Click to copy" when framesize is changed', function(){
+        console.log('unit tests: code dialog: test missing: clicktocopy reset on framesize change');
+      }
+
       it('should be disabled by default', function(){
         console.log('unit tests: code dialog: test/logic missing copy button disabled');
       });

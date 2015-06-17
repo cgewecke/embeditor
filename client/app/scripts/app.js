@@ -12,12 +12,14 @@ angular
   .module('embeditor', [
     'ngAnimate',
     'ngCookies',
+    'ngMaterial',
+    'ngMdIcons',
+    'ngMessages',
     'ngResource',
     'ngRoute',
     'ngSanitize',
     'ngTouch',
-    'ngMaterial',
-    'ngMdIcons',
+    
     'embeditor.components.embed',
     'embeditor.components.embedcodedialog',
     'embeditor.components.player',

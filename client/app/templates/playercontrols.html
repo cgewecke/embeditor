@@ -7,37 +7,37 @@
 
   <!-- Play Button & Range Finder Row -->
   <div class="controls-background controls-top" 
-      layout="row" 
-      layout-align="space between" 
-      style="width: 854px;"> 
-      <span layout="column" flex="15">
-        <span layout="row" layout-align="center">
-          <md-button id="play-btn" aria-label="seek" 
-              ng-click="player.API.togglePlay()" 
-              class="code-btn md-whiteframe-z1"
-              md-no-ink>
-            <ng-md-icon id="play-icon" icon="play_arrow" size="40" style="fill:black"
-                ng-show="player.API.state === 'paused'">
-            </ng-md-icon>
-            <ng-md-icon id="pause-icon" icon="pause" size="40" style="fill:black"
-                ng-show="player.API.state === 'playing'">
-            </ng-md-icon>
-          </md-button> 
-        </span>
-      </span> 
-      <span layout="column" flex="70">
-        <span layout="row" layout-align="center">
-          <embeditor-rangefinder layout-fill></embeditor-rangefinder>
-        </span>
+    layout="row" 
+    layout-align="space between" 
+    style="width: 854px;"> 
+    <span layout="column" flex="15">
+      <span layout="row" layout-align="center">
+        <md-button id="play-btn" aria-label="seek" 
+            ng-click="player.API.togglePlay()" 
+            class="code-btn md-whiteframe-z1"
+            md-no-ink>
+          <ng-md-icon id="play-icon" icon="play_arrow" size="40" style="fill:black"
+              ng-show="player.API.state === 'paused'">
+          </ng-md-icon>
+          <ng-md-icon id="pause-icon" icon="pause" size="40" style="fill:black"
+              ng-show="player.API.state === 'playing'">
+          </ng-md-icon>
+        </md-button> 
       </span>
-      <span layout="column" flex="15" layout-align="center">
-        <span layout="row" layout-align="center center">
-          <md-button id="reset-button" class="code-btn" aria-label="reset"
-            ng-click="player.API.reset()">
-            <ng-md-icon icon="cancel" size="32" style="fill:black"></ng-md-icon>
-          </md-button>
-        </span>
+    </span> 
+    <span layout="column" flex="70">
+      <span layout="row" layout-align="center">
+        <embeditor-rangefinder layout-fill></embeditor-rangefinder>
       </span>
+    </span>
+    <span layout="column" flex="15" layout-align="center">
+      <span layout="row" layout-align="center center">
+        <md-button id="reset-button" class="code-btn" aria-label="reset"
+          ng-click="player.API.reset()">
+          <ng-md-icon icon="cancel" size="32" style="fill:black"></ng-md-icon>
+        </md-button>
+      </span>
+    </span>
   </div>
  
  <!-- Labels for Play/Cutter/Reset Controls row --> 
@@ -268,7 +268,7 @@
       </md-switch>  
     </md-input-container> 
     <!-- Autostart Switch -->
-     <md-input-container flex="10" class="playback-input-container">
+    <md-input-container flex="10" class="playback-input-container">
       <label class="close-label center-label"> Auto </label>
       <md-switch flex 
         id="auto-switch"
@@ -283,8 +283,17 @@
         id="embed-dialog-btn"
         ng-click='player.dialog.open($event)'
         class="code-btn md-whiteframe-z1">
-        <span class="fa fa-code fa-lg code-icon"></span> 
-        <span class="code-text"> Embed </span>
+        <span class="fa fa-code fa-lg code-icon" ng-show="!player.dialog.opening"></span> 
+        <span class="code-text" ng-show="!player.dialog.opening">
+          Embed 
+        </span>
+      
+        <md-progress-circular
+         class="md-warn embed-btn-spinner" 
+         md-mode="indeterminate" 
+         ng-show="player.dialog.opening">
+       </md-progress-circular>
+        
       </md-button>  
     </md-input-container>  
   </div>  

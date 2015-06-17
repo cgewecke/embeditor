@@ -7,7 +7,8 @@
     margin: 0;
     width: 100%;
     min-height: 100%;
-    height: inherit; } }
+    height: inherit; } 
+}
 
 /*-------------------*/
 
@@ -52,11 +53,16 @@
 }
 
 .embed-framesize-select{
-  margin-top: 11px;
+  margin-left: 15px;
+  padding-bottom: 32px;
 }
 
 .embed-title{
   font-size: 24px;
+}
+
+.embed-radio-btn-row{
+  background-color: palegoldenrod;
 }
 
 .embed-help-link{
@@ -67,11 +73,25 @@
   text-decoration: underline;
 }
 
+.embed-radio-text{
+  color: rgba(0,0,0,0.54);
+  margin-top: 18px;
+}
+
 .embed-radio-group{
   border: none !important;
 }
 .embed-radio-btn{
   display: inline-block;
+}
+
+.embed-framesize-input{
+  display: inline-block;
+  width: 120px;
+}
+
+.embed-input-label{
+  font-size: 12px;
 }
 
 .embed-code-text{
@@ -81,6 +101,14 @@
   padding-bottom: 5px !important;
   overflow-x: hidden;
 
+}
+
+
+md-progress-circular.embed-btn-spinner{
+  -webkit-transform: scale(.5) !important;
+  transform: scale(.5) !important;
+  display: inline-block;
+  margin: 0 auto;
 }
 
 .embed-code-highlight{
@@ -94,6 +122,7 @@
 .embed-copy-btn-row{
   padding: 24px;
 }
+
 
 
 /* player & player controls */
@@ -123,7 +152,6 @@
 .irs-single:after{
   border-top-color: #FFC107;
 }
-
 
 /* removes weird div gap */
 .player-wrapper{
@@ -177,7 +205,7 @@
   font-size: 14px; 
 }
 
-md-progress-linear .md-container{
+md-progress-linear.time-bar .md-container {
   height: 15px;
   top: -3px;
   cursor: ne-resize;
@@ -225,6 +253,7 @@ md-progress-linear .md-dashed:before{
   padding-top: 10px;
   padding-bottom: 2px;
 }
+
 .controls-background{
   background-color: #EEEEEE;
 }
@@ -321,9 +350,11 @@ md-sidenav.md-locked-open,
 md-sidenav.md-closed.md-locked-open-add-active {
   min-width: 450px !important;  
 } 
+
 .button-lg{
   padding: 8px;
 }
+
 .twelve-point-bold{
    font-size: 12px;
    font-weight: bold;

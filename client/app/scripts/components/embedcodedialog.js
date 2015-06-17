@@ -6,6 +6,7 @@ var ed_debug, ed_debugII;
   angular.module('embeditor.components.embedcodedialog', [
 
       'ngMaterial',
+      'ngMessages',
       'embeditor.services.youtubePlayerAPI',
       'embeditor.services.codeGenerator',
 
@@ -22,6 +23,8 @@ var ed_debug, ed_debugII;
          var self = this;
          var code = codeGenerator;
 
+         self.opening = false; // Triggers spinner on button during dialog open
+
          // Open()
          self.open = function(event){
          
@@ -30,8 +33,10 @@ var ed_debug, ed_debugII;
                clickOutsideToClose: true,  
                templateUrl: 'templates/embedcode.html',
                controller: dialogCtrl,
-               onComplete: createClip
+               onComplete: onOpen,
             };
+
+            self.opening = true;
 
             // Launch
             $mdDialog.show(codeDialog).finally(function(){
@@ -42,8 +47,10 @@ var ed_debug, ed_debugII;
          // Close();
          self.close = function() { $mdDialog.hide(); };
 
-         // Create record of the current clip in DB
-         function createClip(){
+         // Hide btn spinner & create record of the current clip in DB
+         function onOpen(){
+
+            self.opening = false;
             code.create().then(
                function(success){ $rootScope.$broadcast('embedCodeDialog:ready');},
                function(error){   $rootScope.$broadcast('embedCodeDialog:database-error');}
@@ -68,6 +75,8 @@ var ed_debug, ed_debugII;
 
          $scope.format = 'iframe'; // Default radio btn group model val
          $scope.framesize = 'Medium'; // //Vals: Small, Medium, Large, X-large. Embed framesize
+         $scope.frameHeight = codeGenerator.framesizes.vals[$scope.framesize].height;;
+         $scope.frameWidth = codeGenerator.framesizes.vals[$scope.framesize].width;
          $scope.ready = false; // When false, spinner occupies code window
          $scope.creationError = false; // When true . . . .
          $scope.highlight= true; // When true, code is faux-highlighted, false after copy btn is clicked.
@@ -79,22 +88,42 @@ var ed_debug, ed_debugII;
          $scope.help = function(){}; // Redirect to /help
 
          // Framesize selection
-         $scope.setFramesize = function(size){
+         $scope.setDefaultFramesize = function(size){
       
             codeGenerator.set('width', codeGenerator.framesizes.vals[size].width);
             codeGenerator.set('height', codeGenerator.framesizes.vals[size].height);
 
+            $scope.frameWidth = codeGenerator.framesizes.vals[size].width;
+            $scope.frameHeight = codeGenerator.framesizes.vals[size].height;
+
             // Save changes & update code text
             codeGenerator.update();
-            $scope.code = formats[$scope.format]();
+            resetDisplay();
          }
+
+         $scope.setCustomFramesize = function(){
+            
+            // Set to most recent values;
+            ( $scope.frameWidth === undefined || $scope.frameWidth === null ) ?
+                $scope.frameWidth = $scope.codeGenerator.options.width: false;
+
+            ( $scope.frameHeight === undefined || $scope.frameHeight === null ) ?
+                $scope.frameHeight = $scope.codeGenerator.options.height: false;
+
+            // Save changes & update code text
+            codeGenerator.set('width', $scope.frameWidth);
+            codeGenerator.set('height', $scope.frameHeight);
+
+            codeGenerator.update();
+            resetDisplay();
+         }
+         
+         // ------------------- Watches/Events --------------------
          // Format changes
          $scope.$watch('format', function(newVal, oldVal){
-            if(oldVal){
-               $scope.copyButtonMessage = defaultButtonMessage;
-               $scope.highlight = true;
-               $scope.code = formats[newVal]();
-            }  
+            (oldVal) ?
+               resetDisplay():
+               false;  
          });
 
          // Events broadcast by embedCodeDialog service on DB call.
@@ -107,6 +136,13 @@ var ed_debug, ed_debugII;
          $scope.$on('embedCodeDialog:database-error', function(){
             $scope.creationError = true;
          })
+
+         // -------------------  Private --------------------
+         function resetDisplay(){
+            $scope.copyButtonMessage = defaultButtonMessage;
+            $scope.highlight = true;
+            $scope.code = formats[$scope.format]();
+         }
       };
       dialogCtrl.$inject = ['$scope', '$mdDialog', 'codeGenerator', 'youtubePlayerAPI'];
 
@@ -146,7 +182,5 @@ var ed_debug, ed_debugII;
       // Template compiled for Dialog Unit tests 
       function embeditorSectionCodeDialog(){
          return{ templateUrl: 'templates/embedcode.html' }
-      };
-
-      
+      };      
 })();
