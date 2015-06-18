@@ -44,8 +44,12 @@
   <div layout="row" class="controls-background" style="width: 854px">
     <span flex="15" class="set-btn-block-label"></span>
     <span flex="70">
-      <span class="set-btn-block-label"> Rough Cut </span>
-      <span class="set-btn-block-help"> (Drag handles to set the clip's approx. start and end points)</span>
+      <div layout="row" layout-fill layout-align="space-between">
+        <span class="set-btn-block-label"> Rough Cut </span>
+        <span class="set-btn-block-help"> 
+          (Drag set the clip's time window)
+        </span>
+      </div>
     </span>
 
     <span flex="15" class="set-btn-block-label reset-text"> Reset </span>
@@ -231,13 +235,17 @@
   <div layout="row" class="controls-background" style="width: 854px">
     <span flex="5"></span>
     <span flex="40" class="set-btn-block-label"> 
-      <span class="set-btn-block-label"> Startpoint Setter </span>
-      <span class="set-btn-block-help"> (Seek to exact frame) </span>
+      <div layout="row" layout-fill layout-align="space-between">
+        <span class="set-btn-block-label"> Startpoint </span>
+        <span class="set-btn-block-help"> (Precision set the start time) </span>
+      </div>
     </span>
     <span flex="10"></span>
     <span flex="40" class="set-btn-block-label">
-      <span class="set-btn-block-label"> Endpoint Setter </span>
-      <span class="set-btn-block-help"> (Seek to exact frame) </span>
+      <div layout="row" layout-fill layout-align="space-between">
+        <span class="set-btn-block-label"> Endpoint </span>
+        <span class="set-btn-block-help"> (Precision set the end time) </span>
+      </div>
     </span>
     <span flex></span>
   </div>
@@ -247,8 +255,10 @@
     <!-- Playback Slider -->
     <md-input-container class="playback-input-container" flex="35">
       <label class="close-label"> 
-        <span> Playback Rate </span>
-        <span class="set-btn-block-help"> (Set clip speed) </span>
+        <div layout="row" layout-fill layout-align="space-between">
+          <span> Playback Rate </span>
+          <span class="set-btn-block-help"> (Set clip speed) </span>
+        </div>
       </label> 
       <md-slider flex 
         id="playback-speed-slider"
@@ -293,16 +303,20 @@
     
     <!-- Embed Dialog Window Button -->
     <md-input-container flex="10" class="playback-input-container">
+
       <md-button flex
           id="embed-dialog-btn"
           ng-click='player.dialog.open($event, "embed")'
-          class="code-btn code-btn-with-spinner md-whiteframe-z1">
-        <span class="fa fa-code code-icon" 
-          ng-show="!player.dialog.opening || (player.dialog.target != 'embed-dialog-btn')">
-        </span> 
-        <span class="code-text" 
-          ng-show="!player.dialog.opening || (player.dialog.target != 'embed-dialog-btn')">
-        </span>
+          class="code-btn-with-spinner md-whiteframe-z1">
+          <div>
+            <span class="fa fa-code code-icon" 
+              ng-show="!player.dialog.opening || (player.dialog.target != 'embed-dialog-btn')">
+            </span> 
+            <div class="code-text" 
+              ng-show="!player.dialog.opening || (player.dialog.target != 'embed-dialog-btn')">
+              Embed
+            </div>
+          </div>
       
         <md-progress-circular
          class="md-warn embed-btn-spinner" 
@@ -318,13 +332,16 @@
       <md-button flex
         id="embed-permalink-btn"
         ng-click='player.dialog.open($event, "permalink")'
-        class="code-btn code-btn-with-spinner md-whiteframe-z1">
-        <ng-md-icon icon="link" size="38" 
-          ng-show="!player.dialog.opening || player.dialog.target != 'embed-permalink-btn'">
-        </ng-md-icon> 
-        <span class="code-text" 
-          ng-show="!player.dialog.opening || player.dialog.target != 'embed-permalink-btn'">
-        </span>
+        class="code-btn-with-spinner md-whiteframe-z1">
+        <div>
+          <ng-md-icon icon="link" size="28" 
+            ng-show="!player.dialog.opening || player.dialog.target != 'embed-permalink-btn'">
+          </ng-md-icon> 
+          <div class="code-text" 
+            ng-show="!player.dialog.opening || player.dialog.target != 'embed-permalink-btn'">
+            Link
+          </div>
+        </div>
       
         <md-progress-circular
          class="md-warn embed-btn-spinner" 

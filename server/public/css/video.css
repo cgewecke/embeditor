@@ -8,7 +8,8 @@ a {
    height: 88px;
    min-height: 88px;
    max-height: 88px;
-   background-color: rgb(255,193,7);
+   background-color: #BDBDBD;
+   /*background-color: rgb(255,193,7);*/
    color: rgba(0,0,0,0.87);
    flex-direction: row;
    align-items: center;
@@ -29,7 +30,7 @@ a {
    display: flex;
    position: relative;
    overflow: auto;
-   background-color: rgb(255,193,7);
+   background-color: #BDBDBD;
 }
 
 .header{

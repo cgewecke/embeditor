@@ -12,7 +12,7 @@
          <div class="embed-instructions" flex="70">
             <span class="embed-title"> Permalink </span>
             <br>
-            <span> Paste the code below in your post or site.
+            <span> A permanent link to your clip on cylcop.se
             </span> 
          </div>
          <span flex></span>
@@ -24,22 +24,46 @@
    </md-toolbar>
 
    <div layout="column" layout-fill>
-      <h1> {{ permalink }} </h1>
+      <!-- Content Column -->
+      <div layout="column" layout-fill>
+         <!-- Code Window -->
+         <md-dialog-content class="embed-permalink-content"
+            layout="row" layout-align="center center" layout-fill> 
+
+            <md-content flex class="permalink-code-text"> 
+               <span ng-show="ready" 
+                     id='embed-code-text' 
+                     ng-class="{'embed-code-highlight': highlight}"
+                     class="permalink-code">
+                     {{permalink}}
+               </span>
+               <md-progress-circular 
+                     md-mode="indeterminate" 
+                     class="md-warn embed-code-spinner" 
+                     ng-show="!ready">
+               </md-progress-circular>
+            </md-content>      
+         </md-dialog-content>
+         <!-- Copy Button --> 
+         <div class="embed-copy-btn-row" 
+              layout="row" 
+              layout-align="center center" 
+              layout-fill>
+            <md-button id="code-copy-button" 
+               embeditor-copy-code-button 
+               model="permalink"
+               aria-label="copy"
+               class="code-btn md-whiteframe-z1"> 
+               {{copyButtonMessage}} 
+            </md-button>
+         </div>  
+      </div>
    </div>
 
    <!-- Footer -->
    <md-toolbar layout="row" layout-align="start center">
       <div class="md-toolbar-tools md-warn">
-
-         <div class="embed-instructions" flex="80">
-            <!-- Message -->
-            <span class="embed-title"> Need help embedding?</span>
-            <br>
-            <span> Check out the </span> 
-            <!-- Help link -->
-            <span class="embed-help-link" ng-click="help()"> help tab </span> 
-         </div>
-         <span flex></span>
+         
      </div>
-   </md-toolbar>
+   </md-toolbar> 
 </md-dialog>
