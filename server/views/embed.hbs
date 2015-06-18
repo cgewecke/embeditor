@@ -33,17 +33,9 @@
             end = {{ video.end }};
             init = true; 
             overlay = document.getElementById('cyclopse-overlay');
-
-            {{#if cyclopse }}
-              height = "100%";
-              width = "100%";
-            {{/if}}
-
-            {{#if iframe }}
-              height = {{video.height}};
-              width = {{video.width}};
-            {{/if}}
-
+            height = "100%";
+            width = "100%";
+        
             // Load YT Player API
             tag = document.createElement("script");          
             tag.src = (("http:" === document.location.protocol) ? "http:" : "https:") + "//www.youtube.com/iframe_api"; 

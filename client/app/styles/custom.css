@@ -100,8 +100,9 @@
   padding-top: 5px !important;
   padding-bottom: 5px !important;
   overflow-x: hidden;
-
+  
 }
+
 
 
 md-progress-circular.embed-btn-spinner{
@@ -116,6 +117,19 @@ md-progress-circular.embed-btn-spinner{
 
 .embed-dialog-content{
   height: 100px;
+}
+
+.embed-permalink-content{
+  height: 75px;
+}
+
+.permalink-code-text{
+  font-size: 14px;
+  color: rgba(0,0,0,0.26);
+  padding-top: 5px !important;
+  padding-bottom: 5px !important;
+  overflow-x: hidden;
+  text-align: center;
 }
 
 .embed-copy-btn-row{
@@ -361,7 +375,8 @@ md-progress-linear .md-dashed:before{
 }
 
 .code-text{
-
+  font-size: 12px !important;
+  color: white !important;
 }
 
 .code-btn{
@@ -371,6 +386,8 @@ md-progress-linear .md-dashed:before{
 
 .code-btn-with-spinner{
   max-height: 56px;
+  background-color: #FFCA28;
+  text-transform: none;
 }
 
 .code-icon{

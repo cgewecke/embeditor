@@ -92,6 +92,8 @@ var ed_debug, ed_debugII;
          $scope.highlight= true; // When true, code is faux-highlighted, false after copy btn is clicked.
          $scope.copyButtonMessage = defaultButtonMessage; // 'Click to Copy' || 'Copied'
          $scope.code = ''; // Contents of code window
+         $scope.permalink = ''; // Permalink 
+      
          $scope.mdDialog = $mdDialog; 
          $scope.codeGenerator = codeGenerator;
          $scope.API = youtubePlayerAPI;
@@ -174,13 +176,15 @@ var ed_debug, ed_debugII;
          function copyCodeButtonLink(scope, elem, attrs, ctrl){
             var clipboard;
             var client = new ZeroClipboard(elem);
-
+            
             // Proxy for ZeroClipBoard callback, unit testing
             scope.onCopy = function(event){
                
+               var model = scope.$eval(attrs.model);
+
                if (event){
                   clipboard = event.clipboardData;
-                  clipboard.setData( "text/plain", scope.code );
+                  clipboard.setData( "text/plain", model );
                }  
                scope.copyButtonMessage = "Copied."
                scope.highlight = false;
