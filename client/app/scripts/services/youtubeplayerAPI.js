@@ -131,6 +131,8 @@ BUGS:
     function setStop(){
     
       var ms = timeoutLength();
+      killStop();
+      
       interval = $interval(function(){
         
         var time = self.time();

@@ -29,7 +29,7 @@ function responder(res, err, video, params){
    } else {
       console.log('Served embed: ' + video._id);
       res.status(201);
-      res.render('embed', {video: video }); 
+      res.render('embed', {video: video, iframe: true }); 
    }
 };
 

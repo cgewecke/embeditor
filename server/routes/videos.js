@@ -22,14 +22,14 @@ router.get('/:id', function(req, res, next) {
 function responder(res, err, video, params){
    // Log error
    if (err) {
-     console.log('Embed error for video: ' + params.id + ". Error was: " +  err);
+     console.log('Error for /video: ' + params.id + ". Error was: " +  err);
      res.status(404).render('404');
    
    // Log success + dynamically generate iframe code at embed.hbs
    } else {
-      console.log('Served embed: ' + video._id);
+      console.log('Served /video: ' + video._id);
       res.status(201);
-      res.render('embed', {video: video }); 
+      res.render('embed', {video: video, cyclopse: true }); 
    }
 };
 

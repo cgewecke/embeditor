@@ -22,16 +22,26 @@ var ed_debug, ed_debugII;
       function embedCodeDialog($rootScope, $mdDialog, codeGenerator){
          var self = this;
          var code = codeGenerator;
+         
+         var templateUrls = { 
+            embed: 'templates/embedcode.html', 
+            permalink: 'templates/permalink.html' 
+         };
 
          self.opening = false; // Triggers spinner on button during dialog open
+         self.target = null; // Target === elem.id ? show loading spinner until dialog opens
 
          // Open()
-         self.open = function(event){
+         self.open = function(event, type){
+
+            self.target = event.currentTarget.id;
+            
+            var template = templateUrls[type];
          
             // Dialog def
             var codeDialog = {
                clickOutsideToClose: true,  
-               templateUrl: 'templates/embedcode.html',
+               templateUrl: template,
                controller: dialogCtrl,
                onComplete: onOpen,
             };
@@ -130,6 +140,7 @@ var ed_debug, ed_debugII;
          // Item id & iframe address available/ Dismiss spinner
          $scope.$on('embedCodeDialog:ready', function(){
             $scope.code = formats["iframe"]();
+            $scope.permalink = permalink();
             $scope.ready = true;
          });
 
@@ -142,6 +153,10 @@ var ed_debug, ed_debugII;
             $scope.copyButtonMessage = defaultButtonMessage;
             $scope.highlight = true;
             $scope.code = formats[$scope.format]();
+         }
+
+         function permalink(){
+            return window.location.href + 'videos/' + codeGenerator.options._id;
          }
       };
       dialogCtrl.$inject = ['$scope', '$mdDialog', 'codeGenerator', 'youtubePlayerAPI'];

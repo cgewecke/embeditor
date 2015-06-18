@@ -78,7 +78,7 @@ if (app.get('env') === 'production') {
 
 app.use('/signup', signup);
 app.use('/embed', embed);
-app.use('/videos', embed);
+app.use('/videos', videos);
 app.use('/api', api);
 app.use('/test', test);
 

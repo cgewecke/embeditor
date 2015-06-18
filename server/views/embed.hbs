@@ -1,27 +1,26 @@
 <html lang="en">
    <head>
-   <meta charset="utf-8">
-   <title> Cyclopse </title>
-   <!-- CSS --> 
-   <link rel="stylesheet" href="../css/iframe.css" />
-   <link rel="stylesheet" href="../css/material.css" />
+     <meta charset="utf-8">
+     <title> Cyclopse </title>
+     <!-- CSS --> 
+     <link rel="stylesheet" href="../css/iframe.css" />
+     <link rel="stylesheet" href="../css/video.css" />
+
+     {{#if cyclopse }}
+       <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons"/>
+       <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
+     {{/if }}
    </head>
    <body>
-      <!-- FRAME --> 
-      <div style="position: relative;">
-         <div id="cyclopse-overlay" class="embedlam-overlay">
-               <div class="embedlam-spinner">
-                  <div class="embedlam-loader"></div>
-               </div>
-            </div>
-         <div id="cyclopse-youtube-player"></div>
-      </div>
-      <!-- CODE -->
+
+      {{#if iframe}} {{> iframe}} {{/if}} 
+      {{#if cyclopse}} {{> video }} {{/if}}
+
       <script>
          
          function cyclopse_loader(){
 
-            var tag, firstScriptTag, player, loop, quality, mute, rate, start, end, init, overlay, timer;
+            var tag, firstScriptTag, player, loop, quality, mute, rate, start, end, init, overlay, timer, height, width;
             var iOS = ( navigator.userAgent.match(/(iPad|iPhone|iPod)/g) ? true : false );
 
             // Options & Overlay
@@ -35,6 +34,16 @@
             init = true; 
             overlay = document.getElementById('cyclopse-overlay');
 
+            {{#if cyclopse }}
+              height = "100%";
+              width = "100%";
+            {{/if}}
+
+            {{#if iframe }}
+              height = {{video.height}};
+              width = {{video.width}};
+            {{/if}}
+
             // Load YT Player API
             tag = document.createElement("script");          
             tag.src = (("http:" === document.location.protocol) ? "http:" : "https:") + "//www.youtube.com/iframe_api"; 
@@ -47,8 +56,8 @@
             // Player instance
             function loadPlayer(){
                embdebug = player = new YT.Player('cyclopse-youtube-player', {
-                  width: {{ video.width }},
-                  height: {{ video.height }},
+                  width: width,
+                  height: height,
                   videoId: "{{video.videoId}}",
                   playerVars: {
                      'iv_load_policy':  {{ video.iv_load_policy }},
