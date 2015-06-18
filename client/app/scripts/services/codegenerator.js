@@ -56,6 +56,8 @@ var cg_debug;
           var video = new Videos(self.options);
           
           delete video['_id'];
+          self.options.height = 360;
+          self.options.width = 640;
 
           video.$save().then(
              function(saved){

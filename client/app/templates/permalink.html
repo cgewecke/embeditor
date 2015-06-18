@@ -1,0 +1,45 @@
+<!-- Embed Code Dialog Template -->
+<!-- <script type="text/ng-template" id="embedcode.html"> -->
+<md-dialog flex="50">
+   <!-- Toolbar -->
+   <md-toolbar layout="row" layout-align="start center">
+      <div class="md-toolbar-tools">
+         <!-- Icon -->
+         <md-button aria-label="embeditor-icon" class="md-warn" aria-label="icon"> 
+            <ng-md-icon icon="album" size="48"></ng-md-icon>
+         </md-button>
+         <!-- Instructions -->
+         <div class="embed-instructions" flex="70">
+            <span class="embed-title"> Permalink </span>
+            <br>
+            <span> Paste the code below in your post or site.
+            </span> 
+         </div>
+         <span flex></span>
+         <!-- Close button -->
+         <md-button id="code-dialog-dismiss-btn" ng-click="mdDialog.hide()" aria-label="close">
+            <ng-md-icon icon="clear"></ng-md-icon>
+         </md-button>
+     </div>
+   </md-toolbar>
+
+   <div layout="column" layout-fill>
+      <h1> {{ permalink }} </h1>
+   </div>
+
+   <!-- Footer -->
+   <md-toolbar layout="row" layout-align="start center">
+      <div class="md-toolbar-tools md-warn">
+
+         <div class="embed-instructions" flex="80">
+            <!-- Message -->
+            <span class="embed-title"> Need help embedding?</span>
+            <br>
+            <span> Check out the </span> 
+            <!-- Help link -->
+            <span class="embed-help-link" ng-click="help()"> help tab </span> 
+         </div>
+         <span flex></span>
+     </div>
+   </md-toolbar>
+</md-dialog>

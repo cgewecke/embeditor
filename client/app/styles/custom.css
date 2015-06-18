@@ -107,7 +107,6 @@
 md-progress-circular.embed-btn-spinner{
   -webkit-transform: scale(.5) !important;
   transform: scale(.5) !important;
-  display: inline-block;
   margin: 0 auto;
 }
 
@@ -131,14 +130,17 @@ md-progress-circular.embed-btn-spinner{
 
 .irs-from {
   background-color: #FFC107;
+  font-size: 12px;
 }
 
 .irs-to{
   background-color: #FFC107;
+  font-size: 12px;
 }
 
 .irs-single{
   background-color: #FFC107;
+  font-size: 12px;
 }
 
 .irs-from:after {
@@ -238,6 +240,9 @@ md-progress-linear .md-dashed:before{
   visibility: visible !important;
 }
 
+.play-btn{
+  /*background-color: #FFE082 !important;*/
+}
 .warning-text{
   visibility: hidden;
   font-size: 12px;
@@ -252,6 +257,23 @@ md-progress-linear .md-dashed:before{
 .precision-btn-row{
   padding-top: 10px;
   padding-bottom: 2px;
+}
+
+.precision-btn-outer{
+  background-color: #E0E0E0 !important;
+  /*background-color: #FFE082 !important;*/
+}
+
+.precision-btn-middle{
+  min-height: 51px;
+  min-width: 51px;
+  background-color: #EEEEEE !important;
+  /* background-color: #FFECB3 !important; */
+}
+
+.precision-btn-inner{
+  min-height: 51px;
+  min-width: 51px;
 }
 
 .controls-background{
@@ -311,6 +333,13 @@ md-progress-linear .md-dashed:before{
   cursor: default;
 }
 
+.set-btn-block-help{
+  color: rgba(0,0,0,0.26) !important;
+  cursor: default;
+  font-size: 12px !important;
+  padding-left: 15px;
+}
+
 .playback-input-container{
   padding-top: 26px;
   padding-left: 10px;
@@ -340,8 +369,12 @@ md-progress-linear .md-dashed:before{
   background-color: rgba(0,0,0,0.12);
 }
 
-.code-icon{
+.code-btn-with-spinner{
+  max-height: 56px;
+}
 
+.code-icon{
+  font-size: 28px;
 }
 
 /* Sidebar */
