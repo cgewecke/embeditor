@@ -75,15 +75,13 @@ var ed_debug, ed_debugII;
       function dialogCtrl($scope, $mdDialog, codeGenerator, youtubePlayerAPI){
 
          var defaultButtonMessage = "Click to copy";  
-
-         // Code generating functions
+         
          var formats = {
-            script: codeGenerator.script, 
-            iframe: codeGenerator.iframe, 
-            embedly: codeGenerator.embedly
+            'responsive': codeGenerator.responsiveIframe,
+            'fixed': codeGenerator.fixedIframe
          };
 
-         $scope.format = 'iframe'; // Default radio btn group model val
+         $scope.frameFormat = 'responsive'; //  Vals: 'responsive || fixed', bound to format radio btns
          $scope.framesize = 'Medium'; // //Vals: Small, Medium, Large, X-large. Embed framesize
          $scope.frameHeight = codeGenerator.framesizes.vals[$scope.framesize].height;;
          $scope.frameWidth = codeGenerator.framesizes.vals[$scope.framesize].width;
@@ -132,7 +130,7 @@ var ed_debug, ed_debugII;
          
          // ------------------- Watches/Events --------------------
          // Format changes
-         $scope.$watch('format', function(newVal, oldVal){
+         $scope.$watch('frameFormat', function(newVal, oldVal){
             (oldVal) ?
                resetDisplay():
                false;  
@@ -141,7 +139,7 @@ var ed_debug, ed_debugII;
          // Events broadcast by embedCodeDialog service on DB call.
          // Item id & iframe address available/ Dismiss spinner
          $scope.$on('embedCodeDialog:ready', function(){
-            $scope.code = formats["iframe"]();
+            $scope.code = formats["responsive"]();
             $scope.permalink = permalink();
             $scope.ready = true;
          });
@@ -154,7 +152,7 @@ var ed_debug, ed_debugII;
          function resetDisplay(){
             $scope.copyButtonMessage = defaultButtonMessage;
             $scope.highlight = true;
-            $scope.code = formats[$scope.format]();
+            $scope.code = formats[$scope.frameFormat]();
          }
 
          function permalink(){

@@ -1,5 +1,4 @@
 <!-- Embed Code Dialog Template -->
-<!-- <script type="text/ng-template" id="embedcode.html"> -->
 <md-dialog flex="50">
    <!-- Toolbar -->
    <md-toolbar layout="row" layout-align="start center">
@@ -35,28 +34,28 @@
          <!-- Formatting Radio Buttons -->
          <md-radio-group id='code-dialog-format-group' 
             class="embed-radio-group" 
-            ng-model="format">
+            ng-model="frameFormat">
             <!-- Iframe -->
-            <md-radio-button id="embed-iframe-btn" class="embed-radio-btn" value="iframe" 
-                             ng-disabled="!ready" aria-label="iframe"> 
-               IFrame 
+            <md-radio-button id="embed-iframe-btn" class="embed-radio-btn" value="responsive" 
+                             ng-disabled="!ready" aria-label="responsive"> 
+               Responsive
             </md-radio-button>
             <!-- Raw HTML/JS -->
-            <md-radio-button id="embed-script-btn" class="embed-radio-btn" value="script" 
-                             ng-disabled="!ready" aria-label="html"> 
-               HTML & JS 
+            <md-radio-button id="embed-script-btn" class="embed-radio-btn" value="fixed" 
+                             ng-disabled="!ready" aria-label="fixed"> 
+               Fixed
             </md-radio-button>
          </md-radio-group>
       </div>
-      <div layout="row" layout-align="start center">
+      <div layout="row" id="embed-framesize-selection" layout-align="start center">
          <span flex="5"> </span>
          <!-- Frame Size Select --> 
          <md-select 
             class="md-accent embed-framesize-select" 
-            ng-disabled="!ready"
+            ng-disabled="!ready || frameFormat !== 'fixed' "
             ng-change="setDefaultFramesize(framesize)"
             ng-model="framesize">
-           <md-select-label> Frame size </md-select-label>
+           <md-select-label> Sizes </md-select-label>
            <md-option 
                ng-repeat="option in codeGenerator.framesizes.keys" 
                ng-value='option.name'>
@@ -69,8 +68,12 @@
          <form name="customFrame">
             <md-input-container class="embed-framesize-input">
               <label class="embed-input-label">Width (px) </label>
-              <input type="number" name="width" min="200" ng-model="frameWidth"
-                ng-blur="setCustomFramesize()">
+              <input type="number" 
+                     name="width" 
+                     min="200" 
+                     ng-model="frameWidth"
+                     ng-blur="setCustomFramesize()"
+                     ng-disabled="frameFormat !== 'fixed'">
               <div ng-messages="customFrame.width.$error">
                 <div ng-message="number">Whole number</div>
                 <div ng-message="min">Min: 200.</div>
@@ -79,8 +82,12 @@
             <span flex="5"> </span>
             <md-input-container class="embed-framesize-input">
               <label class="embed-input-label"> Height (px)</label>
-              <input type="number" name="height" min="200" ng-model="frameHeight"
-                ng-blur="setCustomFramesize()" >
+              <input type="number" 
+                     name="height" 
+                     min="200" 
+                     ng-model="frameHeight"
+                     ng-blur="setCustomFramesize()" 
+                     ng-disabled="frameFormat !== 'fixed'">
               <div ng-messages="customFrame.height.$error">
                 <div ng-message="number" >Must be integer</div>
                 <div ng-message="min" >Min: 200</div>
