@@ -52,6 +52,14 @@ describe('Component: Embed Code Dialog Window', function(){
 
     });
 
+    it('should open the correct template based on which button was clicked', function(){
+
+    });
+
+    it('should set the public "opening" variable on open, false when the dialog open has completed', function(){
+
+    });
+
   });
 
   describe('formatting options radio button group', function(){
@@ -61,13 +69,13 @@ describe('Component: Embed Code Dialog Window', function(){
         var ngModel = group.controller('ngModel');
         var localScope = group.scope();
          
-        localScope.format = 'iframe';
+        localScope.frameFormat = 'responsive';
         scope.$apply();
-        expect(ngModel.$modelValue).toBe('iframe');
+        expect(ngModel.$modelValue).toBe('responsive');
 
-        localScope.format = 'script';
+        localScope.frameFormat = 'fixed';
         scope.$apply();
-        expect(ngModel.$modelValue).toBe('script');
+        expect(ngModel.$modelValue).toBe('fixed');
 
       });
 
@@ -75,9 +83,9 @@ describe('Component: Embed Code Dialog Window', function(){
         var group = dialog.find('md-radio-group#code-dialog-format-group');
         var localScope = group.scope();
          
-        localScope.format = 'iframe';
+        localScope.frameFormat = 'responsive';
         scope.$apply();
-        expect(localScope.code).toEqual(code.iframe());
+        expect(localScope.code).toEqual(code.responsiveIframe());
 
       });
 
@@ -87,11 +95,9 @@ describe('Component: Embed Code Dialog Window', function(){
         var ngModel = group.controller('ngModel');
         var localScope = group.scope();
          
-        localScope.format = 'script';
+        localScope.frameFormat = 'fixed';
         scope.$apply();
-        //expect(localScope.code).toEqual(code.script());
-        // This test fails because of problem w/jasmine? The
-        // string's too long? 
+        expect(localScope.code).toEqual(code.fixedIframe());
 
       });
 
@@ -124,7 +130,7 @@ describe('Component: Embed Code Dialog Window', function(){
      // 1280 x 720 x-large
      var div, select, ngModel;
      beforeEach(function(){
-        div = dialog.find('div#embed-options-div'); // Select hijacks the id attr. . . .
+        div = dialog.find('div#embed-framesize-selection'); // Select hijacks the id attr. . . .
         select = div.find('md-select');  
         ngModel = select.controller('ngModel'); 
         httpBackend.whenPOST('/api/videos').respond('');
@@ -150,12 +156,12 @@ describe('Component: Embed Code Dialog Window', function(){
       
         // Problems firing the ng-change on md-select. setFramesize(ng-model) is
         // its contents
-        scope.setFramesize('X-large');
+        scope.setDefaultFramesize('X-large');
         scope.$apply();
         expect(scope.codeGenerator.options.width).toEqual(1280);
         expect(scope.codeGenerator.options.height).toEqual(720);
 
-        scope.setFramesize('Small');
+        scope.setDefaultFramesize('Small');
         scope.$apply();
         expect(code.options.width).toEqual(560);
         expect(code.options.height).toEqual(315);
@@ -164,23 +170,23 @@ describe('Component: Embed Code Dialog Window', function(){
 
      it('should save the changes to the DB', function(){
         spyOn(scope.codeGenerator, 'update');
-        scope.setFramesize('X-large');
+        scope.setDefaultFramesize('X-large');
         expect(scope.codeGenerator.update).toHaveBeenCalled();
 
      });
 
      it('should update the code text when the model is changed', function(){
 
-        var original_code = code.script();
+        var original_code = code.fixedIframe();
         var group = dialog.find('md-radio-group#code-dialog-format-group');
         var localScope = group.scope();
 
         // Init scope.code to script();
-        localScope.format = 'script';
+        localScope.frameFormat = 'fixed';
         localScope.$apply();
 
         // Change size
-        scope.setFramesize('X-large');
+        scope.setDefaultFramesize('X-large');
         scope.$apply();
         expect(original_code).not.toEqual(localScope.code);
      });
@@ -191,12 +197,19 @@ describe('Component: Embed Code Dialog Window', function(){
 
      });
 
-     it('should be enabled after the "embedCodeDialog:ready" event fires', function(){
+     it('should be disabled after the "embedCodeDialog:ready" event fires', function(){
 
         scope.$broadcast('embedCodeDialog:ready');
         scope.$apply();
-        expect(select.attr('disabled')).toBeUndefined();
+        expect(select.attr('disabled')).toEqual('disabled');
      });
+
+     it('should be enabled when the "fixed" option is selected', function(){
+        scope.$broadcast('embedCodeDialog:ready');
+        scope.frameFormat = 'fixed';
+        scope.$apply();
+        expect(select.attr('disabled')).toBeUndefined();
+     })
 
      it('should not have selection styling on any option if the API.framesize value is "custom"', function(){
         console.log('unit tests: embeddialog.js: selection style "custom" test is missing');
@@ -253,11 +266,11 @@ describe('Component: Embed Code Dialog Window', function(){
       it('should get re-selected when the format options are changed', function(){
         var code_text = dialog.find('span#embed-code-text');
         scope.highlight = false;
-        scope.format = 'iframe';
+        scope.frameFormat = 'responsive';
         scope.$apply();
         expect(code_text.hasClass('embed-code-highlight')).toBe(false);
 
-        scope.format = 'script';
+        scope.frameFormat = 'fixed';
         scope.$apply();
         expect(code_text.hasClass('embed-code-highlight')).toBe(true);
 
@@ -272,6 +285,10 @@ describe('Component: Embed Code Dialog Window', function(){
         // Verified manually
       });
 
+      it('should be data-bound to the value of attribute "model"', function(){
+        console.log('unit tests: embeddialog.js: copy button model test is missing');
+      })
+
       it('should say "Copied." after the copy event', function(){
         var button = dialog.find('button#code-copy-button');
         scope.onCopy();
@@ -283,7 +300,7 @@ describe('Component: Embed Code Dialog Window', function(){
         var button = dialog.find('button#code-copy-button');
         scope.onCopy();
         scope.$apply();
-        scope.format = 'script';
+        scope.frameFormat = 'fixed';
         scope.$apply();
         expect(button.text().trim()).toEqual('Click to copy');
 
@@ -291,7 +308,7 @@ describe('Component: Embed Code Dialog Window', function(){
 
       it('should reset to "Click to copy" when framesize is changed', function(){
         console.log('unit tests: code dialog: test missing: clicktocopy reset on framesize change');
-      }
+      });
 
       it('should be disabled by default', function(){
         console.log('unit tests: code dialog: test/logic missing copy button disabled');
