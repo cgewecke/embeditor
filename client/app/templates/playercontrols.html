@@ -80,7 +80,7 @@
               ng-click="player.API.start(-5)"
               class="md-raised precision-btn-outer"
               md-no-ink>
-            <ng-md-icon icon="chevron_left" size="36"></ng-md-icon>
+            <ng-md-icon icon="chevron_left" size="40"></ng-md-icon>
           </md-button>
           <span class="control-btn-txt-left"> 5s </span>
         </span>
@@ -100,11 +100,13 @@
               ng-click="player.API.start(-(player.API.frameLength))"
               class="md-raised precision-btn-inner"
               md-no-ink>
-            <ng-md-icon icon="chevron_left" size="28">
+            <ng-md-icon icon="chevron_left" size="24">
             </ng-md-icon>
           </md-button>
           <span class="control-btn-txt-ctr"> frame </span>
         </span>
+
+
         <!-- Startpoint display -->
         <span layout="column" layout-align="center center" > 
           <md-button aria-label="seek"
@@ -112,21 +114,20 @@
               ng-click="player.API.replayStart()"
               class="md-raised startpoint-btn"
               md-no-ink>
-            <span> {{player.API.startpoint.display}}
-            
+            <div class="fa fa-play-circle time-disp-play-icon"></div>  
+            <div class="time-disp-time"> {{player.API.startpoint.display}} </div>
           </md-button>
           <span class="control-btn-txt-ctr startpoint-txt"> Startpoint </span>
-          <md-tooltip md-delay="1000" md-direction="top"> Replay from startpoint </md-tooltip>
           
         </span>
-        
+
         <!-- Frame forward -->
         <span layout="column" layout-align="center center"> 
           <md-button id="start-fwd-frame-btn" aria-label="seek"
               ng-click="player.API.start(player.API.frameLength)"
               class="md-raised precision-btn-inner"
               md-no-ink>
-            <ng-md-icon icon="chevron_right" size="28"></ng-md-icon>
+            <ng-md-icon icon="chevron_right" size="24"></ng-md-icon>
           </md-button>
           <span class="control-btn-txt-ctr"> frame </span>
         </span>
@@ -146,7 +147,7 @@
               class="md-raised precision-btn-outer"
               md-no-ink
               ng-click="player.API.start(5)">
-            <ng-md-icon icon="chevron_right" size="36"></ng-md-icon>
+            <ng-md-icon icon="chevron_right" size="40"></ng-md-icon>
           </md-button>
           <span class="control-btn-txt-right"> 5s </span>
         </span>
@@ -160,7 +161,7 @@
               ng-click="player.API.end(-5)"
               class="md-raised precision-btn-outer"
               md-no-ink>
-            <ng-md-icon icon="chevron_left" size="36"></ng-md-icon>
+            <ng-md-icon icon="chevron_left" size="40"></ng-md-icon>
           </md-button>
           <span class="control-btn-txt-left"> 5s </span>
         </span>
@@ -180,7 +181,7 @@
               ng-click="player.API.end(-(player.API.frameLength))"
               class="md-raised precision-btn-inner"
               md-no-ink>
-            <ng-md-icon icon="chevron_left" size="28">
+            <ng-md-icon icon="chevron_left" size="24">
             </ng-md-icon>
           </md-button>
           <span class="control-btn-txt-ctr"> frame </span>
@@ -193,10 +194,10 @@
               ng-click="player.API.replayEnd()"
               class="md-raised startpoint-btn"
               md-no-ink>
-            <span> {{player.API.endpoint.display}}
+            <div class="fa fa-play-circle time-disp-play-icon"></div>  
+            <div class="time-disp-time"> {{player.API.endpoint.display}} </div>
           </md-button>
           <span class="control-btn-txt-ctr startpoint-txt"> Endpoint </span>
-          <md-tooltip md-delay="1000" md-direction="top"> Replay near endpoint </md-tooltip>
         </span>
 
         <!-- Frame forward -->
@@ -205,7 +206,7 @@
               ng-click="player.API.end(player.API.frameLength)"
               class="md-raised precision-btn-inner"
               md-no-ink>
-            <ng-md-icon icon="chevron_right" size="28"></ng-md-icon>
+            <ng-md-icon icon="chevron_right" size="24"></ng-md-icon>
           </md-button>
           <span class="control-btn-txt-ctr"> frame </span>
         </span>
@@ -225,7 +226,7 @@
               class="md-raised precision-btn-outer"
               md-no-ink
               ng-click="player.API.end(5)">
-            <ng-md-icon icon="chevron_right" size="36"></ng-md-icon>
+            <ng-md-icon icon="chevron_right" size="40"></ng-md-icon>
           </md-button>
           <span class="control-btn-txt-right"> 5s </span>
         </span>

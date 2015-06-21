@@ -28,17 +28,19 @@
                 layout-fill 
                 layout-align="end end">
 
-                <span class="timestamp">
-                  <ng-md-icon 
-                    id="timestamp-btn"
-                    icon="get_app" 
-                    style="fill:white" 
-                    ng-click="player.startFromTimestamp()"
-                    class="timestamp-set-icon">
-                  </ng-md-icon> 
-                  <md-tooltip md-direction="left"> Set startpoint </md-tooltip>
-                  {{player.API.timestamp.toString().toHHMMSSss()}} 
-                </span>
+                <div layout="row" layout-align="center center">
+                  <span class="timestamp">
+                    <ng-md-icon 
+                      id="timestamp-btn"
+                      icon="get_app" 
+                      style="fill:white" 
+                      ng-click="player.startFromTimestamp()"
+                      class="timestamp-set-icon">
+                    </ng-md-icon> 
+                    <md-tooltip md-direction="left"> Set startpoint </md-tooltip>
+                    <span class="timestamp-time"> {{player.API.timestamp.toString().toHHMMSSss()}} </span>
+                  </span>
+                </div>
           </span>
         </div>
         <!-- Player -->
