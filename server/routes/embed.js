@@ -28,6 +28,7 @@ function responder(res, err, video, params){
    // Log success + dynamically generate iframe code at embed.hbs
    } else {
       console.log('Served embed: ' + video._id);
+      video.cyclopseUrl = 'http://www.cyclop.se/embed/' + video._id;
       res.status(201);
       res.render('embed', {video: video, iframe: true }); 
    }

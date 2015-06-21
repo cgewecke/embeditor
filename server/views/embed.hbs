@@ -1,6 +1,13 @@
 <html lang="en">
    <head>
      <meta charset="utf-8">
+     
+     <!-- Open Graph Tags -->
+     <meta property="og:title" content="{{video.title}}" />
+     <meta property="og:image" content="{{video.imageUrl}}" />
+     <meta property="og:type" content="video.other" />
+     <meta property="og:url" content="{{video.cyclopseUrl}}" />
+
      <title> Cyclopse </title>
      <!-- CSS --> 
      <link rel="stylesheet" href="../css/iframe.css" />
@@ -22,6 +29,7 @@
 
             var tag, firstScriptTag, player, loop, quality, mute, rate, start, end, init, overlay, timer, height, width;
             var iOS = ( navigator.userAgent.match(/(iPad|iPhone|iPod)/g) ? true : false );
+            var iOS_buffer = false;
 
             // Options & Overlay
             loop = {{video.loop}};
@@ -47,33 +55,44 @@
 
             // Player instance
             function loadPlayer(){
-               embdebug = player = new YT.Player('cyclopse-youtube-player', {
-                  width: width,
-                  height: height,
-                  videoId: "{{video.videoId}}",
-                  playerVars: {
-                     'iv_load_policy':  {{ video.iv_load_policy }},
-                     'controls' : {{video.controls}},
-                     'disablekb': {{video.disablekb}},
-                     'fs' : {{video.fs}},
-                     'modestbranding' : {{video.modestbranding}},
-                     'showinfo' : {{video.showinfo}}
-                  },
-                  events: {
-                     onReady: onPlayerReady, 
-                     onStateChange: onPlayerStateChange, 
-                     onError: onPlayerError 
-                  } 
-               }); 
+
+              var ready, stateChange;
+              if (iOS){
+                ready = iOS_onPlayerReady;
+                stateChange = iOS_onPlayerStateChange;
+              } else {
+                ready = onPlayerReady;
+                stateChange = onPlayerStateChange;
+              }
+
+              embdebug = player = new YT.Player('cyclopse-youtube-player', {
+                width: width,
+                height: height,
+                videoId: "{{video.videoId}}",
+                playerVars: {
+                   'iv_load_policy':  {{ video.iv_load_policy }},
+                   'controls' : {{video.controls}},
+                   'disablekb': {{video.disablekb}},
+                   'fs' : {{video.fs}},
+                   'modestbranding' : {{video.modestbranding}},
+                   'showinfo' : {{video.showinfo}}
+                },
+                events: {
+                   onReady: ready, 
+                   onStateChange: stateChange, 
+                   onError: onPlayerError 
+                } 
+              }); 
             }; 
-      
+
+
+            // --------------------- Desktop ----------------------------------
+
             // Timing - setStop(), killStop(), getOffset()
             // See client/scripts/services/ytplayerAPI.js 
             function setStop(looping){
   
-               var ms;
-               
-               (iOS && looping) ? ms = timeoutLength_IOS() : ms = timeoutLength();
+               var ms = timeoutLength();
 
                timer = setTimeout(function(){
                   (!loop) ? 
@@ -87,7 +106,6 @@
 
             function killStop(looping){
               clearTimeout(timer);
-              (iOS && looping) ? setStop(looping) : false;
             }
 
             function timeoutLength(){
@@ -100,32 +118,15 @@
               return ms; 
             }
 
-            // iOS is missing the pause event, so 
-            // it needs its new stop set directly in the kill on 
-            // loop, and the time duration needs to be set to 
-            // to clip length, or else there's a weird skip.
-            function timeoutLength_IOS(){
-              var ms = Math.floor( (end - start) * 1000 );
-              if (rate == 0.5) return (ms * 2);
-              if (rate == 1 ) return (ms);
-              if (rate == 1.5) return Math.floor(ms * .66);
-              return ms; 
-            }
-
             // YT Player callbacks
             function onPlayerReady(){
               player.mute();
-              
-              if (!iOS){
-                player.seekTo(start);
-                player.playVideo();
-              } else {
-                overlay.style.visibility = "hidden";
-                autoplay = true;
-              } 
+              player.seekTo(start);
+              player.playVideo();
             };
 
             function onPlayerStateChange(event){
+
                if (event.data === YT.PlayerState.PLAYING){
                   setStop();
                   if (init){
@@ -152,15 +153,142 @@
                      
                     }, 250);
                   }
+
                } else {
                  killStop();
                }
             };
+
+            // ----------------------------  iOS ------------------------------------
+
+            // iOS: If this is setStop on the loop, e.g. called recursively from
+            // the killStop at the end of the last setStop timer exec, use special
+            // iOS timer calc, otherwise, be normal.
+            function iOS_setStop(looping){
+              var ms;
+              
+              (looping) ? 
+                ms = iOS_timeoutLength() : 
+                ms = timeoutLength();
+
+               timer = setTimeout(function(){
+                  (!loop) ? 
+                    player.pauseVideo() : 
+                    player.seekTo(start); 
+                  
+                  iOS_killStop(true);
+
+               }, ms);
+            };
+
+            // If this is a looping event, called from 
+            // at the end of the setStop fn exec, playerStateChange
+            // setStop won't get called in iOS. So setStop here.
+            function iOS_killStop(looping){
+              clearTimeout(timer);
+              (looping) ? 
+                iOS_setStop(looping) : 
+                false;
+            }
+
+            // iOS is skipping the pause event after the first play, so 
+            // it needs its new stop set directly in the kill on 
+            // loop, and the time duration needs to be set to 
+            // to clip length, or else there's a weird skip.
+            function iOS_timeoutLength(){
+              var ms = Math.floor( (end - start) * 1000 );
+              if (rate == 0.5) return (ms * 2);
+              if (rate == 1 ) return (ms);
+              if (rate == 1.5) return Math.floor(ms * .66);
+              return ms; 
+            }
+
+            
+            // Show Thumbnail: Autoplay is implicit because
+            // player is touch started, playback rate is disabled
+            // on mobile.  
+            function iOS_onPlayerReady(){
+              overlay.style.visibility = "hidden";
+              autoplay = true;
+              rate = 1;
+            }
+
+            
+
+            // Algo for this:
+            // 1. Overlay was on as Player loads - comes off to reveal the thumbnail, user clicks
+            // 2. Player buffers stream to beginning of video: (Buffering && Init)
+            //      Overlay goes back on. 
+            //      Mute the player
+            // 3. Player starts playing at the beginning of video.
+            //      Pause.
+            //      Seek to clip start
+            //      Set Playback rate
+            // 4. Player buffers stream at new startpoint
+            //      Initiate play
+            // 5. Player starts playing
+            //      Overlay comes off,
+            //      Player unMuted
+            //      Fuck iOS
+
+            function iOS_onPlayerStateChange(event){
+
+              if (event.data === YT.PlayerState.PLAYING){
+                  
+                  
+                  if (init){
+                    
+                    init = false;
+                    player.pauseVideo();
+                    player.seekTo(start);
+                    
+                    iOS_buffer = true;
+                  
+                  } else if (iOS_buffer){
+
+                    iOS_setStop(true);
+                    iOS_buffer = false;
+                    overlay.style.visibility = "hidden";
+
+                    (!mute) ? 
+                        player.unMute(): 
+                        false;
+
+                  } else {
+                    iOS_setStop();
+                  }
+
+              } else if (event.data === YT.PlayerState.BUFFERING && init ){
+
+                  overlay.style.visibility = "visible";
+                  player.mute();
+
+              } else if (event.data === YT.PlayerState.BUFFERING && iOS_buffer ){  
+                               
+                  player.playVideo();
+
+              } else {
+    
+                iOS_killStop();
+              }
+
+            };
+
             function onPlayerError(){ console.error("Cyclop.se v YouTube.com: 0-1"); };
          };
-         
+
          // Do it. 
          cyclopse_loader();
+
+      </script>
+      <script>
+        (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+        (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+        m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+        })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+        ga('create', 'UA-64330324-1', 'auto');
+        ga('send', 'pageview');
 
       </script>
    </body>

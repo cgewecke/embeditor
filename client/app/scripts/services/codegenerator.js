@@ -19,7 +19,9 @@ var cg_debug;
          start: 0.0,
          end: 0.0,
          width: 640,
-         height: 360
+         height: 360,
+         title: '',
+         imageUrl: ''
       };
 
       self.frame = {

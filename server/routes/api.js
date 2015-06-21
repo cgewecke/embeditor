@@ -39,7 +39,9 @@ router.post('/videos', function (req, res) {
       start: body.start,
       end: body.end,
       width: body.width,
-      height: body.height
+      height: body.height,
+      title: body.title,
+      imageUrl: body.imageUrl
    });
 
    newVideo.save(function(err, savedVideo){
@@ -73,6 +75,8 @@ router.post('/videos/:id', function (req, res) {
          video.end = body.end;
          video.width = body.width;
          video.height = body.height;
+         video.title = body.title;
+         video.imageUrl = body.imageUrl;
 
          video.save(function (err, savedVideo) { 
          

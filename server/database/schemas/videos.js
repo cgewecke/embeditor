@@ -16,6 +16,11 @@ var videoSchema = new Schema({
     rate: { type: String, required: true },
     start: { type: String, required: true },
     end: { type: String, required: true },
+    title: { type: String },
+    imageUrl: {type: String},
+    timeWindow: {type: String},
+    youtubeUrl: {type: String},
+    
     created_at: {type: Date},
     updated_at: {type: Date},
 
