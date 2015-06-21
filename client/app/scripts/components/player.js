@@ -69,6 +69,8 @@ var pctl_debug, pctl_debugII;
       // listen for video load - update codeGen videoId
       $scope.$on('YTPlayerAPI:init', function(){
         self.code.set('videoId', self.API.video.videoId);
+        self.code.set('title', self.API.video.title);
+        self.code.set('imageUrl', self.API.video.imageUrl);
       })
 
       // listen for updates to (API.startpoint, API.endpoint)

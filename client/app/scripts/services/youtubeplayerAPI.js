@@ -133,6 +133,7 @@ BUGS:
       var ms = timeoutLength();
       killStop();
       
+      // Update timestamp as we play.
       interval = $interval(function(){
         
         var time = self.time();
@@ -143,7 +144,6 @@ BUGS:
        // If we are playing & looping, loop back to startpoint.
       timeout = $timeout(function(){
           
-          console.log('Executing timeout');
           if (!self.loop){
             self.pause();
           } else if (self.prevAction === 'play'){
@@ -159,11 +159,10 @@ BUGS:
       
       $interval.cancel(interval);
       $timeout.cancel(timeout);
-      console.log('Kill stop: ' + self.time());
+
     }
 
-    // timeoutLength() - returns duration for $timeout, calibrated to playback rate, 
-    // +/- arbitrary player response delays.
+    // timeoutLength() - returns duration for $timeout, calibrated to playback rate
     function timeoutLength(){
 
       var ms = Math.floor( (self.endpoint.val - self.time()) * 1000 );
@@ -410,12 +409,12 @@ BUGS:
            setStop();        
         }
       } else if ( event.data === BUFFERING ) {
-        console.log('Buffering state Change: ' + event.data)
+    
         self.state = 'playing';
         killStop();
         
       } else {
-        console.log('Other state Change: ' + event.data)
+    
         self.state = 'paused';
         killStop();
       }
