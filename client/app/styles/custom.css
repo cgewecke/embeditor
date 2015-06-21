@@ -250,6 +250,10 @@ md-progress-linear .md-dashed:before{
   padding-left: 2px;
 }
 
+.timestamp-time{
+  vertical-align: top;
+}
+
 .visible{
   visibility: visible !important;
 }
@@ -274,20 +278,22 @@ md-progress-linear .md-dashed:before{
 }
 
 .precision-btn-outer{
+  height: 52px;
+  width: 52px;
   background-color: #E0E0E0 !important;
   /*background-color: #FFE082 !important;*/
 }
 
 .precision-btn-middle{
-  min-height: 51px;
-  min-width: 51px;
+  min-height: 52px;
+  min-width: 52px;
   background-color: #EEEEEE !important;
   /* background-color: #FFECB3 !important; */
 }
 
 .precision-btn-inner{
-  min-height: 51px;
-  min-width: 51px;
+  min-height: 52px;
+  min-width: 52px;
 }
 
 .controls-background{
@@ -338,7 +344,22 @@ md-progress-linear .md-dashed:before{
 .startpoint-btn{
   background: black !important;
   color: white !important;
-  height: 50px;
+  cursor: default;
+  min-height: 52px;
+}
+
+.time-disp-play-icon{
+
+  position: relative;
+  font-size: 14px;
+  top: -7px;
+  pointer-events: none;
+  cursor: default;
+}
+
+.time-disp-time{
+  position: relative;
+  top: -7px;
   cursor: default;
 }
 
