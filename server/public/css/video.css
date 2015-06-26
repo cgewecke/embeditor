@@ -9,10 +9,12 @@ a {
    min-height: 88px;
    max-height: 88px;
    background-color: #BDBDBD;
+   display: flex;
+   align-content: space-between;
    /*background-color: rgb(255,193,7);*/
    color: rgba(0,0,0,0.87);
    flex-direction: row;
-   align-items: center;
+   /*align-items: center;*/
    position: relative;
    z-index: 2;
    font-size: 1.3em;
@@ -34,8 +36,8 @@ a {
 }
 
 .header{
-   align-self: flex-start;
-
+   display: flex;
+   align-content: space-between;
 }
 
 .center{
@@ -46,10 +48,9 @@ a {
 }
 
 .footer{
-   align-self: flex-end;
-   align-items: flex-end;
+   display: flex;
+   align-content: space-between;
    box-shadow: none !important;
-
 }
 
 .video-wrapper{
@@ -59,9 +60,77 @@ a {
    width: 100%
 }
 
-.footer-title{
-   text-align: right;
-   margin-top: 20px;
+
+.header-left-corner{
+  display: inline-block;
+  text-align: left;
+  width: 50%;
+}
+
+.header-right-corner{
+  display: inline-block;
+  text-align: right;
+  margin-top: 20px;
+  margin-left: 10px;
+  width: 50%;
+}
+
+.twitter-color{
+  color: #55acee;
+  opacity: .5;
+}
+
+.twitter-color:hover{
+  opacity: 1;
+}
+
+.facebook-color{
+  color: #4e69a2;
+  opacity: .5;
+}
+
+.facebook-color:hover{
+  opacity: 1;
+}
+
+.tumblr-color{
+  color: #36465d;
+  opacity: .5;
+}
+
+.tumblr-color:hover{
+  opacity: 1;
+}
+
+.icon-color{
+  color: white;
+}
+
+.footer-left-corner{
+  display: inline-block;
+  text-align: left;
+  margin-top: 10px;
+  width: 50%;
+}
+
+.footer-right-corner{
+
+  display: inline-block;
+  text-align: right;
+  margin-top: 20px;
+  width: 50%;
+}
+
+.cyclopse-slogan{
+  margin-top: 14px;
+  margin-left: 15px;
+  font-size: 16px;
+  opacity: .7;
+}
+
+.cyclopse-slogan:hover{
+  text-decoration: underline;
+  text-color: white !important;
 }
 
 .md-48{ font-size: 48px !important;}

@@ -28,11 +28,16 @@ var pctl_debug, pctl_debugII;
       self.layout = layoutManager; 
 
       // ------------------------ Public ----------------------------------
-      // Called by button on timestamp, sets new startpoint at the 
+      // Called by button on timestamp, sets new start/end point at the 
       // current tapehead pos.
       self.startFromTimestamp = function(){
         self.API.setStartpoint(self.API.timestamp);
         self.API.start(0);
+      };
+
+      self.endFromTimestamp = function(){
+        self.API.setEndpoint(self.API.timestamp);
+        self.API.end(0);
       };
 
       // ----------------------- Watches -------------------------------
@@ -96,15 +101,21 @@ var pctl_debug, pctl_debugII;
     function timeBarEventHandlers(scope, elem, attr, ctrl){
       
       var dot = elem.find('ng-md-icon');
+      var tapehead = elem.find('span.tapehead-animation-wrapper');
       var value = elem.find('span.progress-bar-time');
+
       var lowLimit = 20; // pixel . . . 
       var highLimit = 844; // pixel. These are bullshit.
       var xCoord = 0;
 
       scope.showDot = false;
+      scope.timestamp = ctrl.API.timestamp;
       scope.time = (0).toString().toHHMMSSss();
+      scope.API = ctrl.API; // Ref for timestamp animation $watch
 
-      // calculateTimeDotValue(): Translates space to time.
+      // ---------------- Time Dot Animation ---------------------------------
+
+      // calculateTimeDotValue(): Translate space to time.
       function calculateTimeDotValue(){
         var ratio = (xCoord/854);
         var time = (ctrl.API.endpoint.val - ctrl.API.startpoint.val) * ratio;
@@ -112,11 +123,13 @@ var pctl_debug, pctl_debugII;
         return ctrl.API.startpoint.val + time;
       };
 
+
       // updateTimeDot: ng-mousemove 
       // Shows dot/time value mapped by location the cursor hovers over. 
       scope.updateTimeDot = function($event){
     
         xCoord = $event.offsetX;
+
         var offset = elem.offset();
         var dotXPos = (xCoord + 5) + 'px';
         var valueXPos = (offset.left + xCoord - 10) + 'px';
@@ -152,6 +165,37 @@ var pctl_debug, pctl_debugII;
           ctrl.API.setTapehead(time);
         }
       };
+
+      // ----------------   Tapehead Animation ----------------------------- 
+      
+      // Bind to API.timestamp
+      scope.$watch('API.timestamp', function(newval, oldval){
+        (newval) ? updateTapehead() : false;
+      });
+
+      // Listen for start/end val updates, because the timeline gets
+      // rebased then.
+      scope.$on('YTPlayerAPI:update', function(newval, oldval){
+        (newval) ? updateTapehead() : false;
+      })
+
+      // updateTapehead() Translate cur tapehead pos to timebar space.
+      function updateTapehead(){
+        var clipDuration, ratio, newPosition;
+        
+        var playerWidth = 854; // Pixel - bullshit
+        var timestampWidth = 14; // Pixel - bullshit
+
+        clipDuration = (ctrl.API.endpoint.val - ctrl.API.startpoint.val);
+        ratio = (ctrl.API.timestamp - ctrl.API.startpoint.val) /clipDuration;
+        newPosition = Math.floor( 854 * ratio );
+
+        // Either update or detect end and stop for the last few pixels
+        (newPosition < (playerWidth - timestampWidth)) ?
+          tapehead.css('left', newPosition):
+          tapehead.css('left', (playerWidth - timestampWidth));
+      };
+
 
     };
 

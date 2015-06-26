@@ -20,6 +20,9 @@ router.get('/:id', function(req, res, next) {
 });
 
 function responder(res, err, video, params){
+
+   var encodedUrl, shareUrls;
+
    // Log error
    if (err) {
      console.log('Error for /video: ' + params.id + ". Error was: " +  err);
@@ -28,10 +31,21 @@ function responder(res, err, video, params){
    // Log success + dynamically generate iframe code at embed.hbs
    } else {
       console.log('Served /video: ' + video._id);
+
+      // Urls for og: & twitter meta tags
       video.cyclopseUrl = 'http://www.cyclop.se/videos/' + video._id;
-      console.log('cyclops url: ' + video.cyclopseUrl);
+      video.youtubeUrl = 'https://www.youtube.com/watch?v=' + video.videoId;
+      
+      // Share Urls for share buttons 
+      encodedUrl = encodeURIComponent(video.cyclopseUrl);
+      shareUrls = {
+         facebook: '//www.facebook.com/sharer/sharer.php?u=' + encodedUrl,
+         twitter: '//www.twitter.com/intent/tweet?url=' + encodedUrl,
+         tumblr: '//www.tumblr.com/share/link?url=' + encodedUrl.replace('http://', '').replace('https://')
+      };
+
       res.status(201);
-      res.render('embed', {video: video, cyclopse: true }); 
+      res.render('embed', {video: video, cyclopse: true, share: shareUrls }); 
    }
 };
 

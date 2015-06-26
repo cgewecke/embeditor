@@ -62,7 +62,7 @@ var rf_debug, rf_debugII;
             self.slider.update({
               min: 0.00,
               max: limit,
-              step: 5,
+              step: 2,
               from: 0,
               from_min: 0,
               from_max: limit - 1,

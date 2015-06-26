@@ -5,16 +5,18 @@
   layout-fill
   layout-align="{{player.layout.alignWithSidenav('search', 'column')}}">
 
-  <!-- Play Button & Range Finder Row -->
+  <!-- APP Row -->
   <div class="controls-background controls-top" 
-    layout="row" 
-    layout-align="space between" 
+    layout="row"  
     style="width: 854px;"> 
-    <span layout="column" flex="15">
-      <span layout="row" layout-align="center">
+
+    <!-- Toggles/Play Button Column -->
+    <span layout="column" flex="15" layout-align="space-between center">
+      <!-- Play Button -->
+      <span layout="row" layout-align="center" class="play-btn-span">
         <md-button id="play-btn" aria-label="play" 
             ng-click="player.API.togglePlay()" 
-            class="code-btn md-whiteframe-z1"
+            class="code-btn md-whiteframe-z1 "
             md-no-ink>
           <ng-md-icon id="play-icon" icon="play_arrow" size="40" style="fill:black"
               ng-show="player.API.state === 'paused'">
@@ -24,57 +26,421 @@
           </ng-md-icon>
         </md-button> 
       </span>
-    </span> 
-    <span layout="column" flex="70">
+
+      <!-- Loop Switch -->
       <span layout="row" layout-align="center">
-        <embeditor-rangefinder layout-fill></embeditor-rangefinder>
+        <md-input-container class="playback-input-container">
+          <label class="close-label center-label"> Loop </label>
+          <md-switch flex 
+            id="loop-switch"
+            ng-model="player.API.loop" 
+            class="playback-slider"
+            aria-label="loop">
+          </md-switch>  
+        </md-input-container>  
       </span>
-    </span>
-    <span layout="column" flex="15" layout-align="center">
-      <span layout="row" layout-align="center center">
-        <md-button id="reset-button" class="code-btn" aria-label="reset"
-          ng-click="player.API.reset()">
-          <ng-md-icon icon="cancel" size="32" style="fill:black"></ng-md-icon>
-        </md-button>
+
+      <!-- Mute Switch -->
+      <span layout="row" layout-align="center">
+        <md-input-container class="playback-input-container">
+          <label class="close-label center-label"> Mute </label>
+          <md-switch flex 
+            id="mute-switch"
+            ng-model="player.API.mute" 
+            class="playback-slider"
+            aria-label="mute">
+          </md-switch>  
+        </md-input-container> 
       </span>
-    </span>
-  </div>
- 
- <!-- Labels for Play/Cutter/Reset Controls row --> 
-  <div layout="row" class="controls-background" style="width: 854px">
-    <span flex="15" class="set-btn-block-label"></span>
-    <span flex="70">
-      <div layout="row" layout-fill layout-align="space-between">
-        <span class="set-btn-block-label"> Rough Cut </span>
-        <span class="set-btn-block-help"> 
-          (Use slider to set your clip's time window)
+
+      <!-- Autoplay switch --> 
+      <span layout="row" layout-align="center">
+        <md-input-container class="playback-input-container">
+          <label class="close-label center-label"> Autoplay </label>
+          <md-switch flex 
+            id="auto-switch"
+            ng-model="player.API.autoplay"
+            class="playback-slider"
+            aria-label="Auto-play">
+          </md-switch>  
+        </md-input-container> 
+      </span> 
+
+    </span> <!-- End toggles column -->
+
+    <!-- Main Controls Column --> 
+    <span layout="column" flex="75" layout-align="space-between" class="main-column">
+
+      <!-- Slider Row -->
+      <div layout="row">
+        <span layout="column" flex>
+          <span layout="row" layout-align="center" class="rangefinder-span">
+            <embeditor-rangefinder layout-fill></embeditor-rangefinder>
+          </span>
+          <span>
+            <div layout="row" layout-fill layout-align="space-between center">
+              <span class="set-btn-block-label"> Rough Cut </span>
+              <span class="set-btn-block-help"> 
+                (Use slider to set your clip's time window)
+              </span>
+            </div>
+          </span>
         </span>
       </div>
-    </span>
 
-    <span flex="15" class="set-btn-block-label reset-text"> Reset </span>
-  </div>
-  
-  <!-- Proximity Warning for Start/Endpoint button row --> 
-  <div class="controls-background precision-btn-row" 
-       layout="row" 
-       layout-fill 
-       layout-align="end center"
-       style="width: 854px;"> 
-       <span class="warning-text" 
-             ng-class="{'visible': player.API.minLengthWarning}"> 
-             * Minimum clip length is 1 second 
-       </span>
-       <span flex="5"></span>
-  </div> 
+      <!-- Min Warning Row -->
+      <div class="controls-background precision-btn-row" 
+           layout="row" 
+           layout-fill 
+           layout-align="end center"> 
+           <span class="warning-text" 
+                 ng-class="{'visible': player.API.minLengthWarning}"> 
+                 * Minimum clip length is 1 second 
+           </span>
+      
+      </div> 
+
   <!-- Startpoint & Endpoint Seek Row -->
-  <div class="controls-background" 
-       layout="row"
-       layout-align="space-around" 
-       style="width: 854px;"> 
-    <!-- STARTPOINTS -->  
-    <span layout="row">              
-       <!-- 5 sec rewind  fast-rewind -->
+      <div class="controls-background" layout="row" layout-align="space-between"> 
+        <!-- STARTPOINTS -->  
+          <span layout="column">          
+            <!-- 1 sec rewind row -->
+            <span layout="row">
+              <span layout="column" layout-align="center center"> 
+                <md-button id="start-back-1sec-btn" aria-label="seek"
+                    ng-click="player.API.start(-1)"
+                    class="md-raised precision-btn-outer"
+                    md-no-ink>
+                  <ng-md-icon icon="chevron_left" size="38"></ng-md-icon>
+                </md-button> 
+                <span class="control-btn-txt-left"> 1s </span>  
+              </span>
+               <!-- Frame rewind -->
+              <span layout="column" layout-align="center center"> 
+                <md-button id="start-back-frame-btn" aria-label="seek"
+                    ng-click="player.API.start(-(player.API.frameLength))"
+                    class="md-raised precision-btn-inner"
+                    md-no-ink>
+                  <ng-md-icon icon="chevron_left" size="24">
+                  </ng-md-icon>
+                </md-button>
+                <span class="control-btn-txt-ctr"> frame </span>
+              </span>
+
+              <!-- Startpoint display -->
+              <span layout="column" layout-align="center center" > 
+
+                <span class="fa fa-play-circle time-disp-play-icon"
+                    id="startpoint-display-btn"
+                    ng-click="player.API.replayStart()"
+                    ng-init="hover_start=false"
+                    ng-mouseenter="hover_start=true" 
+                    ng-mouseleave="hover_start=false"
+                    ng-class="{ 'time-disp-play-icon-hover' : hover_start }"> 
+                    <md-tooltip md-visible="hover_start" md-direction="top"
+                      md-autohide="true"> 
+                      <span class="timestamp-set-tooltip"> 
+                        Replay from start 
+                      </span>
+                    </md-tooltip> 
+                </span> 
+                
+                <md-button aria-label="seek"
+                    
+                    class="startpoint-btn"
+                    md-no-ink>
+                  <div class="time-disp-time"> {{player.API.startpoint.display}} </div>
+                </md-button>
+                
+                <span class="control-btn-txt-ctr startpoint-txt"> Startpoint </span>
+                
+              </span>
+
+              <!-- Frame forward -->
+              <span layout="column" layout-align="center center"> 
+                <md-button id="start-fwd-frame-btn" aria-label="seek"
+                    ng-click="player.API.start(player.API.frameLength)"
+                    class="md-raised precision-btn-inner"
+                    md-no-ink>
+                  <ng-md-icon icon="chevron_right" size="24"></ng-md-icon>
+                </md-button>
+                <span class="control-btn-txt-ctr"> frame </span>
+              </span>
+              <!-- 1 sec forward arrow-right -->
+              <span layout="column" layout-align="center center"> 
+                <md-button id="start-fwd-1sec-btn" aria-label="seek"
+                    ng-click="player.API.start(1)"
+                    class="md-raised precision-btn-outer"
+                    md-no-ink>
+                  <ng-md-icon icon="chevron_right" size="38"></ng-md-icon>
+                </md-button>
+                <span class="control-btn-txt-right"> 1s </span>
+              </span>
+            </span> <!-- End btn row -->
+            <span class="set-btn-block-label"> 
+              <div layout="row" layout-fill layout-align="space-between center">
+                <span class="set-btn-block-label"> Startpoint </span>
+                <span class="set-btn-block-help"> (Adjust the start time) </span>
+              </div>
+            </span>
+          </span> 
+
+        <!-- ENDPOINTS -->
+          <span layout="column" class="endpoint-column">
+            <span layout="row">          
+               <!-- 1 sec rewind -->
+              <span layout="column" layout-align="center center"> 
+                <md-button id="end-back-1sec-btn" aria-label="seek"
+                    ng-click="player.API.end(-1)"
+                    class="md-raised precision-btn-outer"
+                    md-no-ink>
+                  <ng-md-icon icon="chevron_left" size="38"></ng-md-icon>
+                </md-button> 
+                <span class="control-btn-txt-left"> 1s </span>  
+              </span>
+               <!-- Frame rewind -->
+              <span layout="column" layout-align="center center"> 
+                <md-button id="end-back-frame-btn" aria-label="seek"
+                    ng-click="player.API.end(-(player.API.frameLength))"
+                    class="md-raised precision-btn-inner"
+                    md-no-ink>
+                  <ng-md-icon icon="chevron_left" size="24">
+                  </ng-md-icon>
+                </md-button>
+                <span class="control-btn-txt-ctr"> frame </span>
+              </span>
+
+              <!--Endpoint display ng-disabled="true"-->
+              <span layout="column" layout-align="center center"> 
+
+                <span class="fa fa-play-circle time-disp-play-icon"
+                    id="endpoint-display-btn"
+                    ng-click="player.API.replayEnd()"
+                    ng-init="hover_end=false"
+                    ng-mouseenter="hover_end=true" 
+                    ng-mouseleave="hover_end=false"
+                    ng-class="{ 'time-disp-play-icon-hover' : hover_end }"> 
+                    <md-tooltip md-visible="hover_end" md-direction="top"
+                      md-autohide="true"> 
+                      <span class="timestamp-set-tooltip"> 
+                        Replay near end 
+                      </span>
+                    </md-tooltip> 
+                </span> 
+                
+                <md-button aria-label="seek"
+                    class="startpoint-btn"
+                    md-no-ink>
+                  <div class="time-disp-time"> {{player.API.endpoint.display}} </div>
+                </md-button>
+                
+                <span class="control-btn-txt-ctr startpoint-txt"> Endpoint </span>
+              </span>
+
+              <!-- Frame forward -->
+              <span layout="column" layout-align="center center"> 
+                <md-button id="end-fwd-frame-btn" aria-label="seek"
+                    ng-click="player.API.end(player.API.frameLength)"
+                    class="md-raised precision-btn-inner"
+                    md-no-ink>
+                  <ng-md-icon icon="chevron_right" size="24"></ng-md-icon>
+                </md-button>
+                <span class="control-btn-txt-ctr"> frame </span>
+              </span>
+              <!-- 1 sec forward -->
+              <span layout="column" layout-align="center center"> 
+                <md-button id="end-fwd-1sec-btn" aria-label="seek"
+                    ng-click="player.API.end(1)"
+                    class="md-raised precision-btn-outer"
+                    md-no-ink>
+                  <ng-md-icon icon="chevron_right" size="38"></ng-md-icon>
+                </md-button>
+                <span class="control-btn-txt-right"> 1s </span>
+              </span>
+            </span>
+            <!-- Endpoint Setter Labels --> 
+            <span class="set-btn-block-label">
+              <div layout="row" layout-fill layout-align="space-between center">
+                <span class="set-btn-block-label"> Endpoint </span>
+                <span class="set-btn-block-help"> (Adjust the end time) </span>
+              </div>
+            </span>  
+          </span>
+      </div> <!-- End Precision Button Row -->
+
+
+
+    <!-- Playback Slider/Loop/Embed Button Row  ... flex -->
+      <div layout="row" flex layout-align="space-between center" 
+        class="controls-background lower-row"> 
+        <!-- Playback Slider -->
+        <span layout="column" flex="45" layout-align="center start">
+          <div layout="row" layout-fill layout-align="start end">
+            <md-input-container class="rate-slider-container" >
+              <md-slider flex 
+                id="playback-speed-slider"
+                md-discrete 
+                class="rate-slider"
+                ng-disabled="!player.API.speeds"
+                ng-model="player.API.currentRate" 
+                step=".50" min=".50" max="1.5" 
+                aria-label="playback">
+              </md-slider>
+            </md-input-container>
+          </div>  
+          <div class="rate-slider-label-row"
+               layout="row" 
+               layout-fill 
+               layout-align="space-between center" >
+            <span class="set-btn-block-label"> Playback Rate </span>
+            <span class="set-btn-block-help"> (Set clip speed) </span>
+          </div>
+              
+        </span>
+
+        
+        <span layout="column" flex="45">
+          <div layout="row" class="code-button-row" layout-align="space-between center">
+
+          <!-- Cyclopse Preview Button -->
+          <md-input-container 
+              layout="column" 
+              layout-align="center" 
+              class="playback-input-container">
+
+              <md-button flex
+                  id="preview-btn"
+                  ng-click='player.dialog.preview($event)'
+                  class="preview-btn preview-color">
+                  <div>
+                    <ng-md-icon icon="tv" size="28" 
+                      ng-show="!player.dialog.opening || (player.dialog.target != 'share-dialog-btn')">
+                    </ng-md-icon> 
+                    <div class="code-text-preview" 
+                      ng-show="!player.dialog.opening || (player.dialog.target != 'preview-btn')">
+                      Preview
+                    </div>
+                  </div>
+              
+                <md-progress-circular
+                 class="md-warn embed-btn-spinner" 
+                 md-mode="indeterminate" 
+                 ng-show="player.dialog.opening && player.dialog.target === 'preview-btn'">
+               </md-progress-circular>
+
+              </md-button>  
+            </md-input-container> 
+          <!-- Share Dialog Window Button -->
+            <md-input-container 
+              layout="column" 
+              layout-align="center" 
+              class="playback-input-container">
+
+              <md-button flex
+                  id="share-dialog-btn"
+                  ng-click='player.dialog.open($event, "share")'
+                  class="code-btn-with-spinner share-color">
+                  <div>
+                    <ng-md-icon icon="share" size="28" 
+                      ng-show="!player.dialog.opening || (player.dialog.target != 'share-dialog-btn')">
+                    </ng-md-icon> 
+                    <div class="code-text" 
+                      ng-show="!player.dialog.opening || (player.dialog.target != 'share-dialog-btn')">
+                      Share
+                    </div>
+                  </div>
+              
+                <md-progress-circular
+                 class="md-warn embed-btn-spinner" 
+                 md-mode="indeterminate" 
+                 ng-show="player.dialog.opening && player.dialog.target === 'share-dialog-btn'">
+               </md-progress-circular>
+
+              </md-button>  
+            </md-input-container> 
+
+            <!-- Embed Dialog Window Button -->
+            <md-input-container 
+              layout="column" 
+              layout-align="center" 
+              class="playback-input-container">
+
+              <md-button flex
+                  id="embed-dialog-btn"
+                  ng-click='player.dialog.open($event, "embed")'
+                  class="code-btn-with-spinner embed-color">
+                  <div>
+                    <span class="fa fa-code code-icon" 
+                      ng-show="!player.dialog.opening || (player.dialog.target != 'embed-dialog-btn')">
+                    </span> 
+                    <div class="code-text-fa" 
+                      ng-show="!player.dialog.opening || (player.dialog.target != 'embed-dialog-btn')">
+                      Embed
+                    </div>
+                  </div>
+              
+                <md-progress-circular
+                 class="md-warn embed-btn-spinner" 
+                 md-mode="indeterminate" 
+                 ng-show="player.dialog.opening && player.dialog.target === 'embed-dialog-btn'">
+               </md-progress-circular>
+
+              </md-button>  
+            </md-input-container> 
+
+            <!-- Link Dialog Window Button -->
+            <md-input-container 
+              layout="column" 
+              layout-align="center" 
+              class="playback-input-container">
+
+              <md-button flex
+                id="permalink-dialog-btn"
+                ng-click='player.dialog.open($event, "permalink")'
+                class="code-btn-with-spinner link-color">
+                <div>
+                  <ng-md-icon icon="link" size="28" 
+                    ng-show="!player.dialog.opening || player.dialog.target != 'permalink-dialog-btn'">
+                  </ng-md-icon> 
+                  <div class="code-text" 
+                    ng-show="!player.dialog.opening || player.dialog.target != 'permalink-dialog-btn'">
+                    Link
+                  </div>
+                </div>
+              
+                <md-progress-circular
+                 class="md-warn embed-btn-spinner" 
+                 md-mode="indeterminate" 
+                 ng-show="player.dialog.opening && player.dialog.target === 'permalink-dialog-btn'">
+               </md-progress-circular>
+                
+              </md-button>  
+            </md-input-container>
+          </div>
+        </span>
+      </div>  
+    </span>
+    <!-- Slider Reset Button -->
+    <span layout="column" flex="5">
+      <span layout="row" layout-align="center center" class="reset-button" >
+          <ng-md-icon 
+            id="reset-button"
+            icon="cancel" 
+            size="32" 
+            style="{{hover}}" 
+            ng-init="hover='fill:#FFD54F'"
+            ng-mouseenter="hover='fill:#FF8F00'"
+            ng-mouseleave="hover='fill:#FFD54F'"
+            ng-click="player.API.reset()">
+          </ng-md-icon>
+          <md-tooltip md-delay="2000"> Reset Slider </md-tooltip>
+      </span>
+    </span>
+  </div>
+</div>
+
+
+<!-- 5 sec rewind  fast-rewind 
         <span layout="column" layout-align="center center" >
           <md-button id="start-back-5sec-btn" aria-label="seek"
               ng-click="player.API.start(-5)"
@@ -83,65 +449,8 @@
             <ng-md-icon icon="chevron_left" size="40"></ng-md-icon>
           </md-button>
           <span class="control-btn-txt-left"> 5s </span>
-        </span>
-         <!-- 1 sec rewind -->
-        <span layout="column" layout-align="center center"> 
-          <md-button id="start-back-1sec-btn" aria-label="seek"
-              ng-click="player.API.start(-1)"
-              class="md-raised precision-btn-middle"
-              md-no-ink>
-            <ng-md-icon icon="chevron_left" size="32"></ng-md-icon>
-          </md-button> 
-          <span class="control-btn-txt-left"> 1s </span>  
-        </span>
-         <!-- Frame rewind -->
-        <span layout="column" layout-align="center center"> 
-          <md-button id="start-back-frame-btn" aria-label="seek"
-              ng-click="player.API.start(-(player.API.frameLength))"
-              class="md-raised precision-btn-inner"
-              md-no-ink>
-            <ng-md-icon icon="chevron_left" size="24">
-            </ng-md-icon>
-          </md-button>
-          <span class="control-btn-txt-ctr"> frame </span>
-        </span>
-
-
-        <!-- Startpoint display -->
-        <span layout="column" layout-align="center center" > 
-          <md-button aria-label="seek"
-              id="startpoint-display-btn"
-              ng-click="player.API.replayStart()"
-              class="md-raised startpoint-btn"
-              md-no-ink>
-            <div class="fa fa-play-circle time-disp-play-icon"></div>  
-            <div class="time-disp-time"> {{player.API.startpoint.display}} </div>
-          </md-button>
-          <span class="control-btn-txt-ctr startpoint-txt"> Startpoint </span>
-          
-        </span>
-
-        <!-- Frame forward -->
-        <span layout="column" layout-align="center center"> 
-          <md-button id="start-fwd-frame-btn" aria-label="seek"
-              ng-click="player.API.start(player.API.frameLength)"
-              class="md-raised precision-btn-inner"
-              md-no-ink>
-            <ng-md-icon icon="chevron_right" size="24"></ng-md-icon>
-          </md-button>
-          <span class="control-btn-txt-ctr"> frame </span>
-        </span>
-        <!-- 1 sec forward arrow-right -->
-        <span layout="column" layout-align="center center"> 
-          <md-button id="start-fwd-1sec-btn" aria-label="seek"
-              ng-click="player.API.start(1)"
-              class="md-raised precision-btn-middle"
-              md-no-ink>
-            <ng-md-icon icon="chevron_right" size="32"></ng-md-icon>
-          </md-button>
-          <span class="control-btn-txt-right"> 1s </span>
-        </span>
-         <!-- 5 sec forward fast_forward-->
+        </span> -->
+          <!-- 5 sec forward fast_forward
         <span layout="column" layout-align="center center"> 
           <md-button id="start-fwd-5sec-btn" aria-label="seek"
               class="md-raised precision-btn-outer"
@@ -150,12 +459,8 @@
             <ng-md-icon icon="chevron_right" size="40"></ng-md-icon>
           </md-button>
           <span class="control-btn-txt-right"> 5s </span>
-        </span>
-    </span> 
-
-    <!-- ENDPOINTS -->
-    <span layout="row">  
-        <!-- 5 sec rewind -->
+        </span> -->
+        <!-- 5 sec rewind 
         <span layout="column" layout-align="center center" >
           <md-button id="end-back-5sec-btn" aria-label="seek"
               ng-click="player.API.end(-5)"
@@ -164,63 +469,8 @@
             <ng-md-icon icon="chevron_left" size="40"></ng-md-icon>
           </md-button>
           <span class="control-btn-txt-left"> 5s </span>
-        </span>
-         <!-- 1 sec rewind -->
-        <span layout="column" layout-align="center center"> 
-          <md-button id="end-back-1sec-btn" aria-label="seek"
-              ng-click="player.API.end(-1)"
-              class="md-raised precision-btn-middle"
-              md-no-ink>
-            <ng-md-icon icon="chevron_left" size="32"></ng-md-icon>
-          </md-button> 
-          <span class="control-btn-txt-left"> 1s </span>  
-        </span>
-         <!-- Frame rewind -->
-        <span layout="column" layout-align="center center"> 
-          <md-button id="end-back-frame-btn" aria-label="seek"
-              ng-click="player.API.end(-(player.API.frameLength))"
-              class="md-raised precision-btn-inner"
-              md-no-ink>
-            <ng-md-icon icon="chevron_left" size="24">
-            </ng-md-icon>
-          </md-button>
-          <span class="control-btn-txt-ctr"> frame </span>
-        </span>
-
-        <!--Endpoint display ng-disabled="true"-->
-        <span layout="column" layout-align="center center"> 
-          <md-button aria-label="seek"
-              id="endpoint-display-btn"
-              ng-click="player.API.replayEnd()"
-              class="md-raised startpoint-btn"
-              md-no-ink>
-            <div class="fa fa-play-circle time-disp-play-icon"></div>  
-            <div class="time-disp-time"> {{player.API.endpoint.display}} </div>
-          </md-button>
-          <span class="control-btn-txt-ctr startpoint-txt"> Endpoint </span>
-        </span>
-
-        <!-- Frame forward -->
-        <span layout="column" layout-align="center center"> 
-          <md-button id="end-fwd-frame-btn" aria-label="seek"
-              ng-click="player.API.end(player.API.frameLength)"
-              class="md-raised precision-btn-inner"
-              md-no-ink>
-            <ng-md-icon icon="chevron_right" size="24"></ng-md-icon>
-          </md-button>
-          <span class="control-btn-txt-ctr"> frame </span>
-        </span>
-        <!-- 1 sec forward -->
-        <span layout="column" layout-align="center center"> 
-          <md-button id="end-fwd-1sec-btn" aria-label="seek"
-              ng-click="player.API.end(1)"
-              class="md-raised precision-btn-middle"
-              md-no-ink>
-            <ng-md-icon icon="chevron_right" size="32"></ng-md-icon>
-          </md-button>
-          <span class="control-btn-txt-right"> 1s </span>
-        </span>
-         <!-- 5 sec forward -->
+        </span> -->
+         <!-- 5 sec forward 
         <span layout="column" layout-align="center center"> 
           <md-button id="end-fwd-5sec-btn" aria-label="seek"
               class="md-raised precision-btn-outer"
@@ -229,128 +479,5 @@
             <ng-md-icon icon="chevron_right" size="40"></ng-md-icon>
           </md-button>
           <span class="control-btn-txt-right"> 5s </span>
-        </span>
-    </span>
-  </div>
-  <!-- Label row for precision set buttons  -->
-  <div layout="row" class="controls-background" style="width: 854px">
-    <span flex="5"></span>
-    <span flex="40" class="set-btn-block-label"> 
-      <div layout="row" layout-fill layout-align="space-between">
-        <span class="set-btn-block-label"> Startpoint </span>
-        <span class="set-btn-block-help"> (Precision set the start time) </span>
-      </div>
-    </span>
-    <span flex="10"></span>
-    <span flex="40" class="set-btn-block-label">
-      <div layout="row" layout-fill layout-align="space-between">
-        <span class="set-btn-block-label"> Endpoint </span>
-        <span class="set-btn-block-help"> (Precision set the end time) </span>
-      </div>
-    </span>
-    <span flex></span>
-  </div>
-  <!-- Playback Slider/Loop/Embed Button Row  ... flex -->
-  <div layout="row" flex layout-align="space-around" 
-    class="controls-background" style="width: 854px;"> 
-    <!-- Playback Slider -->
-    <md-input-container class="playback-input-container" flex="35">
-      <label class="close-label"> 
-        <div layout="row" layout-fill layout-align="space-between">
-          <span> Playback Rate </span>
-          <span class="set-btn-block-help"> (Set clip speed) </span>
-        </div>
-      </label> 
-      <md-slider flex 
-        id="playback-speed-slider"
-        class="playback-slider" 
-        md-discrete 
-        ng-disabled="!player.API.speeds"
-        ng-model="player.API.currentRate" 
-        step=".50" min=".50" max="1.5" 
-        aria-label="playback">
-      </md-slider>
-    </md-input-container>
-    <!-- Loop Switch -->
-    <md-input-container flex="10" class="playback-input-container">
-      <label class="close-label center-label"> Loop </label>
-      <md-switch flex 
-        id="loop-switch"
-        ng-model="player.API.loop" 
-        class="playback-slider"
-        aria-label="loop">
-      </md-switch>  
-    </md-input-container>  
-    <!-- Mute Switch -->
-    <md-input-container flex="10" class="playback-input-container">
-      <label class="close-label center-label"> Mute </label>
-      <md-switch flex 
-        id="mute-switch"
-        ng-model="player.API.mute" 
-        class="playback-slider"
-        aria-label="mute">
-      </md-switch>  
-    </md-input-container> 
-    <!-- Autostart Switch -->
-    <md-input-container flex="10" class="playback-input-container">
-      <label class="close-label center-label"> Autoplay </label>
-      <md-switch flex 
-        id="auto-switch"
-        ng-model="player.API.autoplay"
-        class="playback-slider"
-        aria-label="Auto-play">
-      </md-switch>  
-    </md-input-container>  
-    
-    <!-- Embed Dialog Window Button -->
-    <md-input-container flex="10" class="playback-input-container">
+        </span> -->
 
-      <md-button flex
-          id="embed-dialog-btn"
-          ng-click='player.dialog.open($event, "embed")'
-          class="code-btn-with-spinner md-whiteframe-z1">
-          <div>
-            <span class="fa fa-code code-icon" 
-              ng-show="!player.dialog.opening || (player.dialog.target != 'embed-dialog-btn')">
-            </span> 
-            <div class="code-text" 
-              ng-show="!player.dialog.opening || (player.dialog.target != 'embed-dialog-btn')">
-              Embed
-            </div>
-          </div>
-      
-        <md-progress-circular
-         class="md-warn embed-btn-spinner" 
-         md-mode="indeterminate" 
-         ng-show="player.dialog.opening && player.dialog.target === 'embed-dialog-btn'">
-       </md-progress-circular>
-
-      </md-button>  
-    </md-input-container> 
-
-    <!-- Link Dialog Window Button -->
-    <md-input-container flex="10" class="playback-input-container">
-      <md-button flex
-        id="embed-permalink-btn"
-        ng-click='player.dialog.open($event, "permalink")'
-        class="code-btn-with-spinner md-whiteframe-z1">
-        <div>
-          <ng-md-icon icon="link" size="28" 
-            ng-show="!player.dialog.opening || player.dialog.target != 'embed-permalink-btn'">
-          </ng-md-icon> 
-          <div class="code-text" 
-            ng-show="!player.dialog.opening || player.dialog.target != 'embed-permalink-btn'">
-            Link
-          </div>
-        </div>
-      
-        <md-progress-circular
-         class="md-warn embed-btn-spinner" 
-         md-mode="indeterminate" 
-         ng-show="player.dialog.opening && player.dialog.target === 'embed-permalink-btn'">
-       </md-progress-circular>
-        
-      </md-button>  
-    </md-input-container>
-  </div>  
-</div>

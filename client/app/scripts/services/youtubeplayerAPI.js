@@ -47,19 +47,17 @@ BUGS:
     self.frameLength = .05;
     self.startpoint = { val: 0, display: '0:00'};
     self.endpoint = { val: 0, display: '0:00'};
+    
+    // Godard - Gimme Shelter: 'seconds' MUST BE 2 SECONDS SHORT OF THE END . . . .
     self.initialVideo = {
-      // Baby's On Fire: Die Antwoord
-      //seconds: 414, // THIS MUST BE 2 SECONDS SHORT OF THE END . . . .
-      //videoId: "HcXNPI-IPPM"
-
-      // Cafe scene from Le feu follet
-      seconds: 144,
-      videoId: 'IwSQxlwMzr8'
+      seconds: 272, 
+      imageUrl: "https://i.ytimg.com/vi/4kpP6Bjwx-w/mqdefault.jpg",
+      title: "JEAN-LUC GODARD FILMS - THE ROLLING STONES - GIMME SHELTER",
+      videoId: "4kpP6Bjwx-w"
     };
 
-    
-
-    self.scope = $rootScope; // TESTING . . .
+    // For unit tests - events etc
+    self.scope = $rootScope; 
     scope.self = self;
 
     // -------------------------  Private ---------------------------------------
@@ -241,7 +239,7 @@ BUGS:
     }; 
     
 
-    // --------------- Public: Embeditor --------------------------------------------
+    // ----------------------------- Public: APP -------------------------------
 
     // Play/Pause 
     self.togglePlay = function(){
@@ -291,6 +289,7 @@ BUGS:
         self.seek(time);
         self.timestamp = time;
         $rootScope.$broadcast(updateEvent.name);
+        console.log('start');
       });
     };
 
@@ -315,6 +314,7 @@ BUGS:
         self.seek(time);
         self.timestamp = time;
         $rootScope.$broadcast(updateEvent.name);
+        console.log('end');
       });
     };
 
@@ -359,6 +359,8 @@ BUGS:
       self.setEndpoint(self.video.seconds);
       $rootScope.$broadcast(updateEvent.name);
 
+      self.minLengthWarning = false;
+
       // Keep state: play -> continue playing: paused -> do nothing.
       // Reset timers
       if (self.state === 'playing'){
@@ -382,6 +384,7 @@ BUGS:
 
     // YT Player Event Callbacks, registered on embedding in embeditor-youtube-player
     self.onPlayerReady = function(event){
+      
       getAPI();
       init();
     };
@@ -396,8 +399,8 @@ BUGS:
         // Get playback rates 
         if (self.initializing){
           self.pause();  
-          self.end(-8);
-          self.start(32);     
+          self.end(-90);
+          self.start(58);     
           verifyRates();
           $timeout(function(){ self.initializing = false; }, 500);
           
@@ -465,6 +468,15 @@ BUGS:
 
       }, 150);
     };
+
+    // ----------------- OLD INITIAL VIDEOS ----------------
+    // Baby's On Fire: Die Antwoord
+      //seconds: 414, // THIS MUST BE 2 SECONDS SHORT OF THE END . . . .
+      //videoId: "HcXNPI-IPPM"
+
+      // Cafe scene from Le feu follet
+      //seconds: 144,
+      //videoId: 'IwSQxlwMzr8'
 */
 
   

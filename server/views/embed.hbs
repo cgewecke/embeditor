@@ -2,11 +2,19 @@
    <head>
      <meta charset="utf-8">
      
-     <!-- Open Graph Tags -->
+     <!-- Open Graph Tags (facebook & tumblr) -->
      <meta property="og:title" content="{{video.title}}" />
      <meta property="og:image" content="{{video.imageUrl}}" />
+     <meta property="og:description" content="{{video.description}}"/>
      <meta property="og:type" content="video.other" />
      <meta property="og:url" content="{{video.cyclopseUrl}}" />
+
+     <!-- Twitter Card Tags -->
+     <meta name="twitter:card" content="summary" />
+     <meta name="twitter:site" content="@TamanawasAmin" />
+     <meta name="twitter:title" content="{{video.title}}" />
+     <meta name="twitter:description" content="{{video.description}}" />
+     <meta name="twitter:image" content="{{video.imageUrl}}" />
 
      <title> Cyclopse </title>
      <!-- CSS --> 
@@ -18,6 +26,7 @@
        <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
      {{/if }}
    </head>
+
    <body>
 
       {{#if iframe}} {{> iframe}} {{/if}} 
