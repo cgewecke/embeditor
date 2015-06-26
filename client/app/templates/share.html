@@ -1,0 +1,73 @@
+<!-- Share Dialog Template -->
+<md-dialog flex="35">
+   <!-- Toolbar -->
+   <md-toolbar layout="row" layout-align="start center">
+      <div class="md-toolbar-tools">
+         <!-- Icon -->
+         <md-button aria-label="embeditor-icon" class="md-warn" aria-label="icon"> 
+            <ng-md-icon icon="album" size="48"></ng-md-icon>
+         </md-button>
+         <!-- Instructions -->
+         <div class="embed-instructions" flex="70">
+            <span class="embed-title"> Share clip </span> 
+         </div>
+         <span flex></span>
+         <!-- Close button -->
+         <md-button id="code-dialog-dismiss-btn" ng-click="mdDialog.hide()" aria-label="close">
+            <ng-md-icon icon="clear"></ng-md-icon>
+         </md-button>
+     </div>
+   </md-toolbar>
+
+   <div layout="column" layout-fill>
+      <!-- Content Column -->
+      <div layout="column" layout-fill>
+         <!-- Share Buttons -->
+         <md-dialog-content class="share-dialog-content"
+            layout="row" layout-align="space-around center" layout-fill> 
+            <!-- Twitter -->
+            <div ng-show="ready"> 
+               <md-button 
+                  class="md-fab twitter-button"
+                  ng-click="twitterShare()"> 
+                  <span class="fa fa-twitter fa-lg share-icon"></span>  
+               </md-button>
+            </div>
+            <!-- Facebook -->
+            <div ng-show="ready"> 
+               <md-button 
+                  class="md-fab facebook-button"
+                  ng-click="facebookShare()">  
+                     <span class="fa fa-facebook fa-lg share-icon"></span>  
+               </md-button>
+            </div>
+            <!-- Tumblr -->
+            <div ng-show="ready"> 
+               <md-button 
+                  class="md-fab tumblr-button"
+                  ng-click="tumblrShare()">   
+                     <span class="fa fa-tumblr fa-lg share-icon"></span>  
+               </md-button>
+            </div>
+            <!-- Loading Spinner -->
+            <md-progress-circular 
+                  md-mode="indeterminate" 
+                  class="md-warn embed-code-spinner" 
+                  ng-show="!ready">
+            </md-progress-circular>       
+         </md-dialog-content>  
+      </div>
+   </div>
+   <!-- Footer -->
+   <md-toolbar layout="row" layout-align="start center">
+      <div class="md-toolbar-tools md-warn">
+         <!-- Message --> 
+         <div class="share-instructions" flex="80">   
+            <span>  On Tumblr, you can video post this clip. 
+                    Click 'embed' to get an iframe tag. 
+            </span>  
+         </div>
+         <span flex></span>
+     </div>
+   </md-toolbar>
+</md-dialog>

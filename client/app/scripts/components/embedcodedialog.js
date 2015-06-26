@@ -19,13 +19,14 @@ var ed_debug, ed_debugII;
     
       // ---------------------------- SERVICE: ---------------------------------
       // Injected into PlayerCtrl - the open() method is called on embed btn click
-      function embedCodeDialog($rootScope, $mdDialog, codeGenerator){
+      function embedCodeDialog($rootScope, $mdDialog, $window, codeGenerator){
          var self = this;
          var code = codeGenerator;
          
          var templateUrls = { 
             embed: 'templates/embedcode.html', 
-            permalink: 'templates/permalink.html' 
+            permalink: 'templates/permalink.html',
+            share: 'templates/share.html' 
          };
 
          self.opening = false; // Triggers spinner on button during dialog open
@@ -57,6 +58,20 @@ var ed_debug, ed_debugII;
          // Close();
          self.close = function() { $mdDialog.hide(); };
 
+         // Preview(): Generates a clip in the DB and opens a new tab at videos/:_id
+         self.preview = function(event){
+
+            self.target = event.currentTarget.id;
+            self.opening = true;
+            code.create().then(
+               function(success){ 
+                  self.opening = false;
+                  $window.open( $window.location.href + 'videos/' + code.options._id, '_blank' );
+               },
+               function(error){ $rootScope.$broadcast('embedCodeDialog:database-error');}
+            );
+         };
+
          // Hide btn spinner & create record of the current clip in DB
          function onOpen(){
 
@@ -68,11 +83,11 @@ var ed_debug, ed_debugII;
          };
 
       };
-      embedCodeDialog.$inject = ['$rootScope', '$mdDialog', 'codeGenerator'];
+      embedCodeDialog.$inject = ['$rootScope', '$mdDialog', '$window', 'codeGenerator'];
 
       // -------------------- CONTROLLER: dialogCtrl(): ---------------------------------
       // Injected into the dialog window and the copy button directive
-      function dialogCtrl($scope, $mdDialog, codeGenerator, youtubePlayerAPI){
+      function dialogCtrl($scope, $mdDialog, $window, codeGenerator, youtubePlayerAPI){
 
          var defaultButtonMessage = "Click to copy";  
          
@@ -127,6 +142,35 @@ var ed_debug, ed_debugII;
             codeGenerator.update();
             resetDisplay();
          }
+
+         // ------------------- Social Share --------------------
+         $scope.facebookShare = function(){
+
+            $window.open(
+            '//www.facebook.com/sharer/sharer.php?u=' + encodeURIComponent(permalink())
+            , 'sharer'
+            );
+            $scope.mdDialog.hide();
+         };
+
+         $scope.twitterShare = function(){
+            $window.open(
+               '//www.twitter.com/intent/tweet?' + 'url=' + encodeURIComponent(permalink())
+               , 'sharer'
+            );
+
+            $scope.mdDialog.hide();
+         }
+
+         $scope.tumblrShare = function(){
+            $window.open(
+               '//www.tumblr.com/share/link?url=' + 
+               encodeURIComponent(permalink().replace('http://', '').replace('https://'))
+               , 'sharer'
+            );
+            $scope.mdDialog.hide();
+
+         }
          
          // ------------------- Watches/Events --------------------
          // Format changes
@@ -159,7 +203,7 @@ var ed_debug, ed_debugII;
             return window.location.href + 'videos/' + codeGenerator.options._id;
          }
       };
-      dialogCtrl.$inject = ['$scope', '$mdDialog', 'codeGenerator', 'youtubePlayerAPI'];
+      dialogCtrl.$inject = ['$scope', '$mdDialog', '$window', 'codeGenerator', 'youtubePlayerAPI'];
 
       // ------------------- DIRECTIVES ------------------------------
       // embeditor-copy-code-button: Attribute of md-button#code-copy-button
