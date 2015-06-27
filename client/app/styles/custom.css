@@ -339,6 +339,11 @@ md-progress-linear .md-dashed:before{
   padding-right: 7px;
 }
 
+.timestamp-quickset-text{
+  font-size: 12px;
+  color: white;
+}
+
 .visible{
   visibility: visible !important;
 }
@@ -492,6 +497,7 @@ md-progress-linear .md-dashed:before{
   padding-left: 0px;
   padding-right: 0px;
   height: 76px;
+  overflow-y: hidden;
 }
 
 .rate-slider-container{

@@ -91,7 +91,6 @@
       <!-- Min Warning Row -->
       <div class="controls-background precision-btn-row" 
            layout="row" 
-           layout-fill 
            layout-align="end center"> 
            <span class="warning-text" 
                  ng-class="{'visible': player.API.minLengthWarning}"> 
@@ -303,32 +302,35 @@
           <div layout="row" class="code-button-row" layout-align="space-between center">
 
           <!-- Cyclopse Preview Button -->
+          <!-- This needs to be disabled on iOS, tabs cannot communicate with each other -->
           <md-input-container 
               layout="column" 
               layout-align="center" 
               class="playback-input-container">
 
-              <md-button flex
-                  id="preview-btn"
-                  ng-click='player.dialog.preview($event)'
-                  class="preview-btn preview-color">
-                  <div>
-                    <ng-md-icon icon="tv" size="28" 
-                      ng-show="!player.dialog.opening || (player.dialog.target != 'share-dialog-btn')">
-                    </ng-md-icon> 
-                    <div class="code-text-preview" 
-                      ng-show="!player.dialog.opening || (player.dialog.target != 'preview-btn')">
-                      Preview
+              <a id="preview-link" ng-href="{{player.dialog.previewHref}}" target="_blank">
+                <md-button flex
+                    id="preview-btn"
+                    ng-click='player.dialog.preview($event)'
+                    class="preview-btn preview-color">
+                    <div>
+                      <ng-md-icon icon="tv" size="28" 
+                        ng-show="!player.dialog.opening || (player.dialog.target != 'share-dialog-btn')">
+                      </ng-md-icon> 
+                      <div class="code-text-preview" 
+                        ng-show="!player.dialog.opening || (player.dialog.target != 'preview-btn')">
+                        Preview
+                      </div>
                     </div>
-                  </div>
-              
-                <md-progress-circular
-                 class="md-warn embed-btn-spinner" 
-                 md-mode="indeterminate" 
-                 ng-show="player.dialog.opening && player.dialog.target === 'preview-btn'">
-               </md-progress-circular>
+                
+                    <md-progress-circular
+                     class="md-warn embed-btn-spinner" 
+                     md-mode="indeterminate" 
+                     ng-show="player.dialog.opening && player.dialog.target === 'preview-btn'">
+                   </md-progress-circular>
+                </md-button>  
+              </a>
 
-              </md-button>  
             </md-input-container> 
           <!-- Share Dialog Window Button -->
             <md-input-container 

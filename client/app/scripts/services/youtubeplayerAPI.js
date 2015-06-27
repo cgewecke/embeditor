@@ -1,8 +1,5 @@
 var ytp_debug, ytp_debugII;
-/*
-BUGS:
-1. CORRECT OVERSHOOT UNDERSHOOT BY PLAYBACK SPEED (??)
-*/
+
 (function(){
 'use strict';
 
@@ -209,9 +206,11 @@ BUGS:
       self.rates = function(){ return self.player.getAvailablePlaybackRates() };
       self.getRate = function(){ return self.player.getPlaybackRate() };
       self.setRate = function(rate){ 
+
         self.player.setPlaybackRate(rate);
         killStop();
         (self.state === 'playing') ? setStop() : false;
+      
       };
       
       // Mute/Unmute 
@@ -436,38 +435,7 @@ BUGS:
  })();
 
  /*
- // setStop(): an interval timer to update the timestamp, and a
-    // timeout for the end of the clip, Loop or stop when the end is reached.
-    // Called in the YT state change callback, which executes after every
-    // seek.
-    function setStop(){
-      
-      var timer;
-      var offset = 0.250;
-    
-      timer = $interval(function(){
-        
-        var time = self.time();
-
-        // Update timestamp as we play, 
-        //'set' handles it's own update.
-        if (self.prevAction != 'set'){
-          self.timestamp = time;
-        }
-        // Listen for end.
-        if (time >= (self.endpoint.val - offset)){
-
-          // If we are playing & looping, loop back to startpoint.
-          if (!self.loop){
-            self.pause();
-          } else if (self.prevAction === 'play'){
-            self.seek(self.startpoint.val);
-          } 
-          $interval.cancel(timer);
-        }
-
-      }, 150);
-    };
+ 
 
     // ----------------- OLD INITIAL VIDEOS ----------------
     // Baby's On Fire: Die Antwoord

@@ -58,18 +58,23 @@ var ed_debug, ed_debugII;
          // Close();
          self.close = function() { $mdDialog.hide(); };
 
-         // Preview(): Generates a clip in the DB and opens a new tab at videos/:_id
+         // Preview(): Generates a clip in the DB 
+         // Before DB resolves, a blank tab gets opened synchonously, at DB resolution,
+         // the resolved address gets opened in that tab name. 
          self.preview = function(event){
 
             self.target = event.currentTarget.id;
             self.opening = true;
+            
             code.create().then(
                function(success){ 
                   self.opening = false;
-                  $window.open( $window.location.href + 'videos/' + code.options._id, '_blank' );
+                  $window.open( $window.location.href + 'videos/' + code.options._id, 'preview' );
                },
                function(error){ $rootScope.$broadcast('embedCodeDialog:database-error');}
             );
+            
+            $window.open('', 'preview');
          };
 
          // Hide btn spinner & create record of the current clip in DB
