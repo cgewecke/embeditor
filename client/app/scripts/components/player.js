@@ -128,8 +128,10 @@ var pctl_debug, pctl_debugII;
       // Shows dot/time value mapped by location the cursor hovers over. 
       scope.updateTimeDot = function($event){
     
-        xCoord = $event.offsetX;
-
+        xCoord = $event.offsetX === undefined ? $event.originalEvent.layerX : $event.offsetX;
+      
+        console.log('xcoord: ' + xCoord);
+        pctl_debug = $event;
         var offset = elem.offset();
         var dotXPos = (xCoord + 5) + 'px';
         var valueXPos = (offset.left + xCoord - 10) + 'px';
@@ -138,6 +140,7 @@ var pctl_debug, pctl_debugII;
         // Ignore false offset values that occur when mouse
         // suddenly moves over dot && stop from running off end.
         if (xCoord > lowLimit && xCoord < highLimit){
+          console.log('within visible section');
           scope.time = calculateTimeDotValue().toString().toHHMMSSss();
           dot.css('left', dotXPos);
           dot.css('visibility', 'visible');

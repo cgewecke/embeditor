@@ -26,46 +26,52 @@
         <div class="player-cover">
           <span layout="row" 
                 layout-fill 
-                layout-align="end end">
+                layout-align="start end">
 
-                <div layout="row" layout-align="center center">
-                  <span class="timestamp">
-
-                    <!-- Set Start Button -->
-                    <span>
-                      <ng-md-icon 
-                        id="timestamp-btn"
-                        icon="get_app" 
-                        style="fill:white" 
-                        ng-click="player.startFromTimestamp()"
-                        class="timestamp-set-icon-left">
-                      </ng-md-icon> 
-                      <md-tooltip md-direction="bottom" md-delay="1000">
-                        <span class="timestamp-set-tooltip">
-                         Set Startpoint 'now'
-                        </span>
-                      </md-tooltip>
-                    </span>
-                  
-                    <!-- Timestamp -->
-                    <span class="timestamp-time"> {{player.API.timestamp.toString().toHHMMSSss()}} </span>
+                <div layout="column">
+                  <div layout="row" layout-align="center center">
                     
-                    <!-- Set End Button -->
-                    <span>
-                      <ng-md-icon 
-                        id="timestamp-btn"
-                        icon="get_app" 
-                        style="fill:white" 
-                        ng-click="player.endFromTimestamp()"
-                        class="timestamp-set-icon-right">
-                      </ng-md-icon> 
-                      <md-tooltip md-direction="bottom" md-delay="1000">
-                        <span class="timestamp-set-tooltip">
-                         Set Endpoint 'now'
-                        </span>
-                      </md-tooltip>
+                    <span class="timestamp">
+
+                      <!-- Set Start Button -->
+                      <span>
+                        <ng-md-icon 
+                          id="timestamp-btn-start"
+                          icon="get_app" 
+                          style="fill:white" 
+                          ng-click="player.startFromTimestamp()"
+                          class="timestamp-set-icon-left">
+                        </ng-md-icon> 
+                        <md-tooltip md-direction="top" md-delay="1000">
+                          <span class="timestamp-set-tooltip">
+                           Set Startpoint 'now'
+                          </span>
+                        </md-tooltip>
+                      </span>
+                    
+                      <!-- Timestamp -->
+                      <span class="timestamp-time"> {{player.API.timestamp.toString().toHHMMSSss()}} </span>
+                      
+                      <!-- Set End Button -->
+                      <span>
+                        <ng-md-icon 
+                          id="timestamp-btn-end"
+                          icon="get_app" 
+                          style="fill:white" 
+                          ng-click="player.endFromTimestamp()"
+                          class="timestamp-set-icon-right">
+                        </ng-md-icon> 
+                        <md-tooltip md-direction="top" md-delay="1000">
+                          <span class="timestamp-set-tooltip">
+                           Set Endpoint 'now'
+                          </span>
+                        </md-tooltip>
+                      </span>
                     </span>
-                  </span>
+                  </div>
+                  <!-- <div layout="row" layout-align="center center">
+                    <span class="timestamp-quickset-text"> Quick Set Stops </span>
+                  </div> -->
                 </div>
           </span>
         </div>
