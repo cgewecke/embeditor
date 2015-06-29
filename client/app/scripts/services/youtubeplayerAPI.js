@@ -13,7 +13,7 @@ var ytp_debug, ytp_debugII;
     var scope = $rootScope;
     var timeout = null; // $timeout promise - cancelled at killStop()
     var interval = null; // $interval promise - cancelled at killStop()
-    //var kill = false; // True in killStop(), false in setStop() $timeout;
+    
     var PLAYING = 1, PAUSED = 2, BUFFERING = 3;
   
     // Published Events
@@ -123,16 +123,25 @@ var ytp_debug, ytp_debugII;
     //    because old starts/stops must be abandoned.
 
     // setStop()
-    function setStop(){
+    function setStop(looping){
     
-      var ms = timeoutLength();
-      killStop();
-      
+      var ms;
+
+      if (looping){
+        ms = timeoutCompleteClipLength();
+      } else {
+        killStop();
+        ms = timeoutLength();
+        
+      }
+
       // Update timestamp as we play.
       interval = $interval(function(){
         
         var time = self.time();
-        (self.prevAction != 'set') ? self.timestamp = time : false;
+        (self.prevAction != 'set') ? 
+          self.timestamp = time : 
+          false;
 
       }, 150);
 
@@ -144,16 +153,23 @@ var ytp_debug, ytp_debugII;
           } else if (self.prevAction === 'play'){
             self.seek(self.startpoint.val);
           } 
-          killStop(); 
+          killStop(true); 
 
       }, ms );
     };
     
     // killStop(): 
-    function killStop(){
+    function killStop(looping){
       
       $interval.cancel(interval);
       $timeout.cancel(timeout);
+
+      // Handle safari case. This call is redundant in 
+      // firefox and chrome because seek (correctly) fires
+      // player events. 
+      (looping ) ?
+        setStop(looping) :
+        false;
 
     }
 
@@ -167,6 +183,19 @@ var ytp_debug, ytp_debugII;
       if (self.currentRate == 1.5) return Math.floor(ms * .66);
       
       return ms;
+    }
+
+    // This has been added to deal with iOS and desktop safari.
+    // Default behavior is now to call set stop from kill stop on 
+    // normal loop, so we need to find complete clip duration. for this case
+    // The consequence is that in chrome this will run and get thrown away on
+    // the subsequent 'seek', but it's necessary to get safari to work.
+    function timeoutCompleteClipLength(){
+      var ms = Math.floor( (self.endpoint.val - self.startpoint.val) * 1000 );
+      if (self.currentRate == 0.5) return (ms * 2);
+      if (self.currentRate == 1 ) return (ms);
+      if (self.currentRate == 1.5) return Math.floor(ms * .66);
+      return ms; 
     }
     // ---------------------------- Public: YT API Wrapper ----------------------------------
     
@@ -208,9 +237,11 @@ var ytp_debug, ytp_debugII;
       self.setRate = function(rate){ 
 
         self.player.setPlaybackRate(rate);
-        killStop();
-        (self.state === 'playing') ? setStop() : false;
-      
+        
+        (self.state === 'playing') ? 
+          setStop() : 
+          killStop();
+
       };
       
       // Mute/Unmute 
@@ -269,16 +300,22 @@ var ytp_debug, ytp_debugII;
     };
 
     // Start/End point setting handlers
-    self.start = function(change){
+    // start(change, disableWarning) where change is +/- current point
+    // val, and disableWarn === true prevents the proximity warning from
+    // being set. 
+    self.start = function(change, disableWarning){
      
       var time = self.startpoint.val + change;
+      
       // Don't get closer than 1 sec from endpoint, or less than 0
       if (time >= self.endpoint.val - 1 ){
          time = self.endpoint.val - 1;
-         self.minLengthWarning = true;
+         (!disableWarning) ? self.minLengthWarning = true: false;
       } else {
         self.minLengthWarning = false;
       }
+
+      // Don't go before video start.
       if (time < 0) time = 0;
 
       self.pause();
@@ -288,22 +325,22 @@ var ytp_debug, ytp_debugII;
         self.seek(time);
         self.timestamp = time;
         $rootScope.$broadcast(updateEvent.name);
-        console.log('start');
       });
     };
 
-    self.end = function(change){
+    self.end = function(change, disableWarning){
      
       var time = self.endpoint.val + change;
       
       // Don't get closer than 1 sec from startpoint, or greater than video length
       if (time <= self.startpoint.val + 1 ){
         time = self.startpoint.val + 1;
-        self.minLengthWarning = true;
+        (!disableWarning) ? self.minLengthWarning = true: false
       } else {
         self.minLengthWarning = false;
       }
 
+      // Don't exceed video length
       if (time > self.video.seconds) time = self.video.seconds;
 
       self.pause();
@@ -313,7 +350,6 @@ var ytp_debug, ytp_debugII;
         self.seek(time);
         self.timestamp = time;
         $rootScope.$broadcast(updateEvent.name);
-        console.log('end');
       });
     };
 
@@ -364,7 +400,6 @@ var ytp_debug, ytp_debugII;
       // Reset timers
       if (self.state === 'playing'){
         self.prevAction = 'play';
-        killStop();
         setStop();
       } else {
         killStop();

@@ -37,8 +37,10 @@
          function cyclopse_loader(){
 
             var tag, firstScriptTag, player, loop, quality, mute, rate, start, end, init, overlay, timer, height, width;
-            var iOS = ( navigator.userAgent.match(/(iPad|iPhone|iPod)/g) ? true : false );
+            var iOS = ( navigator.userAgent.match(/(iPad|iPhone|iPod|Android)/g) ? true : false );
             var iOS_buffer = false;
+
+            console.log('iOS: ' + iOS);
 
             // Options & Overlay
             loop = {{video.loop}};
@@ -257,11 +259,12 @@
 
                     iOS_setStop(true);
                     iOS_buffer = false;
-                    overlay.style.visibility = "hidden";
 
+                    overlay.style.visibility = "hidden";
+                  
                     (!mute) ? 
                         player.unMute(): 
-                        false;
+                        player.mute();
 
                   } else {
                     iOS_setStop();

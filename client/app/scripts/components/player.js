@@ -29,15 +29,15 @@ var pctl_debug, pctl_debugII;
 
       // ------------------------ Public ----------------------------------
       // Called by button on timestamp, sets new start/end point at the 
-      // current tapehead pos.
+      // current tapehead pos. Call start/end with warningDisabled param true. 
       self.startFromTimestamp = function(){
         self.API.setStartpoint(self.API.timestamp);
-        self.API.start(0);
+        self.API.start(0, true);
       };
 
       self.endFromTimestamp = function(){
         self.API.setEndpoint(self.API.timestamp);
-        self.API.end(0);
+        self.API.end(0, true);
       };
 
       // ----------------------- Watches -------------------------------
@@ -130,8 +130,6 @@ var pctl_debug, pctl_debugII;
     
         xCoord = $event.offsetX === undefined ? $event.originalEvent.layerX : $event.offsetX;
       
-        console.log('xcoord: ' + xCoord);
-        pctl_debug = $event;
         var offset = elem.offset();
         var dotXPos = (xCoord + 5) + 'px';
         var valueXPos = (offset.left + xCoord - 10) + 'px';
@@ -140,7 +138,6 @@ var pctl_debug, pctl_debugII;
         // Ignore false offset values that occur when mouse
         // suddenly moves over dot && stop from running off end.
         if (xCoord > lowLimit && xCoord < highLimit){
-          console.log('within visible section');
           scope.time = calculateTimeDotValue().toString().toHHMMSSss();
           dot.css('left', dotXPos);
           dot.css('visibility', 'visible');
