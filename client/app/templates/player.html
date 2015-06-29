@@ -29,16 +29,15 @@
                 layout-align="start end">
 
                 <div layout="column">
-                  <div layout="row" layout-align="center center">
-                    
-                    <span class="timestamp">
-
+                  <div layout="row" class="timestamp" layout-align="center center">
+              
                       <!-- Set Start Button -->
-                      <span>
+                      <span class="timestamp-icon-span">
                         <ng-md-icon 
                           id="timestamp-btn-start"
                           icon="get_app" 
                           style="fill:white" 
+                          size="28"
                           ng-click="player.startFromTimestamp()"
                           class="timestamp-set-icon-left">
                         </ng-md-icon> 
@@ -50,14 +49,19 @@
                       </span>
                     
                       <!-- Timestamp -->
-                      <span class="timestamp-time"> {{player.API.timestamp.toString().toHHMMSSss()}} </span>
+                      <span layout="column" class="timestamp-center" layout-align="center center">
+                        <span class="timestamp-quickset-text"> Quick Set </span>
+                        <span class="timestamp-time"> {{player.API.timestamp.toString().toHHMMSSss()}} </span>
+                        
+                      </span>
                       
                       <!-- Set End Button -->
-                      <span>
+                      <span class="timestamp-icon-span">
                         <ng-md-icon 
                           id="timestamp-btn-end"
                           icon="get_app" 
                           style="fill:white" 
+                          size="28"
                           ng-click="player.endFromTimestamp()"
                           class="timestamp-set-icon-right">
                         </ng-md-icon> 
@@ -67,11 +71,8 @@
                           </span>
                         </md-tooltip>
                       </span>
-                    </span>
+                    
                   </div>
-                  <!-- <div layout="row" layout-align="center center">
-                    <span class="timestamp-quickset-text"> Quick Set Stops </span>
-                  </div> -->
                 </div>
           </span>
         </div>
