@@ -137,6 +137,10 @@ describe('Component: control panel', function () {
             console.log('playback slider disabled message NOT IMPLEMENTED: control panel: ');
          });
 
+         it('should not be visible when the device is mobile', function(){
+            console.log('playback slider mobile invisible NOT IMPLEMENTED: control panel: ');
+         });
+
       });
 
       describe('Loop switch', function(){
@@ -192,6 +196,10 @@ describe('Component: control panel', function () {
             expect(ngModel.$modelValue).toBe(false);
          });
 
+          it('should not be visible when the device is mobile', function(){
+            console.log('mute mobile invisible NOT IMPLEMENTED: control panel: ');
+         });
+
       });
 
       describe('auto switch', function(){
@@ -220,6 +228,10 @@ describe('Component: control panel', function () {
             expect(ngModel.$modelValue).toBe(false);
          });
 
+          it('should not be visible when the device is mobile', function(){
+            console.log('autoplay mobile invisible NOT IMPLEMENTED: control panel: ');
+         });
+
       });
 
       describe('reset Button', function(){
@@ -234,37 +246,31 @@ describe('Component: control panel', function () {
       describe('Startpoint precision seek button block', function(){
          var back5, back1, backFrame, forward5, forward1, forwardFrame;
          beforeEach(function(){
-            back5 = player.find('button#start-back-5sec-btn');
+            
             back1 = player.find('button#start-back-1sec-btn');
             backFrame = player.find('button#start-back-frame-btn');
             forwardFrame = player.find('button#start-fwd-frame-btn');
             forward1 = player.find('button#start-fwd-1sec-btn');
-            forward5 = player.find('button#start-fwd-5sec-btn')
+            
 
          })
-         it('should have six seek buttons', function(){
-            expect(back5.length).toBe(1);
+         it('should have four seek buttons', function(){
+            
             expect(back1.length).toBe(1);
             expect(backFrame.length).toBe(1);
             expect(forward1.length).toBe(1);
             expect(forwardFrame.length).toBe(1);
-            expect(forward5.length).toBe(1);
+            
          });
 
          it('should wire the buttons correctly', function(){
             spyOn(playerAPI, 'start');
             
-            back5.triggerHandler('click');
-            expect(playerAPI.start).toHaveBeenCalledWith(-5);
-
             back1.triggerHandler('click');
             expect(playerAPI.start).toHaveBeenCalledWith(-1);
 
             backFrame.triggerHandler('click');
             expect(playerAPI.start).toHaveBeenCalledWith(-(playerAPI.frameLength));
-
-            forward5.triggerHandler('click');
-            expect(playerAPI.start).toHaveBeenCalledWith(5);
 
             forward1.triggerHandler('click');
             expect(playerAPI.start).toHaveBeenCalledWith(1);
@@ -283,37 +289,31 @@ describe('Component: control panel', function () {
             videoId: "HcXNPI-IPPM"
          };
          beforeEach(function(){
-            back5 = player.find('button#end-back-5sec-btn');
+            
             back1 = player.find('button#end-back-1sec-btn');
             backFrame = player.find('button#end-back-frame-btn');
             forwardFrame = player.find('button#end-fwd-frame-btn');
             forward1 = player.find('button#end-fwd-1sec-btn');
-            forward5 = player.find('button#end-fwd-5sec-btn')
+            
             playerAPI.load(video);
          })
-         it('should have six seek buttons', function(){
-            expect(back5.length).toBe(1);
+         it('should have four seek buttons', function(){
+            
             expect(back1.length).toBe(1);
             expect(backFrame.length).toBe(1);
             expect(forward1.length).toBe(1);
             expect(forwardFrame.length).toBe(1);
-            expect(forward5.length).toBe(1);
+            
          });
 
          it('should wire the buttons to the playerAPI correctly', function(){
             spyOn(playerAPI, 'end');
             
-            back5.triggerHandler('click');
-            expect(playerAPI.end).toHaveBeenCalledWith(-5);
-
             back1.triggerHandler('click');
             expect(playerAPI.end).toHaveBeenCalledWith(-1);
 
             backFrame.triggerHandler('click');
             expect(playerAPI.end).toHaveBeenCalledWith(-(playerAPI.frameLength));
-
-            forward5.triggerHandler('click');
-            expect(playerAPI.end).toHaveBeenCalledWith(5);
 
             forward1.triggerHandler('click');
             expect(playerAPI.end).toHaveBeenCalledWith(1);
@@ -364,20 +364,32 @@ describe('Component: control panel', function () {
          });
       })
 
+
       describe('embed code button', function(){
-         it('should call dialog service open() when clicked', function(){
+         it('should call dialog service open() with the correct params when clicked', function(){
             var btn = player.find('button#embed-dialog-btn');
             var dialog = ctrl.dialog;
 
             spyOn(dialog, 'open');
          
             btn.triggerHandler('click');
-            expect(dialog.open).toHaveBeenCalled();
+            expect(dialog.open).toHaveBeenCalledWith('false'); // FAIL
             
          });
       });
       
 
+      describe('share button', function(){
+         it('should call dialog service open() with the correct params when clicked', function(){
+
+         });
+      })
+
+      describe('link button', function(){
+         it('should call dialog service open() with the correct params when clicked', function(){
+
+         });
+      })
       describe('time bar', function(){
          var progress, API, progressDiv;
 
@@ -451,6 +463,10 @@ describe('Component: control panel', function () {
             scope.$apply();
 
             expect(API.seek).toHaveBeenCalledWith(videoMidPoint);
+         });
+
+         it('it should animate the progression of the tapehead across its length', function(){
+
          });
       });
 

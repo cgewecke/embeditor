@@ -1,5 +1,5 @@
 <!-- Share Dialog Template -->
-<md-dialog flex="35">
+<md-dialog flex="35" flex-md="55">
    <!-- Toolbar -->
    <md-toolbar layout="row" layout-align="start center">
       <div class="md-toolbar-tools">
@@ -13,7 +13,7 @@
          </div>
          <span flex></span>
          <!-- Close button -->
-         <md-button id="code-dialog-dismiss-btn" ng-click="mdDialog.hide()" aria-label="close">
+         <md-button id="code-dialog-dismiss-btn" click="mdDialog.hide()" aria-label="close">
             <ng-md-icon icon="clear"></ng-md-icon>
          </md-button>
      </div>
@@ -29,7 +29,7 @@
             <div ng-show="ready"> 
                <md-button 
                   class="md-fab twitter-button"
-                  ng-click="twitterShare()"> 
+                  click="twitterShare()"> 
                   <span class="fa fa-twitter fa-lg share-icon"></span>  
                </md-button>
             </div>
@@ -37,7 +37,7 @@
             <div ng-show="ready"> 
                <md-button 
                   class="md-fab facebook-button"
-                  ng-click="facebookShare()">  
+                  click="facebookShare()">  
                      <span class="fa fa-facebook fa-lg share-icon"></span>  
                </md-button>
             </div>
@@ -45,7 +45,7 @@
             <div ng-show="ready"> 
                <md-button 
                   class="md-fab tumblr-button"
-                  ng-click="tumblrShare()">   
+                  click="tumblrShare()">   
                      <span class="fa fa-tumblr fa-lg share-icon"></span>  
                </md-button>
             </div>

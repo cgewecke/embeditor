@@ -12,7 +12,12 @@
 
           var self = this;
           var playerAPI = youtubePlayerAPI;
-          var tag, firstScriptTag;          
+          var tag, firstScriptTag, onPlayerStateChangeFn;   
+
+          ( playerAPI.mobile ) ?
+            onPlayerStateChangeFn = playerAPI.onMobilePlayerStateChange :
+            onPlayerStateChangeFn = playerAPI.onPlayerStateChange;
+            
 
           tag = document.createElement('script');
           tag.src = (("http:" === document.location.protocol) ? "http:" : "https:") + "//www.youtube.com/iframe_api";
@@ -28,8 +33,8 @@
               playerAPI.YT = YT; 
               playerAPI.player = new YT.Player('player', {
 
-                  width:          '854',
-                  height:         '480',
+                  width:          '100%',
+                  height:         '100%', 
                   videoId:        playerAPI.initialVideo.videoId,
                   playerVars: {
                     'iv_load_policy': '3', //
@@ -42,7 +47,7 @@
                   },
                   events: {
                     'onReady': playerAPI.onPlayerReady,
-                    'onStateChange': playerAPI.onPlayerStateChange,
+                    'onStateChange': onPlayerStateChangeFn,
                     'onError': playerAPI.onPlayerError
                   }
               });

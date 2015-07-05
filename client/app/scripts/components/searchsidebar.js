@@ -15,6 +15,7 @@ var sb_debug, sb_debugII, sb_debugIII;
 
   angular.module('embeditor.components.searchsidebar', [
     
+    'embeditor.services.layoutManager',
     'embeditor.services.youTubeDataAPI', 
     'embeditor.services.youtubePlayerAPI'
 
@@ -27,10 +28,11 @@ var sb_debug, sb_debugII, sb_debugIII;
 
     // Controller for the sidebar. Makes youtube api visible on scope and
     // toggles sidebar open when a query is made from toolbar.
-    function SearchSidebarCtrl($scope, youTubeDataAPI, $mdSidenav) {
+    function SearchSidebarCtrl($scope, youTubeDataAPI, layoutManager, $mdSidenav) {
      
       var self = this;
       self.youTube = youTubeDataAPI;
+      self.layout = layoutManager
       self.mdSidenav = $mdSidenav; 
       self.isOpen = false; 
 
@@ -46,7 +48,7 @@ var sb_debug, sb_debugII, sb_debugIII;
         }
       });
     };
-    SearchSidebarCtrl.$inject = ['$scope', 'youTubeDataAPI', '$mdSidenav'];
+    SearchSidebarCtrl.$inject = ['$scope', 'youTubeDataAPI', 'layoutManager', '$mdSidenav'];
 
     // Located on each option of the history select. This helps the select work
     // like a menu with links. We need the history fetch to occur regardless of
@@ -83,28 +85,8 @@ var sb_debug, sb_debugII, sb_debugIII;
 
       function searchItemEventHandlers(scope, elem, attrs){
 
-        var dataAPI = youTubeDataAPI;
-        var playerAPI = youtubePlayerAPI
-        var thumbnailElem = angular.element(elem.find('div')[1]);
-        var channelElem = angular.element(elem.find('div')[3]);
-        var relatedElem = elem.find('button');
-
-        // Play Video click
-        thumbnailElem.bind('click', function(event){
-          playerAPI.load(scope.video);
-          sb_debug = scope.video;
-        });
-
-        // Search Related Videos click
-        relatedElem.bind('click', function(event){
-          dataAPI.getRelatedVideos(scope.video); 
-          event.stopPropagation();
-        });
-
-        // Search Channel Videos click
-        channelElem.bind('click', function(event){
-          dataAPI.getChannelVideos(scope.video);
-        });
+        scope.dataAPI = youTubeDataAPI;
+        scope.playerAPI = youtubePlayerAPI
       };
     };
     embeditorSearchItem.$inject = ['youTubeDataAPI', 'youtubePlayerAPI', '$mdSidenav'];

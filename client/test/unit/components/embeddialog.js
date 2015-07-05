@@ -40,25 +40,57 @@ describe('Component: Embed Code Dialog Window', function(){
 
   describe('embedCodeDialog Service', function(){
 
-    it('should create a DB record for the clip on window open', function(){
-      console.log('unit tests: embeddialog.js: DB tests are missing');
+    describe( 'open() method', function(){
+
+      it('it should update service.target to the id of the DOM elem that called the method', function(){
+
+      }
+
+      it('should associate the correct dialog template with each button', function(){
+
+      });
+
+      it('should call $mdDialog.show() with correct params', function(){
+
+      });
+
+    });   
+  
+    describe('onOpen() method', function(){
+
+      it('should create a DB record for the clip', function(){
+        
+      });
+
+      it('should fire a ready event when the DB call returns with DB id', function(){
+
+      });
+
+      it('should fire a server failure event when the DB call fails', function(){
+
+      });
+
+      it('should toggle the self.opening flag to false', function(){
+
+      });
+
     });
 
-    it('should fire a ready event when the DB call returns with DB id', function(){
+    describe('preview() method', function(){
 
-    });
+      it('should create a DB record for the clip', function(){
 
-    it('should fire a server failure event when the DB call fails', function(){
+      });
 
-    });
+      it('should open a new tab called "preview"', function(){
 
-    it('should open the correct template based on which button was clicked', function(){
+      });
 
-    });
+      it('should open the address of the preview in the new tab when the DB call resolves', function(){
 
-    it('should set the public "opening" variable on open, false when the dialog open has completed', function(){
-
-    });
+      });
+      
+    })
 
   });
 
@@ -211,9 +243,7 @@ describe('Component: Embed Code Dialog Window', function(){
         expect(select.attr('disabled')).toBeUndefined();
      })
 
-     it('should not have selection styling on any option if the API.framesize value is "custom"', function(){
-        console.log('unit tests: embeddialog.js: selection style "custom" test is missing');
-     })
+     
 
   });
 
@@ -221,10 +251,6 @@ describe('Component: Embed Code Dialog Window', function(){
     console.log('unit tests: embeddialog.js: framesize inputs tests are missing');
     
     it('should be bound to the value of API.framesize', function(){
-
-    });
-
-    it('should set API.framesize to "custom" if the inputs dont match a default val', function(){
 
     });
 

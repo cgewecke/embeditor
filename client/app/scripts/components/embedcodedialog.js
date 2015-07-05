@@ -31,6 +31,7 @@ var ed_debug, ed_debugII;
 
          self.opening = false; // Triggers spinner on button during dialog open
          self.target = null; // Target === elem.id ? show loading spinner until dialog opens
+         self.counter = 0; // Number of times opened - used to separate preview tabs.
 
          // Open()
          self.open = function(event, type){
@@ -65,16 +66,18 @@ var ed_debug, ed_debugII;
 
             self.target = event.currentTarget.id;
             self.opening = true;
+            self.counter += 1;
             
             code.create().then(
                function(success){ 
                   self.opening = false;
-                  $window.open( $window.location.href + 'videos/' + code.options._id, 'preview' );
+                  $window.open( $window.location.href + 'videos/' + code.options._id, 
+                     'preview' + self.counter);
                },
                function(error){ $rootScope.$broadcast('embedCodeDialog:database-error');}
             );
             
-            $window.open('', 'preview');
+            $window.open('', 'preview' + self.counter);
          };
 
          // Hide btn spinner & create record of the current clip in DB
@@ -94,6 +97,7 @@ var ed_debug, ed_debugII;
       // Injected into the dialog window and the copy button directive
       function dialogCtrl($scope, $mdDialog, $window, codeGenerator, youtubePlayerAPI){
 
+         console.log('new dialog ctrl');
          var defaultButtonMessage = "Click to copy";  
          
          var formats = {

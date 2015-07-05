@@ -39,14 +39,16 @@ angular
     .accentPalette('orange', {'hue-1': '500'})
     .backgroundPalette('grey')
   })
+  
   .config(function ($locationProvider, $routeProvider) {
 
     $locationProvider.html5Mode(true);
     
     $routeProvider
       .when('/', {
-        templateUrl: 'views/main.html'
-        //controller: 'MainCtrl'
+        templateUrl: 'views/main.html',
+        controller: 'AppCtrl',
+        controllerAs: 'app'
       })
       .when('/about', {
         templateUrl: 'views/about.html',
