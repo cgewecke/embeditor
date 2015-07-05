@@ -10,7 +10,8 @@
   button#ss-tile-end-msg:  
   button#ss-tile-more-button:      
   md-progress-circular#ss-body-loading-spinner:    
-  md-progress-circular#ss-tile-loading-spinner:                                                   
+  md-progress-circular#ss-tile-loading-spinner: 
+  {{(search.layout.mobile) ? 2 : 3 }}                                                  
 -->
 
 <div ng-controller="SearchSidebarCtrl as search" layout="vertical">
@@ -24,7 +25,7 @@
             <embeditor-searchbox flex></embeditor-searchbox>
           </md-grid-tile>
           <!-- Sort Order Select -->
-          <md-grid-tile> 
+          <md-grid-tile md-colspan="1"> 
             <span class="twelve-point-bold">
               <md-select class="md-accent" placeholder="Order By"
                 ng-model="order" ng-change="search.youTube.setSearchOrder(order)">
@@ -34,7 +35,7 @@
             </span>
           </md-grid-tile>
           <!-- Duration Filter Select -->
-          <md-grid-tile> 
+          <md-grid-tile md-colspan="1"> 
             <span class="twelve-point-bold">
               <md-select class="md-accent" placeholder="Filters"
                 ng-model="filter" ng-change="search.youTube.setDurationFilter(filter)">
@@ -45,7 +46,7 @@
             </span>
           </md-grid-tile>
           <!-- History Menu Select -->
-          <md-grid-tile> 
+          <md-grid-tile md-colspan="1"> 
             <span class="twelve-point-bold">
               <md-select class="md-accent" ng-model="historyItem">
                 <md-select-label>History</md-select-label>
@@ -86,7 +87,7 @@
            <md-button 
                id="ss-try-again-btn"
                class="md-raised md-primary"
-               ng-click="search.youTube.getAgain(search.youTube.history[0])">
+               click="search.youTube.getAgain(search.youTube.history[0])">
               Try Again?
           </md-button>
          </h1>
@@ -100,17 +101,23 @@
       </md-progress-circular>
     </div> 
     <!-- Search Results --> 
-    <md-grid-list class="sidebar-background" md-cols="2" md-row-height="175px" ng-show="search.isOpen"> 
+    <md-grid-list 
+        class="sidebar-background" 
+        md-cols="{{(search.layout.mobile) ? 1 : 2 }}" 
+        md-row-height="175px" 
+        ng-show="search.isOpen"> 
       
       <!-- Item Tiles -->
       <md-grid-tile 
           class="searchItemContainer"
           ng-repeat="video in search.youTube.results" >    
-        <embeditor-search-item video="video"></embeditor-search-item>    
+        <embeditor-search-item video="video" class="mobile-search-item"></embeditor-search-item>    
       </md-grid-tile> 
 
        <!-- End messages: Two column Tile --> 
-      <md-grid-tile md-colspan="2" class="searchItemContainer">
+      <md-grid-tile 
+        md-colspan="{{(search.layout.mobile) ? 1 : 2 }}" 
+        class="searchItemContainer">
         <div class="searchItems">
           <!-- Last results -->
           <md-button
@@ -131,7 +138,7 @@
           <md-button
               id="ss-tile-more-button" 
               class="md-raised md-primary"
-              ng-click="search.youTube.nextPage()"
+              click="search.youTube.nextPage()"
               ng-show="!search.youTube.endOfResults && !search.youTube.nextPageLoading &&
                        search.youTube.results.length">
                 More.

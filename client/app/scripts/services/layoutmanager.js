@@ -2,14 +2,18 @@
 
   'use strict';
   angular.module('embeditor.services.layoutManager', ['ngMaterial'])
-    .service('layoutManager', layoutManager);
+    .service('layoutManager', layoutManager)
+    .controller('LayoutController', layoutController)
 
   
   function layoutManager($mdSidenav){
   
-    tb_debug = $mdSidenav;
     var self = this;
 
+    self.mobile = ( navigator.userAgent.match(/(iPad|iPhone|iPod|Android)/g) ? true : false );
+
+    // sidenavIsOpen(id) Boolean toggle used for show/hide layout elements when
+    // a sidebar is open. 
     self.sidenavIsOpen = function(id){ 
       if ($mdSidenav.exists && $mdSidenav(id).isOpen()){
          return true;
@@ -24,6 +28,7 @@
     // fn will make components right-centered, when closed will
     // restore to default alignment
     self.alignWithSidenav = function(id, type, alignment){ 
+      
       // Default alignment is centered
       (!alignment) ?
         alignment = 'center center':
@@ -39,5 +44,9 @@
     };
   }
   layoutManager.$inject = ['$mdSidenav'];
+
+  function layoutController(layoutManager){
+
+  }
 
 })();

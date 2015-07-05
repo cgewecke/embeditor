@@ -103,9 +103,10 @@ var pctl_debug, pctl_debugII;
       var dot = elem.find('ng-md-icon');
       var tapehead = elem.find('span.tapehead-animation-wrapper');
       var value = elem.find('span.progress-bar-time');
+      var bar = elem.find('md-progress-linear');
 
       var lowLimit = 20; // pixel . . . 
-      var highLimit = 844; // pixel. These are bullshit.
+      var highLimit = bar.width() - 10;
       var xCoord = 0;
 
       scope.showDot = false;
@@ -117,7 +118,8 @@ var pctl_debug, pctl_debugII;
 
       // calculateTimeDotValue(): Translate space to time.
       function calculateTimeDotValue(){
-        var ratio = (xCoord/854);
+        console.log('bar width: ' + bar.width());
+        var ratio = (xCoord/bar.width());
         var time = (ctrl.API.endpoint.val - ctrl.API.startpoint.val) * ratio;
       
         return ctrl.API.startpoint.val + time;
@@ -155,16 +157,25 @@ var pctl_debug, pctl_debugII;
         value.css('visibility', 'hidden');
       };
 
-      // seekVideoToTimeDot() - ng-click. 
+      // seekVideoToTimeDot() - click. 
       scope.seekVideoToTimeDot = function(){
 
-        //Ignore false offset values
+        // Bool checks: Desktop, don't go outside bounds
         if (xCoord > lowLimit && xCoord < highLimit){
 
           var time = calculateTimeDotValue();
           ctrl.API.setTapehead(time);
         }
       };
+
+      scope.seekVideoToTouch = function($event){
+        var time;
+
+        xCoord = ($event.offsetX === undefined) ? $event.originalEvent.layerX : $event.offsetX;
+        time = calculateTimeDotValue();
+        ctrl.API.setTapehead(time);
+
+      }
 
       // ----------------   Tapehead Animation ----------------------------- 
       
@@ -183,12 +194,12 @@ var pctl_debug, pctl_debugII;
       function updateTapehead(){
         var clipDuration, ratio, newPosition;
         
-        var playerWidth = 854; // Pixel - bullshit
+        var playerWidth = bar.width(); 
         var timestampWidth = 14; // Pixel - bullshit
 
         clipDuration = (ctrl.API.endpoint.val - ctrl.API.startpoint.val);
         ratio = (ctrl.API.timestamp - ctrl.API.startpoint.val) /clipDuration;
-        newPosition = Math.floor( 854 * ratio );
+        newPosition = Math.floor( bar.width() * ratio );
 
         // Either update or detect end and stop for the last few pixels
         (newPosition < (playerWidth - timestampWidth)) ?

@@ -18,8 +18,10 @@
     
     <span flex="5"></span>
     <!-- Search Box --> 
-    <div layout="row" flex ng-show="!toolbar.layout.sidenavIsOpen('search')">
-      <embeditor-searchbox flex id="toolbar-searchbox"></embeditor-searchbox>
+    <div layout="row" flex flex-md="50" 
+          ng-show="!toolbar.layout.sidenavIsOpen('search') && toolbar.ready">
+      <embeditor-searchbox id="toolbar-searchbox" flex>
+      </embeditor-searchbox>
     </div>
     <span flex></span>
 

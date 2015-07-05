@@ -246,7 +246,6 @@
 
               if (event.data === YT.PlayerState.PLAYING){
                   
-                  
                   if (init){
                     
                     init = false;
@@ -260,13 +259,19 @@
                     iOS_setStop(true);
                     iOS_buffer = false;
 
-                    overlay.style.visibility = "hidden";
+                    // Weird glitch where the first frame is still rendered
+                    // when the cover comes off. 'Here' we are playing at
+                    // 'start' according to player events.   
+                    setTimeout(function(){
+                      overlay.style.visibility = "hidden";
+                    }, 500);
                   
                     (!mute) ? 
                         player.unMute(): 
                         player.mute();
 
                   } else {
+                    // DETECT END OF CLIP !!!!! 
                     iOS_setStop();
                   }
 

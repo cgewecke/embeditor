@@ -28,14 +28,22 @@ describe('Controller: PlayerCtrl/Player-Section', function () {
   }));
 
   // ------------  Player Section - DOM/Directive Spec ------------------
-  describe('timestamp button', function(){
+  describe('timestamp quickset buttons', function(){
 
     it('should be wired correctly', function(){
-      var btn = player.find('ng-md-icon#timestamp-btn');
+
+      var btn_start = player.find('ng-md-icon#timestamp-btn-start');
+      var btn_end = player.find('ng-md-icon#timestamp-btn-end');
       var ctrl_as = btn.controller();
+      
       spyOn(ctrl_as, 'startFromTimestamp');
-      btn.triggerHandler('click');
+      spyOn(ctrl_as, 'end FromTimestamp');
+
+      btn_start.triggerHandler('click');
       expect(ctrl_as.startFromTimestamp).toHaveBeenCalled();
+
+      btn_end.triggerHandler('click');
+      expect(ctrl_as.endFromTimestamp).toHaveBeenCalled();
     })
   });
 
@@ -53,11 +61,21 @@ describe('Controller: PlayerCtrl/Player-Section', function () {
     })
   })
 
+  describe('mobile player cover', function(){
+    it('should show/hide when device is mobile and API.intializing is true/false', function(){
+
+    });
+
+    it('should allow click through so that tapping the start button permits the player to launch', function(){
+
+    });
+  })
+
   // ----------- PlayerCtrl Logic Spec ----------------------------------
   describe('startFromTimestamp()', function(){
     it('should set startpoint and seek player to the current timestamp (tapehead) value', function(){
       
-      var btn = player.find('ng-md-icon#timestamp-btn');
+      var btn = player.find('ng-md-icon#timestamp-btn-start');
       var ctrl_as = btn.scope().player;
       YT.attachMockAPI(ctrl_as.API);
       ctrl_as.API.load(video);
@@ -72,6 +90,35 @@ describe('Controller: PlayerCtrl/Player-Section', function () {
       expect(ctrl_as.API.seek).toHaveBeenCalledWith(100);
 
     });
+
+    it('should not trigger the minLength warning', function(){
+
+    });
+  });
+
+  describe('endFromTimestamp()', function(){
+    it('should set endpoint and seek player to the current timestamp (tapehead) value', function(){
+      
+      var btn = player.find('ng-md-icon#timestamp-btn-end');
+      var ctrl_as = btn.scope().player;
+      YT.attachMockAPI(ctrl_as.API);
+      ctrl_as.API.load(video);
+
+      spyOn(ctrl_as.API, 'seek');
+
+      ctrl_as.API.timestamp = 100;
+      btn.triggerHandler('click');
+      timeout.flush();
+      
+      expect(ctrl_as.API.startpoint.val).toEqual(100);
+      expect(ctrl_as.API.seek).toHaveBeenCalledWith(100);
+
+    });
+
+    it('should not trigger the minLength warning', function(){
+
+    });
+
   });
 
   describe('API.currentRate watch', function(){
@@ -161,11 +208,14 @@ describe('Controller: PlayerCtrl/Player-Section', function () {
   });
   
   describe('API video load listener', function(){
-    it('should init code generator options with new video id when new video is loaded', function(){
+    it('should init code generator options with new video id, title & imageUrl when new video is loaded', function(){
       spyOn(ctrl.code, 'set');
-      ctrl.API.load({seconds: 414, videoId: 'abcdef'});
+      ctrl.API.load({seconds: 414, videoId: 'abcdef', title: 'hello', imageUrl: 'http://goodbye.com'});
       scope.$apply();
       expect(ctrl.code.set).toHaveBeenCalledWith('videoId', 'abcdef');
+      expect(ctrl.code.set).toHaveBeenCalledWith('title', 'hello');
+      expect(ctrl.code.set).toHaveBeenCalledWith('imageUrl', 'http://goodbye.com');
+      
     })
   });
   

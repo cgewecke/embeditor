@@ -1,18 +1,58 @@
-<div layout="column" layout-fill>
-  <!-- Embed Code Directive -->
+<div layout="column" layout-align="center center" layout-fill>
+  
+    <!-- Embed Code Directive -->
    <embeditor-youtube-embed 
       ng-controller="PlayerCtrl as player"
-      layout-fill 
-      layout="row" 
+      layout="row"
+      layout-fill
       layout-align="{{player.layout.alignWithSidenav('search', 'row')}}" 
-      class="player-background">
+      class="player-background player-block">
       
-      <div id="player-wrapper" class="player-wrapper"> <!--  -->
+      <div id="player-wrapper" class="player-wrapper-styles"> 
         
-        <!-- Loading screen -->
+        <!-- Loading screen: Mobile NEEDS POINTER EVENTS NONE -->
+        <div class="mobile-player-loading-screen" 
+             id="player-loading-screen"
+             ng-class="{'visible': player.API.initializing || 
+                                   player.API.mobileStart }"
+
+             ng-show="player.API.mobile">
+
+            <md-progress-circular 
+              layout="row"
+              layout-fill
+              layout-align="center center"
+              ng-show="player.API.initializing
+                         && !player.API.mobileStart"
+              id="player-loading-spinner" 
+              class="md-warn" 
+              md-mode="indeterminate">
+            </md-progress-circular>
+
+            <!-- Mobile start button & mobile landing page -->
+            <div layout="column" 
+                 layout-fill
+                 layout-align="center center"
+                 ng-show="player.API.mobileStart" >
+                 <md-button class="start-button md-whiteframe-z1"  
+                    id="player-init-button">
+                    <div>
+                      <ng-md-icon 
+                        icon="play_circle_outline" 
+                        style="fill:white"
+                        size="56">
+                      </ng-md-icon>
+                    </div>
+                    <div>TOUCH TO START </div>
+                </md-button> 
+            </div>
+        </div>
+
+        <!-- Loading screen: Desktop-->
         <div class="player-loading-screen" 
              id="player-loading-screen"
-             ng-class="{'visible': player.API.initializing}">
+             ng-class="{'visible': player.API.initializing}"
+             ng-show="!player.API.mobile">
             <md-progress-circular 
               layout="row"
               layout-fill
@@ -22,13 +62,25 @@
               md-mode="indeterminate">
             </md-progress-circular>
         </div>
-        <!-- Timestamp & Transparent cover -->
+
+        
+        
+        <!-- Timestamp & Transparent cover & Touch Shield -->
         <div class="player-cover">
           <span layout="row" 
                 layout-fill 
                 layout-align="start end">
 
-                <div layout="column">
+                <!-- Mobile Timebar/Player Touch Shield --> 
+                <div layout="row" 
+                     layout-fill
+                     class="timebar-touch-shield"
+                     ng-show="player.API.mobile">
+                </div>
+
+                <!-- Timestamp & Setters --> 
+                <div layout="column" ng-show="!player.API.mobile">
+                  
                   <div layout="row" class="timestamp" layout-align="center center">
               
                       <!-- Set Start Button -->
@@ -38,7 +90,7 @@
                           icon="get_app" 
                           style="fill:white" 
                           size="28"
-                          ng-click="player.startFromTimestamp()"
+                          click="player.startFromTimestamp()"
                           class="timestamp-set-icon-left">
                         </ng-md-icon> 
                         <md-tooltip md-direction="top" md-delay="1000">
@@ -51,8 +103,7 @@
                       <!-- Timestamp -->
                       <span layout="column" class="timestamp-center" layout-align="center center">
                         <span class="timestamp-quickset-text"> Quick Set </span>
-                        <span class="timestamp-time"> {{player.API.timestamp.toString().toHHMMSSss()}} </span>
-                        
+                        <span class="timestamp-time"> {{player.API.timestamp.toString().toHHMMSSss()}} </span>  
                       </span>
                       
                       <!-- Set End Button -->
@@ -60,9 +111,9 @@
                         <ng-md-icon 
                           id="timestamp-btn-end"
                           icon="get_app" 
-                          style="fill:white" 
+                          style="fill:rgb(250, 250, 250)" 
                           size="28"
-                          ng-click="player.endFromTimestamp()"
+                          click="player.endFromTimestamp()"
                           class="timestamp-set-icon-right">
                         </ng-md-icon> 
                         <md-tooltip md-direction="top" md-delay="1000">
@@ -77,10 +128,15 @@
           </span>
         </div>
         <!-- Player -->
-        <div id="player"></div>
+        <div layout="row" layout-align="center center" class="player-wrapper-styles">
+          <div id="player"></div>
+        </div>
+        <!-- TimeBar -->
         <embeditor-player-time-bar class="loading-progress"></embeditor-player-time-bar> 
     </div>
    </embeditor-youtube-embed>
-   <embeditor-section-player-controls></embeditor-section-player-controls>
+
+   <!-- Controls Block -->
+   <embeditor-section-player-controls layout="row" layout-fill></embeditor-section-player-controls>
 </div>
 <!-- </md-content> -->

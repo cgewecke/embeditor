@@ -1,5 +1,20 @@
 var ytp_debug, ytp_debugII;
 
+/* BUGS: 
+
+  1. NON looping end play bug in embed.hbs 
+  2. Rip out all mobile specific functions, they are almost identical to Desktop.
+  3. Time bar explanation for mobile
+  4. 
+  5. Pick different video for mobile. 
+  6. 
+  7. 
+  8. 
+  9. 
+  10. Remake quick set for desktop. 
+
+*/
+
 (function(){
 'use strict';
 
@@ -13,11 +28,14 @@ var ytp_debug, ytp_debugII;
     var scope = $rootScope;
     var timeout = null; // $timeout promise - cancelled at killStop()
     var interval = null; // $interval promise - cancelled at killStop()
+    var mobileBuffering = false; // State var needed for player init seq. in mobile.
     
-    var PLAYING = 1, PAUSED = 2, BUFFERING = 3;
+    // Const
+    var PLAYING = 1, PAUSED = 2, BUFFERING = 3, UNSTARTED = -1, SET = 4;
   
     // Published Events
-    var initEvent = {name: 'YTPlayerAPI:init'}; // Cast on video load
+    var readyEvent = {name: 'YTPlayerAPI:ready'} // Cast when initialization is complete in playerStateChange
+    var initEvent = {name: 'YTPlayerAPI:init'}; // Cast on video load, either at init or on search play
     var loadEvent = {name: 'YTPlayerAPI:load'};
     var updateEvent = {name: 'YTPlayerAPI:update'};  // Cast when tapehead is reset to start/endpoint
     var setEvent = {name: 'YTPlayerAPI:set'}; // Cast when start/endpoints vals change
@@ -30,20 +48,26 @@ var ytp_debug, ytp_debugII;
     self.loadState = 0.00; // Fractional percentage loaded
     self.percentPlayed = 0.00; // Location of tapehead as percentage of current time window
     self.currentRate = 1; // Normal playback rate
-    self.speeds = false; // Has playback rate options 
-    self.initializing = true;  // True as page loads, false otherwise.
+    self.speeds = false; // Has playback rate options ?
+    self.initializing = true;  // True as page loads, false once tapehead has been set in inital pos.
+    self.mobileStart = false; // True when player is ready, false once it's tapped.
     self.setNewRate = false; // True during video load, triggers rate set when rates become avail.
-    self.prevAction = 'play'; // Vals: 'set' or 'play', arbs tapehead location when setting.
     self.videoLoaded = false; // False during video load, true when the stream initiates.
     self.minLengthWarning = false; // True when start/endpoints are 1 sec apart, false otherwise.
     self.loop = true; // When true, player loops back to startpoint from endpoint
     self.mute = false; // When true, player is muted. 
     self.autoplay = false; // When true, embed will auto-play on iframe load
     
-    self.state; // Vals: 'playing' or 'paused', toggles icon. 
+    self.PLAYING = PLAYING; // Public constants for the DOM
+    self.PAUSED = PAUSED; // Public constants for the DOM
+      
+    self.state = PAUSED; // Vals: PLAYING or PAUSED, toggles icon. 
     self.frameLength = .05;
     self.startpoint = { val: 0, display: '0:00'};
     self.endpoint = { val: 0, display: '0:00'};
+
+    // Determines opening sequence eventing . . . .
+    self.mobile = ( navigator.userAgent.match(/(iPad|iPhone|iPod|Android)/g) ? true : false );
     
     // Godard - Gimme Shelter: 'seconds' MUST BE 2 SECONDS SHORT OF THE END . . . .
     self.initialVideo = {
@@ -64,13 +88,19 @@ var ytp_debug, ytp_debugII;
     // by the YT event change callback, stream gets paused and player veil is removed. 
     function init(){
       var timer;
-      self.initializing = true;
       self.load(self.initialVideo);
 
     };
 
+    function mobileInit(){
+      var timer;    
+      self.load(self.initialVideo);
+      self.mobileStart = true;
+      
+    }
+
     // setLoadState: Assigns fractional amt loaded * 100 to loadState
-    // in a setInterval. destroy old timers!!!!!
+    // in a setInterval. 
     function setLoadState(){
       var timer, offset;
 
@@ -94,11 +124,13 @@ var ytp_debug, ytp_debugII;
     };
 
     // verifyRates(): playback rates info only available once the player
-    // starts playing, so this executes in the YT state change callback.
-    // Rate setting carries over from video to video.
+    // starts playing (and only on Desktop), so this executes in the 
+    // YT state change callback. Rate setting carries over from video to video.
     function verifyRates(){
 
-      (self.rates().length > 1) ? self.speeds = true: self.speeds = false;
+      (!self.mobile && self.rates().length > 1) ? 
+        self.speeds = true: 
+        self.speeds = false;
 
       if (self.speeds && self.setNewRate){
         self.setRate(self.currentRate);
@@ -136,23 +168,15 @@ var ytp_debug, ytp_debugII;
       }
 
       // Update timestamp as we play.
-      interval = $interval(function(){
-        
-        var time = self.time();
-        (self.prevAction != 'set') ? 
-          self.timestamp = time : 
-          false;
-
-      }, 150);
+      interval = $interval(function(){ self.timestamp = self.time() }, 150);
 
        // If we are playing & looping, loop back to startpoint.
       timeout = $timeout(function(){
           
-          if (!self.loop){
-            self.pause();
-          } else if (self.prevAction === 'play'){
+          (!self.loop) ?
+            self.pause():
             self.seek(self.startpoint.val);
-          } 
+
           killStop(true); 
 
       }, ms );
@@ -209,11 +233,15 @@ var ytp_debug, ytp_debugII;
         self.video = video;
         self.setNewRate = true;
         self.videoLoaded = false;
-        self.player.loadVideoById(video.videoId);
+
+        // Desktop: Load on init & search play. 
+        // Mobile: Load on search play
+        (!self.mobile || (self.mobile && !self.initializing) ) ?
+          self.player.loadVideoById(video.videoId):
+          false;
         
         self.setStartpoint(0);
         self.setEndpoint(video.seconds);
-        self.prevAction = 'play';
         setLoadState();
         
         $rootScope.$broadcast(initEvent.name);
@@ -221,12 +249,12 @@ var ytp_debug, ytp_debugII;
       
       // Tape head Driver
       self.play = function() { 
-        self.state = 'playing';
+        self.state = PLAYING;
         self.player.playVideo(); 
       };  
 
       self.pause = function() { 
-        self.state = 'paused';
+        self.state = PAUSED;
         self.player.pauseVideo(); 
       };
       self.seek = function(location, stream) { self.player.seekTo(location, stream) }; 
@@ -238,7 +266,7 @@ var ytp_debug, ytp_debugII;
 
         self.player.setPlaybackRate(rate);
         
-        (self.state === 'playing') ? 
+        (self.state === PLAYING) ? 
           setStop() : 
           killStop();
 
@@ -276,27 +304,22 @@ var ytp_debug, ytp_debugII;
 
       var time;
       // Pause
-      if ( self.state === 'playing' ){
+      if ( self.state === PLAYING ){
         self.pause();
 
-      // Play from startpoint after setting start or end points
-      } else if ( self.prevAction === 'set'){
-        self.seek(self.startpoint.val);
-        self.play();
-
-      // Otherwise play after pause:
-      // from: start if tapehead at end, or 
-      // from: tapehead otherwise
+      // Play
       } else {
+
+        // Seek to start first if pos is clip end
         if ((self.time() + .25) > self.endpoint.val){
           self.seek(self.startpoint.val);
           self.play();
+        
         } else {
           self.play();
         }
       }
-      // Reset prevAction flag to play
-      self.prevAction = 'play';
+
     };
 
     // Start/End point setting handlers
@@ -307,10 +330,15 @@ var ytp_debug, ytp_debugII;
      
       var time = self.startpoint.val + change;
       
-      // Don't get closer than 1 sec from endpoint, or less than 0
+      // Don't get closer than 1 sec from endpoint
       if (time >= self.endpoint.val - 1 ){
+         
          time = self.endpoint.val - 1;
-         (!disableWarning) ? self.minLengthWarning = true: false;
+         
+         (!disableWarning) ? 
+            self.minLengthWarning = true: 
+            false;
+      
       } else {
         self.minLengthWarning = false;
       }
@@ -332,10 +360,15 @@ var ytp_debug, ytp_debugII;
      
       var time = self.endpoint.val + change;
       
-      // Don't get closer than 1 sec from startpoint, or greater than video length
+      // Don't get closer than 1 sec from startpoint
       if (time <= self.startpoint.val + 1 ){
+        
         time = self.startpoint.val + 1;
-        (!disableWarning) ? self.minLengthWarning = true: false
+
+        (!disableWarning) ? 
+          self.minLengthWarning = true: 
+          false
+      
       } else {
         self.minLengthWarning = false;
       }
@@ -356,13 +389,11 @@ var ytp_debug, ytp_debugII;
     // Start/Endpoint setters
     self.setStartpoint = function(value){
       self.startpoint = {val: value, display: value.toString().toHHMMSSss() };
-      self.prevAction = 'set';
       $rootScope.$broadcast(setEvent.name, {type: 'start', value: value });
     };
 
     self.setEndpoint = function(value){
       self.endpoint = {val: value, display: value.toString().toHHMMSSss() };
-      self.prevAction = 'set';
       $rootScope.$broadcast(setEvent.name, {type: 'end', value: value });
     };
 
@@ -371,17 +402,16 @@ var ytp_debug, ytp_debugII;
     self.replayStart = function(){
       self.seek(self.startpoint.val);
       self.play();
-      self.prevAction = 'play';
     };
 
     self.replayEnd = function(){
+
       var newTime = self.endpoint.val - 2;
       if (newTime < (self.startpoint.val + 1)) 
         newTime = self.startpoint.val;
 
       self.seek(newTime);
       self.play();
-      self.prevAction = 'play';
     }
 
     // reset() resets the start/stop back to video min/max
@@ -398,8 +428,7 @@ var ytp_debug, ytp_debugII;
 
       // Keep state: play -> continue playing: paused -> do nothing.
       // Reset timers
-      if (self.state === 'playing'){
-        self.prevAction = 'play';
+      if (self.state === PLAYING){
         setStop();
       } else {
         killStop();
@@ -410,54 +439,137 @@ var ytp_debug, ytp_debugII;
     // play 
     self.setTapehead = function(time){
 
-      (self.state !== 'playing') ? self.timestamp = time : false;
+      // Update timestamp for a paused seek.
+      (self.state !== PLAYING ) ? 
+        self.timestamp = time : 
+        false;
+ 
+      // Destop playing or mobile paused: just seek
+      if (!self.mobile || self.state !== PLAYING ){
+        self.seek(time);
 
-      self.prevAction = 'play';
-      self.seek(time);
+      // Mobile playing: player events need to be forced to reset timers.
+      // Seek() doesn't automatically fire anything.
+      } else {
+        self.pause();
+        self.seek(time);
+        self.play();
+      }
+  
     };
 
     // YT Player Event Callbacks, registered on embedding in embeditor-youtube-player
     self.onPlayerReady = function(event){
       
       getAPI();
-      init();
+
+      self.mobile ?
+        mobileInit() :
+        init();
     };
 
     // 
     self.onPlayerStateChange = function(event){
-    
+      
       if (event.data === PLAYING){
         self.videoLoaded = true; // Rate & Quality assets now available
 
         // On page load, pause opening play, make player visible,
-        // Get playback rates 
+        // Get playback rates. Start/End vals are specific to 
+        // initial vid 
         if (self.initializing){
+          
           self.pause();  
-          self.end(-90);
+          self.end(-90); 
           self.start(58);     
           verifyRates();
-          $timeout(function(){ self.initializing = false; }, 500);
           
+          $timeout(function(){ 
+            self.initializing = false; 
+            $rootScope.$broadcast(readyEvent.name);
+          }, 500);
+          
+
+        // Check end because this might be a player click at 
+        // the end of the video (by passing togglePlay().
+        // It needs to start at clip beginning
+        } else if ((self.time() + .25) > self.endpoint.val){
+
+          self.pause();
+          self.seek(self.startpoint.val);
+          self.play();
+
         // All other plays, including the loading play when a 
         // a search item is selected.  
         } else {
-           self.state = 'playing'; 
+           self.state = PLAYING; 
            verifyRates();
            setStop();        
         }
       } else if ( event.data === BUFFERING ) {
     
-        self.state = 'playing';
+        self.state = PLAYING;
         killStop();
         
       } else {
     
-        self.state = 'paused';
+        self.state = PAUSED;
         killStop();
       }
       $rootScope.$apply();
     };
 
+    // 
+    self.onMobilePlayerStateChange = function(event){
+    
+      if (event.data === PLAYING){
+            
+          // Init: player has been tapped. Set start, remove cover.        
+          if (self.initializing){
+            
+            self.pause();
+            self.initializing = false;
+            self.start(1);
+            $rootScope.$broadcast(readyEvent.name)
+
+          
+          // Check end because this might be a player tap at 
+          // the end of the video (by passing togglePlay().
+          // It needs to start at clip beginning
+          } else if ((self.time() + .25) > self.endpoint.val){
+
+              self.pause();
+              self.seek(self.startpoint.val);
+              self.play();
+          
+          // Regular play
+          } else {
+              
+            self.state = PLAYING; 
+            setStop();
+          }
+
+      // Buffering - timers invalid as stream loads
+      } else if (event.data === BUFFERING ) {
+
+          self.state = PAUSED;
+          killStop();
+        
+      // First tap: initial state - remove instructions, show spinner   
+      } else if (event.data === UNSTARTED && self.initializing ){
+
+          self.mobileStart = false;
+      
+      // Paused
+      } else {
+          self.state = PAUSED;
+          killStop();
+
+      }
+      $rootScope.$apply();
+
+    };
+    
     self.onPlayerError = function(){
       console.log('player error');
 

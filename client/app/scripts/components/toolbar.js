@@ -14,7 +14,16 @@ angular.module('embeditor.components.toolbar', [ 'embeditor.services.layoutManag
   .controller('ToolbarCtrl', toolbarCtrl);
 
   function toolbarCtrl($scope, layoutManager ){
-    this.layout = layoutManager;
+
+   var self = this;
+
+   self.ready = false;
+   self.layout = layoutManager;
+
+   $scope.$on('YTPlayerAPI:ready', function(){
+      self.ready = true;
+   });
+   
   }
   toolbarCtrl.$inject = ['$scope', 'layoutManager'];
 
