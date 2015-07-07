@@ -1,0 +1,216 @@
+/* Portrait and Landscape */
+@media only screen 
+  and (min-device-width: 375px) 
+  and (max-device-width: 667px) 
+  and (-webkit-min-device-pixel-ratio: 2) { 
+
+  /* -------- General ----------------*/
+
+      input, button, textarea, select {
+          -webkit-transform: translate3d(0,0,0);
+      }
+      
+      /* -------- Player ---------------*/
+      #player{ 
+        width: 90%;
+      }
+
+      .mobile-player-loading-screen{
+        width: 100%;
+        height: 48.5%;
+      }
+
+      .player-wrapper-styles{
+        height: 100%;
+        width: 100%;
+      }
+
+      .player-background{
+        background-color: black;
+      }
+
+      .player-cover{
+        width: 100%;
+        height: 48.5%;
+      }
+
+      .loading-progress{
+        width: 100%;
+      }
+
+  
+      .timestamp-btn{
+        background: #E0E0E0 !important;;
+        color: black;
+        cursor: default;
+        min-height: 54px;
+        padding-left: 15px;
+        padding-right: 15px;
+      }
+
+      .time-disp-timestamp{
+
+        position: relative;
+        top: -1px;
+        cursor: default;
+
+      }
+
+      md-progress-linear.time-bar{
+          display: block;
+          width: 100%;
+          height: 12px;
+      } 
+
+      md-progress-linear.time-bar .md-bar {
+        height: 12px;
+      }
+
+      .tapehead-animation{
+        position: absolute;
+        width: 14px;
+        height: 12px;
+        background-color: #FF6F00;
+      }
+
+      /* --------- Controls Column -------- */
+
+      .controls-block{
+        width:100%;
+        padding-left: 20px;
+        padding-right: 20px;
+      }
+
+      .controls-top{
+        width: 100%;
+        padding-top: 25px;
+      }
+
+      .controls-loading-cover{
+        position: absolute;
+        margin: 0 auto;
+        width: 110%;
+        height: 110%;
+        background: black;
+        top: -20px;
+        left: -20px;
+        opacity: .3;
+        z-index: 2;
+
+      }
+
+      .lower-row{
+        padding-top: 20px;
+      }
+
+      .reset-button{
+        padding-top: 15px;
+        padding-left: 10px;
+      }
+
+      .playback-input-container{
+
+        padding: 0px;
+        padding-bottom: 5px;
+        height: 61px;
+        overflow-y: hidden;
+      }
+
+      .mobile-loop-input-container{
+        padding-top: 0px;
+        padding-bottom: 5px;
+        padding-left: 0px;
+        padding-right: 0px;
+        height: 56px;
+        overflow-y: hidden;
+      }
+
+      .mobile-md-switch{
+        margin-left: 0px;
+      }
+
+      .mobile-play-icon{
+        margin-top: 3px;
+        margin-left: 2px;
+      }
+
+      .mobile-play-button{
+        z-index: 1 !important;
+      }
+  
+      .play-btn-span {
+        padding-bottom: 25px;
+      }
+
+      .center-label{
+        text-align: left;
+      }
+      
+
+      .irs-with-grid{
+        ms-transform: scale(1,1.2); /* IE 9 */
+        -webkit-transform: scale(1,1.2); /* Safari */
+        transform: scale(1,1.2);
+      }
+
+      .code-button-row{
+        margin-top: 0px;
+      }
+
+      /* --------- Search Sidebar ----------- */
+      md-sidenav, 
+      md-sidenav.md-locked-open, 
+      md-sidenav.md-closed.md-locked-open-add-active {
+        min-width: 310px !important;  
+        max-width: 310px !important;
+      } 
+
+      .sidebar-background{
+        background-color: #E0E0E0;
+        overflow-y: scroll;
+        -webkit-overflow-scrolling: touch !important;
+      }
+
+      .searchItemDuration{
+        position: absolute;
+        padding: 1px;
+        font-size: 11px;
+        font-weight: bold;
+        top: 93px;
+        right: 0px;
+        color: white;
+        background-color: black;
+        
+      }
+
+      .searchPlayIcon{
+         position:absolute;
+         opacity: .8;
+         top: 30px;
+         right: 80px;
+         color: white;
+      }
+
+      .searchItemChannelContainer {
+        padding: 2px 2px 2px 2px;
+        width: 150px;
+        height: 16px;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        font-size: 12px;
+        font-style: italic;
+        font-weight: bold;
+        cursor: default;
+        text-decoration: underline;
+      }
+
+      .mobile-search-item{
+        position: relative;
+      }
+
+      .mobile-search-select-tile{
+        padding-right: 25px;
+      }
+  }
+
+}

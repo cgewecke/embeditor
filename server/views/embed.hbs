@@ -163,6 +163,14 @@
                         false;
                      
                     }, 250);
+
+                  // Detect play from end of a non-looping clip
+                  } else if ((player.getCurrentTime() + .25) > end){
+
+                    player.pauseVideo();
+                    player.seekTo(start);
+                    player.playVideo();
+
                   }
 
                } else {
@@ -256,22 +264,30 @@
                   
                   } else if (iOS_buffer){
 
-                    iOS_setStop(true);
+                    //iOS_setStop(true);
                     iOS_buffer = false;
 
                     // Weird glitch where the first frame is still rendered
                     // when the cover comes off. 'Here' we are playing at
                     // 'start' according to player events.   
                     setTimeout(function(){
+                      iOS_setStop();
                       overlay.style.visibility = "hidden";
-                    }, 500);
+                    }, 750);
                   
                     (!mute) ? 
                         player.unMute(): 
                         player.mute();
 
+                  // Detect play from end of a non-looping clip
+                  } else if ((player.getCurrentTime() + 1) > end){
+
+                    player.pauseVideo();
+                    player.seekTo(start);
+                    player.playVideo();
+
+                  // Regular play
                   } else {
-                    // DETECT END OF CLIP !!!!! 
                     iOS_setStop();
                   }
 
