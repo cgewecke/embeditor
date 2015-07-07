@@ -2,16 +2,16 @@ var ytp_debug, ytp_debugII;
 
 /* BUGS: 
 
-  1. NON looping end play bug in embed.hbs 
+  1. 
   2. Rip out all mobile specific functions, they are almost identical to Desktop.
-  3. Time bar explanation for mobile
+  3. 
   4. 
-  5. Pick different video for mobile. 
+  5. 
   6. 
   7. 
   8. 
   9. 
-  10. Remake quick set for desktop. 
+  10. 
 
 */
 
@@ -481,7 +481,7 @@ var ytp_debug, ytp_debugII;
           
           self.pause();  
           self.end(-90); 
-          self.start(58);     
+          self.start(107);     
           verifyRates();
           
           $timeout(function(){ 
@@ -528,15 +528,18 @@ var ytp_debug, ytp_debugII;
           if (self.initializing){
             
             self.pause();
-            self.initializing = false;
-            self.start(1);
-            $rootScope.$broadcast(readyEvent.name)
+            self.end(-90)
+            self.start(107);
 
-          
+            $timeout(function(){ 
+              self.initializing = false; 
+              $rootScope.$broadcast(readyEvent.name);
+            }, 1000);
+
           // Check end because this might be a player tap at 
-          // the end of the video (by passing togglePlay().
+          // the end of the video on non-loop (by-passing togglePlay().
           // It needs to start at clip beginning
-          } else if ((self.time() + .25) > self.endpoint.val){
+          } else if ((self.time() + 1) > self.endpoint.val){
 
               self.pause();
               self.seek(self.startpoint.val);

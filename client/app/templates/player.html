@@ -68,63 +68,75 @@
         <!-- Timestamp & Transparent cover & Touch Shield -->
         <div class="player-cover">
           <span layout="row" 
-                layout-fill 
+                layout-fill
                 layout-align="start end">
 
-                <!-- Mobile Timebar/Player Touch Shield --> 
-                <div layout="row" 
-                     layout-fill
-                     class="timebar-touch-shield"
-                     ng-show="player.API.mobile">
-                </div>
+              <!-- Mobile Timebar/Player Touch Shield --> 
+              <div layout="row" 
+                   layout-fill
+                   class="timebar-touch-shield"
+                   ng-show="player.API.mobile">
+              </div>
 
-                <!-- Timestamp & Setters --> 
-                <div layout="column" ng-show="!player.API.mobile">
-                  
-                  <div layout="row" class="timestamp" layout-align="center center">
-              
-                      <!-- Set Start Button -->
-                      <span class="timestamp-icon-span">
-                        <ng-md-icon 
-                          id="timestamp-btn-start"
-                          icon="get_app" 
-                          style="fill:white" 
-                          size="28"
-                          click="player.startFromTimestamp()"
-                          class="timestamp-set-icon-left">
-                        </ng-md-icon> 
-                        <md-tooltip md-direction="top" md-delay="1000">
-                          <span class="timestamp-set-tooltip">
-                           Set Startpoint 'now'
-                          </span>
-                        </md-tooltip>
-                      </span>
-                    
-                      <!-- Timestamp -->
-                      <span layout="column" class="timestamp-center" layout-align="center center">
-                        <span class="timestamp-quickset-text"> Quick Set </span>
-                        <span class="timestamp-time"> {{player.API.timestamp.toString().toHHMMSSss()}} </span>  
-                      </span>
-                      
-                      <!-- Set End Button -->
-                      <span class="timestamp-icon-span">
-                        <ng-md-icon 
-                          id="timestamp-btn-end"
-                          icon="get_app" 
-                          style="fill:rgb(250, 250, 250)" 
-                          size="28"
-                          click="player.endFromTimestamp()"
-                          class="timestamp-set-icon-right">
-                        </ng-md-icon> 
-                        <md-tooltip md-direction="top" md-delay="1000">
-                          <span class="timestamp-set-tooltip">
-                           Set Endpoint 'now'
-                          </span>
-                        </md-tooltip>
-                      </span>
-                    
-                  </div>
+              <!-- Timestamp & Setters --> 
+              <div layout="column" style="background-color: black" flex="20" ng-show="!player.API.mobile">
+                
+                <div layout="row" class="quickset-top-row" flex layout-align="start end">
+            
+                  <!-- Set Start Button -->
+                  <span layout="column" layout-align="center center">
+                    <div click="player.startFromTimestamp()" class="desktop-quickset-btn">
+                      <ng-md-icon 
+                        id="timestamp-btn-start"
+                        icon="get_app" 
+                        ng-attr-style="fill:white" 
+                        style="fill:white"
+                        size="28"
+                        class="desktop-quickset-icon">
+                      </ng-md-icon> 
+                    </div>
+                    <span class="arrow-text-wrapper">
+                      <span class="quickset-arrow-text"> Start </span>
+                    </span>
+                  </span>
+
+                    <!-- Timestamp -->
+                  <span layout="column" flex layout-align="center center" > 
+                    <div aria-label="seek" class="desktop-timestamp-btn" md-no-ink>
+                      <div class="timestamp-time-text" layout="row" layout-fill > 
+                          {{player.API.timestamp.toString().toHHMMSSss()}} 
+                      </div>
+                    </div>
+                    <div class="control-btn-txt-ctr startpoint-txt"></div>
+                  </span>
+
+                  <!-- Set End Button -->
+                  <span layout="column" layout-align="center center">
+                    <div click="player.endFromTimestamp()" class="desktop-quickset-btn">
+                      <ng-md-icon 
+                        id="timestamp-btn-end"
+                        icon="get_app" 
+                        ng-attr-style="fill:white" 
+                        style="fill:white" 
+                        size="28"    
+                        class="desktop-quickset-icon">
+                      </ng-md-icon> 
+                    </div>
+                    <span class="arrow-text-wrapper">
+                      <span class="quickset-arrow-text"> End </span>
+                    </span>
+                  </span>
                 </div>
+                <!-- Quick Set Label -->
+                <div class="quickset-btn-block-row"
+                     layout="row" 
+                     layout-fill 
+                     layout-align="space-between center">
+                  <span class="quickset-btn-block-label"> Quick Set </span>
+                  <span class="quickset-btn-block-help"> (Set start/end 'now') </span>
+                </div> 
+                
+              </div>
           </span>
         </div>
         <!-- Player -->
@@ -133,10 +145,10 @@
         </div>
         <!-- TimeBar -->
         <embeditor-player-time-bar class="loading-progress"></embeditor-player-time-bar> 
-    </div>
+      </div>
    </embeditor-youtube-embed>
+
 
    <!-- Controls Block -->
    <embeditor-section-player-controls layout="row" layout-fill></embeditor-section-player-controls>
 </div>
-<!-- </md-content> -->
