@@ -63,19 +63,36 @@ var ytp_debug, ytp_debugII;
       
     self.state = PAUSED; // Vals: PLAYING or PAUSED, toggles icon. 
     self.frameLength = .05;
-    self.startpoint = { val: 0, display: '0:00'};
-    self.endpoint = { val: 0, display: '0:00'};
+    self.startpoint = { val: 0.00, display: '0:00.00'};
+    self.endpoint = { val: 0.00, display: '0:00.00'};
+    self.initialVideo = null;
 
     // Determines opening sequence eventing . . . .
     self.mobile = ( navigator.userAgent.match(/(iPad|iPhone|iPod|Android)/g) ? true : false );
+
     
-    // Godard - Gimme Shelter: 'seconds' MUST BE 2 SECONDS SHORT OF THE END . . . .
-    self.initialVideo = {
-      seconds: 272, 
-      imageUrl: "https://i.ytimg.com/vi/4kpP6Bjwx-w/mqdefault.jpg",
-      title: "JEAN-LUC GODARD FILMS - THE ROLLING STONES - GIMME SHELTER",
-      videoId: "4kpP6Bjwx-w"
-    };
+    if (self.mobile){
+
+      // Godard - Gimme Shelter: 'seconds' MUST BE 2 SECONDS SHORT OF THE END . . . .
+      self.initialVideo = {
+        seconds: 280, 
+        imageUrl: "https://i.ytimg.com/vi/y651C7aNXRc/mqdefault.jpg",
+        title: "Lee Scratch Perry - Studio Black Ark",
+        videoId: "y651C7aNXRc"
+      };
+
+
+    } else {
+
+      // Godard - Gimme Shelter: 'seconds' MUST BE 2 SECONDS SHORT OF THE END . . . .
+      self.initialVideo = {
+        seconds: 272, 
+        imageUrl: "https://i.ytimg.com/vi/4kpP6Bjwx-w/mqdefault.jpg",
+        title: "JEAN-LUC GODARD FILMS - THE ROLLING STONES - GIMME SHELTER",
+        videoId: "4kpP6Bjwx-w"
+      };
+
+    }
 
     // For unit tests - events etc
     self.scope = $rootScope; 
@@ -230,6 +247,8 @@ var ytp_debug, ytp_debugII;
       self.load = function(video) { 
         var timer;
 
+        ytp_debug = video;
+
         self.video = video;
         self.setNewRate = true;
         self.videoLoaded = false;
@@ -303,6 +322,10 @@ var ytp_debug, ytp_debugII;
     self.togglePlay = function(){
 
       var time;
+
+      // Safety check for mobile etc . . .
+      if (self.initializing) return;
+      
       // Pause
       if ( self.state === PLAYING ){
         self.pause();
@@ -400,6 +423,8 @@ var ytp_debug, ytp_debugII;
     // replay: Convenience methods to play near or at
     // the start/endpoints 
     self.replayStart = function(){
+
+      self.pause(); // Force mobile event
       self.seek(self.startpoint.val);
       self.play();
     };
@@ -410,6 +435,7 @@ var ytp_debug, ytp_debugII;
       if (newTime < (self.startpoint.val + 1)) 
         newTime = self.startpoint.val;
 
+      self.pause(); // Force mobile event
       self.seek(newTime);
       self.play();
     }
@@ -529,7 +555,7 @@ var ytp_debug, ytp_debugII;
             
             self.pause();
             self.end(-90)
-            self.start(107);
+            self.start(32);
 
             $timeout(function(){ 
               self.initializing = false; 

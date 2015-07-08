@@ -126,7 +126,7 @@ body{
   display: inline-block;
   text-align: left;
   margin-top: 10px;
-  width: 50%;
+  width: 70%;
 }
 
 .footer-right-corner{
@@ -134,17 +134,37 @@ body{
   display: inline-block;
   text-align: right;
   margin-top: 20px;
-  width: 50%;
+  width: 30%;
 }
 
 .cyclopse-slogan{
-  margin-top: 14px;
+  margin-top: 8px;
   margin-left: 15px;
   font-size: 16px;
   opacity: .7;
 }
 
+.clip-text{
+  margin-top: 14px;
+  margin-left: 15px;
+  font-size: 16px;
+  opacity: .7;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
 .cyclopse-slogan:hover{
+  text-decoration: underline;
+  text-color: white !important;
+
+}
+
+.link-text{
+  text-decoration: underline;
+}
+
+.link-text:hover{
   text-decoration: underline;
   text-color: white !important;
 }

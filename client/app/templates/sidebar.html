@@ -17,15 +17,18 @@
 <div ng-controller="SearchSidebarCtrl as search" layout="vertical">
   <md-sidenav class="md-sidenav-left" md-component-id="search">   
     <!-- Toolbar -->
-    <md-toolbar class="md-medium-tall" md-scroll-shrink layout="row" layout-align="center center">
-      <div class="md-toolbar-tools">
+    <md-toolbar class="md-medium-tall search-toolbar-phone" 
+      md-scroll-shrink 
+      layout="row" 
+      layout-align="center center">
+      <div class="md-toolbar-tools" layout="row" layout-align="center center">
         <md-grid-list flex md-cols="3" md-row-height="32px">
         <!-- Search Query Input -->
           <md-grid-tile md-colspan="3">
             <embeditor-searchbox flex></embeditor-searchbox>
           </md-grid-tile>
           <!-- Sort Order Select -->
-          <md-grid-tile md-colspan="1"> 
+          <md-grid-tile md-colspan="1" hide-sm> 
             <span class="twelve-point-bold">
               <md-select class="md-accent" placeholder="Order By"
                 ng-model="order" ng-change="search.youTube.setSearchOrder(order)">
@@ -35,8 +38,8 @@
             </span>
           </md-grid-tile>
           <!-- Duration Filter Select -->
-          <md-grid-tile md-colspan="1"> 
-            <span class="twelve-point-bold">
+          <md-grid-tile md-colspan="1" > 
+            <span class="twelve-point-bold select-padding-phone">
               <md-select class="md-accent" placeholder="Filters"
                 ng-model="filter" ng-change="search.youTube.setDurationFilter(filter)">
                 <md-option ng-value="'any'"><h6>Any length</h6></md-option>
@@ -47,7 +50,7 @@
           </md-grid-tile>
           <!-- History Menu Select -->
           <md-grid-tile md-colspan="1"> 
-            <span class="twelve-point-bold">
+            <span class="twelve-point-bold select-padding-phone">
               <md-select class="md-accent" ng-model="historyItem">
                 <md-select-label>History</md-select-label>
                 <md-option embeditor-search-history-option

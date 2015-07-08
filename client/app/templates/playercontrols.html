@@ -2,7 +2,7 @@
 <!-- ----------- INSTRUMENT PANEL ------------- -->
 
 <!-- APP Column -->
-<div 
+<div id="app-column"
   ng-controller="PlayerCtrl as player"
   class="instrument-block-background"
   layout="column" 
@@ -16,71 +16,12 @@
       (Tap timebar to seek within clip)
     </span>
   </div>
+
   <!-- APP Row -->
   <div class="controls-block controls-background controls-top" layout="row"> 
 
     <!-- Opaque cover for the App controls before inital video is ready -->
     <div class="controls-loading-cover" ng-show="player.API.initializing"></div>
-
-    <!-- Toggles/Play Button Column -->
-    <span layout="column" flex="15" 
-          layout-align="space-between center" 
-          ng-show="!player.API.mobile">
-      <!-- Play Button -->
-      <span layout="row" layout-align="center" class="play-btn-span">
-        <md-button id="play-btn" 
-            click="player.API.togglePlay()"
-            class="code-btn md-whiteframe-z1 "
-            md-no-ink>
-          <ng-md-icon id="play-icon" icon="play_arrow" size="40" ng-attr-style="fill:black"
-              ng-show="player.API.state === player.API.PAUSED">
-          </ng-md-icon>
-          <ng-md-icon id="pause-icon" icon="pause" size="40" ng-attr-style="fill:black"
-              ng-show="player.API.state === player.API.PLAYING">
-          </ng-md-icon>
-        </md-button> 
-      </span>
-
-      <!-- Loop Switch -->
-      <span layout="row" layout-align="center">
-        <md-input-container class="playback-input-container">
-          <label class="close-label center-label"> Loop </label>
-          <md-switch flex 
-            id="loop-switch"
-            ng-model="player.API.loop" 
-            class="playback-slider"
-            aria-label="loop">
-          </md-switch>  
-        </md-input-container>  
-      </span>
-
-      <!-- Mute Switch -->
-      <span layout="row" layout-align="center" ng-show="!player.API.mobile">
-        <md-input-container class="playback-input-container">
-          <label class="close-label center-label"> Mute </label>
-          <md-switch flex 
-            id="mute-switch"
-            ng-model="player.API.mute" 
-            class="playback-slider"
-            aria-label="mute">
-          </md-switch>  
-        </md-input-container> 
-      </span>
-
-      <!-- Autoplay switch --> 
-      <span layout="row" layout-align="center" ng-show="!player.API.mobile">
-        <md-input-container class="playback-input-container">
-          <label class="close-label center-label"> Autoplay </label>
-          <md-switch flex 
-            id="auto-switch"
-            ng-model="player.API.autoplay"
-            class="playback-slider"
-            aria-label="Auto-play">
-          </md-switch>  
-        </md-input-container> 
-      </span> 
-
-    </span> <!-- End toggles column -->
 
     <!-- Main Controls Column --> 
     <span layout="column" flex layout-align="space-between" class="main-column">
@@ -89,16 +30,19 @@
       <div layout="row">
 
         <!-- Mobile Play Button -->
-        <span layout="column" flex="10" layout-align="center" ng-show="player.API.mobile">
+        <span layout="column" 
+              layout-align="center"
+              flex="15"
+              hide-sm>
           <div layout="row" class="play-btn-span">
             <md-button id="play-btn" 
                 click="player.API.togglePlay()"
-                class="md-fab md-mini md-primary mobile-play-button"
+                class="md-fab md-primary mobile-play-button"
                 md-no-ink>
-              <ng-md-icon id="play-icon" icon="play_arrow" size="28" style="fill:white"
+              <ng-md-icon id="play-icon" icon="play_arrow" size="42" style="fill:white"
                   ng-show="player.API.state === player.API.PAUSED" class="mobile-play-icon">
               </ng-md-icon>
-              <ng-md-icon id="pause-icon" icon="pause" size="28" style="fill:white"
+              <ng-md-icon id="pause-icon" icon="pause" size="42" style="fill:white"
                   ng-show="player.API.state === player.API.PLAYING" class="mobile-play-icon">
               </ng-md-icon>
             </md-button> 
@@ -133,9 +77,13 @@
       </div> 
 
       <!-- Startpoint & Endpoint Seek Row -->
-      <div class="controls-background" layout="row" layout-align="space-between"> 
+      <div class="controls-background" 
+           layout="row" 
+           layout-align="space-between" 
+           layout-align-sm="center center"
+           layout-wrap> 
         <!-- STARTPOINTS -->  
-          <span layout="column">          
+          <span id="startpoint-block" layout="column">          <!-- flex-sm="90" -->
             <!-- 1 sec rewind row -->
             <span layout="row">
               <span layout="column" layout-align="center center"> 
@@ -214,8 +162,76 @@
             </span>
           </span> 
 
-        <!-- ENDPOINTS -->
-          <span layout="column" class="endpoint-column">
+          <!-- Desktop Quick Setter & Timestamp --> 
+          <div id="middle-quickset-block" class="desktop-quickset-block" ng-show="!player.API.mobile">
+                
+            <div layout="row" class="quickset-top-row" flex layout-align="start end">
+        
+              <!-- Set Start Button -->
+              <span layout="column" layout-align="center center">
+                <div click="player.startFromTimestamp()" 
+                     class="desktop-quickset-btn"
+                     ng-init="hover_q1=false"
+                     ng-mouseenter="hover_q1=true"
+                     ng-mouseleave="hover_q1=false"
+                     ng-class="{'quickset-on-hover': hover_q1} ">
+                  <ng-md-icon 
+                    id="timestamp-btn-start"
+                    icon="get_app" 
+                    ng-attr-style="fill:white" 
+                    style="fill:white"
+                    size="28"
+                    class="desktop-quickset-icon">
+                  </ng-md-icon> 
+                </div>
+                <span class="arrow-text-wrapper">
+                  <span class="quickset-arrow-text"> Start </span>
+                </span>
+              </span>
+
+                <!-- Timestamp -->
+              <span layout="column" flex layout-align="center center" > 
+                <div aria-label="seek" class="desktop-timestamp-btn" md-no-ink>
+                  <div class="timestamp-time-text" layout="row" layout-fill > 
+                      {{player.API.timestamp.toString().toHHMMSSss()}} 
+                  </div>
+                </div>
+                <div class="control-btn-txt-ctr startpoint-txt"></div>
+              </span>
+
+              <!-- Set End Button -->
+              <span layout="column" layout-align="center center">
+                <div click="player.endFromTimestamp()" 
+                     class="desktop-quickset-btn"
+                     ng-init="hover_q2=false"
+                     ng-mouseenter="hover_q2=true"
+                     ng-mouseleave="hover_q2=false"
+                     ng-class="{'quickset-on-hover': hover_q2} ">
+                  <ng-md-icon 
+                    id="timestamp-btn-end"
+                    icon="get_app" 
+                    ng-attr-style="fill:white" 
+                    style="fill:white" 
+                    size="28"    
+                    class="desktop-quickset-icon">
+                  </ng-md-icon> 
+                </div>
+                <span class="arrow-text-wrapper">
+                  <span class="quickset-arrow-text"> End </span>
+                </span>
+              </span>
+            </div>
+            <!-- Quick Set Label -->
+            <div class="quickset-btn-block-row"
+                 layout="row" 
+                 layout-fill 
+                 layout-align="center center">
+              <span class="quickset-btn-block-label"> Quick set start/end 'now' </span>
+            </div>  
+        </div>
+
+          <!-- ENDPOINTS -->
+          <span id="endpoint-block" layout="column" class="endpoint-column" > <!-- flex-sm="90" -->
             <span layout="row">          
                <!-- 1 sec rewind -->
               <span layout="column" layout-align="center center"> 
@@ -300,10 +316,10 @@
 
 
     <!-- Playback Slider/Loop/Embed Button Row  ... flex -->
-      <div layout="row" flex layout-align="space-between center" 
+      <div layout="row" flex layout-align="space-between center" layout-align-md="space-between start"
         class="controls-background lower-row"> 
         <!-- Playback Slider -->
-        <span layout="column" flex="45" layout-align="center start" ng-show="!player.API.mobile">
+        <span layout="column" flex="30" layout-align="center start" ng-show="!player.API.mobile">
           <div layout="row" layout-fill layout-align="start end">
             <md-input-container class="rate-slider-container" >
               <md-slider flex 
@@ -327,11 +343,78 @@
               
         </span>
 
+        <!-- Desktop: Option switches -->
+        <span layout="column" flex="30" layout-align="center start" ng-show="!player.API.mobile">
+
+          <div layout="row" layout-fill layout-align="start end">
+            <!-- Loop Switch -->
+            <span layout="column" flex="33" layout-align="end center">
+              <div layout="row" layout-fill layout-align="center end">
+                 <md-input-container class="rate-slider-container">
+                  <md-switch flex 
+                    id="loop-switch"
+                    ng-model="player.API.loop" 
+                    class="playback-slider"
+                    aria-label="loop">
+                  </md-switch>  
+                </md-input-container>
+              </div>
+              <div class="rate-slider-label-row"
+                   layout="row" 
+                   layout-fill
+                   layout-align="center" >
+                <span class="set-btn-block-label"> Loop </span>
+              </div> 
+            </span>
+
+            <!-- Mute Switch -->
+            <span layout="column" flex="33" layout-align="end center">
+              <div layout="row" layout-fill layout-align="center end">
+                 <md-input-container class="rate-slider-container">
+                  <md-switch flex 
+                    id="mute-switch"
+                    ng-model="player.API.mute" 
+                    class="playback-slider"
+                    aria-label="mute">
+                  </md-switch>  
+                </md-input-container>
+              </div>
+              <div class="rate-slider-label-row"
+                   layout="row" 
+                   layout-fill
+                   layout-align="center" >
+                <span class="set-btn-block-label"> Mute </span>
+              </div> 
+            </span>
+            
+
+            <!-- Autoplay switch -->
+            <span layout="column" flex="33" layout-align="end center">
+              <div layout="row" layout-fill layout-align="center end">
+                 <md-input-container class="rate-slider-container">
+                  <md-switch flex 
+                    id="auto-switch"
+                    ng-model="player.API.autoplay" 
+                    class="playback-slider"
+                    aria-label="autoplay">
+                  </md-switch>  
+                </md-input-container>
+              </div>
+              <div class="rate-slider-label-row"
+                   layout="row" 
+                   layout-fill
+                   layout-align="center" >
+                <span class="set-btn-block-label"> Autoplay </span>
+              </div> 
+            </span>
+          </div>
+        </span>
+
         <!-- Mobile Quick Setters & Timestamp --> 
-        <span layout="row" flex="50" layout-align="start" ng-show="player.API.mobile">
+        <span layout="row" flex="50" flex-sm="10" layout-align="start" ng-show="player.API.mobile">
 
           <!-- Mobile Loop Toggle --> 
-          <span layout="column" flex="30" layout-align="center start" >
+          <span layout="column" flex="40" flex-sm="100" layout-align="center start" >
             <md-input-container class="mobile-loop-input-container">
               <label class="close-label center-label"> Loop </label>
               <md-switch flex 
@@ -343,65 +426,71 @@
             </md-input-container>  
           </span>
 
-          <span layout="column" layout-align="center start">
-            <div layout="row" layout-fill layout-align="start end">
-                
-              <!-- Set Start Button -->
-              <span layout="column" layout-align="center center">
-                <md-button click="player.startFromTimestamp()" class="md-raised precision-btn-inner">
-                  <ng-md-icon 
-                    id="timestamp-btn-start"
-                    icon="get_app" 
-                    ng-attr-style="fill:black" 
-                    size="38"
-                    class="timestamp-set-icon-left">
-                  </ng-md-icon> 
-                </md-button>
-                <span class="control-btn-txt-ctr"> Start </span>
-                <!-- <div> Quick Set Start </div> -->
-              </span>
-
-                <!-- Timestamp -->
-              <span layout="column" layout-align="center center" > 
-                <md-button aria-label="seek" class="timestamp-btn md-whiteframe-z1" md-no-ink>
-                    <div class="time-disp-timestamp"> 
-                      {{player.API.timestamp.toString().toHHMMSSss()}} 
+          <!-- Tablet Quick Setter & Timstamp -->
+          <span layout="column" layout-align="start center" hide-sm>
+            <div id="lower-quickset-block" class="desktop-quickset-block" ng-show="player.API.mobile">
+                <div layout="row" class="quickset-top-row" flex layout-align="start end">
+            
+                  <!-- Set Start Button -->
+                  <span layout="column" layout-align="center center">
+                    <div click="player.startFromTimestamp()" class="tablet-quickset-btn">
+                      <ng-md-icon 
+                        id="timestamp-btn-start"
+                        icon="get_app" 
+                        ng-attr-style="fill:black" 
+                        style="fill:black"
+                        size="28"
+                        class="desktop-quickset-icon">
+                      </ng-md-icon> 
                     </div>
-                </md-button>
-                <span class="control-btn-txt-ctr code-txt"> Timestamp </span>
-              </span>
-              
-              
-              <!-- Set End Button -->
-              <span layout="column" layout-align="center center">
-                <md-button click="player.endFromTimestamp()" class="md-raised precision-btn-inner">
-                  <ng-md-icon 
-                    id="timestamp-btn-end"
-                    icon="get_app" 
-                    ng-attr-style="fill:black" 
-                    size="38"    
-                    class="timestamp-set-icon-right">
-                  </ng-md-icon> 
-                </md-button>
-                <span class="control-btn-txt-ctr"> End </span>
-                <!-- <div> Quick Set Start </div> -->
-              </span>
-            </div>
+                    <span class="arrow-text-wrapper">
+                      <span class="tablet-quickset-arrow-text"> Start </span>
+                    </span>
+                  </span>
 
-            <span class="set-btn-block-label">
-                <div layout="row" layout-fill layout-align="space-between center">
-                  <span class="set-btn-block-label"> Quick Set </span>
-                  <span class="set-btn-block-help"> (Set start/end 'now') </span>
+                    <!-- Timestamp -->
+                  <span layout="column" flex layout-align="center center" > 
+                    <div aria-label="seek" class="desktop-timestamp-btn" md-no-ink>
+                      <div class="timestamp-time-text" layout="row" layout-fill > 
+                          {{player.API.timestamp.toString().toHHMMSSss()}} 
+                      </div>
+                    </div>
+                    <div class="control-btn-txt-ctr startpoint-txt"></div>
+                  </span>
+
+                  <!-- Set End Button -->
+                  <span layout="column" layout-align="center center">
+                    <div click="player.endFromTimestamp()" class="tablet-quickset-btn">
+                      <ng-md-icon 
+                        id="timestamp-btn-end"
+                        icon="get_app" 
+                        ng-attr-style="fill:black" 
+                        style="fill:black" 
+                        size="28"    
+                        class="desktop-quickset-icon">
+                      </ng-md-icon> 
+                    </div>
+                    <span class="arrow-text-wrapper">
+                      <span class="tablet-quickset-arrow-text"> End </span>
+                    </span>
+                  </span>
                 </div>
-            </span>  
+                <!-- Quick Set Label -->
+                <div class="quickset-btn-block-row"
+                     layout="row" 
+                     layout-fill 
+                     layout-align="center center">
+                  <span class="quickset-btn-block-label"> Quick set start/end 'now' </span>
+                </div>  
+            </div>
           </span>
         </span>
 
         
         
         <!-- Publish Button Row -->
-        <span layout="column" flex="40" >
-          <div layout="row" class="code-button-row" layout-align="space-between center">
+        <span layout="column" flex="30" flex-md="40" flex-sm="80">
+          <div layout="row" id="publish-block" class="code-button-row" layout-align="space-between center">
 
           <!-- Cyclopse Preview Button -->
           <md-input-container 
@@ -547,4 +636,57 @@
     </span>
   </div>
 </div>
+
+<!--
+            <div layout="row" layout-fill layout-align="start end">
+                
+              <!-- Set Start Button 
+              <span layout="column" layout-align="center center">
+                <md-button click="player.startFromTimestamp()" class="md-raised precision-btn-inner">
+                  <ng-md-icon 
+                    id="timestamp-btn-start"
+                    icon="get_app" 
+                    ng-attr-style="fill:black" 
+                    size="38"
+                    class="timestamp-set-icon-left">
+                  </ng-md-icon> 
+                </md-button>
+                <span class="control-btn-txt-ctr"> Start </span>
+              </span>
+
+                <!-- Timestamp 
+              <span layout="column" layout-align="center center" > 
+                <md-button aria-label="seek" class="timestamp-btn md-whiteframe-z1" md-no-ink>
+                    <div class="time-disp-timestamp"> 
+                      {{player.API.timestamp.toString().toHHMMSSss()}} 
+                    </div>
+                </md-button>
+                <span class="control-btn-txt-ctr code-txt"> Timestamp </span>
+              </span>
+              
+              
+              <!-- Set End Button 
+              <span layout="column" layout-align="center center">
+                <md-button click="player.endFromTimestamp()" class="md-raised precision-btn-inner">
+                  <ng-md-icon 
+                    id="timestamp-btn-end"
+                    icon="get_app" 
+                    ng-attr-style="fill:black" 
+                    size="38"    
+                    class="timestamp-set-icon-right">
+                  </ng-md-icon> 
+                </md-button>
+                <span class="control-btn-txt-ctr"> End </span>
+                <!-- <div> Quick Set Start </div> 
+              </span>
+            </div>
+
+            <span class="set-btn-block-label">
+                <div layout="row" layout-fill layout-align="space-between center">
+                  <span class="set-btn-block-label"> Quick Set </span>
+                  <span class="set-btn-block-help"> (Set start/end 'now') </span>
+                </div>
+            </span> -->
+
+      
 

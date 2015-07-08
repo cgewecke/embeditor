@@ -31,11 +31,17 @@ var pctl_debug, pctl_debugII;
       // Called by button on timestamp, sets new start/end point at the 
       // current tapehead pos. Call start/end with warningDisabled param true. 
       self.startFromTimestamp = function(){
+
+        if (self.API.initializing) return;
+        
         self.API.setStartpoint(self.API.timestamp);
         self.API.start(0, true);
       };
 
       self.endFromTimestamp = function(){
+
+        if (self.API.initializing) return;
+
         self.API.setEndpoint(self.API.timestamp);
         self.API.end(0, true);
       };
@@ -169,7 +175,10 @@ var pctl_debug, pctl_debugII;
       };
 
       scope.seekVideoToTouch = function($event){
+        
         var time;
+
+        if (scope.API.initializing) return;
 
         xCoord = ($event.offsetX === undefined) ? $event.originalEvent.layerX : $event.offsetX;
         time = calculateTimeDotValue();

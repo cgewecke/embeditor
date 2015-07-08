@@ -1,38 +1,85 @@
+
+<!-- Desktop / Tablet Toolbar -->
 <md-toolbar ng-controller="ToolbarCtrl as toolbar" 
   class="md-medium-tall" 
   md-scroll-shrink 
+  id="toolbar-header"
   layout="row" 
-  layout-align="start center">
+  layout-align="start center" hide-sm>
  
-  <div class="md-toolbar-tools"
-    layout="row">
-    <!-- Icon and Title -->
-    <md-button aria-label="embeditor-icon" class="md-warn" > 
-      <ng-md-icon icon="album" size="64"></ng-md-icon>
-    </md-button>
-  
-    <div class="titlebar-title">
-        <div class="titlebar-cyclopse"> cyclop.se </div>
-        <div class="titlebar-beta"> beta </div>
-    </div>
+  <div class="md-toolbar-tools" layout="row">
     
+    <!-- Desktop/Tablet Icon and Title -->
+    <span layout="row" layout-align="start center" hide-sm>
+      <md-button aria-label="embeditor-icon" class="md-warn" > 
+        <ng-md-icon icon="album" size="64"></ng-md-icon>
+      </md-button>
+    
+      <div class="titlebar-title">
+          <div class="titlebar-cyclopse"> cyclop.se </div>
+          <div class="titlebar-beta"> beta </div>
+      </div>
+    </span>
+
     <span flex="5"></span>
     <!-- Search Box --> 
-    <div layout="row" flex flex-md="50" 
+    <div layout="row" layout-align="end" flex flex-md="50" flex-sm="70"
           ng-show="!toolbar.layout.sidenavIsOpen('search') && toolbar.ready">
-      <embeditor-searchbox id="toolbar-searchbox" flex>
-      </embeditor-searchbox>
+      <embeditor-searchbox id="toolbar-searchbox" flex></embeditor-searchbox>
     </div>
-    <span flex></span>
+
+    <!-- Spacer -->
+    <span flex hide-sm></span>
 
     <!-- Alternate Icon and Title: Sidenav is open -->
     <md-button aria-label="embeditor-icon" class="md-warn" ng-show="toolbar.layout.sidenavIsOpen('search')"> 
       <ng-md-icon icon="album" size="64"></ng-md-icon>
     </md-button>
     
-    <div class="titlebar-title" ng-show="toolbar.layout.sidenavIsOpen('search')">
+    <div class="titlebar-title" ng-show="toolbar.layout.sidenavIsOpen('search')" hide-sm>
         <div class="titlebar-cyclopse"> cyclop.se </div>
         <div class="titlebar-beta"> beta </div>
     </div>
+  </div>
+</md-toolbar>
+
+
+
+<!-- Phone Toolbar -->
+<md-toolbar ng-controller="ToolbarCtrl as toolbar" 
+  md-scroll-shrink 
+  id="toolbar-header"
+  layout="row" 
+  layout-align="start center" hide-gt-sm>
+ 
+  <div class="md-toolbar-tools" layout="row">
+    
+    <!-- Desktop/Tablet Icon and Title -->
+    <span layout="row" layout-align="start center" >
+      <md-button aria-label="embeditor-icon" class="md-warn" > 
+        <ng-md-icon icon="album" size="56"></ng-md-icon>
+      </md-button>
+    
+      <div class="titlebar-title" ng-show="!toolbar.ready">
+          <div class="titlebar-cyclopse"> cyclop.se </div>
+          <div class="titlebar-beta"> beta </div>
+      </div>
+    </span>
+
+    <span flex="5"></span>
+    <!-- Search Box --> 
+    <div layout="row" layout-align="end" flex-sm="75"
+          ng-show="!toolbar.layout.sidenavIsOpen('search') && toolbar.ready">
+      <embeditor-searchbox id="toolbar-searchbox" flex></embeditor-searchbox>
+    </div>
+
+    <!-- Spacer -->
+    <span flex hide-sm></span>
+
+    <!-- Alternate Icon and Title: Sidenav is open -->
+    <md-button aria-label="embeditor-icon" class="md-warn" ng-show="toolbar.layout.sidenavIsOpen('search')"> 
+      <ng-md-icon icon="album" size="56"></ng-md-icon>
+    </md-button>
+    
   </div>
 </md-toolbar>

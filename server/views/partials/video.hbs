@@ -49,10 +49,11 @@
    <div class="toolbar footer">
       <div class="footer-left-corner">
          <div class="cyclopse-slogan">
-            <a href="http://cyclops.se"> Clip any YouTube Video and share it instantly. </a>
+            <a href="http://cyclop.se"> Cut a slice of any YouTube Video and share it instantly. </a>
          </div>
-         <div class="cyclopse-slogan">
-            <a href="{{video.youtubeUrl}}" target="_blank"> Visit source video for this clip on YouTube </a>
+         <div class="clip-text">
+            <span> {{video.description}} of </span>
+            <a class="link-text" href="{{video.youtubeUrl}}" target="_blank"> {{video.title}} </a>
          </div>
       </div>
       <div class="footer-right-corner">

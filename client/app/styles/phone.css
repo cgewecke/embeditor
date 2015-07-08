@@ -1,23 +1,61 @@
+/* to do:
+
+1. 
+2. 
+3. 
+4. 
+5. 
+6. 
+7. 
+
+/* ----------- iPhone 6 ----------- */
+
 /* Portrait and Landscape */
 @media only screen 
   and (min-device-width: 375px) 
   and (max-device-width: 667px) 
   and (-webkit-min-device-pixel-ratio: 2) { 
 
-  /* -------- General ----------------*/
+      /* -------- General ----------------*/
 
       input, button, textarea, select {
           -webkit-transform: translate3d(0,0,0);
       }
+
+      /* --------- Toolbar -------------*/
+
+      .titlebar-title{
+        font-size: 26px;
+      }
+
+      .titlebar-beta{
+        font-size: 11px;
+        color: white !important;
+        text-align: right;
+      }
+
+      .titlebar-cyclopse{
+        font-size: 26px;
+      }
+
+      .titlebar-icon{
+        padding: 0px;
+      }
+
+      .md-toolbar-tools{
+        padding-right: 5px;
+        padding-left: 5px;
+      }
       
       /* -------- Player ---------------*/
       #player{ 
-        width: 90%;
+        width: 100%;
+        height: 200px;
       }
 
       .mobile-player-loading-screen{
         width: 100%;
-        height: 48.5%;
+        height: 25.5%;
       }
 
       .player-wrapper-styles{
@@ -31,7 +69,7 @@
 
       .player-cover{
         width: 100%;
-        height: 48.5%;
+        height: 25.5%;
       }
 
       .loading-progress{
@@ -56,6 +94,24 @@
 
       }
 
+      .quickset-arrow-text{
+        color: white;
+        position: relative;
+        height: 10px;
+        font-size: 10px;
+        top: -15px;
+        pointer-events: none;
+        cursor: default;
+      }
+
+      .phone-quickset-txt{
+        padding-top: 2px;
+        font-size: 9px;
+        color: white;
+        opacity: .8;
+        text-align: center;
+      }
+
       md-progress-linear.time-bar{
           display: block;
           width: 100%;
@@ -75,6 +131,14 @@
 
       /* --------- Controls Column -------- */
 
+      .main-column{
+        padding-left: 0px;
+      }
+
+      .endpoint-column{
+        padding-top: 15px;
+      }
+
       .controls-block{
         width:100%;
         padding-left: 20px;
@@ -83,7 +147,7 @@
 
       .controls-top{
         width: 100%;
-        padding-top: 25px;
+        padding-top: 15px;
       }
 
       .controls-loading-cover{
@@ -92,7 +156,7 @@
         width: 110%;
         height: 110%;
         background: black;
-        top: -20px;
+        top: -26px;
         left: -20px;
         opacity: .3;
         z-index: 2;
@@ -130,8 +194,9 @@
       }
 
       .mobile-play-icon{
-        margin-top: 3px;
-        margin-left: 2px;
+        padding-left: 10px;
+        /*margin-top: 3px;
+        margin-left: 2px;*/
       }
 
       .mobile-play-button{
@@ -148,9 +213,15 @@
       
 
       .irs-with-grid{
-        ms-transform: scale(1,1.2); /* IE 9 */
-        -webkit-transform: scale(1,1.2); /* Safari */
-        transform: scale(1,1.2);
+        ms-transform: scale(1,1); /* IE 9 */
+        -webkit-transform: scale(1,1); /* Safari */
+        transform: scale(1,1);
+      }
+
+      .reset-button{
+        padding-top: 15px;
+        padding-left: 5px;
+        padding-right: 5px;
       }
 
       .code-button-row{
@@ -161,9 +232,13 @@
       md-sidenav, 
       md-sidenav.md-locked-open, 
       md-sidenav.md-closed.md-locked-open-add-active {
-        min-width: 310px !important;  
-        max-width: 310px !important;
+        min-width: 220px !important;  
+        max-width: 220px !important;
       } 
+
+      .search-toolbar-phone{
+
+      }
 
       .sidebar-background{
         background-color: #E0E0E0;
@@ -176,19 +251,39 @@
         padding: 1px;
         font-size: 11px;
         font-weight: bold;
-        top: 93px;
+        top: 75px;
         right: 0px;
         color: white;
         background-color: black;
         
       }
 
+      .searchThumbnail{
+        width: 150px;
+        height: 90px;
+      }
+
       .searchPlayIcon{
          position:absolute;
          opacity: .8;
-         top: 30px;
-         right: 80px;
+         top: 22px;
+         right: 57px;
          color: white;
+      }
+
+      .searchRelatedIcon {
+        position: absolute;
+        height: 30px;
+        width: 30px;
+        top: 0px;
+        right: 0px;
+        background-color: white !important;
+      }
+
+      .sitemap-icon{
+        height: 16px;
+        width: 16px;
+        vertical-align: initial;
       }
 
       .searchItemChannelContainer {
@@ -211,6 +306,572 @@
       .mobile-search-select-tile{
         padding-right: 25px;
       }
+
+      /* Dialog Windows */
+      .embed-title{
+        font-size: 18px;
+      }
+      .embed-instructions{
+        font-size: 12px;
+        cursor: default;
+      }
+}
+
+/* IPHONE 6 - LANDSCAPE */
+@media only screen 
+  and (min-device-width: 375px) 
+  and (max-device-width: 667px) 
+  and (-webkit-min-device-pixel-ratio: 2)
+  and (orientation: landscape) {
+
+  body{
+    background-color: black;
   }
 
+  #toolbar-header{
+    display: none !important;
+  }
+
+  #quickset-phone-row{
+    display: block !important;
+  }
+
+  #app-column{
+    display: none !important;
+  }
+
+  .footer-toolbar{
+    display: none;
+  }
+  
+  .mobile-player-loading-screen {
+    width: 100%;
+    height: 87.5%;
+
+  } 
+
+  .phone-quickset-txt{
+    padding-top: 5px;
+    font-size: 12px;
+  }
+
+  .player-cover{
+  }
+
+  .endpoint-column {
+    padding-top: 0px;
+  }
+
+  #player{ 
+    width: 100%;
+    height: 325px;
+  }
 }
+
+/* Landscape */
+@media only screen 
+  and (min-device-width: 414px) 
+  and (max-device-width: 736px) 
+  and (-webkit-min-device-pixel-ratio: 3)
+  and (orientation: landscape) { 
+
+  body{
+    background-color: black;
+  }
+
+  #toolbar-header{
+    display: none !important;
+  }
+
+  #quickset-phone-row{
+    display: block !important;
+  }
+
+  #app-column{
+    display: none !important;
+  }
+
+  .footer-toolbar{
+    display: none;
+  }
+
+  #player{ 
+    width: 100%;
+    height: 365px;
+  }
+
+  .mobile-player-loading-screen{
+    width: 100%;
+    height: 85.5%;
+  }
+
+  .player-wrapper-styles{
+    height: 100%;
+    width: 100%;
+  }
+
+  .player-background{
+    background-color: black;
+  }
+
+  .player-cover{
+    width: 100%;
+  }
+
+  .loading-progress{
+    width: 100%;
+  }
+
+  .mobile-play-icon {
+    padding-left: 10px;
+  }
+  .timestamp-btn{
+    background: #E0E0E0 !important;;
+    color: black;
+    cursor: default;
+    min-height: 54px;
+    padding-left: 15px;
+    padding-right: 15px;
+  }
+
+  .time-disp-timestamp{
+
+    position: relative;
+    top: -1px;
+    cursor: default;
+
+  }
+
+  .phone-quickset-txt{
+    padding-top: 5px;
+    font-size: 12px;
+    color: white;
+    opacity: .8;
+    text-align: center;
+  }
+
+  .quickset-arrow-text{
+    color: white;
+    position: relative;
+    height: 10px;
+    font-size: 10px;
+    top: -15px;
+    pointer-events: none;
+    cursor: default;
+  }
+
+  md-progress-linear.time-bar{
+      display: block;
+      width: 100%;
+      height: 12px;
+  } 
+
+  md-progress-linear.time-bar .md-bar {
+    height: 12px;
+  }
+
+  .tapehead-animation{
+    position: absolute;
+    width: 14px;
+    height: 12px;
+    background-color: #FF6F00;
+  }
+}
+
+/* ----------- iPhone 5 and 5S ----------- */
+
+/* Portrait and Landscape */
+@media only screen 
+  and (min-device-width: 320px) 
+  and (max-device-width: 374px)
+  and (-webkit-min-device-pixel-ratio: 2) {
+
+    /* -------- General ----------------*/
+
+      input, button, textarea, select {
+          -webkit-transform: translate3d(0,0,0);
+      }
+
+      /* --------- Toolbar -------------*/
+
+      .titlebar-title{
+        font-size: 26px;
+      }
+
+      .titlebar-beta{
+        font-size: 11px;
+        color: white !important;
+        text-align: right;
+      }
+
+      .titlebar-cyclopse{
+        font-size: 26px;
+      }
+
+      .titlebar-icon{
+        padding: 0px;
+      }
+
+      .md-toolbar-tools{
+        padding-right: 5px;
+        padding-left: 5px;
+      }
+      
+      /* -------- Player ---------------*/
+      #player{ 
+        width: 100%;
+        height: 200px;
+      }
+
+      .mobile-player-loading-screen{
+        width: 100%;
+        height: 25.5%;
+      }
+
+      .player-wrapper-styles{
+        height: 100%;
+        width: 100%;
+      }
+
+      .player-background{
+        background-color: black;
+      }
+
+      .player-cover{
+        width: 100%;
+        height: 25.5%;
+      }
+
+      .loading-progress{
+        width: 100%;
+      }
+
+  
+      .timestamp-btn{
+        background: #E0E0E0 !important;;
+        color: black;
+        cursor: default;
+        min-height: 54px;
+        padding-left: 15px;
+        padding-right: 15px;
+      }
+
+      .time-disp-timestamp{
+
+        position: relative;
+        top: -1px;
+        cursor: default;
+
+      }
+
+      .phone-quickset-txt{
+        font-size: 8px;
+        color: white;
+        opacity: .8;
+        text-align: center;
+        padding-top: 5px;
+      }
+
+      .quickset-arrow-text{
+        color: white;
+        position: relative;
+        height: 10px;
+        font-size: 10px;
+        top: -15px;
+        pointer-events: none;
+        cursor: default;
+      }
+
+      md-progress-linear.time-bar{
+          display: block;
+          width: 100%;
+          height: 12px;
+      } 
+
+      md-progress-linear.time-bar .md-bar {
+        height: 12px;
+      }
+
+      .tapehead-animation{
+        position: absolute;
+        width: 14px;
+        height: 12px;
+        background-color: #FF6F00;
+      }
+
+      /* --------- Controls Column -------- */
+
+      .main-column{
+        padding-left: 0px;
+      }
+
+      .endpoint-column{
+        padding-top: 15px;
+      }
+
+      .controls-block{
+        width:100%;
+        padding-left: 8px;
+        padding-right: 16px;
+      }
+
+      .controls-top{
+        width: 100%;
+        padding-top: 15px;
+      }
+
+      .controls-loading-cover{
+        position: absolute;
+        margin: 0 auto;
+        width: 110%;
+        height: 110%;
+        background: black;
+        top: -26px;
+        left: -20px;
+        opacity: .3;
+        z-index: 2;
+
+      }
+
+      .precision-btn-outer{
+        height: 48px;
+        width: 48px;
+        background-color: #E0E0E0 !important;
+        
+      }
+
+      .precision-btn-inner{
+        min-height: 48px;
+        min-width: 48px;
+      }
+
+      .startpoint-btn{
+        background: black !important;
+        color: white !important;
+        cursor: default;
+        min-height: 48px;
+        padding-left: 10px;
+        padding-right: 10px;
+      }
+
+      .set-btn-block-label{
+        color: rgba(0,0,0,0.26) !important;
+        cursor: default;
+        font-size: 14px;
+      }
+
+      .set-btn-block-help{
+        color: rgba(0,0,0,0.26) !important;
+        cursor: default;
+        font-size: 9px !important;
+        padding-left: 15px;
+      }
+
+      .lower-row{
+        padding-top: 20px;
+      }
+
+      .reset-button{
+        padding-top: 15px;
+        padding-left: 10px;
+      }
+
+      .playback-input-container{
+
+        padding: 0px;
+        padding-bottom: 5px;
+        height: 61px;
+        overflow-y: hidden;
+      }
+
+      .mobile-loop-input-container{
+        padding-top: 0px;
+        padding-bottom: 5px;
+        padding-left: 0px;
+        padding-right: 0px;
+        height: 56px;
+        overflow-y: hidden;
+      }
+
+      .mobile-md-switch{
+        margin-left: 0px;
+      }
+
+      .close-label {
+        -webkit-transform: none !important;
+        transform: none !important;
+        cursor: default;
+        font-size: 12px;
+      }
+
+      .mobile-play-icon{
+        padding-left: 10px;
+        /*margin-top: 3px;
+        margin-left: 2px;*/
+      }
+
+      .mobile-play-button{
+        z-index: 1 !important;
+      }
+  
+      .play-btn-span {
+        padding-bottom: 25px;
+      }
+
+      .center-label{
+        text-align: left;
+      }
+      
+
+      .irs-with-grid{
+        ms-transform: scale(1,1); /* IE 9 */
+        -webkit-transform: scale(1,1); /* Safari */
+        transform: scale(1,1);
+      }
+
+      .reset-button{
+        padding-top: 15px;
+        padding-left: 5px;
+        padding-right: 5px;
+      }
+
+      .code-button-row{
+        margin-top: 0px;
+      }
+
+      /* --------- Search Sidebar ----------- */
+      md-sidenav, 
+      md-sidenav.md-locked-open, 
+      md-sidenav.md-closed.md-locked-open-add-active {
+        min-width: 220px !important;  
+        max-width: 220px !important;
+      } 
+
+      .search-toolbar-phone{
+
+      }
+
+      .sidebar-background{
+        background-color: #E0E0E0;
+        overflow-y: scroll;
+        -webkit-overflow-scrolling: touch !important;
+      }
+
+      .searchItemDuration{
+        position: absolute;
+        padding: 1px;
+        font-size: 11px;
+        font-weight: bold;
+        top: 75px;
+        right: 0px;
+        color: white;
+        background-color: black;
+        
+      }
+
+      .searchThumbnail{
+        width: 150px;
+        height: 90px;
+      }
+
+      .searchPlayIcon{
+         position:absolute;
+         opacity: .8;
+         top: 22px;
+         right: 57px;
+         color: white;
+      }
+
+      .searchRelatedIcon {
+        position: absolute;
+        height: 30px;
+        width: 30px;
+        top: 0px;
+        right: 0px;
+        background-color: white !important;
+      }
+
+      .sitemap-icon{
+        height: 16px;
+        width: 16px;
+        vertical-align: initial;
+      }
+
+      .searchItemChannelContainer {
+        padding: 2px 2px 2px 2px;
+        width: 150px;
+        height: 16px;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        font-size: 12px;
+        font-style: italic;
+        font-weight: bold;
+        cursor: default;
+        text-decoration: underline;
+      }
+
+      .mobile-search-item{
+        position: relative;
+      }
+
+      .mobile-search-select-tile{
+        padding-right: 25px;
+      }
+
+      /* Dialog Windows */
+      .embed-title{
+        font-size: 18px;
+      }
+      .embed-instructions{
+        font-size: 12px;
+        cursor: default;
+      }
+
+}
+
+/* IPHONE 5 - LANDSCAPE */
+@media only screen 
+  and (min-device-width: 320px) 
+  and (max-device-width: 568px) 
+  and (-webkit-min-device-pixel-ratio: 2)
+  and (orientation: landscape) {
+
+  #toolbar-header{
+    display: none !important;
+  }
+
+  #quickset-phone-row{
+    display: block !important;
+  }
+
+  .mobile-play-icon {
+    padding-left: 3px;
+  }
+
+  .phone-quickset-txt {
+    font-size: 10px;
+  }
+
+  .footer-toolbar{
+    display: none !important;
+  }
+  
+  .mobile-player-loading-screen {
+    width: 100%;
+    height: 82.5%;
+
+  } 
+
+  .player-cover{
+  }
+
+  #player{ 
+    width: 100%;
+    height: 270px;
+  }
+
+  .endpoint-column {
+    padding-top: 0px;
+  }
+}
+
