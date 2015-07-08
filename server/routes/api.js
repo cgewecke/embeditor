@@ -15,7 +15,7 @@ router.get('/videos/:id', function(req, res){
    var opType = "get";
 
    Videos.findById( params.id, function(err, video){
-      (err) ? 
+      (err || !video) ? 
          responder(res, err, body, opType) : // Error
          responder(res, err, video, opType); // Success
    });

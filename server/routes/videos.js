@@ -12,7 +12,7 @@ router.get('/:id', function(req, res, next) {
       '_id': params.id
 
    }, function(err, video){  
-      (err) ? 
+      (err || !video) ? 
          responder(res, err, video, params): //Error
          responder(res, err, video, params); //Success
       }

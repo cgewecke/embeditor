@@ -12,9 +12,29 @@
           -webkit-transform: translate3d(0,0,0);
       }
       
+      /* --------- Scale ----------------*/
+      #lower-quickset-block{
+         ms-transform: scale(1.2,1.2); /* IE 9 */
+        -webkit-transform: scale(1.2,1.2); /* Safari */
+        transform: scale(1.2,1.2);
+      }
+      #publish-block{
+
+      }
+      #startpoint-block{
+         ms-transform: scale(1.1,1.1); /* IE 9 */
+        -webkit-transform: scale(1.1,1.1); /* Safari */
+        transform: scale(1.1,1.1);
+      }
+      #endpoint-block{
+         ms-transform: scale(1.1,1.1); /* IE 9 */
+        -webkit-transform: scale(1.1,1.1); /* Safari */
+        transform: scale(1.1,1.1);
+
+      }
       /* -------- Player ---------------*/
       #player{ 
-        width: 90%;
+        width: 100%;
       }
 
       .mobile-player-loading-screen{
@@ -135,6 +155,40 @@
         margin-left: 0px;
       }
 
+      .tablet-quickset-btn{
+        height: 41px;
+        width: 41px;
+        background-color: white;
+      }
+
+      .tablet-quickset-arrow-text{
+        color: black;
+        position: relative;
+        height: 10px;
+        font-size: 10px;
+        top: -20px;
+        pointer-events: none;
+        cursor: default;
+      }
+
+      .tablet-quickset-btn-block-label{
+        padding-left: 4px;
+        background-color: inherit;
+        font-size: 10px !important;
+        font-weight: bold;
+        color: white !important;
+        cursor: default;
+        vertical-align: middle;
+        opacity: .8;
+      }
+
+      .tablet-quickset-btn-block-row{
+        height: 20px;
+        background-color: black !important; 
+        position: relative;
+        top: -2px;
+      }
+
       .mobile-play-icon{
         margin-left: 1px;
       }
@@ -217,3 +271,33 @@
         padding-right: 25px;
       }
   }
+
+
+@media only screen 
+      and (min-device-width: 768px) 
+      and (max-device-width: 1024px) 
+      and (-webkit-min-device-pixel-ratio: 1) 
+      and (orientation: landscape) {
+
+      #toolbar-header{
+        display: none !important;
+      }
+
+      
+      .footer-toolbar{
+        display: none;
+      }
+    
+      .phone-quickset-txt{
+        padding-top: 5px;
+      }
+
+      .mobile-player-loading-screen{
+        width: 100%;
+        height: 58%;
+      }
+
+}
+
+
+

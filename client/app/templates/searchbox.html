@@ -9,7 +9,11 @@
         md-item-text="item.value"> 
         <span md-highlight-text="searchText" ng-bind="item.value"></span> 
     </md-autocomplete> 
-    <md-button id="spyglass" aria-label="search" class="md-raised" click="ctrl.submit(searchText)"> 
+    <md-button id="spyglass" 
+        aria-label="search" 
+        class="md-raised" 
+        click="ctrl.submit(searchText)"
+        hide-sm> 
       <md-icon md-font-icon="fa fa-search"></md-icon> 
     </md-button> 
 </form>

@@ -36,7 +36,7 @@
 /* toolbar */
 
 .titlebar-title{
-  display: inline-block;
+  font-size: 30px;
 }
 
 .titlebar-beta{
@@ -49,6 +49,9 @@
   font-size: 30px;
 }
 
+.titlebar-icon{
+  padding: 0px;
+}
 /* footer */
 
 .footer-powered{
@@ -274,8 +277,9 @@ md-progress-linear .md-dashed:before{
 .desktop-quickset-btn{
   height: 41px;
   width: 41px;
-  background-color: #333234;
+  background-color: #424242;
 }
+
 
 .desktop-timestamp-btn{
   color: white !important;
@@ -290,14 +294,19 @@ md-progress-linear .md-dashed:before{
   height: 0px;
   text-align: center;
 }
+
 .quickset-arrow-text{
   color: white;
   position: relative;
   height: 10px;
   font-size: 10px;
-  top: -15px;
+  top: -19px;
   pointer-events: none;
   cursor: default;
+}
+
+.quickset-on-hover{
+  background-color: grey;
 }
 
 .quickset-top-row{
@@ -315,7 +324,7 @@ md-progress-linear .md-dashed:before{
 
 .timestamp-time-text{
   font-size: 14px;
-  padding-top: 10px;
+  padding-top: 12px;
   background-color: inherit;
 }
 
@@ -358,17 +367,23 @@ md-progress-linear .md-dashed:before{
 .controls-block{
   width: 854px;
   position: relative;
+  padding-left: 10px;
 }
 
 .controls-loading-cover{
   position: absolute;
   margin: 0 auto;
   width: 100%;
-  height: 110%;
+  height: 105%;
   background: black;
   top: -15px;
+  left: 0px;
   opacity: .3;
-  z-index: 2;
+  z-index: 21;
+
+}
+
+.desktop-quickset-block{
 
 }
 
@@ -473,8 +488,6 @@ md-progress-linear .md-dashed:before{
   padding-right: 10px;
 }
 
-
-
 .time-disp-play-icon{
   z-index: 1;
   position: relative;
@@ -551,7 +564,7 @@ md-progress-linear .md-dashed:before{
 }
 
 .code-button-row{
-  margin-top: 17px;
+  margin-top: 12px;
 }
 
 .code-text{
