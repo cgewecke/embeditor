@@ -9,11 +9,14 @@
   layout-fill
   layout-align="{{player.layout.alignWithSidenav('search', 'column')}}">
 
-  <!-- Mobile Instructions for Timebar -->
-  <div layout="row" layout-fill layout-align="start" ng-show="player.API.mobile"
-       class="controls-background">
-    <span class="set-btn-block-help"> 
-      (Tap timebar to seek within clip)
+  <!-- Instructions for Timebar -->
+  <div layout="row" layout-fill layout-align="start" 
+       ng-class="{'timebar-instructions-row': !player.API.mobile}" class="controls-background">
+    <span class="set-btn-block-help" ng-show="player.API.mobile"> 
+      (Tap timebar to seek within clip. Set stops using the quick set buttons)
+    </span>
+    <span class="set-btn-block-help" ng-show="!player.API.mobile"> 
+      (Click timebar to seek within clip. Set stops using the quick set buttons)
     </span>
   </div>
 
@@ -32,17 +35,20 @@
         <!-- Mobile Play Button -->
         <span layout="column" 
               layout-align="center"
-              flex="15"
+              flex="10"
+              flex-md="15"
               hide-sm>
           <div layout="row" class="play-btn-span">
             <md-button id="play-btn" 
                 click="player.API.togglePlay()"
                 class="md-fab md-primary mobile-play-button"
                 md-no-ink>
-              <ng-md-icon id="play-icon" icon="play_arrow" size="42" style="fill:white"
+              <ng-md-icon id="play-icon" icon="play_arrow" size="42" 
+                  style="fill:white" ng-attr-style="fill:white"
                   ng-show="player.API.state === player.API.PAUSED" class="mobile-play-icon">
               </ng-md-icon>
-              <ng-md-icon id="pause-icon" icon="pause" size="42" style="fill:white"
+              <ng-md-icon id="pause-icon" icon="pause" size="42" 
+                  style="fill:white" ng-attr-style="fill:white"
                   ng-show="player.API.state === player.API.PLAYING" class="mobile-play-icon">
               </ng-md-icon>
             </md-button> 
@@ -58,7 +64,7 @@
             <div layout="row" layout-fill layout-align="space-between center">
               <span class="set-btn-block-label"> Rough Cut </span>
               <span class="set-btn-block-help"> 
-                (Use slider to set your clip's time window)
+                (Use slider to change your clip's time range)
               </span>
             </div>
           </span>
@@ -411,7 +417,7 @@
         </span>
 
         <!-- Mobile Quick Setters & Timestamp --> 
-        <span layout="row" flex="50" flex-sm="10" layout-align="start" ng-show="player.API.mobile">
+        <span layout="row" flex="50" flex-sm="10" layout-align="center" ng-show="player.API.mobile">
 
           <!-- Mobile Loop Toggle --> 
           <span layout="column" flex="40" flex-sm="100" layout-align="center start" >

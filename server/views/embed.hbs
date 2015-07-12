@@ -10,7 +10,7 @@
      <meta property="og:url" content="{{video.cyclopseUrl}}" />
 
      <!-- Twitter Card Tags -->
-     <meta name="twitter:card" content="summary" />
+     <meta name="twitter:card" content="summary_large_image" />
      <meta name="twitter:site" content="@TamanawasAmin" />
      <meta name="twitter:title" content="{{video.title}}" />
      <meta name="twitter:description" content="{{video.description}}" />
@@ -36,7 +36,9 @@
          
          function cyclopse_loader(){
 
-            var tag, firstScriptTag, player, loop, quality, mute, rate, start, end, init, overlay, timer, height, width;
+            var tag, firstScriptTag, player, loop, quality, mute, rate, start, end, 
+                init, overlay, loader, timer, height, width, load;
+
             var iOS = ( navigator.userAgent.match(/(iPad|iPhone|iPod|Android)/g) ? true : false );
             var iOS_buffer = false;
 
@@ -52,6 +54,7 @@
             end = {{ video.end }};
             init = true; 
             overlay = document.getElementById('cyclopse-overlay');
+            loader = document.getElementById('loader-div');
             height = "100%";
             width = "100%";
         
@@ -63,6 +66,9 @@
             
             // Main
             window.onYouTubeIframeAPIReady = function(){ loadPlayer(); }
+
+            // Debugging
+            function log(msg){ console.log(msg);}
 
             // Player instance
             function loadPlayer(){
@@ -251,11 +257,11 @@
             //      Fuck iOS
 
             function iOS_onPlayerStateChange(event){
-
+              
               if (event.data === YT.PlayerState.PLAYING){
                   
                   if (init){
-                    
+                    //log('play - init')
                     init = false;
                     player.pauseVideo();
                     player.seekTo(start);
@@ -263,21 +269,24 @@
                     iOS_buffer = true;
                   
                   } else if (iOS_buffer){
-
-                    //iOS_setStop(true);
+                    //log('play - ios Buffer')
                     iOS_buffer = false;
 
-                    // Weird glitch where the first frame is still rendered
-                    // when the cover comes off. 'Here' we are playing at
-                    // 'start' according to player events.   
-                    setTimeout(function(){
-                      iOS_setStop();
-                      overlay.style.visibility = "hidden";
-                    }, 750);
+                    // Wait for stream to actually start
+
+                    var load_test = setInterval(function(){
+                      
+                      load = player.getVideoLoadedFraction();
+                      //log('interval: ' +  load);
+                      if (load){
+
+                        iOS_setStop();
+                        //log('load TRUE: ' +  load);
+                        overlay.style.visibility = "hidden";
+                        clearInterval(load_test);
+                      }
+                    }, 75);
                   
-                    (!mute) ? 
-                        player.unMute(): 
-                        player.mute();
 
                   // Detect play from end of a non-looping clip
                   } else if ((player.getCurrentTime() + 1) > end){
@@ -288,20 +297,28 @@
 
                   // Regular play
                   } else {
+                    //log('play - regular');
                     iOS_setStop();
+            
                   }
 
               } else if (event.data === YT.PlayerState.BUFFERING && init ){
 
+                  //log('buffering - init: ' + loader);
+
+                  loader.classList.remove('embedlam-loader');
+                  loader.classList.add('synth-loader');
+
+                  overlay.style.background = "black";
                   overlay.style.visibility = "visible";
-                  player.mute();
 
               } else if (event.data === YT.PlayerState.BUFFERING && iOS_buffer ){  
-                               
+                  
+                  //log('buffering - iOS_buffer');                     
                   player.playVideo();
 
               } else {
-    
+                //console.log('Other event: ' + event.data );
                 iOS_killStop();
               }
 

@@ -319,7 +319,8 @@ md-progress-linear .md-dashed:before{
   height: 20px;
   background-color: black !important; 
   position: relative;
-  top: -2px;
+  top: 0px;
+  opacity: .5;
 }
 
 .timestamp-time-text{
@@ -370,6 +371,8 @@ md-progress-linear .md-dashed:before{
   padding-left: 10px;
 }
 
+
+
 .controls-loading-cover{
   position: absolute;
   margin: 0 auto;
@@ -384,7 +387,15 @@ md-progress-linear .md-dashed:before{
 }
 
 .desktop-quickset-block{
+  height: 22px;
 
+}
+
+.timebar-instructions-row{
+  width: 854px;
+  min-height: 15px;
+  position: relative;
+  padding-left: 10px;
 }
 
 .play-btn-span{
@@ -633,10 +644,16 @@ md-sidenav.md-closed.md-locked-open-add-active {
 .searchPlayIcon{
    position:absolute;
    opacity: .8;
-   top: 35px;
-   right: 90px;
+   top: 30px;
+   right: 80px;
    color: white;
+   cursor: default;
 }
+
+.searchPlayIcon:hover{
+  opacity: 1;
+}
+
 .searchRelatedIcon{
   position:absolute;
   top: 0px;
@@ -701,8 +718,8 @@ md-sidenav.md-closed.md-locked-open-add-active {
   padding: 1px;
   font-size: 11px;
   font-weight: bold;
-  top: 101px;
-  right: 13px;
+  top: 93px;
+  right: 0px;
   color: white;
   background-color: black;
   
@@ -713,11 +730,15 @@ md-sidenav.md-closed.md-locked-open-add-active {
   font-size: 10px;
   padding: 2px; 
   font-weight: bold;
-  top: 6px;
-  left: 8px;
+  top: 0px;
+  left: 0px;
   color: white;
   background-color: black;
   
+}
+
+.mobile-search-item{
+  position: relative;
 }
 
 /* embed code window */
