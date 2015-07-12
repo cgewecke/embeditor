@@ -42,6 +42,7 @@
                     'disablekb': '1', // Disable keyboard
                     'fs': '0',  // No fullscreen
                     'rel':            '0', // No related videos
+                    'playsinline':    '1', // Phone - inline video
                     'modestbranding': '1', // No logos
                     'showinfo':       '0', // No info
                   },

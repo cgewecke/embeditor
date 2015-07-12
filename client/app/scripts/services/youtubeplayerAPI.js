@@ -351,6 +351,7 @@ var ytp_debug, ytp_debugII;
     // being set. 
     self.start = function(change, disableWarning){
      
+
       var time = self.startpoint.val + change;
       
       // Don't get closer than 1 sec from endpoint
@@ -382,7 +383,7 @@ var ytp_debug, ytp_debugII;
     self.end = function(change, disableWarning){
      
       var time = self.endpoint.val + change;
-      
+  
       // Don't get closer than 1 sec from startpoint
       if (time <= self.startpoint.val + 1 ){
         
@@ -499,7 +500,7 @@ var ytp_debug, ytp_debugII;
       
       if (event.data === PLAYING){
         self.videoLoaded = true; // Rate & Quality assets now available
-
+        
         // On page load, pause opening play, make player visible,
         // Get playback rates. Start/End vals are specific to 
         // initial vid 
@@ -509,6 +510,7 @@ var ytp_debug, ytp_debugII;
           self.end(-90); 
           self.start(107);     
           verifyRates();
+          self.pause(); // Firefox = retarded. 
           
           $timeout(function(){ 
             self.initializing = false; 
@@ -534,11 +536,11 @@ var ytp_debug, ytp_debugII;
         }
       } else if ( event.data === BUFFERING ) {
     
-        self.state = PLAYING;
+        self.state = PAUSED;
         killStop();
         
       } else {
-    
+      
         self.state = PAUSED;
         killStop();
       }

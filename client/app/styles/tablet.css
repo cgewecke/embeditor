@@ -32,6 +32,7 @@
         transform: scale(1.1,1.1);
 
       }
+
       /* -------- Player ---------------*/
       #player{ 
         width: 100%;
@@ -62,7 +63,7 @@
 
   
       .timestamp-btn{
-        background: #E0E0E0 !important;;
+        background: #E0E0E0 !important;
         color: black;
         cursor: default;
         min-height: 54px;
