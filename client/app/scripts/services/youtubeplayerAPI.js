@@ -106,6 +106,7 @@ var ytp_debug, ytp_debugII;
     function init(){
       var timer;
       self.load(self.initialVideo);
+      self.silence();
 
     };
 
@@ -507,10 +508,10 @@ var ytp_debug, ytp_debugII;
         if (self.initializing){
           
           self.pause();  
+          self.noise();
           self.end(-90); 
-          self.start(107);     
+          self.start(19.25);     
           verifyRates();
-          self.pause(); // Firefox = retarded. 
           
           $timeout(function(){ 
             self.initializing = false; 

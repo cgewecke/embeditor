@@ -13,7 +13,7 @@
   <div layout="row" layout-fill layout-align="start" 
        ng-class="{'timebar-instructions-row': !player.API.mobile}" class="controls-background">
     <span class="set-btn-block-help" ng-show="player.API.mobile"> 
-      (Tap timebar to seek within clip. Set stops using the quick set buttons)
+      (Tap timebar to seek within clip)
     </span>
     <span class="set-btn-block-help" ng-show="!player.API.mobile"> 
       (Click timebar to seek within clip. Set stops using the quick set buttons)
@@ -24,7 +24,9 @@
   <div class="controls-block controls-background controls-top" layout="row"> 
 
     <!-- Opaque cover for the App controls before inital video is ready -->
-    <div class="controls-loading-cover" ng-show="player.API.initializing"></div>
+    <div class="controls-loading-cover" 
+         ng-show="player.API.initializing || (!player.API.mobile && player.layout.start)">
+    </div>
 
     <!-- Main Controls Column --> 
     <span layout="column" flex layout-align="space-between" class="main-column">
@@ -422,7 +424,6 @@
           <!-- Mobile Loop Toggle --> 
           <span layout="column" flex="40" flex-sm="100" layout-align="center start" >
             <md-input-container class="mobile-loop-input-container">
-              <label class="close-label center-label"> Loop </label>
               <md-switch flex 
                 id="loop-switch"
                 ng-model="player.API.loop" 
@@ -430,65 +431,11 @@
                 aria-label="loop">
               </md-switch>  
             </md-input-container>  
-          </span>
-
-          <!-- Tablet Quick Setter & Timstamp -->
-          <span layout="column" layout-align="start center" hide-sm>
-            <div id="lower-quickset-block" class="desktop-quickset-block" ng-show="player.API.mobile">
-                <div layout="row" class="quickset-top-row" flex layout-align="start end">
-            
-                  <!-- Set Start Button -->
-                  <span layout="column" layout-align="center center">
-                    <div click="player.startFromTimestamp()" class="tablet-quickset-btn">
-                      <ng-md-icon 
-                        id="timestamp-btn-start"
-                        icon="get_app" 
-                        ng-attr-style="fill:black" 
-                        style="fill:black"
-                        size="28"
-                        class="desktop-quickset-icon">
-                      </ng-md-icon> 
-                    </div>
-                    <span class="arrow-text-wrapper">
-                      <span class="tablet-quickset-arrow-text"> Start </span>
-                    </span>
-                  </span>
-
-                    <!-- Timestamp -->
-                  <span layout="column" flex layout-align="center center" > 
-                    <div aria-label="seek" class="desktop-timestamp-btn" md-no-ink>
-                      <div class="timestamp-time-text" layout="row" layout-fill > 
-                          {{player.API.timestamp.toString().toHHMMSSss()}} 
-                      </div>
-                    </div>
-                    <div class="control-btn-txt-ctr startpoint-txt"></div>
-                  </span>
-
-                  <!-- Set End Button -->
-                  <span layout="column" layout-align="center center">
-                    <div click="player.endFromTimestamp()" class="tablet-quickset-btn">
-                      <ng-md-icon 
-                        id="timestamp-btn-end"
-                        icon="get_app" 
-                        ng-attr-style="fill:black" 
-                        style="fill:black" 
-                        size="28"    
-                        class="desktop-quickset-icon">
-                      </ng-md-icon> 
-                    </div>
-                    <span class="arrow-text-wrapper">
-                      <span class="tablet-quickset-arrow-text"> End </span>
-                    </span>
-                  </span>
-                </div>
-                <!-- Quick Set Label -->
-                <div class="quickset-btn-block-row"
-                     layout="row" 
-                     layout-fill 
-                     layout-align="center center">
-                  <span class="quickset-btn-block-label"> Quick set start/end 'now' </span>
-                </div>  
-            </div>
+            <div class="set-btn-block-label">
+              <div layout="row" layout-fill layout-align="space-between center">
+                <span class="set-btn-block-label"> Loop </span>
+              </div>
+            </div> 
           </span>
         </span>
 
@@ -643,56 +590,6 @@
   </div>
 </div>
 
-<!--
-            <div layout="row" layout-fill layout-align="start end">
-                
-              <!-- Set Start Button 
-              <span layout="column" layout-align="center center">
-                <md-button click="player.startFromTimestamp()" class="md-raised precision-btn-inner">
-                  <ng-md-icon 
-                    id="timestamp-btn-start"
-                    icon="get_app" 
-                    ng-attr-style="fill:black" 
-                    size="38"
-                    class="timestamp-set-icon-left">
-                  </ng-md-icon> 
-                </md-button>
-                <span class="control-btn-txt-ctr"> Start </span>
-              </span>
-
-                <!-- Timestamp 
-              <span layout="column" layout-align="center center" > 
-                <md-button aria-label="seek" class="timestamp-btn md-whiteframe-z1" md-no-ink>
-                    <div class="time-disp-timestamp"> 
-                      {{player.API.timestamp.toString().toHHMMSSss()}} 
-                    </div>
-                </md-button>
-                <span class="control-btn-txt-ctr code-txt"> Timestamp </span>
-              </span>
-              
-              
-              <!-- Set End Button 
-              <span layout="column" layout-align="center center">
-                <md-button click="player.endFromTimestamp()" class="md-raised precision-btn-inner">
-                  <ng-md-icon 
-                    id="timestamp-btn-end"
-                    icon="get_app" 
-                    ng-attr-style="fill:black" 
-                    size="38"    
-                    class="timestamp-set-icon-right">
-                  </ng-md-icon> 
-                </md-button>
-                <span class="control-btn-txt-ctr"> End </span>
-                <!-- <div> Quick Set Start </div> 
-              </span>
-            </div>
-
-            <span class="set-btn-block-label">
-                <div layout="row" layout-fill layout-align="space-between center">
-                  <span class="set-btn-block-label"> Quick Set </span>
-                  <span class="set-btn-block-help"> (Set start/end 'now') </span>
-                </div>
-            </span> -->
 
       
 

@@ -1,0 +1,52 @@
+<!-- Permalink Dialog Template -->
+<md-dialog flex="30" flex-md="75" flex-sm="100" >
+   <!-- Toolbar -->
+   <md-toolbar layout="row" layout-align="start center">
+      <div class="md-toolbar-tools">
+         <!-- Icon -->
+         <md-button aria-label="embeditor-icon" class="md-warn" aria-label="icon"> 
+            <ng-md-icon icon="album" size="48"></ng-md-icon>
+         </md-button>
+         <!-- Title -->
+         <div class="embed-instructions" flex="70">
+            <span class="about-title"> About </span>
+         </div>
+         <span flex></span>
+         <!-- Close button -->
+         <md-button id="code-dialog-dismiss-btn" click="mdDialog.hide()" aria-label="close">
+            <ng-md-icon icon="clear"></ng-md-icon>
+         </md-button>
+     </div>
+   </md-toolbar>
+
+   <div layout="column" layout-fill>
+      <!-- Content Column -->
+      <div layout="column" layout-fill>
+         <!-- Window -->
+         <md-dialog-content class="about-content"
+            layout="row" layout-align="center center" layout-fill> 
+
+            <md-content flex class="about-text"> 
+               
+               <div> Cyclops runs on </div> <br>
+               <div class="about-platform"> NodeJS </div>
+               <div class="about-platform"> AngularJS </div>
+               <div class="about-platform"> Mongoose </div>
+               <div class="about-platform"> Material Design </div> 
+               <div class="about-platform"> Heroku </div>
+               <br>
+               <div> 
+                  code c ekewege <br>
+                  May 2015 - July 2015. <br>
+                  Portland, Oregon <br> <br>
+                  Bugs/other to: <br>
+                     <a class="about-link" href="mailto:ekewege@gmail.com"> 
+                        ekewege@gmail.com 
+                     </a> 
+               </div>
+            </md-content>      
+         </md-dialog-content>
+         
+      </div>
+   </div>
+</md-dialog>

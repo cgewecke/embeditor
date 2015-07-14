@@ -2,12 +2,15 @@
  * Videos schema
  */
 var mongoose = require('mongoose');
+var shortid = require('shortid');
 var Schema = mongoose.Schema;
+
 
 
 // Definition
 var videoSchema = new Schema({
 
+    _id: { type: String, unique: true, 'default': shortid.generate},
     videoId: { type: String, required: true },
     quality: { type: String, required: true },
     autoplay: { type: String, required: true },

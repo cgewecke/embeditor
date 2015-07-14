@@ -11,8 +11,10 @@ var tb_debug;
 (function(){
 
 angular.module('embeditor.components.toolbar', [ 'embeditor.services.layoutManager' ])
-  .controller('ToolbarCtrl', toolbarCtrl);
+  .controller('ToolbarCtrl', toolbarCtrl)
+  .controller('FooterCtrl', footerCtrl);
 
+  // -----------   Header Controller -----------------
   function toolbarCtrl($scope, layoutManager ){
 
    var self = this;
@@ -20,11 +22,34 @@ angular.module('embeditor.components.toolbar', [ 'embeditor.services.layoutManag
    self.ready = false;
    self.layout = layoutManager;
 
+   // Toggles youtube search input to visible when
+   // page load is complete.
    $scope.$on('YTPlayerAPI:ready', function(){
       self.ready = true;
    });
    
   }
   toolbarCtrl.$inject = ['$scope', 'layoutManager'];
+
+  // ------------  Footer Controller -----------------
+  function footerCtrl($scope, youtubePlayerAPI, $mdDialog){
+    
+    var self = this;
+    self.API = youtubePlayerAPI;
+    $scope.mdDialog = $mdDialog;
+    
+    // Dialog opener for info icon
+    self.info = function(){
+      
+      $mdDialog.show({
+        clickOutsideToClose: true,  
+        templateUrl: 'templates/info.html',
+        controller: 'FooterCtrl'
+        
+      });
+    };
+
+  };
+  footerCtrl.$inject = ['$scope', 'youtubePlayerAPI', '$mdDialog'];
 
 })();
