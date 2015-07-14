@@ -43,6 +43,10 @@
         height: 47%;
       }
 
+      .opaque{
+        opacity: .75;
+      }
+
       .player-wrapper-styles{
         height: 100%;
         width: 100%;
@@ -61,7 +65,61 @@
         width: 100%;
       }
 
-  
+      .player-instruction-screen {
+        visibility: visible;
+        width: 100%;
+        height: 47%;
+        opacity: .8;
+      }
+
+      .player-instruction-start{
+
+      }
+
+      .desktop-quickset-btn{
+        height: 56px;
+        width: 56px;
+        background-color: #424242;
+      }
+      .quickset-top-row{
+        /*background-color: black;*/
+        background-color: rgb(22, 20, 22);
+        height: 56px;
+      }
+
+      .desktop-quickset-icon {
+        top: 4px;
+        left: 10px;
+      }
+
+      .quickset-arrow-text{
+        color: white;
+        position: relative;
+        height: 10px;
+        font-size: 12px;
+        top: -18px;
+        pointer-events: none;
+        cursor: default;
+      }
+
+      .timestamp-time-text {
+        font-size: 20px;
+      }
+
+      .timestamp-label{
+        font-size: 10px;
+        opacity: .7;
+        text-align: center;
+      }
+
+      .phone-quickset-txt{
+        padding-top: 10px;
+        font-size: 14px;
+        color: white;
+        opacity: .5;
+        text-align: center;
+      }
+
       .timestamp-btn{
         background: #E0E0E0 !important;
         color: black;
@@ -156,40 +214,7 @@
         margin-left: 0px;
       }
 
-      .tablet-quickset-btn{
-        height: 41px;
-        width: 41px;
-        background-color: white;
-      }
-
-      .tablet-quickset-arrow-text{
-        color: black;
-        position: relative;
-        height: 10px;
-        font-size: 10px;
-        top: -20px;
-        pointer-events: none;
-        cursor: default;
-      }
-
-      .tablet-quickset-btn-block-label{
-        padding-left: 4px;
-        background-color: inherit;
-        font-size: 10px !important;
-        font-weight: bold;
-        color: white !important;
-        cursor: default;
-        vertical-align: middle;
-        opacity: .8;
-      }
-
-      .tablet-quickset-btn-block-row{
-        height: 20px;
-        background-color: black !important; 
-        position: relative;
-        top: -2px;
-      }
-
+      
       .mobile-play-icon{
         margin-left: 1px;
       }
@@ -216,6 +241,15 @@
       .code-button-row{
         margin-top: 0px;
       }
+
+      /* ---------- Footer -------------------*/
+      .footer-left-margin{
+        margin-left: 15px;
+      }
+      .footer-right-margin{
+        margin-right: 15px;
+      }
+      
 
       /* --------- Search Sidebar ----------- */
       md-sidenav, 

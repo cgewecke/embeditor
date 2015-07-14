@@ -1,18 +1,26 @@
 
-<!-- Footer Desktop -->
-<md-toolbar class="md-medium-tall footer-toolbar"  layout="row" layout-align="end center" hide-sm >
-  <div class="md-toolbar-tools" layout="row" >
-    <span flex></span>
-    <span class="footer-powered"> powered by </span>
-    <span class="fa fa-youtube footer-youtube-icon"></span>
-  </div>
-</md-toolbar>
+<!-- Footer -->
+<md-toolbar 
+    ng-controller="FooterCtrl as footer"
+    layout="row" 
+    layout-align="end center" 
+    class="footer-toolbar md-medium-tall"
 
-<!-- Footer Mobile -->
-<md-toolbar layout="row" layout-align="end center" hide-gt-sm class="footer-toolbar">
   <div class="md-toolbar-tools" layout="row" >
+    <span layout="column" layout-align="center center" class="footer-left-margin">
+      <div> 
+        <ng-md-icon 
+          icon="info" 
+          size="48" 
+          style="fill:white"
+          ng-attr-style="fill:white"
+          click="footer.info()">
+        </ng-md-icon>
+      </div>
+      <div class="footer-info-text"> About </div>
+    </span>
     <span flex></span>
     <span class="footer-powered"> powered by </span>
-    <span class="fa fa-youtube footer-youtube-icon"></span>
+    <span class="fa fa-youtube footer-youtube-icon footer-right-margin"></span>
   </div>
 </md-toolbar>

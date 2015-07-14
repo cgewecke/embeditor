@@ -15,21 +15,25 @@
              layout="column" 
              flex="100" 
              ng-show="!player.API.initializing" 
-             hide-md hide-gt-md>
+             hide-gt-md>
           
           <div layout="row" class="quickset-top-row" flex layout-align="start start">
       
             <!-- Set Start Button -->
             <span layout="column" layout-align="center center">
               <div click="player.startFromTimestamp()" class="desktop-quickset-btn">
-                <ng-md-icon 
-                  id="timestamp-btn-start"
-                  icon="get_app" 
-                  ng-attr-style="fill:white" 
-                  style="fill:white"
-                  size="28"
-                  class="desktop-quickset-icon">
+                <!-- Phone -->
+                <ng-md-icon id="timestamp-btn-start" icon="get_app" 
+                  ng-attr-style="fill:white" style="fill:white" size="28"
+                  class="desktop-quickset-icon" hide-gt-sm>
                 </ng-md-icon> 
+
+                <!-- Tablet -->
+                <ng-md-icon id="timestamp-btn-start" icon="get_app" 
+                  ng-attr-style="fill:white" style="fill:white" size="36"
+                  class="desktop-quickset-icon" hide-sm>
+                </ng-md-icon> 
+
               </div>
               <span class="arrow-text-wrapper">
                 <span class="quickset-arrow-text"> Start </span>
@@ -40,12 +44,14 @@
             <span layout="column" flex layout-align="center center" > 
               <div layout="row" layout-fill layout-align="space-between">
 
-                <!-- Play --> 
+                <!-- Play (Phone) / Info (Tablet) --> 
                 <div layout="column" flex="25" layout-align="center">
+
                   <div layout="row" layout-align="start center">
                     <div id="play-btn" 
                         click="player.API.togglePlay()"
-                        class="mobile-play-button">
+                        class="mobile-play-button"
+                        hide-md>
                       <ng-md-icon id="play-icon" icon="play_circle_outline" size="28" style="fill:white"
                           ng-show="player.API.state === player.API.PAUSED" class="mobile-play-icon">
                       </ng-md-icon>
@@ -61,6 +67,7 @@
                   <div class="timestamp-time-text" layout="row" layout-align="center" layout-fill > 
                       {{player.API.timestamp.toString().toHHMMSSss()}} 
                   </div>
+                  <div class="timestamp-label"> Timestamp </div>
                 </div>
 
                 <!-- Instructions --> 
@@ -75,13 +82,16 @@
             <!-- Set End Button -->
             <span layout="column" layout-align="center center">
               <div click="player.endFromTimestamp()" class="desktop-quickset-btn">
-                <ng-md-icon 
-                  id="timestamp-btn-end"
-                  icon="get_app" 
-                  ng-attr-style="fill:white" 
-                  style="fill:white" 
-                  size="28"    
-                  class="desktop-quickset-icon">
+               <!-- Phone -->
+                <ng-md-icon id="timestamp-btn-start" icon="get_app" 
+                  ng-attr-style="fill:white" style="fill:white" size="28"
+                  class="desktop-quickset-icon" hide-gt-sm>
+                </ng-md-icon> 
+
+                <!-- Tablet -->
+                <ng-md-icon id="timestamp-btn-start" icon="get_app" 
+                  ng-attr-style="fill:white" style="fill:white" size="36"
+                  class="desktop-quickset-icon" hide-sm>
                 </ng-md-icon> 
               </div>
               <span class="arrow-text-wrapper">
@@ -91,10 +101,11 @@
           </div>
         </div>
         
-        <!-- Loading screen: Mobile NEEDS POINTER EVENTS NONE -->
+        <!-- Loading screen: Mobile -->
         <div class="mobile-player-loading-screen" 
              id="player-loading-screen"
-             ng-class="{'visible': player.API.initializing || player.API.mobileStart }"
+             ng-class="{'visible': player.API.initializing || player.API.mobileStart, 
+                        'opaque': player.API.mobileStart    }"
              ng-show="player.API.mobile">
 
             <md-progress-circular 
@@ -112,19 +123,19 @@
             <div layout="column" 
                  layout-fill
                  layout-align="center center"
-                 ng-show="player.API.mobileStart" >
-                 <md-button class="start-button md-whiteframe-z1"  
-                    id="player-init-button">
-                    <div>
-                      <ng-md-icon 
-                        icon="play_circle_outline" 
-                        ng-attr-style="fill:white"
-                        style="fill:white"
-                        size="56">
-                      </ng-md-icon>
-                    </div>
-                    <div>TOUCH TO START </div>
-                </md-button> 
+                 ng-show="player.API.mobileStart" 
+                 class="player-instruction-screen" >
+              <div class="player-instruction-title"> 
+                Cyclops
+              </div>
+              <div> Cut a slice from any YouTube video </div> 
+              <div> and instantly re-publish it as a looping clip or </div> 
+              <div> share it as a link. </div>
+              <div class="player-instruction-start">
+                <md-button class="md-raised md-primary"> Start </md-button>
+              </div>
+              <div> No uploading, downloading or login. </div>
+              <div> Just search, clip and post. </div> 
             </div>
         </div>
 
@@ -142,6 +153,26 @@
               md-mode="indeterminate">
             </md-progress-circular>
         </div>
+
+        <!-- Landing Screen: Desktop -->
+        <div class="player-instruction-screen" 
+             id="player-instruction-screen"
+             ng-class="{'visible': (!player.API.initializing && player.layout.start) }"
+             ng-show="!player.API.mobile">
+            <div layout="column" layout-fill layout-align="center center">
+              <div class="player-instruction-title"> 
+                Cyclops
+              </div>
+              <div> Cut a slice from any YouTube video </div> 
+              <div> and instantly re-publish it as a looping clip or </div> 
+              <div> share it as a link. </div>
+              <div class="player-instruction-start">
+                <md-button class="md-raised md-primary"> Start </md-button>
+              </div>
+              <div> No uploading, downloading or login. </div>
+              <div> Just search, clip, and post. </div> 
+            </div>
+        </div> 
 
         
         
