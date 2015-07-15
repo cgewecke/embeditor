@@ -32,7 +32,7 @@ angular.module('embeditor.components.toolbar', [ 'embeditor.services.layoutManag
   toolbarCtrl.$inject = ['$scope', 'layoutManager'];
 
   // ------------  Footer Controller -----------------
-  function footerCtrl($scope, youtubePlayerAPI, $mdDialog){
+  function footerCtrl($scope, $window, youtubePlayerAPI, $mdDialog){
     
     var self = this;
     self.API = youtubePlayerAPI;
@@ -49,7 +49,12 @@ angular.module('embeditor.components.toolbar', [ 'embeditor.services.layoutManag
       });
     };
 
+    // Open cyclopse-on.tumblr.com in new tab
+    self.tumblr = function(){
+      $window.open('//cyclopse-on.tumblr.com', '_blank');
+    };
+
   };
-  footerCtrl.$inject = ['$scope', 'youtubePlayerAPI', '$mdDialog'];
+  footerCtrl.$inject = ['$scope', '$window', 'youtubePlayerAPI', '$mdDialog'];
 
 })();

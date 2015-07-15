@@ -8,6 +8,8 @@
 
   <div class="md-toolbar-tools" layout="row" >
     <span layout="column" layout-align="center center" class="footer-left-margin">
+
+      <!-- Ecce Homo -->
       <div> 
         <ng-md-icon 
           icon="info" 
@@ -19,7 +21,22 @@
       </div>
       <div class="footer-info-text"> About </div>
     </span>
+
+    <!-- Cyclopses On Tumblr -->
+    <span layout="column" layout-align="center center" class="footer-left-margin">
+      <div> 
+        <md-button 
+          class="md-fab md-mini tumblr-button"
+          click="footer.tumblr()">
+             <span class="fa fa-tumblr fa-lg share-icon footer-icon"></span>  
+          </md-button>
+       </md-button>
+      </div>
+      <div class="footer-info-text footer-tumblr-text"> Cyclopses on Tumblr</div>
+    </span>
     <span flex></span>
+
+    <!-- Tubegineers -->
     <span class="footer-powered"> powered by </span>
     <span class="fa fa-youtube footer-youtube-icon footer-right-margin"></span>
   </div>
