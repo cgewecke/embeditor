@@ -75,6 +75,15 @@
   margin-right: 15px;
 }
 
+.footer-tumblr-text{
+  position: relative;
+  top: 7px;
+}
+
+.footer-icon{
+  opacity: .7;
+}
+
 /* Player & Player Controls */
 
 /* range-slider - amber */
