@@ -21,7 +21,7 @@ router.get('/:id', function(req, res, next) {
 
 function responder(res, err, video, params){
    // Log error
-   if (err) {
+   if (err || !video) {
      console.log('Embed error for video: ' + params.id + ". Error was: " +  err);
      res.status(404).render('404');
    

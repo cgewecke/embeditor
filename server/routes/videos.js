@@ -24,7 +24,7 @@ function responder(res, err, video, params){
    var encodedUrl, shareUrls;
 
    // Log error
-   if (err) {
+   if (err || !video) {
      console.log('Error for /video: ' + params.id + ". Error was: " +  err);
      res.status(404).render('404');
    
