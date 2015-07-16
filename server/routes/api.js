@@ -92,7 +92,7 @@ router.post('/videos/:id', function (req, res) {
 function responder(res, err, video, opType){
 
    // Log error
-   if (err) {
+   if (err || !video) {
      console.log('Problem with ' + opType + ' video due to ' + err);
      res.status(500).json({'message': 'Database error ' + opType + ' video: ' + video.videoId });
    
