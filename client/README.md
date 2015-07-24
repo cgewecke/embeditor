@@ -11,3 +11,9 @@ Run `grunt` for building and `grunt serve` for preview.
 
 Running `grunt karma` will run the unit tests with karma.
 
+## Database Launch in Development - 
+
+From root directory, e.g. *not* /client, before running: $ npm test  from the cli in the /server folder.
+
+$ mongod --dbpath data/db/ --logpath data/logs/mongodb.log --logappend
+
