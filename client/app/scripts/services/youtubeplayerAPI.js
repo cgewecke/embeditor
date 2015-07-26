@@ -69,6 +69,7 @@ var ytp_debug, ytp_debugII;
 
     // Determines opening sequence eventing . . . .
     self.mobile = ( navigator.userAgent.match(/(iPad|iPhone|iPod|Android)/g) ? true : false );
+    self.android = ( navigator.userAgent.match(/(Android)/g) ? true : false );
 
     
     if (self.mobile){
@@ -277,7 +278,11 @@ var ytp_debug, ytp_debugII;
         self.state = PAUSED;
         self.player.pauseVideo(); 
       };
-      self.seek = function(location, stream) { self.player.seekTo(location, stream) }; 
+      self.seek = function(location) { 
+        
+        self.player.seekTo(location); 
+      
+      }; 
 
       // Playback speed
       self.rates = function(){ return self.player.getAvailablePlaybackRates() };
