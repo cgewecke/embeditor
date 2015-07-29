@@ -514,11 +514,12 @@ var ytp_debug, ytp_debugII;
           
           self.pause();  
           self.noise();
-          self.end(-90); 
-          self.start(19.25);     
+          //self.end(-90); 
+          self.start(1);     
           verifyRates();
           
           $timeout(function(){ 
+    
             self.initializing = false; 
             $rootScope.$broadcast(readyEvent.name);
           }, 500);

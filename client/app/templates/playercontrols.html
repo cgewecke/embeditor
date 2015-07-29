@@ -21,7 +21,7 @@
   </div>
 
   <!-- APP Row -->
-  <div class="controls-block controls-background controls-top" layout="row"> 
+  <div class="controls-block controls-background controls-top" layout="row" layout-fill> 
 
     <!-- Opaque cover for the App controls before inital video is ready -->
     <div class="controls-loading-cover" 
@@ -171,7 +171,7 @@
           </span> 
 
           <!-- Desktop Quick Setter & Timestamp --> 
-          <div id="middle-quickset-block" class="desktop-quickset-block" ng-show="!player.API.mobile">
+          <div id="middle-quickset-block" class="desktop-quickset-block" ng-show="!player.API.mobile" hide-sm>
                 
             <div layout="row" class="quickset-top-row" flex layout-align="start end">
         
