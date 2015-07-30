@@ -258,12 +258,16 @@
       md-sidenav, 
       md-sidenav.md-locked-open, 
       md-sidenav.md-closed.md-locked-open-add-active {
-        min-width: 220px !important;  
-        max-width: 220px !important;
+        min-width: 240px !important;  
+        max-width: 240px !important;
       } 
 
       .search-toolbar-phone{
 
+      }
+
+      .twelve-point-bold{
+        font-size: 10px;
       }
 
       .sidebar-background{
@@ -784,12 +788,16 @@
       md-sidenav, 
       md-sidenav.md-locked-open, 
       md-sidenav.md-closed.md-locked-open-add-active {
-        min-width: 220px !important;  
-        max-width: 220px !important;
+        min-width: 240px !important;  
+        max-width: 240px !important;
       } 
 
       .search-toolbar-phone{
 
+      }
+
+      .twelve-point-bold{
+        font-size: 10px;
       }
 
       .sidebar-background{

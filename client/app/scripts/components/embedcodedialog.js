@@ -43,6 +43,7 @@ var ed_debug, ed_debugII;
             // Dialog def
             var codeDialog = {
                clickOutsideToClose: true,  
+               disableParentScroll: false,
                templateUrl: template,
                controller: dialogCtrl,
                onComplete: onOpen,
@@ -174,7 +175,7 @@ var ed_debug, ed_debugII;
          $scope.tumblrShare = function(){
             $window.open(
                '//www.tumblr.com/share/link?url=' + 
-               encodeURIComponent(permalink().replace('http://', '').replace('https://'))
+               encodeURIComponent(permalink())
                , 'sharer'
             );
             $scope.mdDialog.hide();
