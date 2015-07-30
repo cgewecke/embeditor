@@ -51,7 +51,7 @@ angular.module('embeditor.components.toolbar', [ 'embeditor.services.layoutManag
 
     // Open cyclopse-on.tumblr.com in new tab
     self.tumblr = function(){
-      $window.open('//cyclopse-on.tumblr.com', '_blank');
+      $window.open('//apocyclopse.tumblr.com', '_blank');
     };
 
   };

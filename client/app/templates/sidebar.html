@@ -28,7 +28,7 @@
             <embeditor-searchbox flex></embeditor-searchbox>
           </md-grid-tile>
           <!-- Sort Order Select -->
-          <md-grid-tile md-colspan="1" hide-sm> 
+          <md-grid-tile md-colspan="1"> 
             <span class="twelve-point-bold">
               <md-select class="md-accent" placeholder="Order By"
                 ng-model="order" ng-change="search.youTube.setSearchOrder(order)">
@@ -38,7 +38,7 @@
             </span>
           </md-grid-tile>
           <!-- Duration Filter Select -->
-          <md-grid-tile md-colspan="1" > 
+          <md-grid-tile md-colspan="1"> 
             <span class="twelve-point-bold select-padding-phone">
               <md-select class="md-accent" placeholder="Filters"
                 ng-model="filter" ng-change="search.youTube.setDurationFilter(filter)">

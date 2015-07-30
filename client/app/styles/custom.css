@@ -817,10 +817,7 @@ md-sidenav.md-closed.md-locked-open-add-active {
 
 .embed-help-link{
   color:white;
-}
-
-.embed-help-link:hover{
-  text-decoration: underline;
+  text-decoration: underline !important;
 }
 
 .embed-radio-text{
