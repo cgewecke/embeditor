@@ -31,10 +31,13 @@ var sb_debug, sb_debugII, sb_debugIII;
     function SearchSidebarCtrl($scope, youTubeDataAPI, layoutManager, $mdSidenav) {
      
       var self = this;
+      
       self.youTube = youTubeDataAPI;
       self.layout = layoutManager
       self.mdSidenav = $mdSidenav; 
+
       self.isOpen = false; 
+      self.showSearchBox = true; 
 
       // Toggles sidebar open if closed. 
       // isOpen stops results from attempting to render before sidebar is open. 
@@ -44,6 +47,7 @@ var sb_debug, sb_debugII, sb_debugIII;
           self.isOpen = false;
           self.mdSidenav('search').toggle().then(function(){ 
             self.isOpen = true;
+            
           });
         }
       });
@@ -90,12 +94,13 @@ var sb_debug, sb_debugII, sb_debugIII;
 
         // Clicks on the play icon
         scope.play = function(video){
-          scope.playerAPI.load(video);
-
+          
           // Auto close sidenav on iphone, ipod & android
           (scope.playerAPI.phone) ?
             $mdSidenav('search').toggle() :
             false;
+
+          scope.playerAPI.load(video);
         }
       };
     };

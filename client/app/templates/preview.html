@@ -1,0 +1,53 @@
+<!-- Preview Dialog Template: Phone app only -->
+<md-dialog flex>
+   <!-- Toolbar -->
+   <md-toolbar layout="row" layout-align="start center">
+      <div class="md-toolbar-tools">
+         <!-- Icon -->
+         <md-button aria-label="embeditor-icon" class="md-warn" aria-label="icon"> 
+            <ng-md-icon icon="album" size="40"></ng-md-icon>
+         </md-button>
+         <!-- Instructions -->
+         <div class="embed-instructions" flex="70">
+            <span class="embed-title"> Web Preview </span>
+         </div>
+         <span flex></span>
+         <!-- Close button -->
+         <md-button id="code-dialog-dismiss-btn" click="mdDialog.hide()" aria-label="close">
+            <ng-md-icon icon="clear"></ng-md-icon>
+         </md-button>
+     </div>
+   </md-toolbar>
+
+   <div layout="column" layout-fill>
+      <!-- Content Column -->
+      <div layout="column" layout-fill>
+         <!-- Code Window -->
+         <md-dialog-content class="embed-permalink-content"
+            layout="row" layout-align="center center"> 
+
+            <md-content flex > 
+               <a href="{{permalink}}" target="_blank"ng-show="ready"> 
+                  <md-button class="md-raised md-primary"> 
+                     Tap to view in Safari 
+                  </md-button> 
+               </a>
+               <md-progress-circular 
+                     md-mode="indeterminate" 
+                     class="md-warn embed-code-spinner" 
+                     ng-show="!ready">
+               </md-progress-circular>
+            </md-content>      
+         </md-dialog-content>    
+      </div>
+   </div>
+
+   <!-- Footer 
+   <md-toolbar layout="row" layout-align="start center" layout-align-sm="center center">
+      <div class="md-toolbar-tools md-warn">
+         <span class="embed-instructions" hide-gt-sm> 
+            
+         </span> 
+     </div>
+   </md-toolbar> -->
+</md-dialog>
