@@ -28,6 +28,8 @@ var sr_debug, sr_debugII;
 
       var self = this;
 
+      
+
       // Google Suggestion API 
       var googleSuggestionAPI = $resource('https://suggestqueries.google.com/complete/search', 
          { callback:'JSON_CALLBACK'},
@@ -38,6 +40,7 @@ var sr_debug, sr_debugII;
       self.autoCompleteOn = true;
       self.synch = false;
       self.youTube = youTubeDataAPI;
+      self.phone = ( navigator.userAgent.match(/(iPod|iPhone)/g) ? true : false );
       
       // Autocomplete on/of toggles necessary to stop md-autocomplete from
       // re-running search when a selection is made and the searchText updates/changes
@@ -48,6 +51,8 @@ var sr_debug, sr_debugII;
       // Autocomplete dropdown selection & Search button handler
       self.submit = function(searchTerm){
 
+         console.log('entering submit');
+
          self.autoCompleteOn = false;
 
          // Submit will get a bogus selection call when the searchboxes' models 
@@ -57,6 +62,7 @@ var sr_debug, sr_debugII;
 
          // Otherwise this is for real: run query
          } else if (searchTerm && searchTerm.length){
+            console.log('entering query');
             self.youTube.query(searchTerm);
          }
       };
@@ -100,12 +106,14 @@ var sr_debug, sr_debugII;
       scope.ctrl = searchboxCtrl;
 
       var mdElem = elem.find('md-autocomplete');
+      var mdInput = mdElem.find('input');
       var mdScope = mdElem.isolateScope();
       var mdCtrl = mdScope.$mdAutocompleteCtrl;
 
       // Keeps searchText and selectedItem synched across instances of search box
       // so that the last typed search is identical in toolbar and sidebar
       scope.$on('youTubeDataAPI:query', function(event, msg){
+
             scope.ctrl.synch = true;
             mdScope.searchText = msg;
             mdScope.selectedItem = {value: msg}
@@ -125,6 +133,18 @@ var sr_debug, sr_debugII;
          
          }
       });
+
+      // Captures blur event (triggered by 'Done') on iPhone. Requires that submit be called
+      // explicitly - the watcher is not reacting to the value change per above.
+      mdInput.bind('blur', function(event){
+
+         if ( scope.ctrl.phone && mdScope.searchText && mdScope.searchText.length ){
+         
+            mdCtrl.keydown({keyCode: 27}); // Escape closes dropdown.
+            scope.ctrl.submit(mdScope.searchText);
+            scope.$apply();
+         }
+      })
    }
    
 

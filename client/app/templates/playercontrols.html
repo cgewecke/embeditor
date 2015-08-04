@@ -58,7 +58,7 @@
         </span>
 
         <!-- Slider --> 
-        <span layout="column" flex>
+        <span layout="column" flex flex-sm="90" class="phone-slider-col">
           <span layout="row" layout-align="center" class="rangefinder-span">
             <embeditor-rangefinder layout-fill></embeditor-rangefinder>
           </span>
@@ -66,10 +66,25 @@
             <div layout="row" layout-fill layout-align="space-between center">
               <span class="set-btn-block-label"> Rough Cut </span>
               <span class="set-btn-block-help"> 
-                (Use slider to change your clip's time range)
+                (Drag to set time range)
               </span>
             </div>
           </span>
+        </span>
+
+        <!-- Reset Button - phone layout only -->
+        <span layout="column" layout-align="start center" hide-gt-sm flex-sm="10">
+          <ng-md-icon 
+              id="reset-button"
+              class="phone-slider-reset-btn"
+              icon="cancel" 
+              size="32" 
+              ng-attr-style="{{hover}}" 
+              ng-init="hover='fill:#FFD54F'"
+              ng-mouseenter="hover='fill:#FF8F00'"
+              ng-mouseleave="hover='fill:#FFD54F'"
+              click="player.API.reset()">
+            </ng-md-icon>
         </span>
       </div>
 
@@ -91,27 +106,33 @@
            layout-align-sm="center center"
            layout-wrap> 
         <!-- STARTPOINTS -->  
-          <span id="startpoint-block" layout="column">          <!-- flex-sm="90" -->
+          <span id="startpoint-block" layout="column">      
             <!-- 1 sec rewind row -->
             <span layout="row">
               <span layout="column" layout-align="center center"> 
-                <md-button id="start-back-1sec-btn" aria-label="seek"
+                
+                <md-button id="start-back-1sec-btn" 
                     click="player.API.start(-1)"
                     class="md-raised precision-btn-outer"
-                    md-no-ink>
-                  <ng-md-icon icon="chevron_left" size="38"></ng-md-icon>
+                    aria-label="seek"
+                    md-no-ink >
+                 
+                  <ng-md-icon icon="chevron_left" size="38" style="fill:black"></ng-md-icon>
+                
                 </md-button> 
+
                 <span class="control-btn-txt-left"> 1s </span>  
               </span>
                <!-- Frame rewind -->
               <span layout="column" layout-align="center center"> 
-                <md-button id="start-back-frame-btn" aria-label="seek"
+                <md-button id="start-back-frame-btn" 
                     click="player.API.start(-(player.API.frameLength))"
                     class="md-raised precision-btn-inner"
-                    md-no-ink>
-                  <ng-md-icon icon="chevron_left" size="24">
-                  </ng-md-icon>
-                </md-button>
+                    aria-label="seek"
+                    md-no-ink >
+                    
+                  <ng-md-icon icon="chevron_left" size="24"></ng-md-icon>
+                </md-button> 
                 <span class="control-btn-txt-ctr"> frame </span>
               </span>
 
@@ -133,7 +154,7 @@
                     </md-tooltip> 
                 </span> 
                 
-                <md-button aria-label="seek" class="startpoint-btn" md-no-ink>
+                <md-button aria-label="seek" class="startpoint-btn">
                   <div class="time-disp-time"> {{player.API.startpoint.display}} </div>
                 </md-button>
                 
@@ -257,8 +278,7 @@
                     click="player.API.end(-(player.API.frameLength))"
                     class="md-raised precision-btn-inner"
                     md-no-ink>
-                  <ng-md-icon icon="chevron_left" size="24">
-                  </ng-md-icon>
+                  <ng-md-icon icon="chevron_left" size="24"></ng-md-icon>
                 </md-button>
                 <span class="control-btn-txt-ctr"> frame </span>
               </span>
@@ -572,7 +592,7 @@
       </div>  
     </span>
     <!-- Slider Reset Button -->
-    <span layout="column" flex="5" class="reset-column">
+    <span layout="column" flex="5" class="reset-column" hide-sm>
       <span layout="row" layout-align="center center" class="reset-button" >
           <ng-md-icon 
             id="reset-button"

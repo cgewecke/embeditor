@@ -14,11 +14,10 @@
   {{(search.layout.mobile) ? 2 : 3 }}                                                  
 -->
 
-<div ng-controller="SearchSidebarCtrl as search" layout="vertical">
+<div ng-controller="SearchSidebarCtrl as search" class="sidebar-scroll" >
   <md-sidenav class="md-sidenav-left" md-component-id="search">   
     <!-- Toolbar -->
     <md-toolbar class="md-medium-tall search-toolbar-phone" 
-      md-scroll-shrink 
       layout="row" 
       layout-align="center center">
       <div class="md-toolbar-tools" layout="row" layout-align="center center">
@@ -65,12 +64,12 @@
     </md-toolbar>
     <!-- End toolbar -->
     <!-- Sidebar Body -->
-    <!-- Body-length error Messages & Spinner: -->
+    <!-- Body-length error Messages & Spinner:  layout-fill  -->
     <div id="ss-body-msg-container" 
-         class="sidebar-background" 
+         class="sidebar-background phone-msg-padding" 
          layout="column" 
-         layout-fill 
-         layout-align="center center" 
+         layout-fill
+         layout-align="{{(search.layout.phone) ? 'start center' : 'center center' }}" 
          ng-show="!search.youTube.results.length">    
       <!-- Empty Result set -->   
       <div id="ss-no-results-msg" 

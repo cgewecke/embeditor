@@ -10,6 +10,13 @@
     height: inherit; } 
 }
 
+/* iOS */
+md-content{
+  /*overflow-y: scroll !important;*/
+}
+
+
+
 /*-------------------*/
 
 /* app */

@@ -11,6 +11,7 @@
     var self = this;
 
     self.mobile = ( navigator.userAgent.match(/(iPad|iPhone|iPod|Android)/g) ? true : false );
+    self.phone = ( navigator.userAgent.match(/(iPhone|iPod)/g) ? true : false );
     self.start = true;
     
     // sidenavIsOpen(id) Boolean toggle used for show/hide layout elements when

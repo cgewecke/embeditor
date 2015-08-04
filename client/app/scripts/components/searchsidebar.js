@@ -86,7 +86,17 @@ var sb_debug, sb_debugII, sb_debugIII;
       function searchItemEventHandlers(scope, elem, attrs){
 
         scope.dataAPI = youTubeDataAPI;
-        scope.playerAPI = youtubePlayerAPI
+        scope.playerAPI = youtubePlayerAPI;
+
+        // Clicks on the play icon
+        scope.play = function(video){
+          scope.playerAPI.load(video);
+
+          // Auto close sidenav on iphone, ipod & android
+          (scope.playerAPI.phone) ?
+            $mdSidenav('search').toggle() :
+            false;
+        }
       };
     };
     embeditorSearchItem.$inject = ['youTubeDataAPI', 'youtubePlayerAPI', '$mdSidenav'];

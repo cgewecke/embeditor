@@ -69,7 +69,7 @@ var ytp_debug, ytp_debugII;
 
     // Determines opening sequence eventing . . . .
     self.mobile = ( navigator.userAgent.match(/(iPad|iPhone|iPod|Android)/g) ? true : false );
-    self.android = ( navigator.userAgent.match(/(Android)/g) ? true : false );
+    self.phone = ( navigator.userAgent.match(/(iPod|iPhone|Android)/g) ? true : false );
 
     
     if (self.mobile){

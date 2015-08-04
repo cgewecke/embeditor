@@ -155,10 +155,7 @@
         padding-left: 0px;
       }
 
-      .reset-column{
-        padding-left: 15px;
-      }
-
+      
       .endpoint-column{
         padding-top: 15px;
       }
@@ -191,9 +188,9 @@
         padding-top: 20px;
       }
 
-      .reset-button{
+      .phone-slider-reset-btn{
         padding-top: 15px;
-        padding-left: 10px;
+        padding-left: 20px;
       }
 
       .set-btn-block-help{
@@ -244,6 +241,10 @@
         transform: scale(1,1);
       }
 
+      .phone-slider-col{
+        padding-left: 10px;
+      }
+
       .reset-button{
         padding-top: 15px;
         padding-left: 5px;
@@ -272,8 +273,10 @@
 
       .sidebar-background{
         background-color: #E0E0E0;
-        overflow-y: scroll;
-        -webkit-overflow-scrolling: touch !important;
+      }
+
+      .phone-msg-padding{
+        padding-top: 100px;
       }
 
       .searchItemDuration{
@@ -339,11 +342,22 @@
 
       /* Dialog Windows */
       .embed-title{
-        font-size: 18px;
+        font-size: 16px;
       }
       .embed-instructions{
+        padding-left: 10px;
         font-size: 12px;
         cursor: default;
+      }
+
+      .embed-code-text{
+        font-size: 12px;
+      }
+      .permalink-code-text{
+        font-size: 12px;
+      }
+      .share-instructions{
+        font-size: 12px;
       }
 }
 
@@ -708,7 +722,7 @@
       .set-btn-block-help{
         color: rgba(0,0,0,0.26) !important;
         cursor: default;
-        font-size: 9px !important;
+        font-size: 11px !important;
         padding-left: 15px;
       }
 
@@ -774,10 +788,13 @@
         transform: scale(1,1);
       }
 
-      .reset-button{
+      .phone-slider-col{
+        padding-left: 10px;
+      }
+      
+      .phone-slider-reset-btn{
         padding-top: 15px;
-        padding-left: 5px;
-        padding-right: 5px;
+        padding-left: 20px;
       }
 
       .code-button-row{
@@ -800,10 +817,17 @@
         font-size: 10px;
       }
 
+      .sidebar-scroll{
+        overflow-y: scroll;
+        -webkit-overflow-scrolling: auto !important; 
+      }
+
       .sidebar-background{
         background-color: #E0E0E0;
-        overflow-y: scroll;
-        -webkit-overflow-scrolling: touch !important;
+      }
+
+      .phone-msg-padding{
+        padding-top: 100px;
       }
 
       .searchItemDuration{
@@ -869,11 +893,22 @@
 
       /* Dialog Windows */
       .embed-title{
-        font-size: 18px;
+        font-size: 16px;
       }
       .embed-instructions{
+        padding-left: 10px;
         font-size: 12px;
         cursor: default;
+      }
+      .embed-code-text{
+        font-size: 12px;
+      }
+
+      .permalink-code-text{
+        font-size: 12px;
+      }
+      .share-instructions{
+        font-size: 12px;
       }
 
 }
