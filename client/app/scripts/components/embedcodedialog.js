@@ -9,6 +9,7 @@ var ed_debug, ed_debugII;
       'ngMessages',
       'embeditor.services.youtubePlayerAPI',
       'embeditor.services.codeGenerator',
+      'embeditor.services.layoutManager'
 
       ])
     
@@ -19,19 +20,22 @@ var ed_debug, ed_debugII;
     
       // ---------------------------- SERVICE: ---------------------------------
       // Injected into PlayerCtrl - the open() method is called on embed btn click
-      function embedCodeDialog($rootScope, $mdDialog, $window, codeGenerator){
+      function embedCodeDialog($rootScope, $mdDialog, $window, codeGenerator, layoutManager){
          var self = this;
          var code = codeGenerator;
+         var layout = layoutManager;
          
          var templateUrls = { 
             embed: 'templates/embedcode.html', 
             permalink: 'templates/permalink.html',
-            share: 'templates/share.html' 
+            share: 'templates/share.html', 
+            preview: 'templates/preview.html'
          };
 
          self.opening = false; // Triggers spinner on button during dialog open
          self.target = null; // Target === elem.id ? show loading spinner until dialog opens
          self.counter = 0; // Number of times opened - used to separate preview tabs.
+
 
          // Open()
          self.open = function(event, type){
@@ -61,24 +65,36 @@ var ed_debug, ed_debugII;
          self.close = function() { $mdDialog.hide(); };
 
          // Preview(): Generates a clip in the DB 
-         // Before DB resolves, a blank tab gets opened synchonously, at DB resolution,
-         // the resolved address gets opened in that tab name. 
+         // On desktop & tablet -> before DB resolves, a blank tab gets opened synchonously, at DB resolution,
+         //    the resolved address gets opened in that tab name. 
+         // On Iphone/Ipod -> open dialog with active preview link - transfers user to mobile safari.
          self.preview = function(event){
 
-            self.target = event.currentTarget.id;
-            self.opening = true;
-            self.counter += 1;
+            // Phone
+            if (layout.phone){
+               self.open(event, 'preview');
             
-            code.create().then(
-               function(success){ 
-                  self.opening = false;
-                  $window.open( $window.location.href + 'videos/' + code.options._id, 
-                     'preview' + self.counter);
-               },
-               function(error){ $rootScope.$broadcast('embedCodeDialog:database-error');}
-            );
+            // Desktop & Tablet
+            } else {
             
-            $window.open('', 'preview' + self.counter);
+               self.target = event.currentTarget.id;
+               self.opening = true;
+               self.counter += 1;
+               
+               code.create().then(
+                  function(success){ 
+                     
+                     self.opening = false;  
+                   
+                     $window.open( $window.location.href + 'videos/' + code.options._id, 
+                        'preview' + self.counter);
+                     
+                  },
+                  function(error){ $rootScope.$broadcast('embedCodeDialog:database-error');}
+               );
+               
+               $window.open('', 'preview' + self.counter);
+            }
          };
 
          // Hide btn spinner & create record of the current clip in DB
@@ -92,7 +108,7 @@ var ed_debug, ed_debugII;
          };
 
       };
-      embedCodeDialog.$inject = ['$rootScope', '$mdDialog', '$window', 'codeGenerator'];
+      embedCodeDialog.$inject = ['$rootScope', '$mdDialog', '$window', 'codeGenerator', 'layoutManager'];
 
       // -------------------- CONTROLLER: dialogCtrl(): ---------------------------------
       // Injected into the dialog window and the copy button directive

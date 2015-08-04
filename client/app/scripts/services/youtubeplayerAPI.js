@@ -256,11 +256,16 @@ var ytp_debug, ytp_debugII;
         self.videoLoaded = false;
 
         // Desktop: Load on init & search play. 
-        // Mobile: Load on search play
-        (!self.mobile || (self.mobile && !self.initializing) ) ?
+        // Tablet: Load on search play
+        (!self.mobile || (self.mobile && !self.phone && !self.initializing) ) ?
           self.player.loadVideoById(video.videoId):
           false;
-        
+
+        // Phone app: Cue on search play
+        (self.phone && !self.initializing) ?
+          self.player.cueVideoById(video.videoId):
+          false;
+
         self.setStartpoint(0);
         self.setEndpoint(video.seconds);
         setLoadState();

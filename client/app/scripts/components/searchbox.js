@@ -28,8 +28,6 @@ var sr_debug, sr_debugII;
 
       var self = this;
 
-      
-
       // Google Suggestion API 
       var googleSuggestionAPI = $resource('https://suggestqueries.google.com/complete/search', 
          { callback:'JSON_CALLBACK'},
@@ -112,7 +110,10 @@ var sr_debug, sr_debugII;
 
       // Keeps searchText and selectedItem synched across instances of search box
       // so that the last typed search is identical in toolbar and sidebar
+      // On iphone this causes problems because it focusses the search box
       scope.$on('youTubeDataAPI:query', function(event, msg){
+
+         if (!scope.ctrl.phone){
 
             scope.ctrl.synch = true;
             mdScope.searchText = msg;
@@ -120,6 +121,7 @@ var sr_debug, sr_debugII;
 
             // Might get rid of weird sticking open when sidenav closes . . .
             mdCtrl.keydown({keyCode: 27}); // Escape closes dropdown.
+         } 
       });
 
       // Captures carriage return in input box and hacks into mdAutoComplete to execute
