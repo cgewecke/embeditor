@@ -9,6 +9,10 @@ Heroku Production notes:
   In the client folder run: $ bower update (pick Angular 1.3.16 option when asked)
   
   In client/app/styles: rename all .css as .scss
+  
+  In client/bower_components/angular: rewrite bower.json's "main" to 'angular.webkitassign.js'
+  
+  Copy angular.webkitassign.js from scripts/vendor and paste to client/bower_components/angular/
 
   In the client folder run:$ grunt build
 
