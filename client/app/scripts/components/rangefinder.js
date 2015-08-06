@@ -23,9 +23,9 @@ var rf_debug, rf_debugII;
          var rangeElem = elem.find('input');
          rangeElem.ionRangeSlider({
              type: "double",
-             min: -1,
-             max: 0, 
-             from: -1,
+             min: 0,
+             max: 1, 
+             from: 0,
              grid: true,
              prettify_enabled: true,
              prettify: function(val){

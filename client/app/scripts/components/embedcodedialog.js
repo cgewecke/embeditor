@@ -227,7 +227,11 @@ var ed_debug, ed_debugII;
 
          function permalink(){
             return window.location.href + 'videos/' + codeGenerator.options._id;
-         }
+         };
+
+         function embedlink(){
+            return window.location.href + 'embed/' + codeGenerator.options._id;
+         };
       };
       dialogCtrl.$inject = ['$scope', '$mdDialog', '$window', 'codeGenerator', 'youtubePlayerAPI'];
 

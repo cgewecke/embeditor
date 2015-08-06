@@ -2,6 +2,8 @@
    <head>
      <meta charset="utf-8">
      
+     <!-- 320 x 180 Twitter heights for player mapped to youtube mq image -->
+     <meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, user-scalable=no, width=device-width"/> 
      <!-- Open Graph Tags (facebook & tumblr) -->
      <meta property="og:title" content="{{video.title}}" />
      <meta property="og:image" content="{{video.imageUrl}}" />
@@ -10,10 +12,13 @@
      <meta property="og:url" content="{{video.cyclopseUrl}}" />
 
      <!-- Twitter Card Tags -->
-     <meta name="twitter:card" content="summary_large_image" />
-     <meta name="twitter:site" content="@TamanawasAmin" />
+     <meta name="twitter:card" content="player" />
      <meta name="twitter:title" content="{{video.title}}" />
+     <meta name="twitter:site" content="@apocyclopse"/>
      <meta name="twitter:description" content="{{video.description}}" />
+     <meta name="twitter:player" content="{{video.twitterUrl}}"/>
+     <meta name="twitter:player:width" content="320"/>
+     <meta name="twitter:player:height" content="180"/>
      <meta name="twitter:image" content="{{video.imageUrl}}" />
 
      <meta name="description" content="{{video.description}} of {{video.title}}"/>
@@ -255,8 +260,7 @@
             //      Initiate play
             // 5. Player starts playing
             //      Overlay comes off,
-            //      Player unMuted
-            //      Fuck iOS
+  
 
             function iOS_onPlayerStateChange(event){
               
@@ -269,13 +273,22 @@
                     player.seekTo(start);
                     
                     iOS_buffer = true;
+
+                    // Failsafe play - sometimes the initial play
+                    // has already bufferred the stream near 'start' and we don't 
+                    // get the buffer triggered play. 
+                    setTimeout(function(){
+                      (iOS_buffer) ? 
+                        player.playVideo():
+                        false;
+                    }, 3000)
+
                   
                   } else if (iOS_buffer){
                     //log('play - ios Buffer')
                     iOS_buffer = false;
 
                     // Wait for stream to actually start
-
                     var load_test = setInterval(function(){
                       
                       load = player.getVideoLoadedFraction();
