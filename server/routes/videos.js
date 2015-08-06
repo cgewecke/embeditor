@@ -33,7 +33,8 @@ function responder(res, err, video, params){
       console.log('Served /video: ' + video._id);
 
       // Urls for og: & twitter meta tags
-      video.cyclopseUrl = 'http://www.cyclop.se/videos/' + video._id;
+      video.cyclopseUrl = 'https://www.cyclop.se/videos/' + video._id;
+      video.twitterUrl = 'https://www.cyclop.se/embed/' + video._id;
       video.youtubeUrl = 'https://www.youtube.com/watch?v=' + video.videoId;
       
       // Share Urls for share buttons 

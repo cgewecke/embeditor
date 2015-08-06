@@ -8,6 +8,7 @@ body{
   height: 100%;
 }
 
+
 .toolbar{
    height: 88px;
    min-height: 88px;
@@ -169,8 +170,8 @@ body{
   text-color: white !important;
 }
 
-.md-48{ font-size: 48px !important;}
-.md-64{ font-size: 64px !important;}
+.md-48{ font-size: 48px !important}
+.md-64{ font-size: 64px !important}
 
 .icon-align-middle{
    vertical-align: middle;
@@ -201,3 +202,49 @@ body{
 .titlebar-cyclopse{
   font-size: 30px;
 }
+
+/* Iphone 5/5s/6/6s */
+@media only screen 
+  and (min-device-width: 320px) 
+  and (max-device-width: 667px) 
+  and (-webkit-min-device-pixel-ratio: 2) {
+
+
+  .titlebar-cyclopse{
+    font-size: 20px;
+  }
+
+  .md-64{
+    font-size: 2.5em !important;
+  }
+
+  .fa-lg{
+    font-size: 1em !important;
+  }
+
+  .footer-right-corner{
+
+    display: none;
+  }
+
+  .footer-left-corner{
+    width: 100%;
+  }
+
+  .cyclopse-slogan{
+    font-size: 13px;
+  }
+
+  .clip-text{
+    font-size: 13px;
+  }
+
+}
+
+
+
+
+
+
+
+
