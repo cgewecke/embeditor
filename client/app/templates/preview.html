@@ -27,17 +27,19 @@
             layout="row" layout-align="center center"> 
             <md-content flex > 
                <!-- Link Button -->
-               <a href="{{permalink}}" target="_blank"ng-show="ready"> 
-                  <md-button class="md-raised md-primary"> 
-                     Tap to view in Safari 
-                  </md-button> 
-               </a>
-               <!-- Loading Spinner -->
-               <md-progress-circular 
-                     md-mode="indeterminate" 
-                     class="md-warn embed-code-spinner" 
-                     ng-show="!ready">
-               </md-progress-circular>
+               <div layout="row" layout-align="center center">
+                  <a href="{{permalink}}" target="_blank"ng-show="ready"> 
+                     <md-button class="md-raised md-primary"> 
+                        Tap to view in Safari 
+                     </md-button> 
+                  </a>
+                  <!-- Loading Spinner -->
+                  <md-progress-circular 
+                        md-mode="indeterminate" 
+                        class="md-warn embed-code-spinner" 
+                        ng-show="!ready">
+                  </md-progress-circular>
+               </div>
             </md-content>      
          </md-dialog-content>    
       </div>
