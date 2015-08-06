@@ -11,13 +11,15 @@
 
   <!-- Instructions for Timebar -->
   <div layout="row" layout-fill layout-align="start" 
-       ng-class="{'timebar-instructions-row': !player.API.mobile}" class="controls-background">
+       ng-class="{'timebar-instructions-row': !player.API.mobile}" class="controls-background mobile-timebar">
+   
     <span class="set-btn-block-help" ng-show="player.API.mobile"> 
       (Tap timebar to seek within clip)
     </span>
     <span class="set-btn-block-help" ng-show="!player.API.mobile"> 
       (Click timebar to seek within clip. Set stops using the quick set buttons)
     </span>
+  
   </div>
 
   <!-- APP Row -->

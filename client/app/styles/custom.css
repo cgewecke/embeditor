@@ -210,7 +210,7 @@ md-content{
   visibility: hidden;
   width: 0px;
   height: 0px;
-  top: -4px;
+  top: -1px;
   left: 50px;
   z-index: 50;
 }
@@ -229,7 +229,7 @@ md-content{
   position: relative;
   width: 0px;
   height: 0px;
-  top: -3px;
+  /*top: -3px;*/
   left: 0px;
   z-index: 3;
 }
@@ -242,21 +242,24 @@ md-content{
 }
 
 md-progress-linear.time-bar{
-  height: 8px;
+  height: 10px;
+  background-color: rgb(255,193,7) !important;
 }
 md-progress-linear.time-bar .md-container {
-  height: 15px;
-  top: -3px;
+  height: 10px;
+  /*top: -3px;*/
   cursor: ne-resize;
+  
 }
 
 md-progress-linear.time-bar .md-bar {
-  height: 15px;
+  height: 10px;
+  /*top: -3px;*/
 }
 
-md-progress-linear .md-dashed:before{
-  background: inherit !important;
-  background-color: #999 !important;
+md-progress-linear.timebar .md-dashed{
+  /*background: inherit !important;*/
+  background-color: rgb(255,193,7) !important;
   -webkit-animation: none !important;
   animiation: none !important;
 }
@@ -449,6 +452,21 @@ md-progress-linear .md-dashed:before{
   padding-top: 5px;
   padding-left: 10px;
 }
+
+/* Insane firefox layout issue fix 
+   for rel btw timebar and timebar-instructions */
+   
+@-moz-document url-prefix() {
+
+  .timebar-instructions-row{
+    margin-top: 10px;
+    z-index: 1;
+  }
+  .tapehead-animation{
+    height: 8px;
+  }
+}
+
 
 .play-btn-span{
   padding-bottom: 15px;

@@ -55,7 +55,7 @@
 
       .mobile-player-loading-screen{
         width: 100%;
-        height: 25.5%;
+        height: 24.5%;
       }
 
       .player-instruction-screen {
@@ -96,6 +96,8 @@
         width: 100%;
       }
 
+
+
   
       .timestamp-btn{
         background: #E0E0E0 !important;
@@ -130,6 +132,10 @@
         color: white;
         opacity: .8;
         text-align: center;
+      }
+
+      md-progress-linear.time-bar .md-container {
+        height: 8px;
       }
 
       md-progress-linear.time-bar{
@@ -177,11 +183,15 @@
         width: 110%;
         height: 110%;
         background: black;
-        top: -26px;
+        top: -32px;
         left: -20px;
         opacity: .3;
         z-index: 2;
 
+      }
+
+      .mobile-timebar{
+        padding-top: 5px;
       }
 
       .lower-row{
@@ -405,10 +415,72 @@
 
   } 
 
+  /* Quickset & Timestamps */
+  .desktop-quickset-btn{
+    height: 56px;
+    width: 56px;
+    background-color: #424242;
+  }
+  .quickset-top-row{
+    /*background-color: black;*/
+    background-color: rgb(22, 20, 22);
+    height: 56px;
+  }
+
+  .desktop-quickset-icon {
+    top: 4px;
+    left: 10px;
+  }
+
+  .quickset-arrow-text{
+    color: white;
+    position: relative;
+    height: 10px;
+    font-size: 12px;
+    top: -18px;
+    pointer-events: none;
+    cursor: default;
+  }
+
+  .timestamp-time-text {
+    font-size: 20px;
+  }
+
+  .timestamp-label{
+    font-size: 10px;
+    opacity: .7;
+    text-align: center;
+  }
+
   .phone-quickset-txt{
+    padding-top: 10px;
+    font-size: 14px;
+    color: white;
+    opacity: .5;
+    text-align: center;
+  }
+
+  .timestamp-btn{
+    background: #E0E0E0 !important;
+    color: black;
+    cursor: default;
+    min-height: 54px;
+    padding-left: 15px;
+    padding-right: 15px;
+  }
+
+  .time-disp-timestamp{
+
+    position: relative;
+    top: -1px;
+    cursor: default;
+
+  }
+  
+  /*.phone-quickset-txt{
     padding-top: 5px;
     font-size: 12px;
-  }
+  }*/
 
   .player-cover{
   }
@@ -423,7 +495,7 @@
   }
 }
 
-/* Landscape */
+/* Landscape IPhone 6S*/
 @media only screen 
   and (min-device-width: 414px) 
   and (max-device-width: 736px) 
@@ -460,6 +532,17 @@
     height: 85.5%;
   }
 
+  .player-instruction-screen {
+
+    visibility: visible;
+    width: 100%;
+    height: 85.5%;
+    background: black;
+    opacity: .7;
+    color: white;
+    font-size: 16px;
+  }
+
   .player-wrapper-styles{
     height: 100%;
     width: 100%;
@@ -480,6 +563,51 @@
   .mobile-play-icon {
     padding-left: 10px;
   }
+  /* Quickset & Timestamps */
+  .desktop-quickset-btn{
+    height: 56px;
+    width: 56px;
+    background-color: #424242;
+  }
+  .quickset-top-row{
+    /*background-color: black;*/
+    background-color: rgb(22, 20, 22);
+    height: 56px;
+  }
+
+  .desktop-quickset-icon {
+    top: 4px;
+    left: 10px;
+  }
+
+  .quickset-arrow-text{
+    color: white;
+    position: relative;
+    height: 10px;
+    font-size: 12px;
+    top: -18px;
+    pointer-events: none;
+    cursor: default;
+  }
+
+  .timestamp-time-text {
+    font-size: 20px;
+  }
+
+  .timestamp-label{
+    font-size: 10px;
+    opacity: .7;
+    text-align: center;
+  }
+
+  .phone-quickset-txt{
+    padding-top: 10px;
+    font-size: 14px;
+    color: white;
+    opacity: .5;
+    text-align: center;
+  }
+
   .timestamp-btn{
     background: #E0E0E0 !important;
     color: black;
@@ -495,24 +623,6 @@
     top: -1px;
     cursor: default;
 
-  }
-
-  .phone-quickset-txt{
-    padding-top: 5px;
-    font-size: 12px;
-    color: white;
-    opacity: .8;
-    text-align: center;
-  }
-
-  .quickset-arrow-text{
-    color: white;
-    position: relative;
-    height: 10px;
-    font-size: 10px;
-    top: -15px;
-    pointer-events: none;
-    cursor: default;
   }
 
   md-progress-linear.time-bar{
@@ -580,14 +690,14 @@
 
       .mobile-player-loading-screen{
         width: 100%;
-        height: 26.5%;
+        height: 24.5%;
       }
 
       .player-instruction-screen {
 
         visibility: visible;
         width: 100%;
-        height: 26.5%;
+        height: 25.5%;
         background: black;
         opacity: .7;
         color: white;
@@ -648,6 +758,10 @@
         cursor: default;
       }
 
+      md-progress-linear.time-bar .md-container {
+        height: 8px;
+      }
+
       md-progress-linear.time-bar{
           display: block;
           width: 100%;
@@ -696,11 +810,15 @@
         width: 110%;
         height: 110%;
         background: black;
-        top: -26px;
+        top: -32px;
         left: -20px;
         opacity: .3;
         z-index: 2;
 
+      }
+
+      .mobile-timebar{
+        padding-top: 5px;
       }
 
       .precision-btn-outer{
@@ -942,6 +1060,10 @@
     display: none !important;
   }
 
+  #app-column{
+    display: none !important;
+  }
+
   #quickset-phone-row{
     display: block !important;
   }
@@ -960,16 +1082,27 @@
   
   .mobile-player-loading-screen {
     width: 100%;
-    height: 82.5%;
+    height: 83.5%;
 
   } 
+
+  .player-instruction-screen {
+
+    visibility: visible;
+    width: 100%;
+    height: 85.5%;
+    background: black;
+    opacity: .7;
+    color: white;
+    font-size: 16px;
+  }
 
   .player-cover{
   }
 
   #player{ 
     width: 100%;
-    height: 270px;
+    height: 325px;
   }
 
   .endpoint-column {
