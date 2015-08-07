@@ -137,6 +137,10 @@
 
       }
 
+      md-progress-linear.time-bar .md-container {
+        height: 8px;
+      }
+
       md-progress-linear.time-bar{
           display: block;
           width: 100%;
@@ -182,6 +186,10 @@
         opacity: .3;
         z-index: 2;
 
+      }
+
+      .mobile-timebar{
+        padding-top: 5px;
       }
 
       .lower-row{
