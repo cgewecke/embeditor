@@ -5,21 +5,27 @@ var app_debug;
 angular.module('embeditor')
    .controller('AppCtrl', appCtrl )
    .directive('click', click)
-   .directive('appClick', appClick);
+   .directive('appClick', appClick)
+   .directive('mobileLoadingCover', mobileLoadingCover);
 
-   function appCtrl($scope, $timeout){
-
+   // Stub 
+   function appCtrl($scope){
     var self = this;
-    self.loading = true;
-
-    $timeout(function(){
-      self.loading = false;
-    }, 1500);
-
-
    };
-   appCtrl.$inject = ['$scope', '$timeout'];
+   appCtrl.$inject = ['$scope'];
 
+
+   // Hide loading cover: 'player loaded' event only fired on mobileInit()
+   function mobileLoadingCover(){
+    return {
+      restrict: 'A',  
+      link: function(scope, elem, attrs){
+        scope.$on('YTPlayerAPI:playerLoaded', function(){ 
+          elem.css('display', 'none');
+        });
+      }
+    };
+   };
 
    // Substitute for ng-click(). This is an end-run around some kind of insane
    // issue w/ ng-touch where everything on iOS double clicks. 

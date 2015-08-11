@@ -1,20 +1,5 @@
 var ytp_debug, ytp_debugII;
 
-/* BUGS: 
-
-  1. 
-  2. Rip out all mobile specific functions, they are almost identical to Desktop.
-  3. 
-  4. 
-  5. 
-  6. 
-  7. 
-  8. 
-  9. 
-  10. 
-
-*/
-
 (function(){
 'use strict';
 
@@ -39,6 +24,7 @@ var ytp_debug, ytp_debugII;
     var loadEvent = {name: 'YTPlayerAPI:load'};
     var updateEvent = {name: 'YTPlayerAPI:update'};  // Cast when tapehead is reset to start/endpoint
     var setEvent = {name: 'YTPlayerAPI:set'}; // Cast when start/endpoints vals change
+    var playerLoadedEvent = {name: 'YTPlayerAPI:playerLoaded'}; // Cast when YT fires the player ready event
 
     // Public Variables   
     self.YT;  // The YT API wrapper
@@ -74,14 +60,14 @@ var ytp_debug, ytp_debugII;
     
     if (self.mobile){
 
-      // Godard - Gimme Shelter: 'seconds' MUST BE 2 SECONDS SHORT OF THE END . . . .
+      // Eric Rohmer - La Collectioneuse Trailer 
       self.initialVideo = {
-        seconds: 280, 
-        imageUrl: "https://i.ytimg.com/vi/y651C7aNXRc/mqdefault.jpg",
-        title: "Lee Scratch Perry - Studio Black Ark",
-        videoId: "y651C7aNXRc"
-      };
-
+      
+        imageUrl: "https://i.ytimg.com/vi/9qI41zVCB7E/mqdefault.jpg",
+        seconds: 125,
+        title: "Eric Rohmer - La collectionneuse (1965) Trailer",
+        videoId: "9qI41zVCB7E"
+      }
 
     } else {
 
@@ -115,6 +101,7 @@ var ytp_debug, ytp_debugII;
       var timer;    
       self.load(self.initialVideo);
       self.mobileStart = true;
+      $rootScope.$broadcast(playerLoadedEvent.name);
       
     }
 
@@ -568,8 +555,8 @@ var ytp_debug, ytp_debugII;
           if (self.initializing){
             
             self.pause();
-            self.end(-90)
-            self.start(32);
+            //self.end(-90)
+            //self.start(32);
 
             $timeout(function(){ 
               self.initializing = false; 
@@ -635,6 +622,14 @@ var ytp_debug, ytp_debugII;
       // Cafe scene from Le feu follet
       //seconds: 144,
       //videoId: 'IwSQxlwMzr8'
+
+      // Lee scratch perry, studio black ark 
+      self.initialVideo = {
+        seconds: 280, 
+        imageUrl: "https://i.ytimg.com/vi/y651C7aNXRc/mqdefault.jpg",
+        title: "Lee Scratch Perry - Studio Black Ark",
+        videoId: "y651C7aNXRc"
+      };
 */
 
   

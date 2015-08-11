@@ -143,7 +143,6 @@
 
                 <span class="fa fa-play-circle time-disp-play-icon"
                     id="startpoint-display-btn"
-                    click="player.API.replayStart()"
                     ng-init="hover_start=false"
                     ng-mouseenter="hover_start=true" 
                     ng-mouseleave="hover_start=false"
@@ -156,7 +155,7 @@
                     </md-tooltip> 
                 </span> 
                 
-                <md-button aria-label="seek" class="startpoint-btn">
+                <md-button aria-label="seek" class="startpoint-btn" click="player.API.replayStart()">
                   <div class="time-disp-time"> {{player.API.startpoint.display}} </div>
                 </md-button>
                 
@@ -290,7 +289,6 @@
 
                 <span class="fa fa-play-circle time-disp-play-icon"
                     id="endpoint-display-btn"
-                    click="player.API.replayEnd()"
                     ng-init="hover_end=false"
                     ng-mouseenter="hover_end=true" 
                     ng-mouseleave="hover_end=false"
@@ -303,9 +301,7 @@
                     </md-tooltip> 
                 </span> 
                 
-                <md-button aria-label="seek"
-                    class="startpoint-btn"
-                    md-no-ink>
+                <md-button aria-label="seek" class="startpoint-btn" click="player.API.replayEnd()">
                   <div class="time-disp-time"> {{player.API.endpoint.display}} </div>
                 </md-button>
                 
@@ -346,7 +342,7 @@
 
 
     <!-- Playback Slider/Loop/Embed Button Row  ... flex -->
-      <div layout="row" flex layout-align="space-between center" layout-align-md="space-between start"
+      <div layout="row" layout-fill layout-align="space-between center" layout-align-md="space-between start"
         class="controls-background lower-row"> 
         <!-- Playback Slider -->
         <span layout="column" flex="30" layout-align="center start" ng-show="!player.API.mobile">
@@ -374,11 +370,11 @@
         </span>
 
         <!-- Desktop: Option switches -->
-        <span layout="column" flex="30" layout-align="center start" ng-show="!player.API.mobile">
+        <span layout="column" flex="20" layout-align="center start" ng-show="!player.API.mobile">
 
           <div layout="row" layout-fill layout-align="start end">
             <!-- Loop Switch -->
-            <span layout="column" flex="33" layout-align="end center">
+            <span layout="column" flex="50" layout-align="end center">
               <div layout="row" layout-fill layout-align="center end">
                  <md-input-container class="rate-slider-container">
                   <md-switch flex 
@@ -398,7 +394,7 @@
             </span>
 
             <!-- Mute Switch -->
-            <span layout="column" flex="33" layout-align="end center">
+            <span layout="column" flex="50" layout-align="end center">
               <div layout="row" layout-fill layout-align="center end">
                  <md-input-container class="rate-slider-container">
                   <md-switch flex 
@@ -414,27 +410,6 @@
                    layout-fill
                    layout-align="center" >
                 <span class="set-btn-block-label"> Mute </span>
-              </div> 
-            </span>
-            
-
-            <!-- Autoplay -->
-            <span layout="column" flex="33" layout-align="end center" >
-              <div layout="row" layout-fill layout-align="center end">
-                 <md-input-container class="rate-slider-container">
-                  <md-switch flex 
-                    id="auto-switch"
-                    ng-model="player.API.autoplay" 
-                    class="playback-slider"
-                    aria-label="autoplay">
-                  </md-switch>  
-                </md-input-container>
-              </div>
-              <div class="rate-slider-label-row"
-                   layout="row" 
-                   layout-fill
-                   layout-align="center" >
-                <span class="set-btn-block-label"> Autoplay </span>
               </div> 
             </span>
           </div>
@@ -460,11 +435,9 @@
             </div> 
           </span>
         </span>
-
-        
         
         <!-- Publish Button Row -->
-        <span layout="column" flex="30" flex-md="40" flex-sm="80">
+        <span layout="column" flex="40" flex-md="45" flex-sm="80">
           <div layout="row" id="publish-block" class="code-button-row" layout-align="space-between center">
 
           <!-- Cyclopse Preview Button -->
@@ -473,7 +446,7 @@
               layout-align="center" 
               class="playback-input-container">
 
-              <a id="preview-link" ng-href="{{player.dialog.previewHref}}" target="_blank">
+              <a id="preview-link">
                 <md-button flex
                     id="preview-btn"
                     click='player.dialog.preview($event)'
@@ -496,7 +469,38 @@
                 </md-button>  
               </a>
 
-            </md-input-container> 
+          </md-input-container> 
+
+          <!-- Tweet Button -->
+            <md-input-container 
+              layout="column" 
+              layout-align="center" 
+              class="playback-input-container"
+              hide-sm >
+
+              <md-button flex
+                  id="tweet-btn"
+                  click='player.dialog.tweet($event)'
+                  class="code-btn-with-spinner twitter-button">
+                  <div>
+                    <span class="fa fa-twitter code-icon share-icon" 
+                      ng-show="!player.dialog.opening || (player.dialog.target != 'tweet-btn')">
+                    </span> 
+                    <div class="code-text-fa" 
+                      ng-show="!player.dialog.opening || (player.dialog.target != 'tweet-btn')">
+                      Tweet
+                    </div>
+                  </div>
+              
+                <md-progress-circular
+                 class="md-warn embed-btn-spinner" 
+                 md-mode="indeterminate" 
+                 ng-show="player.dialog.opening && player.dialog.target === 'tweet-btn'">
+               </md-progress-circular>
+
+              </md-button>  
+          </md-input-container> 
+
           <!-- Share Dialog Window Button -->
             <md-input-container 
               layout="column" 
@@ -522,7 +526,6 @@
                  md-mode="indeterminate" 
                  ng-show="player.dialog.opening && player.dialog.target === 'share-dialog-btn'">
                </md-progress-circular>
-
               </md-button>  
             </md-input-container> 
 
@@ -612,6 +615,25 @@
   </div>
 </div>
 
-
+<!-- Autoplay 
+  <span layout="column" flex="33" layout-align="end center" >
+    <div layout="row" layout-fill layout-align="center end">
+       <md-input-container class="rate-slider-container">
+        <md-switch flex 
+          id="auto-switch"
+          ng-model="player.API.autoplay" 
+          class="playback-slider"
+          aria-label="autoplay">
+        </md-switch>  
+      </md-input-container>
+    </div>
+    <div class="rate-slider-label-row"
+         layout="row" 
+         layout-fill
+         layout-align="center" >
+      <span class="set-btn-block-label"> Autoplay </span>
+    </div> 
+  </span>
+  -->
       
 
