@@ -1,13 +1,3 @@
-/* to do:
-
-1. 
-2. 
-3. 
-4. 
-5. 
-6. 
-7. 
-
 /* ----------- iPhone 6 ----------- */
 
 /* Portrait and Landscape */
@@ -22,6 +12,9 @@
           -webkit-transform: translate3d(0,0,0);
       }
 
+      .appLoadingCover{
+        visibility: visible;
+      }
       /* --------- Toolbar -------------*/
 
       .titlebar-title{
@@ -66,17 +59,18 @@
         background: black;
         opacity: .7;
         color: white;
-        font-size: 16px;
+        font-size: 14px;
       }
 
       .player-instruction-title{
-        font-size: 58px;
-        padding-bottom: 10px;
+        font-size: 28px;
+        padding-bottom: 5px;
       }
 
       .player-instruction-start{
-        padding-top: 20px;
-        padding-bottom: 20px;
+        padding-top: 10px;
+        padding-bottom: 10px;
+        width: 70%;
       }
       .player-wrapper-styles{
         height: 100%;
@@ -95,8 +89,6 @@
       .loading-progress{
         width: 100%;
       }
-
-
 
   
       .timestamp-btn{
@@ -393,6 +385,14 @@
     background-color: black;
   }
 
+  .appLoadingCover{
+    visibility: visible;
+  }
+
+  .loading-cover-title{
+    display: none;
+  }
+
   #toolbar-header{
     display: none !important;
   }
@@ -504,6 +504,14 @@
 
   body{
     background-color: black;
+  }
+
+  .appLoadingCover{
+    visibility: visible;
+  }
+
+  .loading-cover-title{
+    display: none;
   }
 
   #toolbar-header{
@@ -657,6 +665,9 @@
           -webkit-transform: translate3d(0,0,0);
       }
 
+      .appLoadingCover{
+        visibility: visible;
+      }
       /* --------- Toolbar -------------*/
 
       .titlebar-title{
@@ -690,7 +701,7 @@
 
       .mobile-player-loading-screen{
         width: 100%;
-        height: 24.5%;
+        height: 25%;
       }
 
       .player-instruction-screen {
@@ -701,7 +712,18 @@
         background: black;
         opacity: .7;
         color: white;
-        font-size: 15px;
+        font-size: 14px;
+      }
+
+       .player-instruction-title{
+        font-size: 28px;
+        padding-bottom: 0px;
+      }
+
+      .player-instruction-start{
+        padding-top: 10px;
+        padding-bottom: 10px;
+        width: 70%;
       }
 
       .player-wrapper-styles{
@@ -1058,6 +1080,14 @@
 
   #toolbar-header{
     display: none !important;
+  }
+
+  .appLoadingCover{
+    visibility: visible;
+  }
+
+  .loading-cover-title{
+    display: none;
   }
 
   #app-column{

@@ -60,13 +60,34 @@ videoSchema.pre('save', function (next) {
     video.modestbranding = 1; 
     video.showinfo = 0;
     
-    video.description = "Clip: "  + toTime(video.start) + " to " + toTime(video.end);
+    video.description = "Duration: " + toHumanTime(video.end - video.start) + '. ' + '[ ' +
+                         toPreciseTime(video.start) + " to " + toPreciseTime(video.end) + ' ]';
 
     next();
 
 });
 
-function toTime(val){
+function toHumanTime(val){
+
+  val = val.toString();
+
+  var time;
+
+  var sec_num = parseInt(val, 10); // don't forget the second param
+  var hours   = Math.floor(sec_num / 3600);
+  var minutes = Math.floor((sec_num - (hours * 3600)) / 60);
+  var seconds = sec_num - (hours * 3600) - (minutes * 60);
+
+  if (hours)
+    time = hours+'h '+ minutes +'m '+ seconds + 's';
+  else if (minutes)
+    time = minutes + 'm '+ seconds + 's';
+  else
+    time = seconds + 's';
+  return time;
+};
+
+function toPreciseTime(val){
 
   val = val.toString();
 

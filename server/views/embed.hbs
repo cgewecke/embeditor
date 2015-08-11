@@ -339,7 +339,11 @@
 
             };
 
-            function onPlayerError(){ console.error("Cyclop.se v YouTube.com: 0-1"); };
+            // Hide overlay if there's some problem with player
+            function onPlayerError(){ 
+              overlay.style.visibility = "hidden";
+              console.error("Cyclop.se v YouTube.com: 0-1"); 
+            };
          };
 
          // Do it. 

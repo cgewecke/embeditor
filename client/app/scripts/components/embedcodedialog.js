@@ -29,7 +29,8 @@ var ed_debug, ed_debugII;
             embed: 'templates/embedcode.html', 
             permalink: 'templates/permalink.html',
             share: 'templates/share.html', 
-            preview: 'templates/preview.html'
+            preview: 'templates/preview.html',
+            tweet: 'templates/tweet.html'
          };
 
          self.opening = false; // Triggers spinner on button during dialog open
@@ -94,6 +95,42 @@ var ed_debug, ed_debugII;
                );
                
                $window.open('', 'preview' + self.counter);
+            }
+         };
+
+         // Tweet(): Generates a clip in the DB 
+         // On desktop & tablet -> before DB resolves, a blank tab gets opened synchonously, at DB resolution,
+         //    the resolved address gets opened in that tab name. 
+         // On Iphone/Ipod -> open dialog with active preview link - transfers user to mobile safari.
+         self.tweet = function(event){
+
+            // Phone
+            if (layout.phone){
+               self.open(event, 'tweet');
+            
+            // Desktop & Tablet
+            } else {
+            
+               self.target = event.currentTarget.id;
+               self.opening = true;
+               self.counter += 1;
+               
+               code.create().then(
+                  function(success){ 
+                     
+                     self.opening = false;  
+                   
+                     $window.open(
+                        '//www.twitter.com/intent/tweet?' + 'url=' + 
+                        encodeURIComponent(window.location.href + 'videos/' + code.options._id),
+                        'sharer' + self.counter
+                     );
+                     
+                  },
+                  function(error){ $rootScope.$broadcast('embedCodeDialog:database-error');}
+               );
+               
+               $window.open('', 'sharer' + self.counter);
             }
          };
 
