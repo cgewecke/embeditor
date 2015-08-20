@@ -70,6 +70,30 @@ body{
    flex: 1;
 }
 
+.help-wrapper{
+  background-color: black;
+  height: 80%;
+  width: 100%;
+
+}
+
+.help-text{
+  text-align: center; 
+  color: white;
+
+  position: relative;
+  top: 50%;
+  transform: translateY(-50%);
+  -ms-transform: translateY(-50%);
+  -webkit-transform: translateY(-50%);
+
+}
+
+.help-mail-link{
+  color: white;
+  text-decoration: underline;
+}
+
 .player{
   /*overflow-y: scroll;
   -webkit-overflow-scrolling: touch;*/
@@ -155,6 +179,10 @@ body{
   text-overflow: ellipsis;
 }
 
+.clip-text-break{
+  display: none;
+}
+
 .cyclopse-slogan:hover{
   text-decoration: underline;
   text-color: white !important;
@@ -236,6 +264,10 @@ body{
 
   .clip-text{
     font-size: 13px;
+  }
+
+  .clip-text-break{
+    display: block;
   }
 
 }

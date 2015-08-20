@@ -361,6 +361,12 @@
         height: 105px;
       }
 
+      .embed-tweet-intent{
+        height: 105px;
+        background-color: #55acee;
+
+      }
+
       .embed-code-text{
         font-size: 12px;
       }
@@ -1054,6 +1060,11 @@
 
       .embed-permalink-content{
         height: 105px;
+      }
+
+      .embed-tweet-intent{
+        height: 105px;
+        background-color: #55acee !important;
       }
 
       .embed-code-text{
