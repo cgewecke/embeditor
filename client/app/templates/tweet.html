@@ -1,0 +1,47 @@
+<!-- Iphone Tweet Template: Phone app only -->
+<md-dialog flex>
+   <!-- Toolbar -->
+   <md-toolbar layout="row" layout-align="start center">
+      <div class="md-toolbar-tools">
+         <!-- Icon -->
+         <md-button aria-label="embeditor-icon" class="md-warn" aria-label="icon"> 
+            <ng-md-icon icon="album" size="40"></ng-md-icon>
+         </md-button>
+         <!-- Instructions -->
+         <div class="embed-instructions" flex="70">
+            <span class="embed-title"> Twitter Link </span>
+         </div>
+         <span flex></span>
+         <!-- Close button -->
+         <md-button id="code-dialog-dismiss-btn" click="mdDialog.hide()" aria-label="close">
+            <ng-md-icon icon="clear"></ng-md-icon>
+         </md-button>
+     </div>
+   </md-toolbar>
+
+   <div layout="column" layout-fill>
+      <!-- Content Column -->
+      <div layout="column" layout-fill>
+         <!-- Window -->
+         <md-dialog-content class="embed-tweet-intent"
+            layout="row" layout-align="center center"> 
+            <md-content style="background-color: #55acee" flex > 
+               <!-- Link Button -->
+               <div layout="row" layout-align="center center">
+                  <a href="{{twitterSharePhone()}}" target="_blank" ng-show="ready">
+                     <md-button class="md-raised md-primary"> 
+                        Tweet from Safari 
+                     </md-button> 
+                  </a>
+                  <!-- Loading Spinner -->
+                  <md-progress-circular 
+                        md-mode="indeterminate" 
+                        class="md-warn embed-code-spinner" 
+                        ng-show="!ready">
+                  </md-progress-circular>
+               </div>
+            </md-content>      
+         </md-dialog-content>    
+      </div>
+   </div>
+</md-dialog>

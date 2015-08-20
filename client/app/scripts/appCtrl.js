@@ -9,19 +9,27 @@ angular.module('embeditor')
    .directive('mobileLoadingCover', mobileLoadingCover);
 
    // Stub 
-   function appCtrl($scope){
+   function appCtrl($scope, layoutManager){
     var self = this;
+    self.layout = layoutManager;
+   
    };
-   appCtrl.$inject = ['$scope'];
+   appCtrl.$inject = ['$scope', 'layoutManager'];
 
 
    // Hide loading cover: 'player loaded' event only fired on mobileInit()
+   // Android: Currently problems so severe that we just leave cover on.
    function mobileLoadingCover(){
     return {
-      restrict: 'A',  
-      link: function(scope, elem, attrs){
-        scope.$on('YTPlayerAPI:playerLoaded', function(){ 
-          elem.css('display', 'none');
+      restrict: 'A',
+      controller: 'AppCtrl',  
+      link: function(scope, elem, attrs, app){
+
+        scope.$on('YTPlayerAPI:playerLoaded', function(){
+
+          (!app.layout.android) ? 
+            elem.css('display', 'none'):
+            false;
         });
       }
     };

@@ -103,35 +103,38 @@ var ed_debug, ed_debugII;
          //    the resolved address gets opened in that tab name. 
          // On Iphone/Ipod -> open dialog with active preview link - transfers user to mobile safari.
          self.tweet = function(event){
+      
+            self.target = event.currentTarget.id;
+            self.opening = true;
+            self.counter += 1;
+            
+            code.create().then(
+               function(success){ 
+                  
+                  self.opening = false;  
+                
+                  // Phone
+                  if (layout.phone){
+                     self.open(event, 'tweet');
+          
+                  // Desktop & Tablet
+                  } else {
 
-            // Phone
-            if (layout.phone){
-               self.open(event, 'tweet');
-            
-            // Desktop & Tablet
-            } else {
-            
-               self.target = event.currentTarget.id;
-               self.opening = true;
-               self.counter += 1;
-               
-               code.create().then(
-                  function(success){ 
-                     
-                     self.opening = false;  
-                   
                      $window.open(
                         '//www.twitter.com/intent/tweet?' + 'url=' + 
                         encodeURIComponent(window.location.href + 'videos/' + code.options._id),
                         'sharer' + self.counter
                      );
                      
-                  },
-                  function(error){ $rootScope.$broadcast('embedCodeDialog:database-error');}
-               );
-               
-               $window.open('', 'sharer' + self.counter);
-            }
+                  }
+               },
+               function(error){ $rootScope.$broadcast('embedCodeDialog:database-error');}
+            );
+            
+            // Open new tab in Desktop/Tablet
+            (!layout.phone) ?
+               $window.open('', 'sharer' + self.counter) :
+               false;
          };
 
          // Hide btn spinner & create record of the current clip in DB
@@ -149,7 +152,7 @@ var ed_debug, ed_debugII;
 
       // -------------------- CONTROLLER: dialogCtrl(): ---------------------------------
       // Injected into the dialog window and the copy button directive
-      function dialogCtrl($scope, $mdDialog, $window, codeGenerator, youtubePlayerAPI){
+      function dialogCtrl($scope, $mdDialog, $window, $sce, codeGenerator, youtubePlayerAPI){
 
          console.log('new dialog ctrl');
          var defaultButtonMessage = "Click to copy";  
@@ -170,10 +173,13 @@ var ed_debug, ed_debugII;
          $scope.code = ''; // Contents of code window
          $scope.permalink = ''; // Permalink 
       
+         // Scoped services
          $scope.mdDialog = $mdDialog; 
+         $scope.sce = $sce;
          $scope.codeGenerator = codeGenerator;
          $scope.API = youtubePlayerAPI;
-         $scope.help = function(){}; // Redirect to /help
+
+         
 
          // Framesize selection
          $scope.setDefaultFramesize = function(size){
@@ -223,7 +229,11 @@ var ed_debug, ed_debugII;
             );
 
             $scope.mdDialog.hide();
-         }
+         };
+
+         $scope.twitterSharePhone = function(){
+            return '//www.twitter.com/intent/tweet?' + 'url=' + encodeURIComponent(permalink());
+         };
 
          $scope.tumblrShare = function(){
             $window.open(
@@ -270,7 +280,7 @@ var ed_debug, ed_debugII;
             return window.location.href + 'embed/' + codeGenerator.options._id;
          };
       };
-      dialogCtrl.$inject = ['$scope', '$mdDialog', '$window', 'codeGenerator', 'youtubePlayerAPI'];
+      dialogCtrl.$inject = ['$scope', '$mdDialog', '$window', '$sce', 'codeGenerator', 'youtubePlayerAPI'];
 
       // ------------------- DIRECTIVES ------------------------------
       // embeditor-copy-code-button: Attribute of md-button#code-copy-button

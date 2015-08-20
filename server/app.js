@@ -10,13 +10,14 @@ var bodyParser = require('body-parser');
 var handlebars = require('express3-handlebars');
 
 // Routes
-var routes = require('./routes/index');
+var index = require('./routes/index');
 var users = require('./routes/users');
 var signup = require('./routes/signup');
 var embed = require('./routes/embed');
 var videos = require('./routes/videos');
 var api = require('./routes/api');
 var test = require('./routes/test');
+var help = require('./routes/help');
 
 // APP
 var app = express();
@@ -40,12 +41,15 @@ app.use(cookieParser());
 
 if (app.get('env') === 'development') {
 
+
     // This will change in production since we'll be using the dist folder
     app.use(express.static(path.join(__dirname, '../client')));
+
     // This covers serving up the index page
     app.use(express.static(path.join(__dirname, '../client/.tmp')));
     app.use(express.static(path.join(__dirname, '../client/app')));
     app.use(express.static(path.join(__dirname, '/public')));
+
     // Error Handling
     app.use(function(err, req, res, next) {
         res.status(err.status || 500);
@@ -81,6 +85,7 @@ app.use('/embed', embed);
 app.use('/videos', videos);
 app.use('/api', api);
 app.use('/test', test);
+app.use('/help', help);
 
 
 module.exports = app; 

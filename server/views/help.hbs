@@ -1,0 +1,82 @@
+<html lang="en">
+   <head>
+     <meta charset="utf-8">
+     
+     <!-- 320 x 180 Twitter heights for player mapped to youtube mq image -->
+     <meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, user-scalable=no, width=device-width"/> 
+
+     <title> Cyclopse Support </title>
+     <meta name="description" content="Cyclop.se Editor Help"/>
+     <link rel="stylesheet" href="../css/iframe.css" />
+     <link rel="stylesheet" href="../css/video.css" />
+
+     {{#if cyclopse }}
+       <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons"/>
+       <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
+     {{/if }}
+  </head>
+  <body>  
+    <div class="content"> 
+       <div class="toolbar">
+          <div class="header-left-corner">
+             <a href="http://cyclop.se">
+                <span class="embeditor-icon">
+                   <i class="material-icons md-64 icon-align-middle">album</i>
+                </span>
+                <span class="titlebar-title">
+                     <div class="titlebar-cyclopse"> cyclop.se </div>
+                     <div class="titlebar-beta"> YouTube Editor </div>
+                </span>
+             </a>
+          </div>
+          <div class="header-right-corner">
+             <div class="button-bank">
+                <a href="{{share.twitter}}" target="_blank">
+                   <span class="fa-stack fa-lg">
+                     <i class="fa fa-circle fa-stack-2x twitter-color"></i>
+                     <i class="fa fa-twitter fa-stack-1x icon-color"></i>
+                   </span>
+                </a>
+                <a href="{{share.facebook}}" target="_blank">
+                   <span class="fa-stack fa-lg">
+                     <i class="fa fa-circle fa-stack-2x facebook-color"></i>
+                     <i class="fa fa-facebook fa-stack-1x icon-color"></i>
+                   </span>
+                </a>
+                <a href="{{share.tumblr}}" target="_blank">
+                   <span class="fa-stack fa-lg">
+                     <i class="fa fa-circle fa-stack-2x tumblr-color"></i>
+                     <i class="fa fa-tumblr fa-stack-1x icon-color"></i>
+                   </span>
+                </a>
+             </div>
+
+          </div>
+       </div>
+       <div class="help-wrapper">
+        <div class="help-text">
+          <h1> Cyclopse Support </h1> 
+          <h2> email questions and concerns to: </h2>
+          <h2> 
+            <a class="help-mail-link" href="mailto:penelope@cyclop.se"> 
+               penelope@cyclop.se 
+            </a> 
+          </h2>
+        </div>
+       </div>
+
+
+       <div class="toolbar footer">
+          <div class="footer-left-corner">
+             <div class="cyclopse-slogan">
+                <a href="http://cyclop.se"> Edit & loop any Youtube video, online.  </a>
+             </div>
+          </div>
+          <div class="footer-right-corner">
+             <span class="titlebar-powered"> powered by </span>
+             <span class="fa fa-youtube youtube-icon md-48"></span>
+          </div>
+       </div>
+    </div> 
+  </body>
+</html>

@@ -416,10 +416,10 @@
         </span>
 
         <!-- Mobile Quick Setters & Timestamp --> 
-        <span layout="row" flex="50" flex-sm="10" layout-align="center" ng-show="player.API.mobile">
+        <span layout="row" flex="50" hide-sm layout-align="center" ng-show="player.API.mobile">
 
           <!-- Mobile Loop Toggle --> 
-          <span layout="column" flex="40" flex-sm="100" layout-align="center start" >
+          <span layout="column" flex="40" layout-align="center start" >
             <md-input-container class="mobile-loop-input-container">
               <md-switch flex 
                 id="loop-switch"
@@ -437,7 +437,7 @@
         </span>
         
         <!-- Publish Button Row -->
-        <span layout="column" flex="40" flex-md="45" flex-sm="80">
+        <span layout="column" flex="40" flex-md="45" flex-sm="100">
           <div layout="row" id="publish-block" class="code-button-row" layout-align="space-between center">
 
           <!-- Cyclopse Preview Button -->
@@ -475,8 +475,7 @@
             <md-input-container 
               layout="column" 
               layout-align="center" 
-              class="playback-input-container"
-              hide-sm >
+              class="playback-input-container">
 
               <md-button flex
                   id="tweet-btn"
