@@ -677,6 +677,7 @@ md-progress-linear.timebar .md-dashed{
   margin-right: 11px;
   color: white !important;
   cursor: default;
+  pointer-events: none;
 }
 
 .time-disp-play-icon-hover{

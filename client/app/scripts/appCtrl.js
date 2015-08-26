@@ -37,7 +37,7 @@ angular.module('embeditor')
 
    // Substitute for ng-click(). This is an end-run around some kind of insane
    // issue w/ ng-touch where everything on iOS double clicks. 
-   function click(){
+   function click(layoutManager){
       return {
          restrict: 'A',  
          link: function(scope, element, attrs){
@@ -46,16 +46,18 @@ angular.module('embeditor')
             element.bind('touchstart click', function(event) {
 
               console.log('clicked');
-            
-               event.preventDefault();
-               event.stopPropagation();
+                        
+              event.preventDefault();
+              event.stopPropagation();
                 
-               scope.$event = event;
-               scope.$apply(attrs['click']);
+              scope.$event = event;
+              scope.$apply(attrs['click']);
+
             });
          }
       };
    };
+   click.$inject = ['layoutManager'];
    
 
    // Top level click handler
