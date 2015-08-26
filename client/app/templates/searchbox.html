@@ -1,11 +1,11 @@
 <form layout="row" flex> 
-    <md-autocomplete flex 
+    <md-autocomplete flex
         placeholder="Search YouTube" 
         md-selected-item="selectedItem" 
         md-search-text="searchText" 
         md-search-text-change="ctrl.textChange()" 
         md-selected-item-change="ctrl.submit(selectedItem.value)" 
-        md-items="item in ctrl.getSuggestions(searchText)" 
+        md-items="item in ctrl.getSuggestions(searchText)"
         md-item-text="item.value"> 
         <span md-highlight-text="searchText" ng-bind="item.value"></span> 
     </md-autocomplete> 
@@ -17,3 +17,5 @@
       <md-icon md-font-icon="fa fa-search"></md-icon> 
     </md-button> 
 </form>
+
+<!--   -->

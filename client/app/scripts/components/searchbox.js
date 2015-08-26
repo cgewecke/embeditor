@@ -121,7 +121,13 @@ var sr_debug, sr_debugII;
 
             // Might get rid of weird sticking open when sidenav closes . . .
             mdCtrl.keydown({keyCode: 27}); // Escape closes dropdown.
-         } 
+
+         // Zero out inputs on phone due to weird IPhone input bug.    
+         } else {
+            mdScope.searchText = '';
+            mdScope.selectedItem = {value: ''};
+            mdInput.blur();
+         }
       });
 
       // Captures carriage return in input box and hacks into mdAutoComplete to execute
