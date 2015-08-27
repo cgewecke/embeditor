@@ -113,22 +113,23 @@ var sr_debug, sr_debugII;
       // On iphone this causes problems because it focusses the search box
       scope.$on('youTubeDataAPI:query', function(event, msg){
 
-         if (!scope.ctrl.phone){
+         scope.ctrl.synch = true;
+         mdScope.searchText = msg;
+         mdScope.selectedItem = {value: msg}
 
-            scope.ctrl.synch = true;
-            mdScope.searchText = msg;
-            mdScope.selectedItem = {value: msg}
-
-            // Might get rid of weird sticking open when sidenav closes . . .
-            mdCtrl.keydown({keyCode: 27}); // Escape closes dropdown.
-
-         // Zero out inputs on phone due to weird IPhone input bug.    
-         } else {
-            mdScope.searchText = '';
-            mdScope.selectedItem = {value: ''};
-            mdInput.blur();
-         }
+         // Might get rid of weird sticking open when sidenav closes . . .
+         mdCtrl.keydown({keyCode: 27}); // Escape closes dropdown.
+            
       });
+
+      // Zeros out inputs and blurs sidebar on phone when sidebar closes on play, 
+      // due to weird IPhone input bug.  
+      scope.$on('searchSideBar:close', function(){
+         console.log('running sidebar close code');
+         mdScope.searchText = '';
+         mdScope.selectedItem = {value: ''};
+         mdInput.blur();
+      })
 
       // Captures carriage return in input box and hacks into mdAutoComplete to execute
       // selection, close dropdown w/escape event. Does nothing if searchText is empty string 
@@ -137,8 +138,7 @@ var sr_debug, sr_debugII;
          if (event.which === 13 && mdScope.searchText && mdScope.searchText.length ){
             mdCtrl.keydown({keyCode: 27}); // Escape closes dropdown.
             mdCtrl.selectedItem = {value: mdScope.searchText}; // autocomplete watches this obj.
-            
-         
+                     
          }
       });
 
