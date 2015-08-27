@@ -73,6 +73,6 @@ angular.module('embeditor')
          }
       };
    };
-   click.$inject = ['layoutManager'];
+   appClick.$inject = ['layoutManager'];
   
 })();
