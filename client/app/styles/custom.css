@@ -700,6 +700,7 @@ md-progress-linear.timebar .md-dashed{
   cursor: default;
   font-size: 12px !important;
   padding-left: 15px;
+  white-space: nowrap;
 }
 
 .playback-input-container{

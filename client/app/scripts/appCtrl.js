@@ -27,9 +27,8 @@ angular.module('embeditor')
 
         scope.$on('YTPlayerAPI:playerLoaded', function(){
 
-          (!app.layout.android) ? 
-            elem.css('display', 'none'):
-            false;
+          elem.css('display', 'none');
+
         });
       }
     };

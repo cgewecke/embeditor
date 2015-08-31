@@ -79,7 +79,7 @@ var sb_debug, sb_debugII, sb_debugIII;
     embeditorSearchHistoryOption.$inject = ['youTubeDataAPI'];
 
     // <embeditor-search-item></embeditor-search-item>
-    function embeditorSearchItem(youTubeDataAPI, youtubePlayerAPI, $mdSidenav, $rootScope){
+    function embeditorSearchItem(youTubeDataAPI, youtubePlayerAPI, $mdSidenav){
       return{
         restrict: 'E',
         scope: { video: '=video' },
@@ -97,18 +97,17 @@ var sb_debug, sb_debugII, sb_debugIII;
           
           // Auto close sidenav on iphone, ipod & android
           // Event Broadcast is listened for by search box for phone (bug hack);
-          if (scope.playerAPI.phone){
-           
-            $mdSidenav('search').toggle();
-            $rootScope.$broadcast('searchSideBar:close');
+          (scope.playerAPI.phone) ?
+            $mdSidenav('search').toggle() :
+            false;
+        
           
-          }
           scope.playerAPI.load(video);
 
         }
       };
     };
-    embeditorSearchItem.$inject = ['youTubeDataAPI', 'youtubePlayerAPI', '$mdSidenav', '$rootScope'];
+    embeditorSearchItem.$inject = ['youTubeDataAPI', 'youtubePlayerAPI', '$mdSidenav'];
 
     
     // <embeditor-section-sidebar></embeditor-section-sidebar>

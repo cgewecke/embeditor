@@ -38,7 +38,7 @@ var sr_debug, sr_debugII;
       self.autoCompleteOn = true;
       self.synch = false;
       self.youTube = youTubeDataAPI;
-      self.phone = ( navigator.userAgent.match(/(iPod|iPhone)/g) ? true : false );
+      self.phone = ( navigator.userAgent.match(/(iPod|iPhone|Android)/g) ? true : false );
       
       // Autocomplete on/of toggles necessary to stop md-autocomplete from
       // re-running search when a selection is made and the searchText updates/changes
@@ -113,38 +113,53 @@ var sr_debug, sr_debugII;
       // On iphone this causes problems because it focusses the search box
       scope.$on('youTubeDataAPI:query', function(event, msg){
 
-         scope.ctrl.synch = true;
-         mdScope.searchText = msg;
-         mdScope.selectedItem = {value: msg}
+         if (!scope.ctrl.phone){
+ 
+            scope.ctrl.synch = true;
+            mdScope.searchText = msg;
+            mdScope.selectedItem = {value: msg}
 
-         // Might get rid of weird sticking open when sidenav closes . . .
-         mdCtrl.keydown({keyCode: 27}); // Escape closes dropdown.
+            // Might get rid of weird sticking open when sidenav closes . . .
+            mdCtrl.keydown({keyCode: 27}); // Escape closes dropdown.
+
+         // Hack that zeroes out inputs on phone due to weird IPhone input bug.  
+         // Don't understand why this works but nothing else does. Repo issue #190.  
+         } else {
+            mdScope.searchText = '';
+            mdScope.selectedItem = {value: ''};
+            mdInput.blur();
+         }
             
       });
 
-      // Zeros out inputs and blurs sidebar on phone when sidebar closes on play, 
-      // due to weird IPhone input bug.  
-      scope.$on('searchSideBar:close', function(){
-         console.log('running sidebar close code');
-         mdScope.searchText = '';
-         mdScope.selectedItem = {value: ''};
-         mdInput.blur();
-      })
-
+      
       // Captures carriage return in input box and hacks into mdAutoComplete to execute
       // selection, close dropdown w/escape event. Does nothing if searchText is empty string 
-      mdElem.bind('keypress', function(event){
+      mdElem.bind('keydown', function(event){
+
+         console.log('keydown heard');
       
          if (event.which === 13 && mdScope.searchText && mdScope.searchText.length ){
-            mdCtrl.keydown({keyCode: 27}); // Escape closes dropdown.
-            mdCtrl.selectedItem = {value: mdScope.searchText}; // autocomplete watches this obj.
-                     
+
+            // Phone: Submit must be explicitly called
+            if ( scope.ctrl.phone ){
+               mdCtrl.keydown({keyCode: 27}); // Escape closes dropdown.
+               scope.ctrl.submit(mdScope.searchText);
+               scope.$apply();
+
+            // Desktop, Tablet - watcher . . .
+            } else {
+
+               mdCtrl.keydown({keyCode: 27}); // Escape closes dropdown.
+               mdCtrl.selectedItem = {value: mdScope.searchText}; // autocomplete watches this obj.
+               scope.$apply();  
+            }
          }
       });
 
       // Captures blur event (triggered by 'Done') on iPhone. Requires that submit be called
       // explicitly - the watcher is not reacting to the value change per above.
-      mdInput.bind('blur', function(event){
+      /*mdInput.bind('blur', function(event){
 
          if ( scope.ctrl.phone && mdScope.searchText && mdScope.searchText.length ){
          
@@ -152,7 +167,7 @@ var sr_debug, sr_debugII;
             scope.ctrl.submit(mdScope.searchText);
             scope.$apply();
          }
-      })
+      })*/
    }
    
 
