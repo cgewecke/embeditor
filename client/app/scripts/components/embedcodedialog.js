@@ -72,7 +72,7 @@ var ed_debug, ed_debugII;
          self.preview = function(event){
 
             // Phone
-            if (layout.phone){
+            if (layout.phone || layout.android ){
                self.open(event, 'preview');
             
             // Desktop & Tablet
@@ -152,9 +152,8 @@ var ed_debug, ed_debugII;
 
       // -------------------- CONTROLLER: dialogCtrl(): ---------------------------------
       // Injected into the dialog window and the copy button directive
-      function dialogCtrl($scope, $mdDialog, $window, $sce, codeGenerator, youtubePlayerAPI){
+      function dialogCtrl($scope, $mdDialog, $window, $sce, codeGenerator, youtubePlayerAPI, layoutManager){
 
-         console.log('new dialog ctrl');
          var defaultButtonMessage = "Click to copy";  
          
          var formats = {
@@ -178,6 +177,7 @@ var ed_debug, ed_debugII;
          $scope.sce = $sce;
          $scope.codeGenerator = codeGenerator;
          $scope.API = youtubePlayerAPI;
+         $scope.layout = layoutManager;
 
          
 
@@ -280,7 +280,7 @@ var ed_debug, ed_debugII;
             return window.location.href + 'embed/' + codeGenerator.options._id;
          };
       };
-      dialogCtrl.$inject = ['$scope', '$mdDialog', '$window', '$sce', 'codeGenerator', 'youtubePlayerAPI'];
+      dialogCtrl.$inject = ['$scope', '$mdDialog', '$window', '$sce', 'codeGenerator', 'youtubePlayerAPI', 'layoutManager'];
 
       // ------------------- DIRECTIVES ------------------------------
       // embeditor-copy-code-button: Attribute of md-button#code-copy-button

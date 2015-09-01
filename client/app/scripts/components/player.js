@@ -174,13 +174,25 @@ var pctl_debug, pctl_debugII;
         }
       };
 
+      // seekVideoToTouch(): Get location
       scope.seekVideoToTouch = function($event){
         
         var time;
 
         if (scope.API.initializing) return;
 
-        xCoord = ($event.offsetX === undefined) ? $event.originalEvent.layerX : $event.offsetX;
+        // Android
+        if (ctrl.layout.android) {
+          xCoord = Math.floor( $event.originalEvent.touches[0].clientX );
+
+        // Apple 
+        } else {
+          xCoord = ($event.offsetX === undefined) ? $event.originalEvent.layerX : $event.offsetX;
+        }
+
+        console.log('xCoord: ' + xCoord);
+        pctl_debug = $event;
+
         time = calculateTimeDotValue();
         ctrl.API.setTapehead(time);
 

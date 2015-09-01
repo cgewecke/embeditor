@@ -38,7 +38,8 @@ var sr_debug, sr_debugII;
       self.autoCompleteOn = true;
       self.synch = false;
       self.youTube = youTubeDataAPI;
-      self.phone = ( navigator.userAgent.match(/(iPod|iPhone|Android)/g) ? true : false );
+      self.phone = ( navigator.userAgent.match(/(iPod|iPhone)/g) ? true : false );
+      self.android = ( navigator.userAgent.match(/(Android)/g) ? true : false );
       
       // Autocomplete on/of toggles necessary to stop md-autocomplete from
       // re-running search when a selection is made and the searchText updates/changes
@@ -113,21 +114,24 @@ var sr_debug, sr_debugII;
       // On iphone this causes problems because it focusses the search box
       scope.$on('youTubeDataAPI:query', function(event, msg){
 
-         if (!scope.ctrl.phone){
+         // IPhone: Zero out inputs and blur so input is unfocussed
+         // when the sidebar closes.
+         if (scope.ctrl.phone ){
  
+            mdScope.searchText = '';
+            mdScope.selectedItem = {value: ''};
+            mdInput.blur();
+
+         // Desktop
+         } else {
             scope.ctrl.synch = true;
             mdScope.searchText = msg;
             mdScope.selectedItem = {value: msg}
 
-            // Might get rid of weird sticking open when sidenav closes . . .
-            mdCtrl.keydown({keyCode: 27}); // Escape closes dropdown.
+            // Firing escape might get rid of weird sticking open 
+            // when sidenav closes . . .
+            mdCtrl.keydown({keyCode: 27}); 
 
-         // Hack that zeroes out inputs on phone due to weird IPhone input bug.  
-         // Don't understand why this works but nothing else does. Repo issue #190.  
-         } else {
-            mdScope.searchText = '';
-            mdScope.selectedItem = {value: ''};
-            mdInput.blur();
          }
             
       });
@@ -141,10 +145,11 @@ var sr_debug, sr_debugII;
       
          if (event.which === 13 && mdScope.searchText && mdScope.searchText.length ){
 
-            // Phone: Submit must be explicitly called
-            if ( scope.ctrl.phone ){
+            // Android: Submit must be explicitly called
+            if ( scope.ctrl.android ){
                mdCtrl.keydown({keyCode: 27}); // Escape closes dropdown.
                scope.ctrl.submit(mdScope.searchText);
+               mdInput.blur();
                scope.$apply();
 
             // Desktop, Tablet - watcher . . .
@@ -152,14 +157,14 @@ var sr_debug, sr_debugII;
 
                mdCtrl.keydown({keyCode: 27}); // Escape closes dropdown.
                mdCtrl.selectedItem = {value: mdScope.searchText}; // autocomplete watches this obj.
-               scope.$apply();  
             }
          }
       });
 
-      // Captures blur event (triggered by 'Done') on iPhone. Requires that submit be called
+
+      // IPhone: Captures blur event (triggered by 'Done'). Requires that submit be called
       // explicitly - the watcher is not reacting to the value change per above.
-      /*mdInput.bind('blur', function(event){
+      mdInput.bind('blur', function(event){
 
          if ( scope.ctrl.phone && mdScope.searchText && mdScope.searchText.length ){
          
@@ -167,7 +172,7 @@ var sr_debug, sr_debugII;
             scope.ctrl.submit(mdScope.searchText);
             scope.$apply();
          }
-      })*/
+      })
    }
    
 
