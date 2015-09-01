@@ -28,9 +28,12 @@
             <md-content flex > 
                <!-- Link Button -->
                <div layout="row" layout-align="center center">
-                  <a href="{{permalink}}" target="_blank"ng-show="ready"> 
-                     <md-button class="md-raised md-primary"> 
+                  <a href="{{permalink}}" target="_blank" ng-show="ready"> 
+                     <md-button class="md-raised md-primary" ng-show="layout.phone"> 
                         Tap to view in Safari 
+                     </md-button> 
+                     <md-button class="md-raised md-primary" ng-show="layout.android"> 
+                        Tap to view in new tab
                      </md-button> 
                   </a>
                   <!-- Loading Spinner -->

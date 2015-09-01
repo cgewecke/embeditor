@@ -56,6 +56,7 @@ var ytp_debug, ytp_debugII;
     // Determines opening sequence eventing . . . .
     self.mobile = ( navigator.userAgent.match(/(iPad|iPhone|iPod|Android)/g) ? true : false );
     self.phone = ( navigator.userAgent.match(/(iPod|iPhone|Android)/g) ? true : false );
+    self.android = ( navigator.userAgent.match(/(Android)/g) ? true : false );
 
     
     if (self.mobile){
@@ -554,14 +555,25 @@ var ytp_debug, ytp_debugII;
           // Init: player has been tapped. Set start, remove cover.        
           if (self.initializing){
             
-            self.pause();
-            //self.end(-90)
-            //self.start(32);
+            // IPhone, IPad, ITouch
+            if (!self.android){
 
-            $timeout(function(){ 
-              self.initializing = false; 
-              $rootScope.$broadcast(readyEvent.name);
-            }, 1000);
+              self.pause();
+        
+              $timeout(function(){ 
+                self.initializing = false; 
+                $rootScope.$broadcast(readyEvent.name);
+              }, 1000);
+            
+            // Android - pause inside timeout, otherwise player screen
+            // is black.
+            } else {
+              $timeout(function(){ 
+                self.pause();
+                self.initializing = false; 
+                $rootScope.$broadcast(readyEvent.name);
+              }, 1000);
+            }
 
           // Check end because this might be a player tap at 
           // the end of the video on non-loop (by-passing togglePlay().
@@ -611,25 +623,5 @@ var ytp_debug, ytp_debugII;
 
  })();
 
- /*
- 
-
-    // ----------------- OLD INITIAL VIDEOS ----------------
-    // Baby's On Fire: Die Antwoord
-      //seconds: 414, // THIS MUST BE 2 SECONDS SHORT OF THE END . . . .
-      //videoId: "HcXNPI-IPPM"
-
-      // Cafe scene from Le feu follet
-      //seconds: 144,
-      //videoId: 'IwSQxlwMzr8'
-
-      // Lee scratch perry, studio black ark 
-      self.initialVideo = {
-        seconds: 280, 
-        imageUrl: "https://i.ytimg.com/vi/y651C7aNXRc/mqdefault.jpg",
-        title: "Lee Scratch Perry - Studio Black Ark",
-        videoId: "y651C7aNXRc"
-      };
-*/
 
   
