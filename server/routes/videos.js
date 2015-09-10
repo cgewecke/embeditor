@@ -30,7 +30,7 @@ function responder(res, err, video, params){
    
    // Log success + dynamically generate iframe code at embed.hbs
    } else {
-      console.log('Served /video: ' + video._id);
+      console.log('Served /video: ' + video._id + "  " + video.title);
 
       // Urls for og: & twitter meta tags
       video.cyclopseUrl = 'https://www.cyclop.se/videos/' + video._id;
