@@ -18,7 +18,7 @@ md-content{
 /* Loading Cover */
 .embedlam-spinner {
   position: absolute;
-  top: 50%;
+  top: 49.65%;
   transform: translateY(-50%);
   -ms-transform: translateY(-50%);
   -webkit-transform: translateY(-50%);
@@ -991,6 +991,16 @@ md-progress-circular.embed-btn-spinner{
 
 .embed-permalink-content{
   height: 75px;
+}
+
+.embed-preview-content{
+  background-color: black;
+  height: 250px;
+}
+
+.embed-preview-dialog{
+  background-color: black;
+  max-width: 95%;
 }
 
 .share-dialog-content{

@@ -171,6 +171,7 @@ var ed_debug, ed_debugII;
          $scope.copyButtonMessage = defaultButtonMessage; // 'Click to Copy' || 'Copied'
          $scope.code = ''; // Contents of code window
          $scope.permalink = ''; // Permalink 
+         $scope.embedlink = ''; // Embed link
       
          // Scoped services
          $scope.mdDialog = $mdDialog; 
@@ -258,6 +259,7 @@ var ed_debug, ed_debugII;
          $scope.$on('embedCodeDialog:ready', function(){
             $scope.code = formats["responsive"]();
             $scope.permalink = permalink();
+            $scope.embedlink = embedlink();
             $scope.ready = true;
          });
 

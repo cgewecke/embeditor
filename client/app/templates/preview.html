@@ -1,5 +1,5 @@
 <!-- Preview Dialog Template: Phone app only -->
-<md-dialog flex>
+<md-dialog flex class="embed-preview-dialog">
    <!-- Toolbar -->
    <md-toolbar layout="row" layout-align="start center">
       <div class="md-toolbar-tools">
@@ -9,7 +9,7 @@
          </md-button>
          <!-- Instructions -->
          <div class="embed-instructions" flex="70">
-            <span class="embed-title"> Web Preview </span>
+            <span class="embed-title"> Embed Preview </span>
          </div>
          <span flex></span>
          <!-- Close button -->
@@ -23,27 +23,18 @@
       <!-- Content Column -->
       <div layout="column" layout-fill>
          <!-- Window -->
-         <md-dialog-content class="embed-permalink-content"
-            layout="row" layout-align="center center"> 
-            <md-content flex > 
+         <md-dialog-content 
+             class="embed-preview-content"
+             layout="row" 
+             layout-align="center center"> 
                <!-- Link Button -->
-               <div layout="row" layout-align="center center">
-                  <a href="{{permalink}}" target="_blank" ng-show="ready"> 
-                     <md-button class="md-raised md-primary" ng-show="layout.phone"> 
-                        Tap to view in Safari 
-                     </md-button> 
-                     <md-button class="md-raised md-primary" ng-show="layout.android"> 
-                        Tap to view in new tab
-                     </md-button> 
-                  </a>
-                  <!-- Loading Spinner -->
-                  <md-progress-circular 
-                        md-mode="indeterminate" 
-                        class="md-warn embed-code-spinner" 
-                        ng-show="!ready">
-                  </md-progress-circular>
-               </div>
-            </md-content>      
+               <iframe src="{{embedlink}}" width="100%" height="100%" ng-show="ready"> </iframe>
+               <!-- Loading Spinner -->
+               <md-progress-circular 
+                     md-mode="indeterminate" 
+                     class="md-warn embed-code-spinner" 
+                     ng-show="!ready">
+               </md-progress-circular>
          </md-dialog-content>    
       </div>
    </div>

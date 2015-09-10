@@ -37,12 +37,12 @@
                   height:         '100%', 
                   videoId:        playerAPI.initialVideo.videoId,
                   playerVars: {
-                    'iv_load_policy': '3', //
-                    'controls': '0', // No Controls
-                    'disablekb': '1', // Disable keyboard
-                    'fs': '0',  // No fullscreen
-                    'rel':            '0', // No related videos
                     'playsinline':    '1', // Phone - inline video
+                    'iv_load_policy': '3', //
+                    'controls': '0',       // No Controls
+                    'disablekb': '1',      // Disable keyboard
+                    'fs': '0',             // No fullscreen
+                    'rel':            '0', // No related videos
                     'modestbranding': '1', // No logos
                     'showinfo':       '0', // No info
                   },
