@@ -27,7 +27,7 @@ function responder(res, err, video, params){
    
    // Log success + dynamically generate iframe code at embed.hbs
    } else {
-      console.log('Served embed: ' + video._id);
+      console.log('Served embed: ' + video._id + "  " + video.title );
       
       video.cyclopseUrl = 'https://www.cyclop.se/embed/' + video._id;
       video.twitterUrl = 'https://www.cyclop.se/embed/' + video._id;

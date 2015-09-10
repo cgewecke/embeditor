@@ -24,7 +24,6 @@ router.get('/videos/:id', function(req, res){
 // POST /videos (create video)
 router.post('/videos', function (req, res) {
 
-   console.log('In post videos: ' + req.body);
    var body = req.body;
    var params = req.params
    var opType = "create";
@@ -98,7 +97,7 @@ function responder(res, err, video, opType){
    
    // Log success + return document w/id
    } else {
-      console.log('Success: ' + opType + ' video: ' + video._id);
+      console.log(opType +  'video: ' + video._id + "  " + video.title);
       res.status(201).json({
         'message': 'Success: '+ opType + ' video',
         'video': video
