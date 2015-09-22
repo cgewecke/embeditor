@@ -10,7 +10,9 @@
          <!-- Instructions -->
          <div class="embed-instructions" flex="70">
             <span class="embed-title"> Twitter Link </span>
+            <div class="tweet-help" ng-show="ready"> (Sometimes Safari takes a few seconds to open Twitter)</div>
          </div>
+         
          <span flex></span>
          <!-- Close button -->
          <md-button id="code-dialog-dismiss-btn" click="mdDialog.hide()" aria-label="close">
@@ -30,7 +32,7 @@
                <div layout="row" layout-align="center center">
                   <a href="{{twitterSharePhone()}}" target="_blank" ng-show="ready">
                      <md-button class="md-raised md-primary"> 
-                        Tweet from Safari 
+                        Tweet this from Safari 
                      </md-button> 
                   </a>
                   <!-- Loading Spinner -->

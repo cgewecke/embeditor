@@ -92,6 +92,7 @@
                 height: height,
                 videoId: "{{video.videoId}}",
                 playerVars: {
+                   'playsinline':    '1', // Phone - inline video
                    'iv_load_policy':  {{ video.iv_load_policy }},
                    'controls' : {{video.controls}},
                    'disablekb': {{video.disablekb}},
