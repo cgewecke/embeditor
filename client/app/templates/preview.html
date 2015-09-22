@@ -28,12 +28,12 @@
              layout="row" 
              layout-align="center center"> 
                <!-- Link Button -->
-               <iframe src="{{embedlink}}" width="100%" height="100%" ng-show="ready"> </iframe>
+               <iframe ng-src="{{embedlink}}" width="100%" height="100%" ng-show="delayed_ready"> </iframe>
                <!-- Loading Spinner -->
                <md-progress-circular 
                      md-mode="indeterminate" 
                      class="md-warn embed-code-spinner" 
-                     ng-show="!ready">
+                     ng-show="!delayed_ready">
                </md-progress-circular>
          </md-dialog-content>    
       </div>

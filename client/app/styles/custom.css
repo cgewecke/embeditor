@@ -263,7 +263,8 @@ md-content{
   background: black;
   opacity: .7;
   color: white;
-  font-size: 22px;
+  font-size: 28px;
+  font-weight: bold;
 }
 
 .player-instruction-title{
@@ -271,15 +272,26 @@ md-content{
   padding-bottom: 10px;
 }
 
+.player-instruction-text{
+  margin: 0;
+}
 .player-instruction-start{
   padding-top: 20px;
   padding-bottom: 20px;
 }
 
+.start-text{
+  font-size: 22px;
+}
 .player-instruction-icon{
   font-size: 24px;
 }
 
+.player-instruction-icon-desktop{
+  font-size: 30px;
+  margin-left: 40px;
+  margin-right: 40px;
+}
 .mobile-player-loading-screen{
   visibility: hidden;
   position: absolute;
@@ -1047,6 +1059,10 @@ md-progress-circular.embed-btn-spinner{
 
 .embed-copy-btn-row{
   padding: 24px;
+}
+
+.tweet-help{
+  font-size: 11px;
 }
 
 /* ---------- Dialogs --------------- */

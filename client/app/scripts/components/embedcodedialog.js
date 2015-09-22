@@ -91,7 +91,10 @@ var ed_debug, ed_debugII;
                         'preview' + self.counter);
                      
                   },
-                  function(error){ $rootScope.$broadcast('embedCodeDialog:database-error');}
+                  function(error){ 
+                     self.opening = false;  
+                     $rootScope.$broadcast('embedCodeDialog:database-error');
+                  }
                );
                
                $window.open('', 'preview' + self.counter);
@@ -128,7 +131,12 @@ var ed_debug, ed_debugII;
                      
                   }
                },
-               function(error){ $rootScope.$broadcast('embedCodeDialog:database-error');}
+
+               function(error){ 
+                     self.opening = false;  
+                     $rootScope.$broadcast('embedCodeDialog:database-error');
+               }
+               
             );
             
             // Open new tab in Desktop/Tablet
@@ -152,7 +160,7 @@ var ed_debug, ed_debugII;
 
       // -------------------- CONTROLLER: dialogCtrl(): ---------------------------------
       // Injected into the dialog window and the copy button directive
-      function dialogCtrl($scope, $mdDialog, $window, $sce, codeGenerator, youtubePlayerAPI, layoutManager){
+      function dialogCtrl($scope, $mdDialog, $window, $timeout, codeGenerator, youtubePlayerAPI, layoutManager){
 
          var defaultButtonMessage = "Click to copy";  
          
@@ -166,6 +174,7 @@ var ed_debug, ed_debugII;
          $scope.frameHeight = codeGenerator.framesizes.vals[$scope.framesize].height;;
          $scope.frameWidth = codeGenerator.framesizes.vals[$scope.framesize].width;
          $scope.ready = false; // When false, spinner occupies code window
+         $scope.delayed_ready = false; // When false, spinner occupies preview window (phones)
          $scope.creationError = false; // When true . . . .
          $scope.highlight= true; // When true, code is faux-highlighted, false after copy btn is clicked.
          $scope.copyButtonMessage = defaultButtonMessage; // 'Click to Copy' || 'Copied'
@@ -175,7 +184,6 @@ var ed_debug, ed_debugII;
       
          // Scoped services
          $scope.mdDialog = $mdDialog; 
-         $scope.sce = $sce;
          $scope.codeGenerator = codeGenerator;
          $scope.API = youtubePlayerAPI;
          $scope.layout = layoutManager;
@@ -261,6 +269,9 @@ var ed_debug, ed_debugII;
             $scope.permalink = permalink();
             $scope.embedlink = embedlink();
             $scope.ready = true;
+
+            // Render delay for IPhone preview iframe
+            $timeout(function(){ $scope.delayed_ready = true;}, 1000 );
          });
 
          $scope.$on('embedCodeDialog:database-error', function(){
@@ -282,7 +293,7 @@ var ed_debug, ed_debugII;
             return window.location.href + 'embed/' + codeGenerator.options._id;
          };
       };
-      dialogCtrl.$inject = ['$scope', '$mdDialog', '$window', '$sce', 'codeGenerator', 'youtubePlayerAPI', 'layoutManager'];
+      dialogCtrl.$inject = ['$scope', '$mdDialog', '$window', '$timeout', 'codeGenerator', 'youtubePlayerAPI', 'layoutManager'];
 
       // ------------------- DIRECTIVES ------------------------------
       // embeditor-copy-code-button: Attribute of md-button#code-copy-button

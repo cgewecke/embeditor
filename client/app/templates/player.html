@@ -124,11 +124,7 @@
                  layout-align="center center"
                  ng-show="player.API.mobileStart" 
                  class="player-instruction-screen" >
-              <!-- <div class="player-instruction-title"> 
-                
-                <span> cyclop.se </span>
       
-              </div> --> 
               <div class="player-instruction-line"> Edit any YouTube video and </div> 
               <div class="player-instruction-line"> instantly re-publish it as a looping clip on</div>
               <div class="player-instruction-line"> Twitter or Tumblr </div>
@@ -173,19 +169,25 @@
              ng-class="{'visible': (!player.API.initializing && player.layout.start) }"
              ng-show="!player.API.mobile">
             <div layout="column" layout-fill layout-align="center center">
-              <div class="player-instruction-title"> 
-                cyclop.se
-              </div> 
-              <div> lets you edit any YouTube video </div> 
-              <div> and instantly re-publish it as a looping clip on </div>
-              <div> Twitter or Tumblr </div>
-              <div class="player-instruction-start">
-                <md-button class="md-raised md-primary"> Start </md-button>
+              <p class="player-instruction-text"> Edit any YouTube video </p> 
+              <p class="player-instruction-text"> and instantly re-publish it as a looping clip on </p>
+              <p class="player-instruction-text"> Twitter or Tumblr </p>
+              <div layout="row" layout-align="space-around" class="player-instruction-start">
+                <span class="player-instruction-icon-desktop">
+                  <md-button class="md-fab twitter-button"> 
+                    <span class="fa fa-twitter share-icon"></span> 
+                  </md-button>
+                </span>
+                <md-button class="md-raised md-primary start-text"> Start </md-button>
+                <span class="player-instruction-icon-desktop">
+                  <md-button class="md-fab tumblr-button"> 
+                    <span class="fa fa-tumblr share-icon"></span> 
+                  </md-button>
+                </span>
               </div>
-              <div> There's no uploading, downloading or login. </div>
-              <div> Just search, clip, and post. </div> 
+              <p class="player-instruction-text"> No uploading, downloading or login. </p>
+              <p class="player-instruction-text"> Just search, clip, and post. </p> 
             </div>
-
         </div> 
 
         
