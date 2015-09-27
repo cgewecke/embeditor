@@ -72,12 +72,11 @@ var ytp_debug, ytp_debugII;
 
     } else {
 
-      // Godard - Gimme Shelter: 'seconds' MUST BE 2 SECONDS SHORT OF THE END . . . .
       self.initialVideo = {
-        seconds: 272, 
-        imageUrl: "https://i.ytimg.com/vi/4kpP6Bjwx-w/mqdefault.jpg",
-        title: "JEAN-LUC GODARD FILMS - THE ROLLING STONES - GIMME SHELTER",
-        videoId: "4kpP6Bjwx-w"
+        imageUrl: "https://i.ytimg.com/vi/9dKOl9xX0lA/mqdefault.jpg",
+        seconds: 1704,
+        title: "***TRUST*** (OFFICIAL VIDEO) [BRONZE 56K HARDWARE EXCLUSIVE] {VERY RARE} (2K15)",
+        videoId: "9dKOl9xX0lA"
       };
 
     }
@@ -507,15 +506,14 @@ var ytp_debug, ytp_debugII;
           
           self.pause();  
           self.noise();
-          //self.end(-90); 
-          self.start(1);     
+          self.start(29);     
           verifyRates();
           
           $timeout(function(){ 
     
             self.initializing = false; 
             $rootScope.$broadcast(readyEvent.name);
-          }, 500);
+          }, 1000);
           
 
         // Check end because this might be a player click at 
@@ -623,5 +621,11 @@ var ytp_debug, ytp_debugII;
 
  })();
 
-
+/* // Godard - Gimme Shelter: 'seconds' MUST BE 2 SECONDS SHORT OF THE END . . . .
+      self.initialVideo = {
+        seconds: 272, 
+        imageUrl: "https://i.ytimg.com/vi/4kpP6Bjwx-w/mqdefault.jpg",
+        title: "JEAN-LUC GODARD FILMS - THE ROLLING STONES - GIMME SHELTER",
+        videoId: "4kpP6Bjwx-w"
+      }; */
   
