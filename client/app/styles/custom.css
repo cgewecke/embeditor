@@ -1,4 +1,7 @@
 
+/* Fonts */
+
+/*@import url(http://fonts.googleapis.com/earlyaccess/notokufiarabic.css);*/
 /* Browser patches */
 
 /* Moz */
@@ -144,12 +147,6 @@ md-content{
 
 .titlebar-cyclopse{
   direction: rtl;
-  unicode-bidi: bidi-override;
-  -moz-transform: scale(-1, 1);
-  -webkit-transform: scale(-1, 1);
-  -o-transform: scale(-1, 1);
-  -ms-transform: scale(-1, 1);
-  transform: scale(-1, 1);
   font-size: 30px;
 }
 
@@ -270,7 +267,7 @@ md-content{
   background: black;
   opacity: .7;
   color: white;
-  font-size: 28px;
+  font-size: 40px;
   font-weight: bold;
 }
 
@@ -1014,12 +1011,11 @@ md-progress-circular.embed-btn-spinner{
 
 .embed-preview-content{
   background-color: black;
-  height: 250px;
+  height: 500px;
 }
 
 .embed-preview-dialog{
   background-color: black;
-  max-width: 95%;
 }
 
 .share-dialog-content{

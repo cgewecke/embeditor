@@ -73,10 +73,11 @@ var ytp_debug, ytp_debugII;
     } else {
 
       self.initialVideo = {
-        imageUrl: "https://i.ytimg.com/vi/9dKOl9xX0lA/mqdefault.jpg",
-        seconds: 1704,
-        title: "***TRUST*** (OFFICIAL VIDEO) [BRONZE 56K HARDWARE EXCLUSIVE] {VERY RARE} (2K15)",
-        videoId: "9dKOl9xX0lA"
+
+        imageUrl: "https://i.ytimg.com/vi/BisR96mbtZo/mqdefault.jpg",
+        seconds: 50,
+        title: "Callum Paul Pro",
+        videoId: "BisR96mbtZo"
       };
 
     }
@@ -506,7 +507,7 @@ var ytp_debug, ytp_debugII;
           
           self.pause();  
           self.noise();
-          self.start(29);     
+          self.start(0);     
           verifyRates();
           
           $timeout(function(){ 

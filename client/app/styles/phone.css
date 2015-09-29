@@ -367,6 +367,17 @@
       }
 
       /* Dialog Windows */
+
+      .embed-preview-content{
+        background-color: black;
+        height: 250px;
+      }
+
+      .embed-preview-dialog{
+        background-color: black;
+        max-width: 95%;
+      }
+
       .embed-title{
         font-size: 16px;
       }
@@ -1090,6 +1101,17 @@
       }
 
       /* Dialog Windows */
+
+      .embed-preview-content{
+        background-color: black;
+        height: 250px;
+      }
+
+      .embed-preview-dialog{
+        background-color: black;
+        max-width: 95%;
+      }
+      
       .embed-title{
         font-size: 16px;
       }
