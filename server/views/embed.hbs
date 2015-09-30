@@ -27,11 +27,13 @@
      <!-- CSS --> 
      <link rel="stylesheet" href="../css/iframe.css" />
      <link rel="stylesheet" href="../css/video.css" />
+     <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
 
      {{#if cyclopse }}
        <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons"/>
-       <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
+       
      {{/if }}
+
    </head>
 
    <body>
@@ -44,7 +46,7 @@
          function cyclopse_loader(){
 
             var tag, firstScriptTag, player, loop, quality, mute, rate, start, end, 
-                init, overlay, loader, timer, height, width, load;
+                init, overlay, loader, timer, height, width, load, playbutton;
 
             var iOS = ( navigator.userAgent.match(/(iPad|iPhone|iPod|Android)/g) ? true : false );
             var iOS_buffer = false;
@@ -57,11 +59,19 @@
             rate = {{ video.rate }};
             start = {{ video.start }};
             end = {{ video.end }};
-            init = true; 
-            overlay = document.getElementById('cyclopse-overlay');
-            loader = document.getElementById('loader-div');
+
             height = "100%";
             width = "100%";
+            init = true; 
+            
+            overlay = document.getElementById('cyclopse-overlay');
+            loader = document.getElementById('loader-div');
+            playbutton = document.getElementById('playbutton-overlay');
+
+            
+
+            // Autoplay in the videos/id: route
+            {{#if cyclopse}} autoplay = true; {{/if}}
         
             // Load YT Player API
             tag = document.createElement("script");          
@@ -183,6 +193,10 @@
                     player.seekTo(start);
                     player.playVideo();
 
+                  } else {
+                    {{#if iframe}} 
+                      playbutton.style.visibility = "hidden";
+                    {{/if}}
                   }
 
                } else {
