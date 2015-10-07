@@ -100,6 +100,7 @@ var rf_debug, rf_debugII;
          // we seek and pause allowing the user to scrub through the video.
          self.change = function(newVals){
             
+            console.log('Change fired');
             var newStart = parseInt(newVals[0]);
             var newEnd = parseInt(newVals[1]);
             
@@ -115,9 +116,9 @@ var rf_debug, rf_debugII;
 
             // Discover which end is scrubbing and seek to new tapehead pos.
             if (newStart != oldVals.start){
-              self.API.seek(newStart)
+              self.API.mobile ? self.API.seek_mobile(newStart) : self.API.seek(newStart);
             } else {
-              self.API.seek(newEnd);
+              self.API.mobile ? self.API.seek_mobile(newEnd) : self.API.seek(newEnd);
             }
             
             // Advance state to present

@@ -58,29 +58,15 @@ var ytp_debug, ytp_debugII;
     self.phone = ( navigator.userAgent.match(/(iPod|iPhone|Android)/g) ? true : false );
     self.android = ( navigator.userAgent.match(/(Android)/g) ? true : false );
 
+    self.initialVideo = {
+
+      imageUrl: "https://i.ytimg.com/vi/BisR96mbtZo/mqdefault.jpg",
+      seconds: 50,
+      title: "Callum Paul Pro",
+      videoId: "BisR96mbtZo"
+    };
+
     
-    if (self.mobile){
-
-      // Eric Rohmer - La Collectioneuse Trailer 
-      self.initialVideo = {
-      
-        imageUrl: "https://i.ytimg.com/vi/9qI41zVCB7E/mqdefault.jpg",
-        seconds: 125,
-        title: "Eric Rohmer - La collectionneuse (1965) Trailer",
-        videoId: "9qI41zVCB7E"
-      }
-
-    } else {
-
-      self.initialVideo = {
-
-        imageUrl: "https://i.ytimg.com/vi/BisR96mbtZo/mqdefault.jpg",
-        seconds: 50,
-        title: "Callum Paul Pro",
-        videoId: "BisR96mbtZo"
-      };
-
-    }
 
     // For unit tests - events etc
     self.scope = $rootScope; 
@@ -196,7 +182,7 @@ var ytp_debug, ytp_debugII;
       $timeout.cancel(timeout);
 
       // Handle safari case. This call is redundant in 
-      // firefox and chrome because seek (correctly) fires
+      // firefox and chrome because seek fires
       // player events. 
       (looping ) ?
         setStop(looping) :
@@ -216,11 +202,11 @@ var ytp_debug, ytp_debugII;
       return ms;
     }
 
-    // This has been added to deal with iOS and desktop safari.
-    // Default behavior is now to call set stop from kill stop on 
-    // normal loop, so we need to find complete clip duration. for this case
-    // The consequence is that in chrome this will run and get thrown away on
-    // the subsequent 'seek', but it's necessary to get safari to work.
+    
+    // Default behavior is to call set stop from kill stop on 
+    // normal loop, so we need to find complete clip duration for this case
+    // In chrome this will run and get thrown away on
+    // the subsequent 'seek'. Necessary to get safari to work.
     function timeoutCompleteClipLength(){
       var ms = Math.floor( (self.endpoint.val - self.startpoint.val) * 1000 );
       if (self.currentRate == 0.5) return (ms * 2);
@@ -275,7 +261,15 @@ var ytp_debug, ytp_debugII;
         
         self.player.seekTo(location); 
       
-      }; 
+      };
+
+      // A version of seek that prevents scrubbing using the slider for IPad,
+      // since this is breaking the YT post-message interface about 20%
+      // of the time & decoupling the app from the player. False means don't buffer the
+      // the stream
+      self.seek_mobile = function(location){
+        self.player.seekTo(location, false);
+      } 
 
       // Playback speed
       self.rates = function(){ return self.player.getAvailablePlaybackRates() };

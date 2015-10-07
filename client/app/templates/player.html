@@ -125,26 +125,24 @@
                  ng-show="player.API.mobileStart" 
                  class="player-instruction-screen" >
       
-              <div class="player-instruction-line"> Edit any YouTube video and </div> 
-              <div class="player-instruction-line"> instantly re-publish it as a looping clip on</div>
-              <div class="player-instruction-line"> Twitter or Tumblr </div>
-
+              <div class="player-instruction-line"> Edit and Loop any YouTube video. </div> 
+             
               <div layout="row" layout-align="space-around" class="player-instruction-start">
                 <span class="player-instruction-icon" hide-gt-md>
-                  <md-button class="md-fab md-mini twitter-button"> 
+                  <md-button class="md-fab twitter-button"> 
                     <span class="fa fa-twitter share-icon"></span> 
                   </md-button>
                 </span>
                 <md-button class="md-raised md-primary"> Start </md-button>
                 <span class="player-instruction-icon" hide-gt-md>
-                  <md-button class="md-fab md-mini tumblr-button"> 
+                  <md-button class="md-fab tumblr-button"> 
                     <span class="fa fa-tumblr share-icon"></span> 
                   </md-button>
                 </span>
 
               </div>
-              <div class="player-instruction-line"> No uploading, downloading or login. </div>
-              <div class="player-instruction-line"> Just search, clip and post. </div> 
+              <div class="player-instruction-line"> Tweets play in the Twitter Feed. </div>
+              <div class="player-instruction-line"> Embeds play on Tumblr. </div> 
             </div>
         </div>
 
@@ -210,7 +208,7 @@
           <div id="player"></div>
         </div>
         <!-- TimeBar -->
-        <embeditor-player-time-bar class="loading-progress"></embeditor-player-time-bar> 
+        <embeditor-player-time-bar class="loading-progress tablet-time-bar"></embeditor-player-time-bar> 
       </div>
    </embeditor-youtube-embed>
 
