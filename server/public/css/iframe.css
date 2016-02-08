@@ -13,6 +13,17 @@ body {
   width: 100%;
   z-index: 1;
 }
+.help-overlay{
+  position: absolute;
+  visibility: visible;
+  top: 0;
+  left: 0;
+  background-color: #BECDDE;
+  /*background-color: #757575;*/
+  height: 100%;
+  width: 100%;
+  z-index: 1;
+}
 .playbutton-overlay{
   position: absolute;
   visibility: visible;
