@@ -9,6 +9,8 @@ var developmentDb = 'mongodb://localhost/test';
 var productionDb = process.env.MONGOLAB_URI;
 var usedDb;
 
+console.log('PROCESS: ' + process.env.NODE_ENV);
+
 // If we're in development...
 if (process.env.NODE_ENV === 'development') {
     // set our database to the development one

@@ -17,3 +17,7 @@ From root directory, e.g. *not* /client, before running: $ npm test  from the cl
 
 $ mongod --dbpath data/db/ --logpath data/logs/mongodb.log --logappend
 
+## Guide to updating ssl certs
+
+http://www.joshwright.com/tips/setup-a-godaddy-ssl-certificate-on-heroku
+
