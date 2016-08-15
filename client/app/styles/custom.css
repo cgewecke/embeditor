@@ -147,8 +147,15 @@ md-content{
 
 /* toolbar */
 
+.titlebar{
+  height: 71px !important;
+  min-height: 71px !important;
+}
+
 .titlebar-title{
   font-size: 30px;
+  color: white !important;
+  font-weight: 500;
 }
 
 .titlebar-beta{
@@ -363,23 +370,23 @@ md-content{
 .tapehead-animation{
   position: absolute;
   width: 14px;
-  height: 10px;
+  height: 14px;
   background-color: #FF6F00;
 }
 
 md-progress-linear.time-bar{
-  height: 10px;
+  height: 14px;
   background-color: rgb(255,193,7) !important;
 }
 md-progress-linear.time-bar .md-container {
-  height: 10px;
+  height: 14px;
   /*top: -3px;*/
   cursor: ne-resize;
   
 }
 
 md-progress-linear.time-bar .md-bar {
-  height: 10px;
+  height: 15px;
   /*top: -3px;*/
 }
 
@@ -559,7 +566,7 @@ md-progress-linear.timebar .md-dashed{
   width: 100%;
   height: 109%;
   background: black;
-  top: -30px;
+  top: -34px;
   left: 0px;
   opacity: .3;
   z-index: 21;
