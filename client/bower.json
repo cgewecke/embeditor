@@ -19,7 +19,8 @@
     "angular-mocks": "^1.3.0"
   },
   "appPath": "app",
-  "moduleName": "embeditor"
+  "moduleName": "embeditor",
+  "resolutions": {
+    "angular": "1.3.20"
+  }
 }
-
-

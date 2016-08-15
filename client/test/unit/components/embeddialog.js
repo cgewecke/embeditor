@@ -44,7 +44,7 @@ describe('Component: Embed Code Dialog Window', function(){
 
       it('it should update service.target to the id of the DOM elem that called the method', function(){
 
-      }
+      });
 
       it('should associate the correct dialog template with each button', function(){
 
