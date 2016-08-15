@@ -1,7 +1,7 @@
 
 <!-- Desktop / Tablet Toolbar -->
 <md-toolbar ng-controller="ToolbarCtrl as toolbar" 
-  class="md-medium-tall" 
+  class="md-medium-tall titlebar" 
   md-scroll-shrink 
   id="toolbar-header"
   layout="row" 
@@ -12,12 +12,12 @@
     <!-- Desktop/Tablet Icon and Title -->
     <span layout="row" layout-align="start center" hide-sm>
       <md-button aria-label="embeditor-icon" class="md-warn" > 
-        <ng-md-icon icon="album" size="64"></ng-md-icon>
+        <ng-md-icon icon="album" size="64" style="fill: khaki"></ng-md-icon>
       </md-button>
     
       <div class="titlebar-title">
-          <div class="titlebar-cyclopse"> سكلوبس </div>
-          <div class="titlebar-beta"> Loop Editor </div>
+          <div class="titlebar-cyclopse"> cyclop.se </div>
+          <div class="titlebar-beta"> YouTube Loop Editor </div>
       </div>
     </span>
 
@@ -33,12 +33,12 @@
 
     <!-- Alternate Icon and Title: Sidenav is open -->
     <md-button aria-label="embeditor-icon" class="md-warn" ng-show="toolbar.layout.sidenavIsOpen('search')"> 
-      <ng-md-icon icon="album" size="64"></ng-md-icon>
+      <ng-md-icon icon="album" style="fill: khaki" size="64"></ng-md-icon>
     </md-button>
     
     <div class="titlebar-title" ng-show="toolbar.layout.sidenavIsOpen('search')" hide-sm>
         <div class="titlebar-cyclopse"> سكلوبس </div>
-        <div class="titlebar-beta"> Loop Editor </div>
+        <div class="titlebar-beta"> YouTube Loop Editor </div>
     </div>
   </div>
 </md-toolbar>

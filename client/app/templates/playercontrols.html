@@ -25,9 +25,9 @@
   <!-- APP Row -->
   <div class="controls-block controls-background controls-top" layout="row" layout-fill> 
 
-    <!-- Opaque cover for the App controls before inital video is ready -->
-    <div class="controls-loading-cover" 
-         ng-show="player.API.initializing || (!player.API.mobile && player.layout.start)">
+    <!-- Opaque cover for the App controls before inital video is ready ng-show="player.API.initializing || (!player.API.mobile && player.layout.start)">-->
+    <div class="controls-loading-cover" ng-show="player.API.initializing">
+        
     </div>
 
     <!-- Main Controls Column --> 
