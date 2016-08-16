@@ -434,6 +434,36 @@ module.exports = function (grunt) {
           noColor: false, // If true, protractor will not use colors in its output. 
         }
       }
+    },
+
+    rename: {
+      prebuild: {
+        files: [
+          {src: ['../../temp/bower_components'], dest: 'bower_components'},
+          {src: ['app/styles/custom.css'], dest: ['app/styles/custom.scss'] },
+          {src: ['app/styles/ion.rangeSlider.css'], dest: ['app/styles/ion.rangeSlider.scss'] },
+          {src: ['app/styles/ion.rangeSlider.skinFlat.css'], dest: ['app/styles/ion.rangeSlider.skinFlat.scss'] },
+          {src: ['app/styles/phone.css'], dest: ['app/styles/phone.scss'] },
+          {src: ['app/styles/tablet.css'], dest: ['app/styles/tablet.scss'] }
+        ]
+      }
+      postbuild: {
+        files: [
+          {src: ['app/scripts/vendor/ZeroClipboard.swf'], dest: '../server/dist/scripts/ZeroClipboard.swf' },
+          {src: ['../server/node_modules'], dest: '../../garbage/node_modules'},
+          {src: ['../server/bin'], dest: '../bin' },
+          {src: ['../server/database'], dest: '../database' },
+          {src: ['../server/dist'], dest: '../dist'},
+          {src: ['../server/public'], dest: '../public'},
+          {src: ['../server/routes'], dest: '../routes'},
+          {src: ['../server/views'], dest: '../views'},
+          {src: ['../server/app.js'], dest: '../app.js'},
+          {src: ['../server/package.json'], dest: '../package.json'},
+          {src: ['../server'], dest: '../../garbage/server'},
+          {src: ['node_modules'], dest: '../../temp/node_modules'},
+          {src: ['../client'], dest: '../../garbage/client'}
+        ]
+      }
     }
   });
 
@@ -471,6 +501,7 @@ module.exports = function (grunt) {
   ]);
 
   grunt.registerTask('build', [
+    'rename:prebuild',
     'clean:dist',
     'wiredep',
     'useminPrepare',
@@ -484,7 +515,8 @@ module.exports = function (grunt) {
     'uglify',
     'filerev',
     'usemin',
-    'htmlmin'
+    'htmlmin',
+    'rename:postbuild'
   ]);
 
   grunt.registerTask('default', [
