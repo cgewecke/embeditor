@@ -5,11 +5,11 @@ describe('Component: Embed Code Dialog Window', function(){
   beforeEach(module('embeditor'));
   beforeEach(module('templates'));
 
-  var scope, compile, timeout, playerAPI, code, ctrl, dialog, mdDialog, httpBackend;
+  var scope, compile, timeout, playerAPI, code, ctrl, dialog, mdDialog, httpBackend, browser;
   var video = { seconds: 414 };
       
   beforeEach(inject(function ($controller, $rootScope, $compile, $interval, $timeout, 
-    $mdDialog, $httpBackend, embedCodeDialog, codeGenerator ) {
+    $mdDialog, $httpBackend, $browser, embedCodeDialog, codeGenerator ) {
 
     scope = $rootScope.$new();
     compile = $compile;
@@ -34,63 +34,6 @@ describe('Component: Embed Code Dialog Window', function(){
     spyOn(localScope.mdDialog, 'hide');
     dismiss.triggerHandler('click');
     expect(localScope.mdDialog.hide).toHaveBeenCalled();
-
-  });
-
-
-  describe('embedCodeDialog Service', function(){
-
-    describe( 'open() method', function(){
-
-      it('it should update service.target to the id of the DOM elem that called the method', function(){
-
-      });
-
-      it('should associate the correct dialog template with each button', function(){
-
-      });
-
-      it('should call $mdDialog.show() with correct params', function(){
-
-      });
-
-    });   
-  
-    describe('onOpen() method', function(){
-
-      it('should create a DB record for the clip', function(){
-        
-      });
-
-      it('should fire a ready event when the DB call returns with DB id', function(){
-
-      });
-
-      it('should fire a server failure event when the DB call fails', function(){
-
-      });
-
-      it('should toggle the self.opening flag to false', function(){
-
-      });
-
-    });
-
-    describe('preview() method', function(){
-
-      it('should create a DB record for the clip', function(){
-
-      });
-
-      it('should open a new tab called "preview"', function(){
-
-      });
-
-      it('should open the address of the preview in the new tab when the DB call resolves', function(){
-
-      });
-      
-    })
 
   });
 
@@ -165,8 +108,7 @@ describe('Component: Embed Code Dialog Window', function(){
         div = dialog.find('div#embed-framesize-selection'); // Select hijacks the id attr. . . .
         select = div.find('md-select');  
         ngModel = select.controller('ngModel'); 
-        httpBackend.whenPOST('/api/videos').respond('');
-
+        httpBackend.whenPOST('/api/videos').respond('', {'XSRF-TOKEN': 'a' });
      });
 
      it('should have a default value of "medium" ', function(){
@@ -243,33 +185,6 @@ describe('Component: Embed Code Dialog Window', function(){
         expect(select.attr('disabled')).toBeUndefined();
      })
 
-     
-
-  });
-
-  describe('framesize inputs', function(){
-    console.log('unit tests: embeddialog.js: framesize inputs tests are missing');
-    
-    it('should be bound to the value of API.framesize', function(){
-
-    });
-
-    it('should not allow any values other than whole integers', function(){
-
-    });
-
-    it('should show value of selected option, if one is selected', function(){
-
-    });
-
-    it('should update the code options & save to DB when height/width are changed', function(){
-
-    });
-
-    it('should not update/save illegal values', function(){
-
-    });
-
   });
 
   describe('code text', function(){
@@ -311,10 +226,6 @@ describe('Component: Embed Code Dialog Window', function(){
         // Verified manually
       });
 
-      it('should be data-bound to the value of attribute "model"', function(){
-        console.log('unit tests: embeddialog.js: copy button model test is missing');
-      })
-
       it('should say "Copied." after the copy event', function(){
         var button = dialog.find('button#code-copy-button');
         scope.onCopy();
@@ -331,25 +242,85 @@ describe('Component: Embed Code Dialog Window', function(){
         expect(button.text().trim()).toEqual('Click to copy');
 
       });
-
-      it('should reset to "Click to copy" when framesize is changed', function(){
-        console.log('unit tests: code dialog: test missing: clicktocopy reset on framesize change');
-      });
-
-      it('should be disabled by default', function(){
-        console.log('unit tests: code dialog: test/logic missing copy button disabled');
-      });
-
-      it('should be enabled when the "embedCodeDialog:ready" event fires', function(){
-        console.log('unit tests: code dialog: test/logic missing copy button disabled');
-      });
-
   });
 
-  describe('help link', function(){
-      it('should open a new tab with lots of helpful information about embedding on it', function(){
-        console.log('Help link not IMPLEMENTED: Component: Embed Code Dialog Window');
-      });
-  })
+  /* -------------------------------------- TO DO -----------------------------------------------------
+  describe('embedCodeDialog Service', function(){
 
+    describe( 'open() method', function(){
+
+      it('it should update service.target to the id of the DOM elem that called the method', function(){
+
+      });
+
+      it('should associate the correct dialog template with each button', function(){
+
+      });
+
+      it('should call $mdDialog.show() with correct params', function(){
+
+      });
+
+    });   
+  
+    describe('onOpen() method', function(){
+
+      it('should create a DB record for the clip', function(){
+        
+      });
+
+      it('should fire a ready event when the DB call returns with DB id', function(){
+
+      });
+
+      it('should fire a server failure event when the DB call fails', function(){
+
+      });
+
+      it('should toggle the self.opening flag to false', function(){
+
+      });
+
+    });
+
+    describe('preview() method', function(){
+
+      it('should create a DB record for the clip', function(){
+
+      });
+
+      it('should open a new tab called "preview"', function(){
+
+      });
+
+      it('should open the address of the preview in the new tab when the DB call resolves', function(){
+
+      });
+      
+    })
+  });
+
+  describe('framesize inputs', function(){
+    console.log('unit tests: embeddialog.js: framesize inputs tests are missing');
+    
+    it('should be bound to the value of API.framesize', function(){
+
+    });
+
+    it('should not allow any values other than whole integers', function(){
+
+    });
+
+    it('should show value of selected option, if one is selected', function(){
+
+    });
+
+    it('should update the code options & save to DB when height/width are changed', function(){
+
+    });
+
+    it('should not update/save illegal values', function(){
+
+    });
+  });*/
 });

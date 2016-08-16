@@ -11,23 +11,20 @@
 
   <!-- Instructions for Timebar -->
   <div layout="row" layout-fill layout-align="start" 
-       ng-class="{'timebar-instructions-row': !player.API.mobile}" class="controls-background mobile-timebar">
-   
+       ng-class="{'timebar-instructions-row': !player.API.mobile}" class="controls-background mobile-timebar"> 
     <span class="timebar-instructions" ng-show="player.API.mobile"> 
       (Tap timebar to seek within clip)
     </span>
     <span class="set-btn-block-help" ng-show="!player.API.mobile"> 
       (Click timebar to seek within clip. Set stops using the quick set buttons)
     </span>
-  
   </div>
 
   <!-- APP Row -->
   <div class="controls-block controls-background controls-top" layout="row" layout-fill> 
 
     <!-- Opaque cover for the App controls before inital video is ready ng-show="player.API.initializing || (!player.API.mobile && player.layout.start)">-->
-    <div class="controls-loading-cover" ng-show="player.API.initializing">
-        
+    <div class="controls-loading-cover" ng-show="player.API.initializing">        
     </div>
 
     <!-- Main Controls Column --> 
@@ -202,14 +199,14 @@
         
               <!-- Set Start Button -->
               <span layout="column" layout-align="center center">
-                <div click="player.startFromTimestamp()" 
+                <div id="timestamp-btn-start"
+                     click="player.startFromTimestamp()" 
                      class="desktop-quickset-btn"
                      ng-init="hover_q1=false"
                      ng-mouseenter="hover_q1=true"
                      ng-mouseleave="hover_q1=false"
                      ng-class="{'quickset-on-hover': hover_q1} ">
                   <ng-md-icon 
-                    id="timestamp-btn-start"
                     icon="get_app" 
                     ng-attr-style="fill:white" 
                     style="fill:white"
@@ -234,14 +231,14 @@
 
               <!-- Set End Button -->
               <span layout="column" layout-align="center center">
-                <div click="player.endFromTimestamp()" 
+                <div id="timestamp-btn-end"
+                     click="player.endFromTimestamp()" 
                      class="desktop-quickset-btn"
                      ng-init="hover_q2=false"
                      ng-mouseenter="hover_q2=true"
                      ng-mouseleave="hover_q2=false"
                      ng-class="{'quickset-on-hover': hover_q2} ">
                   <ng-md-icon 
-                    id="timestamp-btn-end"
                     icon="get_app" 
                     ng-attr-style="fill:white" 
                     style="fill:white" 

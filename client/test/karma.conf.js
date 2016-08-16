@@ -53,7 +53,7 @@ module.exports = function(config) {
       'app/templates/*.html',
       "test/mock/**/*.js",
       //"test/unit/**/*.js"
-      "test/unit/components/controlpanel.js"
+      "test/unit/components/playerctrl.js"
     ],
 
     // list of files / patterns to exclude
