@@ -1,46 +1,40 @@
-Heroku Production notes:
 
-1. Make a production branch at github
+## Server
+In the server directory, run:
+```
+$ npm start
+```
 
-2. In embeditor-production, navigate to root, git pull, checkout production
+## Testing
+In the client directory, run:
+```
+$ grunt test
+```
 
-  In the client folder run: $ npm install
+## Development DB 
+From root directory, e.g. *not* /client.
+```
+$ mongod --dbpath data/db/ --logpath data/logs/mongodb.log --logappend
+```
 
-  In the client folder run: $ bower update (pick Angular 1.3.16 option when asked)
-  
-  In client/app/styles: rename all .css as .scss
-  
-  In client/bower_components/angular: rewrite bower.json's "main" to 'angular.webkitassign.js'
-  
-  Copy angular.webkitassign.js from scripts/vendor and paste to client/bower_components/angular/
+## SSL Certs Guide
+[How to](http://www.joshwright.com/tips/setup-a-godaddy-ssl-certificate-on-heroku)
 
-  In the client folder run:$ grunt build
+## Deploy
 
-3. In the server, move zeroclipboard.swf into the dist/scripts folder
-
-4. Move client outside the repo
-
-5. Move server/node-modules outside the repo
-
-6. Move everything else out of 'server' folder so that it's in the root.
-
-7. push to github
-
-  $ git add -A
-
-  $ git commit -a -m 'Compiled assets '
-
-8. push to heroku:
-
-  $ git push -f heroku production:master
-
-9. delete production branch locally, remotely:
-
-  $ git checkout master
-
-  $ git branch -D production
-
-  $ git push origin --delete production
-
-
-
+Make a production branch at github and go to embeditor-production.
+``` 
+$ cd embeditor
+$ git pull
+$ git checkout production
+$ mv ../temp/node_modules client
+$ cd client
+$ grunt build
+$ (cd back to embeditor)
+$ git add -A
+$ git commit -a -m 'Compiled assets: <date>'
+$ git push git push -f heroku production:master
+$ git checkout master
+$ git branch -D production
+$ git push origin --delete production
+```
