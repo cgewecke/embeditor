@@ -137,6 +137,7 @@ module.exports = function (grunt) {
 
     // Empties folders to start fresh
     clean: {
+      options: {force: true},
       dist: {
         files: [{
           dot: true,
@@ -446,7 +447,7 @@ module.exports = function (grunt) {
           {src: ['app/styles/phone.css'], dest: ['app/styles/phone.scss'] },
           {src: ['app/styles/tablet.css'], dest: ['app/styles/tablet.scss'] }
         ]
-      }
+      },
       postbuild: {
         files: [
           {src: ['app/scripts/vendor/ZeroClipboard.swf'], dest: '../server/dist/scripts/ZeroClipboard.swf' },
@@ -461,6 +462,7 @@ module.exports = function (grunt) {
           {src: ['../server/package.json'], dest: '../package.json'},
           {src: ['../server'], dest: '../../garbage/server'},
           {src: ['node_modules'], dest: '../../temp/node_modules'},
+          {src: ['bower_components'], dest: '../../temp/bower_components'},
           {src: ['../client'], dest: '../../garbage/client'}
         ]
       }
@@ -468,6 +470,7 @@ module.exports = function (grunt) {
   });
 
   grunt.loadNpmTasks('grunt-contrib-connect');
+  grunt.loadNpmTasks('grunt-contrib-rename');
 
   grunt.registerTask('e2e-test', ['connect:test', 'protractor:e2e']);
 
@@ -525,3 +528,4 @@ module.exports = function (grunt) {
     'build'
   ]);
 };
+
