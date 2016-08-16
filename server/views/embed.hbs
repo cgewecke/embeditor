@@ -1,377 +1,351 @@
 <html lang="en">
-   <head>
-     <meta charset="utf-8">
-     
-     <!-- 320 x 180 Twitter heights for player mapped to youtube mq image -->
-     <meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, user-scalable=no, width=device-width"/> 
-     <!-- Open Graph Tags (facebook & tumblr) -->
-     <meta property="og:title" content="{{video.title}}" />
-     <meta property="og:image" content="{{video.imageUrl}}" />
-     <meta property="og:description" content="{{video.description}}"/>
-     <meta property="og:type" content="video.other" />
-     <meta property="og:url" content="{{video.cyclopseUrl}}" />
+   	<head>
+	 	<meta charset="utf-8">
+	 
+		<!-- 320 x 180 Twitter heights for player mapped to youtube mq image -->
+		<meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, user-scalable=no, width=device-width"/> 
+		<!-- Open Graph Tags (facebook & tumblr) -->
+		<meta property="og:title" content="{{video.title}}" />
+		<meta property="og:image" content="{{video.imageUrl}}" />
+		<meta property="og:description" content="{{video.description}}"/>
+		<meta property="og:type" content="video.other" />
+		<meta property="og:url" content="{{video.cyclopseUrl}}" />
 
-     <!-- Twitter Card Tags -->
-     <meta name="twitter:card" content="player" />
-     <meta name="twitter:title" content="{{video.title}}" />
-     <meta name="twitter:site" content="@apocyclopse"/>
-     <meta name="twitter:description" content="{{video.description}}" />
-     <meta name="twitter:player" content="{{video.twitterUrl}}"/>
-     <meta name="twitter:player:width" content="320"/>
-     <meta name="twitter:player:height" content="180"/>
-     <meta name="twitter:image" content="{{video.imageUrl}}" />
+		<!-- Twitter Card Tags -->
+		<meta name="twitter:card" content="player" />
+		<meta name="twitter:title" content="{{video.title}}" />
+		<meta name="twitter:site" content="@apocyclopse"/>
+		<meta name="twitter:description" content="{{video.description}}" />
+		<meta name="twitter:player" content="{{video.twitterUrl}}"/>
+		<meta name="twitter:player:width" content="320"/>
+		<meta name="twitter:player:height" content="180"/>
+		<meta name="twitter:image" content="{{video.imageUrl}}" />
 
-     <meta name="description" content="{{video.description}} of {{video.title}}"/>
-     
-     <title> Cyclopse: {{video.title}} </title>
-     <!-- CSS --> 
-     <link rel="stylesheet" href="../css/iframe.css" />
-     <link rel="stylesheet" href="../css/video.css" />
-     <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
+		<meta name="description" content="{{video.description}} of {{video.title}}"/>
 
-     {{#if cyclopse }}
-       <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons"/>
-       
-     {{/if }}
+		<title> Cyclopse: {{video.title}} </title>
+		<!-- CSS --> 
+		<link rel="stylesheet" href="../css/iframe.css" />
+		<link rel="stylesheet" href="../css/video.css" />
+		<link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
 
+		{{#if cyclopse }}
+			<link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons"/>
+		{{/if }}
    </head>
 
    <body>
 
-      {{#if iframe}} {{> iframe}} {{/if}} 
-      {{#if cyclopse}} {{> video }} {{/if}}
+	  {{#if iframe}} {{> iframe}} {{/if}} 
+	  {{#if cyclopse}} {{> video }} {{/if}}
 
-      <script>
-         
-         function cyclopse_loader(){
+	  <script>
+		 
+		function cyclopse_loader(){
 
-            var tag, firstScriptTag, player, loop, quality, mute, rate, start, end, 
-                init, overlay, loader, timer, height, width, load, playbutton;
+			var tag, firstScriptTag, player, loop, quality, mute, rate, start, end, 
+				init, overlay, loader, timer, height, width, load, playbutton;
 
-            var iOS = ( navigator.userAgent.match(/(iPad|iPhone|iPod|Android)/g) ? true : false );
-            var iOS_buffer = false;
+			var iOS = ( navigator.userAgent.match(/(iPad|iPhone|iPod|Android)/g) ? true : false );
+			var iOS_buffer = false;
 
-            // Options & Overlay
-            loop = {{video.loop}};
-            quality = "{{video.quality}}";
-            autoplay = {{ video.autoplay }};
-            mute =  {{ video.mute }};
-            rate = {{ video.rate }};
-            start = {{ video.start }};
-            end = {{ video.end }};
+			// Options & Overlay
+			loop = {{video.loop}};
+			quality = "{{video.quality}}";
+			autoplay = {{ video.autoplay }};
+			mute =  {{ video.mute }};
+			rate = {{ video.rate }};
+			start = {{ video.start }};
+			end = {{ video.end }};
 
-            height = "100%";
-            width = "100%";
-            init = true; 
-            
-            overlay = document.getElementById('cyclopse-overlay');
-            loader = document.getElementById('loader-div');
-            playbutton = document.getElementById('playbutton-overlay');
+			height = "100%";
+			width = "100%";
+			init = true; 
+			
+			overlay = document.getElementById('cyclopse-overlay');
+			loader = document.getElementById('loader-div');
+			playbutton = document.getElementById('playbutton-overlay');
 
-            
+			// Autoplay in the videos/id: route
+			{{#if cyclopse}} autoplay = true; {{/if}}
+		
+			// Load YT Player API
+			tag = document.createElement("script");          
+			tag.src = (("http:" === document.location.protocol) ? "http:" : "https:") + "//www.youtube.com/iframe_api"; 
+			firstScriptTag = document.getElementById('cyclopse-youtube-player');    
+			firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);          
+			
+			// Main
+			window.onYouTubeIframeAPIReady = function(){ loadPlayer(); }
 
-            // Autoplay in the videos/id: route
-            {{#if cyclopse}} autoplay = true; {{/if}}
-        
-            // Load YT Player API
-            tag = document.createElement("script");          
-            tag.src = (("http:" === document.location.protocol) ? "http:" : "https:") + "//www.youtube.com/iframe_api"; 
-            firstScriptTag = document.getElementById('cyclopse-youtube-player');    
-            firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);          
-            
-            // Main
-            window.onYouTubeIframeAPIReady = function(){ loadPlayer(); }
+			// Debugging
+			function log(msg){ console.log(msg);}
 
-            // Debugging
-            function log(msg){ console.log(msg);}
+			// Player instance
+			function loadPlayer(){
 
-            // Player instance
-            function loadPlayer(){
+			  	var ready, stateChange;
+			  	if (iOS){
+					ready = iOS_onPlayerReady;
+					stateChange = iOS_onPlayerStateChange;
+			  	} else {
+					ready = onPlayerReady;
+					stateChange = onPlayerStateChange;
+			  	}
 
-              var ready, stateChange;
-              if (iOS){
-                ready = iOS_onPlayerReady;
-                stateChange = iOS_onPlayerStateChange;
-              } else {
-                ready = onPlayerReady;
-                stateChange = onPlayerStateChange;
-              }
-
-              embdebug = player = new YT.Player('cyclopse-youtube-player', {
-                width: width,
-                height: height,
-                videoId: "{{video.videoId}}",
-                playerVars: {
-                   'playsinline':    '1', // Phone - inline video
-                   'iv_load_policy':  {{ video.iv_load_policy }},
-                   'controls' : {{video.controls}},
-                   'disablekb': {{video.disablekb}},
-                   'fs' : {{video.fs}},
-                   'modestbranding' : {{video.modestbranding}},
-                   'showinfo' : {{video.showinfo}}
-                },
-                events: {
-                   onReady: ready, 
-                   onStateChange: stateChange, 
-                   onError: onPlayerError 
-                } 
-              }); 
-            }; 
+			  	embdebug = player = new YT.Player('cyclopse-youtube-player', {
+					width: width,
+					height: height,
+					videoId: "{{video.videoId}}",
+					playerVars: {
+					   'playsinline':    '1', // Phone - inline video
+					   'iv_load_policy':  {{ video.iv_load_policy }},
+					   'controls' : {{video.controls}},
+					   'disablekb': {{video.disablekb}},
+					   'fs' : {{video.fs}},
+					   'modestbranding' : {{video.modestbranding}},
+					   'showinfo' : {{video.showinfo}}
+					},
+					events: {
+					   onReady: ready, 
+					   onStateChange: stateChange, 
+					   onError: onPlayerError 
+					} 
+			  	}); 
+			}; 
 
 
-            // --------------------- Desktop ----------------------------------
+			// --------------------- Desktop ----------------------------------
 
-            // Timing - setStop(), killStop(), getOffset()
-            // See client/scripts/services/ytplayerAPI.js 
-            function setStop(looping){
+			// Timing - setStop(), killStop(), getOffset()
+			// See client/scripts/services/ytplayerAPI.js 
+			function setStop(looping){
   
-               var ms = timeoutLength();
+			    var ms = timeoutLength();
 
-               timer = setTimeout(function(){
-                  (!loop) ? 
-                    player.pauseVideo() : 
-                    player.seekTo(start); 
-                  
-                  killStop(true);
+			    timer = setTimeout(function(){
+				  	(!loop) ? 
+						player.pauseVideo() : 
+						player.seekTo(start); 
+				  
+				  	killStop(true);
+			    }, ms);
+			};
 
-               }, ms);
-            };
+			function killStop(looping){ clearTimeout(timer)}
 
-            function killStop(looping){
-              clearTimeout(timer);
-            }
+			function timeoutLength(){
+			 	var ms = Math.floor( (end - player.getCurrentTime()) * 1000 );
 
-            function timeoutLength(){
-              var ms = Math.floor( (end - player.getCurrentTime()) * 1000 );
+			 	if (rate == 0.5) return (ms * 2);
+			 	if (rate == 1 ) return (ms);
+			 	if (rate == 1.5) return Math.floor(ms * .66);
+			  	return ms; 
+			}
 
-              if (rate == 0.5) return (ms * 2);
-              if (rate == 1 ) return (ms);
-              if (rate == 1.5) return Math.floor(ms * .66);
+			// YT Player callbacks
+			function onPlayerReady(){
+			 	player.mute();
+			 	player.seekTo(start);
+			 	player.playVideo();
+			};
 
-              return ms; 
-            }
+			function onPlayerStateChange(event){
 
-            // YT Player callbacks
-            function onPlayerReady(){
-              player.mute();
-              player.seekTo(start);
-              player.playVideo();
-            };
+			    if (event.data === YT.PlayerState.PLAYING){
+				 	iOS_setStop();
+					
+					if (init){
+					
+						init = false;
+						player.pauseVideo();
+						player.seekTo(start);
+						
+						(rate != 1) 
+							? player.setPlaybackRate(rate) 
+						    : false;
+						
+						(autoplay) 
+							? player.playVideo()  
+							: player.pauseVideo();
+						 
+						setTimeout(function(){
+							overlay.style.visibility = "hidden";
+						  	playbutton.style.visibility = "visible";
 
-            function onPlayerStateChange(event){
+							(!mute)  
+								? player.unMute() 
+								: false;
+						 
+						}, 250);
 
-               if (event.data === YT.PlayerState.PLAYING){
-                  iOS_setStop();
-                  if (init){
-                    
-                    init = false;
-                    player.pauseVideo();
-                    player.seekTo(start);
-                    
-                    (rate != 1) ? 
-                      player.setPlaybackRate(rate) : 
-                      false;
-                    
-                    (autoplay) ? 
-                      player.playVideo() : 
-                      player.pauseVideo();
-                     
-                    
-                    setTimeout(function(){
-                      overlay.style.visibility = "hidden";
-                      
-                      (!mute) ? 
-                        player.unMute(): 
-                        false;
-                     
-                    }, 250);
+					// Detect play from end of a non-looping clip
+					} else if ((player.getCurrentTime() + .25) > end){
 
-                  // Detect play from end of a non-looping clip
-                  } else if ((player.getCurrentTime() + .25) > end){
+						player.pauseVideo();
+						player.seekTo(start);
+						player.playVideo();
 
-                    player.pauseVideo();
-                    player.seekTo(start);
-                    player.playVideo();
+					} else {
+						{{#if iframe}} 
+						  playbutton.style.visibility = "hidden";
+						{{/if}}
+					}
 
-                  } else {
-                    {{#if iframe}} 
-                      playbutton.style.visibility = "hidden";
-                    {{/if}}
-                  }
+			    } else {
+					killStop();
+			   	}
+			};
 
-               } else {
-                 killStop();
-               }
-            };
+			// ----------------------------  iOS ------------------------------------
 
-            // ----------------------------  iOS ------------------------------------
+			// iOS: If this is setStop on the loop, e.g. called recursively from
+			// the killStop at the end of the last setStop timer exec, use special
+			// iOS timer calc, otherwise, be normal.
+			function iOS_setStop(looping){
+			  	var ms;
+			  
+			  	(looping)  
+					? ms = iOS_timeoutLength()  
+					: ms = timeoutLength();
 
-            // iOS: If this is setStop on the loop, e.g. called recursively from
-            // the killStop at the end of the last setStop timer exec, use special
-            // iOS timer calc, otherwise, be normal.
-            function iOS_setStop(looping){
-              var ms;
-              
-              (looping) ? 
-                ms = iOS_timeoutLength() : 
-                ms = timeoutLength();
+			   	timer = setTimeout(function(){
+				  	(!loop)  
+						? player.pauseVideo()  
+						: player.seekTo(start); 
+				  
+				  	iOS_killStop(true);
 
-               timer = setTimeout(function(){
-                  (!loop) ? 
-                    player.pauseVideo() : 
-                    player.seekTo(start); 
-                  
-                  iOS_killStop(true);
+			   	}, ms);
+			};
 
-               }, ms);
-            };
+			// If this is a looping event, called from 
+			// at the end of the setStop fn exec, playerStateChange
+			// setStop won't get called in iOS. So setStop here.
+			function iOS_killStop(looping){
+			  	clearTimeout(timer);
+		  		(looping) 	 
+					? iOS_setStop(looping)  
+					: false;
+			}
 
-            // If this is a looping event, called from 
-            // at the end of the setStop fn exec, playerStateChange
-            // setStop won't get called in iOS. So setStop here.
-            function iOS_killStop(looping){
-              clearTimeout(timer);
-              (looping) ? 
-                iOS_setStop(looping) : 
-                false;
-            }
+			// iOS is skipping the pause event after the first play, so 
+			// it needs its new stop set directly in the kill on 
+			// loop, and the time duration needs to be set to 
+			// to clip length, or else there's a weird skip.
+			function iOS_timeoutLength(){
+			  	var ms = Math.floor( (end - start) * 1000 );
+			  	if (rate == 0.5) return (ms * 2);
+			  	if (rate == 1 ) return (ms);
+			  	if (rate == 1.5) return Math.floor(ms * .66);
+			  	return ms; 
+			}
 
-            // iOS is skipping the pause event after the first play, so 
-            // it needs its new stop set directly in the kill on 
-            // loop, and the time duration needs to be set to 
-            // to clip length, or else there's a weird skip.
-            function iOS_timeoutLength(){
-              var ms = Math.floor( (end - start) * 1000 );
-              if (rate == 0.5) return (ms * 2);
-              if (rate == 1 ) return (ms);
-              if (rate == 1.5) return Math.floor(ms * .66);
-              return ms; 
-            }
+			
+			// Show Thumbnail: Autoplay is implicit because
+			// player is touch started, playback rate is disabled
+			// on mobile.  
+			function iOS_onPlayerReady(){
+			  	overlay.style.visibility = "hidden";
+			  	autoplay = true;
+			  	rate = 1;
+			}
 
-            
-            // Show Thumbnail: Autoplay is implicit because
-            // player is touch started, playback rate is disabled
-            // on mobile.  
-            function iOS_onPlayerReady(){
-              overlay.style.visibility = "hidden";
-              autoplay = true;
-              rate = 1;
-            }
+			// Algo for this:
+			// 1. Overlay was on as Player loads - comes off to reveal the thumbnail, user clicks
+			// 2. Player buffers stream to beginning of video: (Buffering && Init)
+			//      Overlay goes back on. 
+			//      Mute the player
+			// 3. Player starts playing at the beginning of video.
+			//      Pause.
+			//      Seek to clip start
+			//      Set Playback rate
+			// 4. Player buffers stream at new startpoint
+			//      Initiate play
+			// 5. Player starts playing
+			//      Overlay comes off,
+			function iOS_onPlayerStateChange(event){
+			  
+			  	if (event.data === YT.PlayerState.PLAYING){
+				  
+				 	if (init){
+					
+						init = false;
+						player.pauseVideo();
+						player.seekTo(start);
+					
+						iOS_buffer = true;
 
-            
+						// Failsafe play - sometimes the initial play
+						// has already bufferred the stream near 'start' and we don't 
+						// get the buffer triggered play. 
+						setTimeout(function(){
+						  (iOS_buffer) ? 
+							player.playVideo():
+							false;
+						}, 3000)
 
-            // Algo for this:
-            // 1. Overlay was on as Player loads - comes off to reveal the thumbnail, user clicks
-            // 2. Player buffers stream to beginning of video: (Buffering && Init)
-            //      Overlay goes back on. 
-            //      Mute the player
-            // 3. Player starts playing at the beginning of video.
-            //      Pause.
-            //      Seek to clip start
-            //      Set Playback rate
-            // 4. Player buffers stream at new startpoint
-            //      Initiate play
-            // 5. Player starts playing
-            //      Overlay comes off,
-  
+				  
+				  	} else if (iOS_buffer){
+						iOS_buffer = false;
 
-            function iOS_onPlayerStateChange(event){
-              
-              if (event.data === YT.PlayerState.PLAYING){
-                  
-                  if (init){
-                    //log('play - init')
-                    init = false;
-                    player.pauseVideo();
-                    player.seekTo(start);
-                    
-                    iOS_buffer = true;
+						// Wait for stream to actually start
+						var load_test = setInterval(function(){
+						  
+						  load = player.getVideoLoadedFraction();
+						  if (load){
 
-                    // Failsafe play - sometimes the initial play
-                    // has already bufferred the stream near 'start' and we don't 
-                    // get the buffer triggered play. 
-                    setTimeout(function(){
-                      (iOS_buffer) ? 
-                        player.playVideo():
-                        false;
-                    }, 3000)
+							iOS_setStop();
+							overlay.style.visibility = "hidden";
+							clearInterval(load_test);
+						  }
+						}, 75);
+				  
 
-                  
-                  } else if (iOS_buffer){
-                    //log('play - ios Buffer')
-                    iOS_buffer = false;
+				  	// Detect play from end of a non-looping clip
+				  	} else if ((player.getCurrentTime() + 1) > end){
 
-                    // Wait for stream to actually start
-                    var load_test = setInterval(function(){
-                      
-                      load = player.getVideoLoadedFraction();
-                      //log('interval: ' +  load);
-                      if (load){
+						player.pauseVideo();
+						player.seekTo(start);
+						player.playVideo();
 
-                        iOS_setStop();
-                        //log('load TRUE: ' +  load);
-                        overlay.style.visibility = "hidden";
-                        clearInterval(load_test);
-                      }
-                    }, 75);
-                  
+				  	// Regular play
+				  	} else iOS_setStop();
+			
+			  	} else if (event.data === YT.PlayerState.BUFFERING && init ){
 
-                  // Detect play from end of a non-looping clip
-                  } else if ((player.getCurrentTime() + 1) > end){
+					loader.classList.remove('embedlam-loader');
+					loader.classList.add('synth-loader');
 
-                    player.pauseVideo();
-                    player.seekTo(start);
-                    player.playVideo();
+					overlay.style.background = "black";
+					overlay.style.visibility = "visible";
 
-                  // Regular play
-                  } else {
-                    //log('play - regular');
-                    iOS_setStop();
-            
-                  }
+			  	} else if (event.data === YT.PlayerState.BUFFERING && iOS_buffer ){  
+								   
+				 	player.playVideo();
 
-              } else if (event.data === YT.PlayerState.BUFFERING && init ){
+				} else iOS_killStop();
+			};
 
-                  //log('buffering - init: ' + loader);
+			// Hide overlay if there's some problem with player
+			function onPlayerError(){ 
+			 	overlay.style.visibility = "hidden";
+			  	console.error("Cyclop.se v YouTube.com: 0-1"); 
+			};
+		};
 
-                  loader.classList.remove('embedlam-loader');
-                  loader.classList.add('synth-loader');
+		// Run. 
+		cyclopse_loader();
 
-                  overlay.style.background = "black";
-                  overlay.style.visibility = "visible";
+	  </script>
+	  <script>
+		(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+		(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+		m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+		})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
 
-              } else if (event.data === YT.PlayerState.BUFFERING && iOS_buffer ){  
-                  
-                  //log('buffering - iOS_buffer');                     
-                  player.playVideo();
-
-              } else {
-                //console.log('Other event: ' + event.data );
-                iOS_killStop();
-              }
-
-            };
-
-            // Hide overlay if there's some problem with player
-            function onPlayerError(){ 
-              overlay.style.visibility = "hidden";
-              console.error("Cyclop.se v YouTube.com: 0-1"); 
-            };
-         };
-
-         // Do it. 
-         cyclopse_loader();
-
-      </script>
-      <script>
-        (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-        (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-        m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-        })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
-
-        ga('create', 'UA-64330324-1', 'auto');
-        ga('send', 'pageview');
-
-      </script>
+		ga('create', 'UA-64330324-1', 'auto');
+		ga('send', 'pageview');
+	  </script>
    </body>
 </html>
