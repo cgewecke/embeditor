@@ -1,7 +1,7 @@
 
 var pct_debug, pct_debugII;
 
-describe('Controller: PlayerCtrl/Player-Section', function () {
+describe('PlayerCtrl: (Controls Panel Controller)', function () {
 
   // load the controller's module
   beforeEach(module('embeditor'));
@@ -32,12 +32,12 @@ describe('Controller: PlayerCtrl/Player-Section', function () {
 
     it('should be wired correctly', function(){
 
-      var btn_start = player.find('ng-md-icon#timestamp-btn-start');
-      var btn_end = player.find('ng-md-icon#timestamp-btn-end');
-      var ctrl_as = btn.controller();
-      
+      var btn_start = player.find('div#timestamp-btn-start');
+      var btn_end = player.find('div#timestamp-btn-end');
+      var ctrl_as = btn_start.controller();
+
       spyOn(ctrl_as, 'startFromTimestamp');
-      spyOn(ctrl_as, 'end FromTimestamp');
+      spyOn(ctrl_as, 'endFromTimestamp');
 
       btn_start.triggerHandler('click');
       expect(ctrl_as.startFromTimestamp).toHaveBeenCalled();
@@ -61,24 +61,15 @@ describe('Controller: PlayerCtrl/Player-Section', function () {
     })
   })
 
-  describe('mobile player cover', function(){
-    it('should show/hide when device is mobile and API.intializing is true/false', function(){
-
-    });
-
-    it('should allow click through so that tapping the start button permits the player to launch', function(){
-
-    });
-  })
-
   // ----------- PlayerCtrl Logic Spec ----------------------------------
   describe('startFromTimestamp()', function(){
     it('should set startpoint and seek player to the current timestamp (tapehead) value', function(){
       
-      var btn = player.find('ng-md-icon#timestamp-btn-start');
+      var btn = player.find('div#timestamp-btn-start');
       var ctrl_as = btn.scope().player;
       YT.attachMockAPI(ctrl_as.API);
       ctrl_as.API.load(video);
+      ctrl_as.API.initializing = false;
 
       spyOn(ctrl_as.API, 'seek');
 
@@ -88,10 +79,6 @@ describe('Controller: PlayerCtrl/Player-Section', function () {
       
       expect(ctrl_as.API.startpoint.val).toEqual(100);
       expect(ctrl_as.API.seek).toHaveBeenCalledWith(100);
-
-    });
-
-    it('should not trigger the minLength warning', function(){
 
     });
   });
@@ -99,29 +86,24 @@ describe('Controller: PlayerCtrl/Player-Section', function () {
   describe('endFromTimestamp()', function(){
     it('should set endpoint and seek player to the current timestamp (tapehead) value', function(){
       
-      var btn = player.find('ng-md-icon#timestamp-btn-end');
+      var btn = player.find('div#timestamp-btn-end');
       var ctrl_as = btn.scope().player;
       YT.attachMockAPI(ctrl_as.API);
       ctrl_as.API.load(video);
-
+      ctrl_as.API.initializing = false;
       spyOn(ctrl_as.API, 'seek');
 
       ctrl_as.API.timestamp = 100;
       btn.triggerHandler('click');
       timeout.flush();
       
-      expect(ctrl_as.API.startpoint.val).toEqual(100);
+      expect(ctrl_as.API.endpoint.val).toEqual(100);
       expect(ctrl_as.API.seek).toHaveBeenCalledWith(100);
 
     });
-
-    it('should not trigger the minLength warning', function(){
-
-    });
-
   });
 
-  describe('API.currentRate watch', function(){
+  describe('$watch: currentRate', function(){
     it('should change the playback rate in the player on value change', function(){
 
       spyOn(ctrl.API, 'setRate');
@@ -145,7 +127,7 @@ describe('Controller: PlayerCtrl/Player-Section', function () {
     })
   });
 
-  describe('API.loop watch', function(){
+  describe('$watch: loop', function(){
     it('should update codeGenerator loop option on value change', function(){
       spyOn(ctrl.code, 'set');
       ctrl.API.load(video);
@@ -161,7 +143,7 @@ describe('Controller: PlayerCtrl/Player-Section', function () {
     });
   });
 
-  describe('API.mute watch', function(){
+  describe('$watch: mute', function(){
 
     it('should mute/unmute the player if the players sound is on/off', function(){
       spyOn(ctrl.API, 'silence');
@@ -192,22 +174,8 @@ describe('Controller: PlayerCtrl/Player-Section', function () {
       
     });
   });
-
-  describe('API.auto watch', function(){
-    it('should update codeGenerator auto option on value change', function(){
-      spyOn(ctrl.code, 'set');
   
-      ctrl.API.autoplay = true;
-      scope.$apply();
-      expect(ctrl.code.set).toHaveBeenCalledWith("autoplay", true);
-
-      ctrl.API.autoplay = false;
-      scope.$apply();
-      expect(ctrl.code.set).toHaveBeenCalledWith("autoplay", false);
-    });
-  });
-  
-  describe('API video load listener', function(){
+  describe('$watch: video load', function(){
     it('should init code generator options with new video id, title & imageUrl when new video is loaded', function(){
       spyOn(ctrl.code, 'set');
       ctrl.API.load({seconds: 414, videoId: 'abcdef', title: 'hello', imageUrl: 'http://goodbye.com'});
@@ -219,7 +187,7 @@ describe('Controller: PlayerCtrl/Player-Section', function () {
     })
   });
   
-  describe('API.startpoint, endpoint change listener', function(){
+  describe('$watch: startpoint, endpoint changes', function(){
     it('should update codeGenerator start/end point options on when changed', function(){
       spyOn(ctrl.code, 'set');
       ctrl.API.load(video);
