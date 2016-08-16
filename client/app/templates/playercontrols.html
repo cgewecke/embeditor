@@ -142,7 +142,6 @@
               <span layout="column" layout-align="center center" > 
 
                 <span class="fa fa-play-circle time-disp-play-icon"
-                    id="startpoint-display-btn"
                     ng-init="hover_start=false"
                     ng-mouseenter="hover_start=true" 
                     ng-mouseleave="hover_start=false"
@@ -155,7 +154,11 @@
                     </md-tooltip> 
                 </span> 
                 
-                <md-button aria-label="seek" class="startpoint-btn" click="player.API.replayStart()">
+                <md-button 
+                    id="startpoint-display-btn" 
+                    aria-label="seek" 
+                    class="startpoint-btn" 
+                    click="player.API.replayStart()">
                   <div class="time-disp-time"> {{player.API.startpoint.display}} </div>
                 </md-button>
                 
@@ -288,7 +291,6 @@
               <span layout="column" layout-align="center center"> 
 
                 <span class="fa fa-play-circle time-disp-play-icon"
-                    id="endpoint-display-btn"
                     ng-init="hover_end=false"
                     ng-mouseenter="hover_end=true" 
                     ng-mouseleave="hover_end=false"
@@ -301,7 +303,11 @@
                     </md-tooltip> 
                 </span> 
                 
-                <md-button aria-label="seek" class="startpoint-btn" click="player.API.replayEnd()">
+                <md-button 
+                      id="endpoint-display-btn"
+                      aria-label="seek" 
+                      class="startpoint-btn" 
+                      click="player.API.replayEnd()">
                   <div class="time-disp-time"> {{player.API.endpoint.display}} </div>
                 </md-button>
                 
@@ -613,26 +619,3 @@
     </span>
   </div>
 </div>
-
-<!-- Autoplay 
-  <span layout="column" flex="33" layout-align="end center" >
-    <div layout="row" layout-fill layout-align="center end">
-       <md-input-container class="rate-slider-container">
-        <md-switch flex 
-          id="auto-switch"
-          ng-model="player.API.autoplay" 
-          class="playback-slider"
-          aria-label="autoplay">
-        </md-switch>  
-      </md-input-container>
-    </div>
-    <div class="rate-slider-label-row"
-         layout="row" 
-         layout-fill
-         layout-align="center" >
-      <span class="set-btn-block-label"> Autoplay </span>
-    </div> 
-  </span>
-  -->
-      
-
