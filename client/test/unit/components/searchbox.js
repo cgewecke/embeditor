@@ -3,7 +3,6 @@ var test_I, test_II;
 
 describe('Component: searchbox:', function () {
 
-  // load the controller's module
   beforeEach(module('embeditor'));
   beforeEach(module('templates'));
 
