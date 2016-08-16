@@ -30,11 +30,11 @@ angular
          
          // Tape head Driver
          service.play = function() { 
-           service.state = 'playing';
+           service.state = PLAYING;
          };  
 
          service.pause = function() { 
-           service.state = 'paused';
+           service.state = PAUSED;
          };
 
          service.seek = function(location, stream) { self.mockTime = location }; 
