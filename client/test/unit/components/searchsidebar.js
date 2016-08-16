@@ -163,7 +163,7 @@ describe('Component: Search sidebar', function () {
 
   });
 
-  describe('more button and more loading spinner', function(){
+  describe('"more" button and "more loading" spinner', function(){
     
     var searchRelUrl2, searchRelData2, videoRelUrl2, videoRelData2, 
         searchPage2Url, searchPage2Data, videoPage2Url, videoPage2Data, 
@@ -274,8 +274,12 @@ describe('Component: Search sidebar', function () {
     });
 
     it('should not play the video when the related button is clicked,', function(){
-      spyOn(playerAPI, 'load' );
+      var searchQ = query.searchUrl.shakeRelated_rel_any_page1;
       var related = searchItem.find(".searchRelatedIcon");
+      
+      httpBackend.whenJSONP(searchQ).respond('');
+      spyOn(playerAPI, 'load' );
+
       related.triggerHandler('click');
       expect(playerAPI.load).not.toHaveBeenCalled();
     });
@@ -295,7 +299,7 @@ describe('Component: Search sidebar', function () {
       var thumbnail;
 
       spyOn(playerAPI, 'load');
-      thumbnail = searchItem.find(".searchItemClickArea");
+      thumbnail = searchItem.find(".searchPlayIcon");
       thumbnail.triggerHandler('click');
       expect(playerAPI.load).toHaveBeenCalledWith(scope.video);
 
