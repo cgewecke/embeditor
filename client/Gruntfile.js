@@ -446,7 +446,7 @@ module.exports = function (grunt) {
           {src: ['app/styles/phone.css'], dest: ['app/styles/phone.scss'] },
           {src: ['app/styles/tablet.css'], dest: ['app/styles/tablet.scss'] }
         ]
-      }
+      },
       postbuild: {
         files: [
           {src: ['app/scripts/vendor/ZeroClipboard.swf'], dest: '../server/dist/scripts/ZeroClipboard.swf' },
