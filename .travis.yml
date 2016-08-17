@@ -7,5 +7,5 @@ before_install:
    - export DISPLAY=:99.0
    - sh -e /etc/init.d/xvfb start
 before_script:
-   - npm install
-   - bower install
+   - client/npm install
+   - client/bower install
