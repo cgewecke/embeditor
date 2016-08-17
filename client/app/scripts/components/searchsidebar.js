@@ -1,6 +1,6 @@
 (function(){ 'use strict';
 /**
- * Controller and directives for a search results sidebar that gives user access to some
+ * Manages a search results sidebar that gives user access to some
  * basic youtube search filters and lets them select a video to edit. 
  * @component searchsidebar
  */

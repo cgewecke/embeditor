@@ -1,8 +1,7 @@
 (function(){ 'use strict';
 /**
- * Service, controller and directives that govern the app page's dialog box which 
- * gives the user embed code options, generates twitter and other share urls, and
- * produces a preview embed. This component is where the user first engages the server
+ * Manages the app page's dialog box for embed code options. Generates twitter and other share urls, 
+ * and produces a preview embed. This component is where the user first engages the server
  * and creates a record of the edit in the DB. 
  * @component embedCodeDialog
  */
@@ -20,7 +19,7 @@ angular.module('embeditor.components.embedcodedialog', [
     .directive('embeditorSectionCodeDialog', embeditorSectionCodeDialog);
 
 /**
- * Manages the dialog box. Injected into PlayerCtrl.
+ * Dialog service. Injected into PlayerCtrl.
  * @service embedCodeDialog 
  */
 function embedCodeDialog($rootScope, $mdDialog, $window, youtubePlayerAPI, codeGenerator, layoutManager){
@@ -42,7 +41,7 @@ function embedCodeDialog($rootScope, $mdDialog, $window, youtubePlayerAPI, codeG
     self.counter = 0;     // Number of times opened - used to separate preview tabs.
 
     /**
-     * Launches a $mdDialog box after selecting a template for it based on which button 
+     * Launches an $mdDialog box after selecting a template for it based on which button 
      * was clicked. 
      * @method  open 
      * @param  {Object} event DOM click event used to arbitrate template selection.
@@ -83,7 +82,6 @@ function embedCodeDialog($rootScope, $mdDialog, $window, youtubePlayerAPI, codeG
      */
     self.preview = function(event){
 
-        // Turn of editor player if it's running.
         (API.state == 1 )
             ? API.togglePlay()
             : null;
@@ -92,8 +90,8 @@ function embedCodeDialog($rootScope, $mdDialog, $window, youtubePlayerAPI, codeG
     };
 
     /**
-     * Generates a clip in the DB for tweet. Before DB call resolves, a blank tab gets 
-     * opened. At DB resolution the resolved embed address gets opened in that tab name. 
+     * Generates a clip in the DB for twitter post. Opens a blank tab before DB call and re-directs it to correct 
+     * embed address when the DB asset resolves.
      * @method  tweet
      * @param  {Object} event DOM click event
      */
@@ -144,7 +142,7 @@ embedCodeDialog.$inject = ['$rootScope', '$mdDialog', '$window', 'youtubePlayerA
 
 // -------------------------------------------- CONTROLLER ------------------------------------------------
 /**
- * Methods to manage embed-code options dialog, which allows user to specify size and type of embed.
+ * Manages the embed-code options dialog which lets user specify size and type of embed.
  * Also houses social share link generators. Injected into the dialog window and the copy button directive.
  * @controller dialogCtrl
  */ 
