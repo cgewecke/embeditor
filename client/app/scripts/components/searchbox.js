@@ -1,161 +1,188 @@
-var sr_debug, sr_debugII;
+(function () { 'use strict';
+/**
+ * Controller and directives for a YouTube search query input built around Angular-Materials 
+ * autoComplete component. Calls the google suggestqueries API for YouTube to generate 
+ * search suggestions and keeps track of current search query across instances in page.
+ * @component searchbox
+ */
+angular.module('embeditor.components.searchbox', ['embeditor.services.youTubeDataAPI'])
+    .directive('embeditorSearchbox', searchbox);
+    
+function searchbox(){
+    return {
+        restrict: 'E',  
+        controller: searchboxCtrl,
+        link: searchboxEventHandlers,
+        templateUrl:  'templates/searchbox.html'
+    };
+};
 
-(function () {
-	'use strict';
+/**
+ * Directive controller. Retrieves google suggestions for query search and manages
+ * query submission, auto-complete functionality. 
+ * @method  searchboxCtrl 
+ */
+function searchboxCtrl($scope, $resource, youTubeDataAPI) {
 
-	angular.module('embeditor.components.searchbox', ['embeditor.services.youTubeDataAPI'])
-		.directive('embeditorSearchbox', searchbox);
-		
-	// Element
-	function searchbox(){
-		return {
-			restrict: 'E',  
-			controller: searchboxCtrl,
-			link: searchboxEventHandlers,
-			templateUrl:  'templates/searchbox.html'
-		};
-	};
+    var self = this;
 
-	// Controller
-	function searchboxCtrl($scope, $resource, youTubeDataAPI) {
+    // Google Suggestion API 
+    var googleSuggestionAPI = $resource('https://suggestqueries.google.com/complete/search', 
+        { callback:'JSON_CALLBACK'},
+        { get: {method: 'JSONP', isArray: true}}
+    );
 
-		var self = this;
+    //Public
+    self.autoCompleteOn = true;
+    self.synch = false;
+    self.youTube = youTubeDataAPI;
+    self.phone = ( navigator.userAgent.match(/(iPod|iPhone)/g) ? true : false );
+    self.android = ( navigator.userAgent.match(/(Android)/g) ? true : false );
 
-		// Google Suggestion API 
-		var googleSuggestionAPI = $resource('https://suggestqueries.google.com/complete/search', 
-			{ callback:'JSON_CALLBACK'},
-			{ get: {method: 'JSONP', isArray: true}}
-		);
+    /**
+     * Toggles autocomplete on/of. Necessary to stop md-autocomplete from
+     * re-running search when a selection is made and the searchText updates/changes
+     * @method  textChange 
+     */
+    self.textChange = function(){
+        self.autoCompleteOn = true;
+    };
+    /**
+     * Handles query submission by autocomplete dropdown selection
+     * @method  submit 
+     * @param  {String} searchTerm 
+     */
+    self.submit = function(searchTerm){
 
-		//Public
-		self.autoCompleteOn = true;
-		self.synch = false;
-		self.youTube = youTubeDataAPI;
-		self.phone = ( navigator.userAgent.match(/(iPod|iPhone)/g) ? true : false );
-		self.android = ( navigator.userAgent.match(/(Android)/g) ? true : false );
-		
-		// Autocomplete on/of toggles necessary to stop md-autocomplete from
-		// re-running search when a selection is made and the searchText updates/changes
-		self.textChange = function(){
-			self.autoCompleteOn = true;
-		};
+        self.autoCompleteOn = false;
 
-		// Autocomplete dropdown selection & Search button handler
-		self.submit = function(searchTerm){
+        // Submit will get a bogus selection call when the searchboxes' models 
+        // get synched on a query event. So, ignore and reset the flag
+        if (self.synch){
+            self.synch = false;
 
-			self.autoCompleteOn = false;
+        // Otherwise this is for real: run query
+        } else if (searchTerm && searchTerm.length){
+            self.youTube.query(searchTerm);
+        }
+    };
+    /**
+     * Calls Google to get YouTube specific autocomplete suggestions 
+     * @method  getSuggestions 
+     * @param  {String} val current query
+     * @return {Array}  suggestion result objects
+     */
+    self.getSuggestions = function(val){
 
-			// Submit will get a bogus selection call when the searchboxes' models 
-			// get synched on a query event. So, ignore and reset the flag
-			if (self.synch){
-				self.synch = false;
+        // Autocomplete toggled on when query text changes
+        if (self.autoCompleteOn){
 
-			// Otherwise this is for real: run query
-			} else if (searchTerm && searchTerm.length){
-				self.youTube.query(searchTerm);
-			}
-		};
+            var results = [];
+            var params = {'hl':'en', 'ds':'yt', 'q':val, 'client':'youtube' };
+            
+            return googleSuggestionAPI.get(params).$promise.then(function(data) {
+        
+                // Extract suggestion strings from response, excluding current query
+                angular.forEach(data[1], function(item){ 
+                    if (item[0] !== val){
+                        results.push({value: item[0]});
+                    }
+                });
+                // Trim results, return.
+                if (results.length > 5){ 
+                    results.length = 5; 
+                }
+                return results;
+            });
 
-		// Calls google to get array of youtube specific autocomplete suggestions 
-		self.getSuggestions = function(val){
+        // Return empty array if autocomplete is toggled off on selection
+        } else {
+            return [];
+        }
+    };
+};
+searchboxCtrl.$inject = ['$scope', '$resource', 'youTubeDataAPI'];
 
-			// Autocomplete toggled on when query text changes
-			if (self.autoCompleteOn){
+/**
+ * Directive link: Event handlers for query submission by keyboard (desktop), blur (iOS).
+ * Also manages synching instances of the search box across the page.
+ * @method  searchboxEventHandlers 
+ */
+function searchboxEventHandlers(scope, elem, attrs, searchboxCtrl){
 
-				var results = [];
-				var params = {'hl':'en', 'ds':'yt', 'q':val, 'client':'youtube' };
-				
-				return googleSuggestionAPI.get(params).$promise.then(function(data) {
-			
-					// Extract suggestion strings from response, excluding current query
-					angular.forEach(data[1], function(item){ 
-						if (item[0] !== val){
-							results.push({value: item[0]});
-						}
-					});
+    scope.ctrl = searchboxCtrl;
 
-					// Trim results, return.
-					if (results.length > 5){ 
-						results.length = 5; 
-					}
-					return results;
-				});
+    var mdElem = elem.find('md-autocomplete');
+    var mdInput = mdElem.find('input');
+    var mdScope = mdElem.isolateScope();
+    var mdCtrl = mdScope.$mdAutocompleteCtrl;
 
-			// Return empty array if autocomplete is toggled off on selection
-			} else {
-				return [];
-			}
-		};
-	};
-	searchboxCtrl.$inject = ['$scope', '$resource', 'youTubeDataAPI'];
+    /**
+     * Listens for query submission event. Keeps searchText and selectedItem synched 
+     * across instances of search box so that the last typed search is identical in toolbar 
+     * and sidebar. On iphone this causes problems because it focusses the search box.
+     * @param  {Event} youTubeDataAPI:query
+     */
+    scope.$on('youTubeDataAPI:query', function(event, msg){
 
-	// Link (Event handlers)
-	function searchboxEventHandlers(scope, elem, attrs, searchboxCtrl){
+        // IPhone: Zero out inputs and blur so input is unfocussed
+        // when the sidebar closes.
+        if (scope.ctrl.phone ){
+            
+            mdScope.searchText = '';
+            mdScope.selectedItem = {value: ''};
+            mdInput.blur();
 
-		scope.ctrl = searchboxCtrl;
+        // Desktop
+        } else {
+            scope.ctrl.synch = true;
+            mdScope.searchText = msg;
+            mdScope.selectedItem = {value: msg}
 
-		var mdElem = elem.find('md-autocomplete');
-		var mdInput = mdElem.find('input');
-		var mdScope = mdElem.isolateScope();
-		var mdCtrl = mdScope.$mdAutocompleteCtrl;
+            // Firing escape might get rid of weird sticking open 
+            // when sidenav closes . . .
+            mdCtrl.keydown({keyCode: 27}); 
+        }
+            
+    });
+    /**
+     * Listens for carriage return in input box. Hacks into mdAutoComplete to execute
+     * selection, closes dropdown w/escape event. Does nothing if searchText is empty string 
+     * @param  {Event} keydown
+    */
+    mdElem.bind('keydown', function(event){
 
-		// Keeps searchText and selectedItem synched across instances of search box
-		// so that the last typed search is identical in toolbar and sidebar
-		// On iphone this causes problems because it focusses the search box
-		scope.$on('youTubeDataAPI:query', function(event, msg){
+        if (event.which === 13 && mdScope.searchText && mdScope.searchText.length ){
 
-			// IPhone: Zero out inputs and blur so input is unfocussed
-			// when the sidebar closes.
-			if (scope.ctrl.phone ){
-				
-				mdScope.searchText = '';
-				mdScope.selectedItem = {value: ''};
-				mdInput.blur();
+            // Android: Submit must be explicitly called
+            if ( scope.ctrl.android ){
+                mdCtrl.keydown({keyCode: 27}); // Escape closes dropdown.
+                scope.ctrl.submit(mdScope.searchText);
+                mdInput.blur();
+                scope.$apply();
 
-			// Desktop
-			} else {
-				scope.ctrl.synch = true;
-				mdScope.searchText = msg;
-				mdScope.selectedItem = {value: msg}
+            // Desktop, Tablet - watcher . . .
+            } else {
+                mdCtrl.keydown({keyCode: 27}); // Escape closes dropdown.
+                mdCtrl.selectedItem = {value: mdScope.searchText}; // autocomplete watches this obj.
+            }
+        }
+    });
+    /**
+     * (IPhone only) Listens for blur event in input box (triggered by 'Done'). 
+     * Requires that submit be called explicitly - the watcher is not reacting to the value 
+     * change as above.
+     * @param  {Event} blur
+    */
+    mdInput.bind('blur', function(event){
 
-				// Firing escape might get rid of weird sticking open 
-				// when sidenav closes . . .
-				mdCtrl.keydown({keyCode: 27}); 
-			}
-				
-		});
+        if ( scope.ctrl.phone && mdScope.searchText && mdScope.searchText.length ){         
+            mdCtrl.keydown({keyCode: 27}); // Escape closes dropdown.
+            scope.ctrl.submit(mdScope.searchText);
+            scope.$apply();
+        }
+    })
+}
 
-		// Captures carriage return in input box and hacks into mdAutoComplete to execute
-		// selection, close dropdown w/escape event. Does nothing if searchText is empty string 
-		mdElem.bind('keydown', function(event){
-
-			if (event.which === 13 && mdScope.searchText && mdScope.searchText.length ){
-
-				// Android: Submit must be explicitly called
-				if ( scope.ctrl.android ){
-					mdCtrl.keydown({keyCode: 27}); // Escape closes dropdown.
-					scope.ctrl.submit(mdScope.searchText);
-					mdInput.blur();
-					scope.$apply();
-
-				// Desktop, Tablet - watcher . . .
-				} else {
-					mdCtrl.keydown({keyCode: 27}); // Escape closes dropdown.
-					mdCtrl.selectedItem = {value: mdScope.searchText}; // autocomplete watches this obj.
-				}
-			}
-		});
-
-		// IPhone: Captures blur event (triggered by 'Done'). Requires that submit be called
-		// explicitly - the watcher is not reacting to the value change per above.
-		mdInput.bind('blur', function(event){
-
-			if ( scope.ctrl.phone && mdScope.searchText && mdScope.searchText.length ){			
-				mdCtrl.keydown({keyCode: 27}); // Escape closes dropdown.
-				scope.ctrl.submit(mdScope.searchText);
-				scope.$apply();
-			}
-		})
-	}
-
+// End closure.
 })();
