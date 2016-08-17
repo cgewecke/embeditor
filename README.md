@@ -15,6 +15,7 @@ $ grunt test
 ## Development DB 
 From root directory, e.g. *not* /client.
 ```
+$ export NODE_ENV=development
 $ mongod --dbpath data/db/ --logpath data/logs/mongodb.log --logappend
 ```
 
