@@ -1,3 +1,4 @@
+[![Build Status](https://travis-ci.org/cgewecke/embeditor.svg?branch=master)](https://travis-ci.org/cgewecke/embeditor)
 
 ## Server
 In the server directory, run:
