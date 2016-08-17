@@ -52,8 +52,8 @@ module.exports = function(config) {
       "app/scripts/**/*.js",
       'app/templates/*.html',
       "test/mock/**/*.js",
-      //"test/unit/**/*.js"
-      "test/unit/components/toolbar.js"
+      "test/unit/**/*.js"
+      //"test/unit/services/youtubedataAPI.js"
     ],
 
     // list of files / patterns to exclude
