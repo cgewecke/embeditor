@@ -1,7 +1,7 @@
 'use strict';
 var t_debug, t_debugII;
 
-describe('Service: youTubeDataAPI', function (){
+describe('Service: YouTubeDataAPI', function (){
 
   var httpBackend, youtube, scope, query, channel, error;
 
@@ -13,7 +13,7 @@ describe('Service: youTubeDataAPI', function (){
       httpBackend.verifyNoOutstandingRequest();
   });
 
-  describe('private: searchYouTube', function(){
+  describe('searchYouTube', function(){
 
     var searchUrl, searchData, videoUrl, videoData, call1, call2,
         searchUrlGibberish, searchDataGibberish, videoUrlGibberish, videoDataGibberish,
@@ -26,8 +26,7 @@ describe('Service: youTubeDataAPI', function (){
 
       query = $controller("mockYTquery", {$scope: scope});
       error = $controller("mockYTerror", {$scope: scope});
-
-      
+ 
       // Regular query search
       searchUrl = query.searchUrl.taylor_relev_any_page1;
       searchData = query.searchResponse.taylor_relev_any_page1;
@@ -39,12 +38,10 @@ describe('Service: youTubeDataAPI', function (){
 
     }));
     
-
     it('should get a list of videos from youtube', function(){
       youtube.query('taylor swift');
       httpBackend.flush();
       expect(youtube.results.length).toBeGreaterThan(0);      
-
     });
 
     it('should construct video objects correctly', function(){
@@ -64,10 +61,6 @@ describe('Service: youTubeDataAPI', function (){
       expect(result.channelTitle.length).toBeGreaterThan(0);
 
     });
-
-    it('should strip out any duplicates', function(){
-
-    })
 
     it('should set the serverError flag on server error', function(){
 
@@ -125,7 +118,7 @@ describe('Service: youTubeDataAPI', function (){
 
   });
   
-  describe('public: nextPage()', function(){
+  describe('nextPage()', function(){
 
     var searchRelUrl2, searchRelData2, videoRelUrl2, videoRelData2, 
         searchPage2Url, searchPage2Data, videoPage2Url, videoPage2Data, 
@@ -192,7 +185,7 @@ describe('Service: youTubeDataAPI', function (){
   });
   
 
-  describe('public: query(searchTerm)', function(){
+  describe('query(searchTerm)', function(){
 
     var searchRelUrl, searchRelData, videoRelUrl, videoRelData, expected_output;
 
@@ -241,7 +234,7 @@ describe('Service: youTubeDataAPI', function (){
 
   });
 
-  describe('public: getChannelVideos(video)', function(){
+  describe('getChannelVideos(video)', function(){
     var searchRelUrl, searchRelData, videoRelUrl, videoRelData, output;
 
     beforeEach(inject( function($controller, $rootScope, $httpBackend, youTubeDataAPI) {
@@ -278,7 +271,7 @@ describe('Service: youTubeDataAPI', function (){
     
   });
 
-  describe('public: getRelatedVideos(video)', function(){
+  describe('getRelatedVideos(video)', function(){
 
     var searchRelUrl, searchRelData, videoRelUrl, videoRelData, output, related;
 
@@ -315,7 +308,7 @@ describe('Service: youTubeDataAPI', function (){
     
   });
 
-  describe('public: setSearchOrder(newOrder)', function(){
+  describe('setSearchOrder(newOrder)', function(){
 
     var searchRelUrl, searchRelData, videoRelUrl, videoRelData,
         searchDateUrl, searchDateData, videoDateUrl, videoDateData,
@@ -404,7 +397,7 @@ describe('Service: youTubeDataAPI', function (){
 
   });
 
-  describe('public: setDurationFilter(newDuration)', function(){
+  describe('setDurationFilter(newDuration)', function(){
 
     var searchRelUrl, searchRelData, videoRelUrl, videoRelData,
         searchShortUrl, searchShortData, videoShortUrl, videoShortData,
@@ -491,7 +484,7 @@ describe('Service: youTubeDataAPI', function (){
     });
   });
 
-  describe('public: getAgain(historyItem)', function(){
+  describe('getAgain(historyItem)', function(){
 
     var searchRelUrl, searchRelData, videoRelUrl, videoRelData, 
         searchRelUrl2, searchRelData2, videoRelUrl2, videoRelData2, 

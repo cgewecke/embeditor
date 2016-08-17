@@ -1,6 +1,7 @@
 "use strict"
 
-describe('Service: Code Generator', function(){
+// -------------  TO DO -------------- 
+/*describe('Service: Code Generator', function(){
 
   beforeEach(module('embeditor'));
   
@@ -52,4 +53,4 @@ describe('Service: Code Generator', function(){
     it('should return an iframe tag src linked to the correct asset', function(){
     })
   });
-});
+});*/

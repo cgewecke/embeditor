@@ -139,8 +139,6 @@ md-content{
 
 /* app */
 
-
-
 .visible{
   visibility: visible !important;
 }
@@ -148,6 +146,7 @@ md-content{
 /* toolbar */
 
 .titlebar{
+  background-color: rgb(225, 170, 6) !important;
   height: 71px !important;
   min-height: 71px !important;
 }

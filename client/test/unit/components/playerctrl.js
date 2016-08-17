@@ -1,7 +1,7 @@
 
 var pct_debug, pct_debugII;
 
-describe('PlayerCtrl: (Controls Panel Controller)', function () {
+describe('Controller: PlayerCtrl', function () {
 
   // load the controller's module
   beforeEach(module('embeditor'));
