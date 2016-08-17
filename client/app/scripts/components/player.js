@@ -1,238 +1,274 @@
-var pctl_debug, pctl_debugII;
+(function(){ 'use strict';
+/**
+ * Controllers and directives that manage the quickset buttons and the progress bar
+ * time-seeker under the embedded editor player. Also houses watchers for changes to 
+ * control settings like loop and playback speed that require updates in the embed 
+ * code generator.
+ * @component player
+ */
+angular.module('embeditor.components.player', [
+    'ngMaterial',
+    'embeditor.components.embedcodedialog',
+    'embeditor.services.youtubePlayerAPI', 
+    'embeditor.services.codeGenerator',
+    'embeditor.services.layoutManager' 
+    ])
+    .controller('PlayerCtrl', playerCtrl )
+    .directive('embeditorPlayerTimeBar', embeditorPlayerTimeBar)
+    .directive('embeditorSectionPlayerControls', embeditorSectionPlayerControls)  
+    .directive('embeditorSectionApp', embeditorSectionApp);                       
 
-(function(){
-	'use strict';
+// ----------------------------------  Controller ------------------------------------------------------
+function playerCtrl($scope, codeGenerator, youtubePlayerAPI, $mdSidenav, embedCodeDialog, layoutManager ){
+    var self = this;
+    
+    self.API = youtubePlayerAPI;   
+    self.dialog = embedCodeDialog; 
+    self.code = codeGenerator; 
+    self.layout = layoutManager; 
 
-	angular.module('embeditor.components.player', [
-		'ngMaterial',
-		'embeditor.components.embedcodedialog',
-		'embeditor.services.youtubePlayerAPI', 
-		'embeditor.services.codeGenerator',
-		'embeditor.services.layoutManager' 
-		])
-		.controller('PlayerCtrl', playerCtrl )
-		.directive('embeditorPlayerTimeBar', embeditorPlayerTimeBar)
-		.directive('embeditorSectionPlayerControls', embeditorSectionPlayerControls)  
-		.directive('embeditorSectionApp', embeditorSectionApp);                       
+    /**
+     * Sets new start point at the current tapehead pos. Proximity warning 
+     * about minimum clip size is disabled for this call.
+     * @method  startFromTimestamp 
+     */
+    self.startFromTimestamp = function(){
 
-	// ---------------------------  Controller ------------------------------
-	function playerCtrl($scope, codeGenerator, youtubePlayerAPI, $mdSidenav, embedCodeDialog, layoutManager ){
-		var self = this;
-		
-		self.API = youtubePlayerAPI;   
-		self.dialog = embedCodeDialog; 
-		self.code = codeGenerator; 
-		self.layout = layoutManager; 
+        if (self.API.initializing) return;
+        
+        self.API.setStartpoint(self.API.timestamp);
+        self.API.start(0, true);
+    };
+    /**
+     * Sets new end point at the current tapehead pos. Proximity warning 
+     * about minimum clip size is disabled for this call.
+     * @method  startFromTimestamp 
+     */
+    self.endFromTimestamp = function(){
 
-		// ------------------------ Public ----------------------------------
-		// Called by button on timestamp, sets new start/end point at the 
-		// current tapehead pos. Call start/end with warningDisabled param true. 
-		self.startFromTimestamp = function(){
+        if (self.API.initializing) return;
 
-			if (self.API.initializing) return;
-			
-			self.API.setStartpoint(self.API.timestamp);
-			self.API.start(0, true);
-		};
+        self.API.setEndpoint(self.API.timestamp);
+        self.API.end(0, true);
+    };
 
-		self.endFromTimestamp = function(){
+    // ------------------------------ Variable Watches -----------------------------------------
+    /**
+     * Watches changes in currentRate and updates player behavior and the code generator 
+     * options on change. 
+     * @param  {Number} currentRate   Playback speed setting
+     */
+    $scope.$watch('API.currentRate', function(newval, oldval){
+        if (self.API.videoLoaded){
+            self.API.setRate(newval);
+            self.code.set('rate', newval);
+        }
+    });
+    /**
+     * Watches changes in currentRate and updates the code generator options on change. 
+     * @param  {Boolean} loop   Loop or not loop.
+     */
+    $scope.$watch('API.loop', function(newval, oldval){
+        self.code.set('loop', newval);
+    });
 
-			if (self.API.initializing) return;
+    /**
+     * Watches changes in currentRate and updates player behavior and the code generator 
+     * options on change. 
+     * @param  {Boolean} mute   Silence or noise
+     */
+    $scope.$watch('API.mute', function(newval, oldval){
+        if (self.API.videoLoaded && newval != undefined){
+                (newval) ? self.API.silence() : self.API.noise();
+                self.code.set('mute', newval);
+        };        
+    });
 
-			self.API.setEndpoint(self.API.timestamp);
-			self.API.end(0, true);
-		};
+    // ------------------------------ Event Listeners ------------------------------------------
+    /**
+     * Listens for video load (on page load and on video selection in the search sidebar). 
+     * Updates code generator options and settings.
+     * @param {Event} YTPlayerAPI:init 
+     */
+    $scope.$on('YTPlayerAPI:init', function(){
+        self.code.set('videoId', self.API.video.videoId);
+        self.code.set('title', self.API.video.title);
+        self.code.set('imageUrl', self.API.video.imageUrl);
+    })
+    /**
+     * Listens for updates to changes in clip's startpoint and endpoint 
+     * Updates code generator options and settings.
+     * @param {Event} 'YTPlayerAPI:set' 
+     */
+    $scope.$on('YTPlayerAPI:set', function(event, msg){
+        self.code.set(msg.type, msg.value);
+    })
+};
 
-		// ----------------------- Watches -------------------------------
-		// Call relevant API functions and/or update the code generator values
-
-		// watch(API.currentRate): ng-modelled on the playback rates slider
-		$scope.$watch('API.currentRate', function(newval, oldval){
-			if (self.API.videoLoaded){
-				self.API.setRate(newval);
-				self.code.set('rate', newval);
-			}
-		});
-
-		// watch(API.loop): ng-modelled on the loop switch. 
-		$scope.$watch('API.loop', function(newval, oldval){
-			self.code.set('loop', newval);
-		});
-
-		// watch(API.mute): ng-modelled on the mute switch. 
-		$scope.$watch('API.mute', function(newval, oldval){
-			if (self.API.videoLoaded && newval != undefined){
-					(newval) ? self.API.silence() : self.API.noise();
-					self.code.set('mute', newval);
-			};        
-		});
-
-		// watch(API.autoplay): ng-modelled on the auto switch. 
-		$scope.$watch('API.autoplay', function(newval, oldval){
-			self.code.set('autoplay', newval);
-		});
-
-		// ----------------------- Events ------------------------------
-		
-		// listen for video load - update codeGen videoId
-		$scope.$on('YTPlayerAPI:init', function(){
-			self.code.set('videoId', self.API.video.videoId);
-			self.code.set('title', self.API.video.title);
-			self.code.set('imageUrl', self.API.video.imageUrl);
-		})
-
-		// listen for updates to (API.startpoint, API.endpoint)
-		$scope.$on('YTPlayerAPI:set', function(event, msg){
-			self.code.set(msg.type, msg.value);
-		})
-	};
-	playerCtrl.$inject = ['$scope', 'codeGenerator', 'youtubePlayerAPI', '$mdSidenav', 'embedCodeDialog', 'layoutManager'];
-
-	//------------------------- Time Bar Directive -----------------------------------
-	//--------------------- <embeditor-player-time-bar> -------------------------------
-
-	function embeditorPlayerTimeBar(){
-		return {
-			restrict: 'E',
-			link: timeBarEventHandlers,
-			controller: playerCtrl,
-			templateUrl: 'templates/timebar.html'    
-		};
-	};
-
-	function timeBarEventHandlers(scope, elem, attr, ctrl){
-		
-		var dot = elem.find('ng-md-icon');
-		var tapehead = elem.find('span.tapehead-animation-wrapper');
-		var value = elem.find('span.progress-bar-time');
-		var bar = elem.find('md-progress-linear');
-
-		var lowLimit = 20; // pixel . . . 
-		var highLimit = bar.width() - 10;
-		var xCoord = 0;
-
-		scope.showDot = false;
-		scope.timestamp = ctrl.API.timestamp;
-		scope.time = (0).toString().toHHMMSSss();
-		scope.API = ctrl.API; // Ref for timestamp animation $watch
-
-		// Unit fix
-		if (highLimit <= 0) {
-			highLimit = 854;
-			bar.width(854);
-		} 
-
-		// ---------------- Time Dot Animation ---------------------------------
-
-		// calculateTimeDotValue(): Translate space to time.
-		function calculateTimeDotValue(){
-			var ratio = (xCoord/bar.width());
-			var time = (ctrl.API.endpoint.val - ctrl.API.startpoint.val) * ratio;
-			return ctrl.API.startpoint.val + time;
-		};
+playerCtrl.$inject = ['$scope', 'codeGenerator', 'youtubePlayerAPI', '$mdSidenav', 'embedCodeDialog', 'layoutManager'];
 
 
-		// updateTimeDot: ng-mousemove 
-		// Shows dot/time value mapped by location the cursor hovers over. 
-		scope.updateTimeDot = function($event){
-	
-			xCoord = $event.offsetX === undefined ? $event.originalEvent.layerX : $event.offsetX;
-		
-			var offset = elem.offset();
-			var dotXPos = (xCoord + 5) + 'px';
-			var valueXPos = (offset.left + xCoord - 10) + 'px';
-			var valueYPos = (offset.top - 35) + 'px';
+// ---------------------------------- Directives ------------------------------------------------
+/**
+ * <embeditor-player-time-bar>: A tapehead animation and click-seek widget. 
+ * @directive embeditorPlayerTimeBar 
+ */
+function embeditorPlayerTimeBar(){
+    return {
+        restrict: 'E',
+        link: timeBarEventHandlers,
+        controller: playerCtrl,
+        templateUrl: 'templates/timebar.html'    
+    };
+};
 
-			// Ignore false offset values that occur when mouse
-			// suddenly moves over dot && stop from running off end.
-			if (xCoord > lowLimit && xCoord < highLimit){
-				scope.time = calculateTimeDotValue().toString().toHHMMSSss();
-				dot.css('left', dotXPos);
-				dot.css('visibility', 'visible');
-				value.css('left', valueXPos);
-				value.css('top', valueYPos);
-				value.css('visibility', 'visible');
-			} else {
-				scope.hideTimeDot();
-			}
-		};
+function timeBarEventHandlers(scope, elem, attr, ctrl){
+    
+    // Elements
+    var dot = elem.find('ng-md-icon');
+    var tapehead = elem.find('span.tapehead-animation-wrapper');
+    var value = elem.find('span.progress-bar-time');
+    var bar = elem.find('md-progress-linear');
 
-		// hideTimeDot: ng-mouseleave
-		scope.hideTimeDot = function(){
-			dot.css('visibility', 'hidden');
-			value.css('visibility', 'hidden');
-		};
+    // Boundary values
+    var lowLimit = 20; // pixel . . . 
+    var highLimit = bar.width() - 10;
+    var xCoord = 0;
 
-		// seekVideoToTimeDot() - click. 
-		scope.seekVideoToTimeDot = function(){
-			
-			// Desktop, don't go outside bounds
-			if (xCoord > lowLimit && xCoord < highLimit){
+    // Scope
+    scope.showDot = false;
+    scope.timestamp = ctrl.API.timestamp;
+    scope.time = (0).toString().toHHMMSSss();
+    scope.API = ctrl.API; 
 
-				var time = calculateTimeDotValue();
-				ctrl.API.setTapehead(time);
-			}
-		};
+    // Unit test patch
+    if (highLimit <= 0) {
+        highLimit = 854;
+        bar.width(854);
+    } 
 
-		// seekVideoToTouch(): Get location
-		scope.seekVideoToTouch = function($event){
-			
-			var time;
+    // ------------------------------- Time Dot Animation ------------------------------
+    /**
+     * Translates space (click) to time (seek position).
+     * @method calculateTimeDotValue 
+     * @return {Number} Time to seek to.
+     */
+    function calculateTimeDotValue(){
+        var ratio = (xCoord/bar.width());
+        var time = (ctrl.API.endpoint.val - ctrl.API.startpoint.val) * ratio;
+        return ctrl.API.startpoint.val + time;
+    };
+    /**
+     * Shows dot/time value mapped by location the cursor hovers over. Fired on mousemove. 
+     * @method  updateTimeDot 
+     * @param  {Event} $event  mousemove
+     */
+    scope.updateTimeDot = function($event){
 
-			if (scope.API.initializing) return;
+        xCoord = $event.offsetX === undefined ? $event.originalEvent.layerX : $event.offsetX;
+    
+        var offset = elem.offset();
+        var dotXPos = (xCoord + 5) + 'px';
+        var valueXPos = (offset.left + xCoord - 10) + 'px';
+        var valueYPos = (offset.top - 35) + 'px';
 
-			// Android
-			if (ctrl.layout.android) {
-				xCoord = Math.floor( $event.originalEvent.touches[0].clientX );
+        // Ignore false offset values that occur when mouse
+        // suddenly moves over dot && stop from running off end.
+        if (xCoord > lowLimit && xCoord < highLimit){
+            scope.time = calculateTimeDotValue().toString().toHHMMSSss();
+            dot.css('left', dotXPos);
+            dot.css('visibility', 'visible');
+            value.css('left', valueXPos);
+            value.css('top', valueYPos);
+            value.css('visibility', 'visible');
+        } else {
+            scope.hideTimeDot();
+        }
+    };
+    /**
+     * Hides timedot. Fired on mouseleave
+     * @method  hideTimeDot 
+     */
+    scope.hideTimeDot = function(){
+        dot.css('visibility', 'hidden');
+        value.css('visibility', 'hidden');
+    };
+    /**
+     * Seeks video to location specified by click.
+     * @method  seekVideoToTimeDot 
+     */
+    scope.seekVideoToTimeDot = function(){
+        
+        // Desktop, don't go outside bounds
+        if (xCoord > lowLimit && xCoord < highLimit){
 
-			// Apple 
-			} else {
-				xCoord = ($event.offsetX === undefined) ? $event.originalEvent.layerX : $event.offsetX;
-			}
-			time = calculateTimeDotValue();
-			ctrl.API.setTapehead(time);
-		}
+            var time = calculateTimeDotValue();
+            ctrl.API.setTapehead(time);
+        }
+    };
+    /**
+     * Seeks video to location specified by touch.
+     * @method  seekVideoToTouch
+     * @param {Event} $event touchstart 
+     */
+    scope.seekVideoToTouch = function($event){
+        
+        var time;
+        if (scope.API.initializing) return;
 
-		// ----------------   Tapehead Animation ----------------------------- 
-		
-		// Bind to API.timestamp
-		scope.$watch('API.timestamp', function(newval, oldval){
-			(newval) ? updateTapehead() : false;
-		});
+        (ctrl.layout.android) 
+            ? xCoord = Math.floor( $event.originalEvent.touches[0].clientX )
+            : xCoord = ($event.offsetX === undefined) ? $event.originalEvent.layerX : $event.offsetX;
 
-		// Listen for start/end val updates, because the timeline gets
-		// rebased then.
-		scope.$on('YTPlayerAPI:update', function(newval, oldval){
-			(newval) ? updateTapehead() : false;
-		})
+        time = calculateTimeDotValue();
+        ctrl.API.setTapehead(time);
+    }
 
-		// updateTapehead() Translate cur tapehead pos to timebar space.
-		function updateTapehead(){
-			var clipDuration, ratio, newPosition;
-			
-			var playerWidth = bar.width(); 
-			var timestampWidth = 14; // Pixel - bullshit
+    // ----------------   Tapehead Animation ----------------------------- 
+    
+    /**
+     * Watches changes in player time and updates tapehead animation
+     * @param  {Number} timestamp   Floating point seconds
+     */
+    scope.$watch('API.timestamp', function(newval, oldval){
+        (newval) ? updateTapehead() : false;
+    });
+    /**
+     * Listens for start/end val updates. The timeline gets rebased then.
+     * @param  {Event} YTPlayerAPI:update   
+     */
+    scope.$on('YTPlayerAPI:update', function(newval, oldval){
+        (newval) ? updateTapehead() : false;
+    })
+    /**
+     * Translates current tapehead pos to timebar space.
+     * @method  updateTapehead 
+     */
+    function updateTapehead(){
+        var clipDuration, ratio, newPosition;
+        
+        var playerWidth = bar.width(); 
+        var timestampWidth = 14; // Pixel - bullshit
 
-			clipDuration = (ctrl.API.endpoint.val - ctrl.API.startpoint.val);
-			ratio = (ctrl.API.timestamp - ctrl.API.startpoint.val) /clipDuration;
-			newPosition = Math.floor( bar.width() * ratio );
+        clipDuration = (ctrl.API.endpoint.val - ctrl.API.startpoint.val);
+        ratio = (ctrl.API.timestamp - ctrl.API.startpoint.val) /clipDuration;
+        newPosition = Math.floor( bar.width() * ratio );
 
-			// Either update or detect end and stop for the last few pixels
-			(newPosition < (playerWidth - timestampWidth)) ?
-				tapehead.css('left', newPosition):
-				tapehead.css('left', (playerWidth - timestampWidth));
-		};
-	};
+        // Either update or detect end and stop for the last few pixels
+        (newPosition < (playerWidth - timestampWidth)) ?
+            tapehead.css('left', newPosition):
+            tapehead.css('left', (playerWidth - timestampWidth));
+    };
+};
+// ---------------------------------- Unit Testing ------------------------------------------------------
+function embeditorSectionPlayerControls(){ 
+    return{ templateUrl: 'templates/playercontrols.html' }
+};
 
-	//--------------------- (SECTION DIRECTIVE FOR UNIT TESTING ) --------------------------------
-	//---------------------- <embeditor-section-player-controls> ---------------------------------
-	//---------------------- <embeditor-section-app> ---------------------------------------------
-	function embeditorSectionPlayerControls(){ 
-		return{ templateUrl: 'templates/playercontrols.html' }
-	};
+function embeditorSectionApp(){
+    return { templateUrl: 'templates/player.html' }
+};
 
-	function embeditorSectionApp(){
-		return { templateUrl: 'templates/player.html' }
-	};		
+// End closure.     
 })();
 
