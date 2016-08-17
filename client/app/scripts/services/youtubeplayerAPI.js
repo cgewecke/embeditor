@@ -1,8 +1,9 @@
-var ytp_debug, ytp_debugII;
-
-(function(){
-'use strict';
-
+(function(){ 'use strict';
+/**
+ * An interface to drive the YouTube player so it plays looping, variable speed clips whose duration
+ * and boundaries can be changed dynamically by the apps UI. 
+ * @service YouTubePlayerAPI
+ */
 angular.module('embeditor.services.youtubePlayerAPI', []).service('youtubePlayerAPI', youtubePlayerAPI);
 
 function youtubePlayerAPI($rootScope, $timeout, $interval ){
@@ -10,19 +11,19 @@ function youtubePlayerAPI($rootScope, $timeout, $interval ){
     // Private Variables
     var self = this;
     var scope = $rootScope;
-    var timeout = null; // $timeout promise - cancelled at killStop()
-    var interval = null; // $interval promise - cancelled at killStop()
+    var timeout = null;          // $timeout promise - cancelled at killStop()
+    var interval = null;         // $interval promise - cancelled at killStop()
     var mobileBuffering = false; // State var needed for player init seq. in mobile.
     
     // Const
     var PLAYING = 1, PAUSED = 2, BUFFERING = 3, UNSTARTED = -1, SET = 4;
 
     // Published Events
-    var readyEvent = {name: 'YTPlayerAPI:ready'}    // Cast when initialization is complete in playerStateChange
-    var initEvent = {name: 'YTPlayerAPI:init'};     // Cast on video load, either at init or on search play
+    var readyEvent = {name: 'YTPlayerAPI:ready'}                // Cast when initialization is complete in playerStateChange
+    var initEvent = {name: 'YTPlayerAPI:init'};                 // Cast on video load, either at init or on search play
     var loadEvent = {name: 'YTPlayerAPI:load'};
-    var updateEvent = {name: 'YTPlayerAPI:update'}; // Cast when tapehead is reset to start/endpoint
-    var setEvent = {name: 'YTPlayerAPI:set'};       // Cast when start/endpoints vals change
+    var updateEvent = {name: 'YTPlayerAPI:update'};             // Cast when tapehead is reset to start/endpoint
+    var setEvent = {name: 'YTPlayerAPI:set'};                   // Cast when start/endpoints vals change
     var playerLoadedEvent = {name: 'YTPlayerAPI:playerLoaded'}; // Cast when YT fires the player ready event
 
     // Public Variables   
@@ -68,18 +69,24 @@ function youtubePlayerAPI($rootScope, $timeout, $interval ){
     self.scope = $rootScope; 
     scope.self = self;
 
-    // -------------------------  Utilities  ---------------------------------------
+    // ---------------------------------------  Utilities  ---------------------------------------
 
-    // init(): Runs in the YT player ready callback on page load. Sets initial video, 
-    // start/end point vals and initiates stream play. When the play event is picked up
-    // by the YT event change callback, stream gets paused and player veil is removed. 
+    /**
+     * Initializes service from the YT playerReady callback on desktop page load. 
+     * Load/mutes initial video, 
+     * @method init
+     */
     function init(){
         var timer;
         self.load(self.initialVideo);
         self.silence();
-
     };
-
+    /**
+     * Initializes service from the YT playerReady callback on mobile page load. Broadcasts
+     * a playerLoaded event (Necessary because mobile will not autoplay and trigger its
+     * own 'play' event)
+     * @method  mobileInit 
+     */
     function mobileInit(){
         var timer;    
         self.load(self.initialVideo);
@@ -87,9 +94,10 @@ function youtubePlayerAPI($rootScope, $timeout, $interval ){
         $rootScope.$broadcast(playerLoadedEvent.name);
         
     }
-
-    // setLoadState: Assigns fractional amt loaded * 100 to loadState
-    // in a setInterval. 
+    /**
+     * Calculates/sets percentage loaded value (Deprecated).
+     * @method  setLoadState 
+     */
     function setLoadState(){
         var timer, offset;
 
@@ -110,15 +118,17 @@ function youtubePlayerAPI($rootScope, $timeout, $interval ){
             }
         }, 1000);
     };
-
-    // verifyRates(): playback rates info only available once the player
-    // starts playing (and only on Desktop), so this executes in the 
-    // YT state change callback. Rate setting carries over from video to video.
+    /**
+     * Verifies that playback speed options are available and sets the player's playback rate. 
+     * Rates info only available once the player starts playing (and only on Desktop), so 
+     * this executes in the  YT state change callback. Rate setting carries over from video to video.
+     * @method  verifyRates 
+     */
     function verifyRates(){
 
-        (!self.mobile && self.rates().length > 1) ? 
-            self.speeds = true: 
-            self.speeds = false;
+        (!self.mobile && self.rates().length > 1)  
+            ? self.speeds = true 
+            : self.speeds = false;
 
         if (self.speeds && self.setNewRate){
             self.setRate(self.currentRate);
@@ -126,23 +136,15 @@ function youtubePlayerAPI($rootScope, $timeout, $interval ){
         }
     }
 
-    /*--------------------------- TIMERS --------------------------------------*/
-    // setStop(): an interval timer to update the timestamp, and a
-    //            timeout for the end of the clip, Loops or stop at endpoint.
-    // killStop(): cancels timers
-    //  
-    // setStop() is called: 
-    //  1. on non-initial-load changes to 'playing' state in onPlayerStateChange().
-    //     (this happens on each loop)
-    //  2. 'continuing play' condition in reset(), when the start/endpoints are reset
-    //
-    // killStop is called:
-    // 1. in setStop() when the $timeout function executes
-    // 2. in setRates(), because the duration needs to change
-    // 3. in reset() in the 'continue play' condition, before setStop()
-    //    because old starts/stops must be abandoned.
-
-    // setStop()
+    //----------------------------------------- Timers -----------------------------------------------
+    /**
+     * Sets up an interval timer to update the timestamp and a timeout to execute
+     * when the end of the clip is reached. Either loops or stops on endpoint. Called
+     * on non-initial-load changes to 'playing' state in onPlayerStateChange() AND under
+     * 'continuing play' conditions in reset(), when the start/endpoints are reset.
+     * @method  setStop 
+     * @param {Boolean} looping 
+     */
     function setStop(looping){
     
         var ms;
@@ -167,22 +169,29 @@ function youtubePlayerAPI($rootScope, $timeout, $interval ){
                 killStop(true); 
         }, ms );
     };
-    
-    // killStop(): 
+    /**
+     * Cancels timers created in setStop. Called from within setStop when the 
+     * timeout executes, from within setRates because a rate change alters the 
+     * playing time duration, and from within reset in the 'continue play' condition, 
+     * because old starts/stops must be abandoned.
+     * @method  killStop 
+     * @param {Boolean} looping 
+     */
     function killStop(looping){
         
         $interval.cancel(interval);
         $timeout.cancel(timeout);
 
-        // Handle safari case. This call is redundant in 
-        // firefox and chrome because seek fires
-        // player events. 
+        // Handle safari case. Redundant in FF and chrome because seek fires player events. 
         (looping ) ?
             setStop(looping) :
             false;
     }
-
-    // timeoutLength() - returns duration for $timeout, calibrated to playback rate
+    /**
+     * Gets duration for $timeout, calibrated to playback rate.
+     * @method  timeoutLength 
+     * @return {Number} milliseconds
+     */
     function timeoutLength(){
 
         var ms = Math.floor( (self.endpoint.val - self.time()) * 1000 );
@@ -193,12 +202,11 @@ function youtubePlayerAPI($rootScope, $timeout, $interval ){
         
         return ms;
     }
-
-    
-    // Default behavior is to call set stop from kill stop on 
-    // normal loop, so we need to find complete clip duration for this case
-    // In chrome this will run and get thrown away on
-    // the subsequent 'seek'. Necessary to get safari to work.
+    /**
+     * Calculates real time length of clip as a function of its playback rate.
+     * @method  timeoutCompleteClipLength 
+     * @return {Number} milliseconds
+     */
     function timeoutCompleteClipLength(){
         var ms = Math.floor( (self.endpoint.val - self.startpoint.val) * 1000 );
         if (self.currentRate == 0.5) return (ms * 2);
@@ -206,12 +214,21 @@ function youtubePlayerAPI($rootScope, $timeout, $interval ){
         if (self.currentRate == 1.5) return Math.floor(ms * .66);
         return ms; 
     }
-    // ---------------------------- Public: YT API Wrapper ----------------------------------
+    // ---------------------------- YouTube Player API Wrapper ----------------------------------
     
-    // getAPI(): Runs in the YT player ready callback - wraps the Iframe player api. 
+    /**
+     * Binds YouTube Player methods to this service. Runs in YT's playerReady callback when 
+     * javascript api is available. 
+     * @method getAPI 
+     */
     function getAPI(){
 
-        // Loader
+        /**
+         * Wraps YT loadVideoById. Implements different load strategies for desktop and mobile
+         * because the latter prohibits autoplaying. 
+         * @method load 
+         * @param  {Object} video 
+         */
         self.load = function(video) { 
             var timer;
 
@@ -237,7 +254,6 @@ function youtubePlayerAPI($rootScope, $timeout, $interval ){
             $rootScope.$broadcast(initEvent.name);
         }; 
         
-        // Tape head Driver
         self.play = function() { 
             self.state = PLAYING;
             self.player.playVideo(); 
@@ -295,37 +311,37 @@ function youtubePlayerAPI($rootScope, $timeout, $interval ){
     }; 
     
 
-    // ----------------------------- Public: APP -------------------------------
+    // ----------------------------- App Interface --------------------------------------------
 
-    // Play/Pause 
+    // Play/Pause
+    /**
+     * Pauses video when playing. Plays video when paused.
+     * @method  togglePlay 
+     */
     self.togglePlay = function(){
-
         var time;
-
-        // Safety check for mobile etc . . .
-        if (self.initializing) return;
+        if (self.initializing) return;  
         
-        // Pause
+        // Pause / Play
         if ( self.state === PLAYING ){
             self.pause();
-
-        // Play
         } else {
             // Seek to start first if pos is clip end
             if ((self.time() + .25) > self.endpoint.val){
                 self.seek(self.startpoint.val);
                 self.play();
-            
             } else {
                 self.play();
             }
         }
     };
-
-    // Start/End point setting handlers
-    // start(change, disableWarning) where change is +/- current point
-    // val, and disableWarn === true prevents the proximity warning from
-    // being set. 
+    /**
+     * Sets startpoint at a value relative to current startpoint and seeks to that position.
+     * * Broadcasts updateEvent.
+     * @method  start 
+     * @param  {Number} change  +/- floating point seconds from current startpoint value.
+     * @param  {Boolean} disableWarning   prevent proximity warning from being displayed.
+     */
     self.start = function(change, disableWarning){
      
         var time = self.startpoint.val + change;
@@ -353,7 +369,13 @@ function youtubePlayerAPI($rootScope, $timeout, $interval ){
             $rootScope.$broadcast(updateEvent.name);
         });
     };
-
+    /**
+     * Sets endpoint at a value relative to current endpoint and seeks to that position. 
+     * Broadcasts updateEvent.
+     * @method  end 
+     * @param  {Number} change  +/- floating point seconds from current endpoint value.
+     * @param  {Boolean} disableWarning   prevent proximity warning from being displayed.
+     */
     self.end = function(change, disableWarning){
      
         var time = self.endpoint.val + change;
@@ -381,27 +403,39 @@ function youtubePlayerAPI($rootScope, $timeout, $interval ){
             $rootScope.$broadcast(updateEvent.name);
         });
     };
-
-    // Start/Endpoint setters
+    /**
+     * Sets startpoint at specified value. Broadcasts setEvent. 
+     * @method  setStartPoint 
+     * @param  {Number} value  floating point seconds
+     */
     self.setStartpoint = function(value){
         self.startpoint = {val: value, display: value.toString().toHHMMSSss() };
         $rootScope.$broadcast(setEvent.name, {type: 'start', value: value });
     };
 
+    /**
+     * Sets endpoint at specified value. Broadcasts setEvent. 
+     * @method  setEndPoint 
+     * @param  {Number} value  floating point seconds
+     */
     self.setEndpoint = function(value){
         self.endpoint = {val: value, display: value.toString().toHHMMSSss() };
         $rootScope.$broadcast(setEvent.name, {type: 'end', value: value });
     };
-
-    // replay: Convenience methods to play near or at
-    // the start/endpoints 
+    /**
+     * Seeks to and begins playing from the startpoint
+     * @method  replayStart 
+     */
     self.replayStart = function(){
 
         self.pause(); // Force mobile event
         self.seek(self.startpoint.val);
         self.play();
     };
-
+    /**
+     * Seeks to and begins playing from the endpoint
+     * @method  replayEnd 
+     */
     self.replayEnd = function(){
 
         var newTime = self.endpoint.val - 2;
@@ -412,8 +446,11 @@ function youtubePlayerAPI($rootScope, $timeout, $interval ){
         self.seek(newTime);
         self.play();
     }
-
-    // reset() resets the start/stop back to video min/max
+    /**
+     * Resets the start/stop back to video min/max. Broadcasts update
+     * events for start/end points. Resets loop timers.
+     * @method  reset
+     */
     self.reset = function(){
 
         // Start
@@ -431,8 +468,11 @@ function youtubePlayerAPI($rootScope, $timeout, $interval ){
             ? setStop()
             : killStop();
     }
-
-    // setTapehead the tapehead & timestamp to value. Behaviorally equivalent to play. 
+    /**
+     * Sets tapehead & timestamp to value.
+     * @method  setTapehead 
+     * @param {Number} time floating point seconds
+     */
     self.setTapehead = function(time){
 
         // Update timestamp for a paused seek.
@@ -452,8 +492,11 @@ function youtubePlayerAPI($rootScope, $timeout, $interval ){
             self.play();
         }
     };
-
-    // YT Player Event Callbacks, registered on embedding in embeditor-youtube-player
+    /**
+     * Callback fired when the YouTube player is available.
+     * @method  onPlayerReady description]
+     * @param  {Event} YouTube playerReady event
+     */
     self.onPlayerReady = function(event){
         
         getAPI();
@@ -463,7 +506,12 @@ function youtubePlayerAPI($rootScope, $timeout, $interval ){
             : init();
     };
 
-    // 
+    /**
+     * Callback fired on desktop when the YouTube player changes state. Manages response to
+     * 'playing' and 'buffering' states.
+     * @method  
+     * @param  {Event} YouTube playerStateChange event
+     */
     self.onPlayerStateChange = function(event){
         
         if (event.data === PLAYING){
@@ -476,7 +524,7 @@ function youtubePlayerAPI($rootScope, $timeout, $interval ){
                 
                 self.pause();  
                 self.noise();
-                self.setStartpoint(233);
+                self.setStartpoint(233);  
                 self.setEndpoint(244.25);
                 self.start(0);     
                 verifyRates();
@@ -517,7 +565,12 @@ function youtubePlayerAPI($rootScope, $timeout, $interval ){
         $rootScope.$apply();
     };
 
-    // 
+    /**
+     * Callback fired on mobile when the YouTube player changes state. Manages response to
+     * 'playing' and 'buffering' states.
+     * @method  
+     * @param  {Event} YouTube playerStateChange event
+     */
     self.onMobilePlayerStateChange = function(event){
     
         if (event.data === PLAYING){
@@ -578,14 +631,12 @@ function youtubePlayerAPI($rootScope, $timeout, $interval ){
             killStop();
         }
         $rootScope.$apply();
-
     };
-    
-    self.onPlayerError = function(error){ console.log('player error: ' + error) }; 
-
-    youtubePlayerAPI.$inject = ['$rootScope', '$timeout', '$interval'];
 };
+youtubePlayerAPI.$inject = ['$rootScope', '$timeout', '$interval'];
 
+
+// End closure.
 })();
 
 /* // Godard - Gimme Shelter: 'seconds' MUST BE 2 SECONDS SHORT OF THE END . . . .
@@ -594,5 +645,6 @@ self.initialVideo = {
     imageUrl: "https://i.ytimg.com/vi/4kpP6Bjwx-w/mqdefault.jpg",
     title: "JEAN-LUC GODARD FILMS - THE ROLLING STONES - GIMME SHELTER",
     videoId: "4kpP6Bjwx-w"
-}; */
+}; 
+*/
     

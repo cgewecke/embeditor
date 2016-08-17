@@ -1,9 +1,8 @@
 (function () { 'use strict';
 /**
- * Controller and directives for a range slider widget which lets the user drag-set
- * the start and end points of their clip. Also provides a visual cue about the clips location
- * relative to the rest of the video. On desktop, dragging the slider ends effectively 'fast-forward'
- * scrubs through the video.
+ * Manages a range slider widget which lets the user drag-set the start and end points of their clip and 
+ * provides a visual cue about the clips location relative to the rest of the video. On desktop, dragging 
+ * the slider ends 'fast-forward' scrubs through the video.
  * @component rangeFinder
  */
 angular.module('embeditor.components.rangefinder', ['embeditor.services.youtubePlayerAPI'])
@@ -21,7 +20,7 @@ function rangefinder(youtubePlayerAPI){
 
 /**
  * Directive link: Initializes ionRangeSlider (A JQuery widget). Sets up listeners for video loads and clip 
- * start/endpoint updates so the slider can reflect current editor state.
+ * start/endpoint updates so the slider reflects current editor state.
  * @method  rangefinderLink 
  */
 function rangefinderLink(scope, elem, attrs, ctrl){
@@ -62,7 +61,7 @@ function rangefinderCtrl($scope, $timeout, youtubePlayerAPI){
     self.API = youtubePlayerAPI;
 
     /**
-     * Initializes rangeSlider on page load. (Limits are made negative initially so we can detect 
+     * Initializes rangeSlider on page load. (Limits are negative initially so we can tell
      * when the actual video values are loaded)
      * @method  init 
      * @param  {Number} limit endpoint value.
@@ -85,7 +84,7 @@ function rangefinderCtrl($scope, $timeout, youtubePlayerAPI){
         oldVals = {start: 0, end: limit }; 
     };
     /**
-     * Updates slider handle positions when start/end points are changed outside the widget.
+     * Updates slider handle positions when start/end points are changed by an agent outside the widget.
      * @method  update 
      * @param  {Number} start [description]
      * @param  {Number} end   [description]

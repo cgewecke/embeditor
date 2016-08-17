@@ -1,8 +1,8 @@
 (function () { 'use strict';
 /**
- * Controller and directives for a YouTube search query input built around Angular-Materials 
- * autoComplete component. Calls the google suggestqueries API for YouTube to generate 
- * search suggestions and keeps track of current search query across instances in page.
+ * Manages a YouTube search query input built around Angular-Material's 
+ * autoComplete component. Calls the Google suggestqueries API for YouTube to generate 
+ * search suggestions and keeps track of current search query across searchbox instances in page.
  * @component searchbox
  */
 angular.module('embeditor.components.searchbox', ['embeditor.services.youTubeDataAPI'])
@@ -18,8 +18,8 @@ function searchbox(){
 };
 
 /**
- * Directive controller. Retrieves google suggestions for query search and manages
- * query submission, auto-complete functionality. 
+ * Directive controller. Retrieves google suggestions for query search. Manages
+ * query submission and auto-complete functionality. 
  * @method  searchboxCtrl 
  */
 function searchboxCtrl($scope, $resource, youTubeDataAPI) {
@@ -105,7 +105,7 @@ searchboxCtrl.$inject = ['$scope', '$resource', 'youTubeDataAPI'];
 
 /**
  * Directive link: Event handlers for query submission by keyboard (desktop), blur (iOS).
- * Also manages synching instances of the search box across the page.
+ * Also synchs instances of the search box across the page.
  * @method  searchboxEventHandlers 
  */
 function searchboxEventHandlers(scope, elem, attrs, searchboxCtrl){
@@ -146,7 +146,7 @@ function searchboxEventHandlers(scope, elem, attrs, searchboxCtrl){
             
     });
     /**
-     * Listens for carriage return in input box. Hacks into mdAutoComplete to execute
+     * Listens for carriage return in input box. Hacks into md-autoComplete to execute
      * selection, closes dropdown w/escape event. Does nothing if searchText is empty string 
      * @param  {Event} keydown
     */

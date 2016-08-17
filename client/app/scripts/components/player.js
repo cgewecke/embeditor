@@ -1,9 +1,8 @@
 (function(){ 'use strict';
 /**
- * Controllers and directives that manage the quickset buttons and the progress bar
- * time-seeker under the embedded editor player. Also houses watchers for changes to 
- * control settings like loop and playback speed that require updates in the embed 
- * code generator.
+ * Manages the quickset buttons and the progress bar/time-seeker under the embedded editor player. 
+ * Also houses watchers for control settings like loop and playback speed that require updates 
+ * to the embed code generator.
  * @component player
  */
 angular.module('embeditor.components.player', [
@@ -54,8 +53,7 @@ function playerCtrl($scope, codeGenerator, youtubePlayerAPI, $mdSidenav, embedCo
 
     // ------------------------------ Variable Watches -----------------------------------------
     /**
-     * Watches changes in currentRate and updates player behavior and the code generator 
-     * options on change. 
+     * Watches "currentRate" and updates player behavior and the code generator. 
      * @param  {Number} currentRate   Playback speed setting
      */
     $scope.$watch('API.currentRate', function(newval, oldval){
@@ -65,7 +63,7 @@ function playerCtrl($scope, codeGenerator, youtubePlayerAPI, $mdSidenav, embedCo
         }
     });
     /**
-     * Watches changes in currentRate and updates the code generator options on change. 
+     * Watches "loop" and updates the code generator options. 
      * @param  {Boolean} loop   Loop or not loop.
      */
     $scope.$watch('API.loop', function(newval, oldval){
@@ -73,8 +71,7 @@ function playerCtrl($scope, codeGenerator, youtubePlayerAPI, $mdSidenav, embedCo
     });
 
     /**
-     * Watches changes in currentRate and updates player behavior and the code generator 
-     * options on change. 
+     * Watches "mute" and updates player behavior and the code generator. 
      * @param  {Boolean} mute   Silence or noise
      */
     $scope.$watch('API.mute', function(newval, oldval){
@@ -110,7 +107,7 @@ playerCtrl.$inject = ['$scope', 'codeGenerator', 'youtubePlayerAPI', '$mdSidenav
 
 // ---------------------------------- Directives ------------------------------------------------
 /**
- * <embeditor-player-time-bar>: A tapehead animation and click-seek widget. 
+ * Tapehead animation and click-seek widget. 
  * @directive embeditorPlayerTimeBar 
  */
 function embeditorPlayerTimeBar(){
