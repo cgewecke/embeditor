@@ -5,7 +5,7 @@
 /* Browser patches */
 
 body {
-  background-color: #EEEEEE; !important;
+  background-color: #EEEEEE;
 }
 /* Moz */
 @-moz-document url-prefix() {
