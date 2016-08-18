@@ -171,9 +171,29 @@ md-autocomplete input :-ms-input-placeholder {
 /* toolbar */
 
 .titlebar{
-  background-color: rgb(225, 170, 6) !important;
+  /*background-color: rgb(225, 170, 6) !important;*/
+  background-color: #212022 !important;
   height: 71px !important;
   min-height: 71px !important;
+  box-shadow: none !important;
+}
+
+.titlebar-wrapper{
+  padding: 0 !important;
+}
+.titlebar-center{
+  height: 71px;
+  background-color: rgba(0,0,0,0.87) !important;
+  width: 854px;
+}
+
+.titlebar-center-inner{
+  height: inherit;
+  align-items: center;
+}
+
+.titlebarblack{
+  background-color: rgba(0,0,0,0.87) !important;
 }
 
 .titlebar-title{
@@ -200,12 +220,11 @@ md-autocomplete input :-ms-input-placeholder {
 .searchbox {
   box-shadow: none !important;
   background-color: transparent !important;
-  font-size: 16px !important;
   color: white !important;
 }
 
 md-autocomplete input {
-  font-size: 25px !important;
+  font-size: 20px !important;
   color: white !important;
   background-color: transparent !important;
   border-bottom: 2px solid white !important;
@@ -304,11 +323,13 @@ md-autocomplete button md-icon path{
 }
 
 .player-background {
-  background-color: #424242;
+ /*background-color: #424242;*/
+  background-color: #212022;
 }
 
 .instrument-block-background{
-  background-color: #424242;
+  /*background-color: #424242;*/
+  background-color: #212022;
 }
 
 #player{

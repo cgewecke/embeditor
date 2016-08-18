@@ -1,37 +1,38 @@
 
 <!-- Desktop / Tablet Toolbar -->
 <md-toolbar ng-controller="ToolbarCtrl as toolbar" 
-  class="md-medium-tall titlebar" 
+  class="md-medium-tall titlebar"
   md-scroll-shrink 
   id="toolbar-header"
-  layout="row" 
-  layout-align="start center" hide-sm>
- 
-  <div class="md-toolbar-tools" layout="row">
-    
-    <!-- Desktop/Tablet Icon and Title -->
-    <span layout="row" layout-align="start center" hide-sm></span>
+  layout="row"
+  layout-align="start center"
+  hide-sm > 
 
-    <span flex="25"></span>
-    <!-- Search Box --> 
-    <div layout="row" layout-align="end" flex="45" flex-md="50" flex-sm="70"
-          ng-show="!toolbar.layout.sidenavIsOpen('search') && toolbar.ready">
-      <embeditor-searchbox id="toolbar-searchbox" flex></embeditor-searchbox>
-    </div>
-
-    <!-- Spacer -->
-    <span flex hide-sm></span>
-
-    <!-- Alternate Icon and Title: Sidenav is open ng-show="toolbar.layout.sidenavIsOpen('search')"-->
-    <md-button aria-label="embeditor-icon" class="md-warn"> 
-      <ng-md-icon icon="album" style="fill: khaki;" size="64"></ng-md-icon>
-    </md-button>
-    
-    <!-- ng-show="toolbar.layout.sidenavIsOpen('search')" -->
-    <div class="titlebar-title" hide-sm>
-        <div class="titlebar-cyclopse"> سكلوبس </div>
-        <div class="titlebar-beta"> YouTube Loop Editor </div>
-    </div>
+  <div class="md-toolbar-tools titlebar-wrapper" 
+       layout="column"
+       layout-align="{{toolbar.layout.alignWithSidenav('search', 'row')}}"  
+       layout-fill>
+    <span class="titlebar-center">
+      <div layout="row" class="titlebar-center-inner" 
+           ng-show="!toolbar.layout.sidenavIsOpen('search') && toolbar.ready">
+        <span flex="5"></span>
+        <!-- Search Box  --> 
+        <embeditor-searchbox id="toolbar-searchbox" flex="55"></embeditor-searchbox>
+        <span flex="15"></span>
+        <!-- Icon -->
+        <span flex="5" layout-align="end end">
+            <md-button aria-label="embeditor-icon" class="md-warn"> 
+              <ng-md-icon icon="brightness_auto" style="fill: white;" size="55"></ng-md-icon>
+            </md-button>
+        </span>
+        <!-- Logo -->
+        <span class="titlebar-title" flex="15" hide-sm>
+            <div class="titlebar-cyclopse"> سكلوبس </div>
+            <div class="titlebar-beta"> YouTube Loop Editor </div> 
+        </span>
+        <span flex="5"></span>
+      </div>
+    </span>
   </div>
 </md-toolbar>
 
