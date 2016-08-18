@@ -10,20 +10,11 @@
   <div class="md-toolbar-tools" layout="row">
     
     <!-- Desktop/Tablet Icon and Title -->
-    <span layout="row" layout-align="start center" hide-sm>
-      <md-button aria-label="embeditor-icon" class="md-warn" > 
-        <ng-md-icon icon="album" size="64" style="fill: khaki"></ng-md-icon>
-      </md-button>
-    
-      <div class="titlebar-title">
-          <div class="titlebar-cyclopse"> cyclop.se </div>
-          <div class="titlebar-beta"> YouTube Loop Editor </div>
-      </div>
-    </span>
+    <span layout="row" layout-align="start center" hide-sm></span>
 
-    <span flex="5"></span>
+    <span flex="25"></span>
     <!-- Search Box --> 
-    <div layout="row" layout-align="end" flex flex-md="50" flex-sm="70"
+    <div layout="row" layout-align="end" flex="45" flex-md="50" flex-sm="70"
           ng-show="!toolbar.layout.sidenavIsOpen('search') && toolbar.ready">
       <embeditor-searchbox id="toolbar-searchbox" flex></embeditor-searchbox>
     </div>
@@ -31,19 +22,18 @@
     <!-- Spacer -->
     <span flex hide-sm></span>
 
-    <!-- Alternate Icon and Title: Sidenav is open -->
-    <md-button aria-label="embeditor-icon" class="md-warn" ng-show="toolbar.layout.sidenavIsOpen('search')"> 
-      <ng-md-icon icon="album" style="fill: khaki" size="64"></ng-md-icon>
+    <!-- Alternate Icon and Title: Sidenav is open ng-show="toolbar.layout.sidenavIsOpen('search')"-->
+    <md-button aria-label="embeditor-icon" class="md-warn"> 
+      <ng-md-icon icon="album" style="fill: khaki;" size="64"></ng-md-icon>
     </md-button>
     
-    <div class="titlebar-title" ng-show="toolbar.layout.sidenavIsOpen('search')" hide-sm>
+    <!-- ng-show="toolbar.layout.sidenavIsOpen('search')" -->
+    <div class="titlebar-title" hide-sm>
         <div class="titlebar-cyclopse"> سكلوبس </div>
         <div class="titlebar-beta"> YouTube Loop Editor </div>
     </div>
   </div>
 </md-toolbar>
-
-
 
 <!-- Phone Toolbar -->
 <md-toolbar ng-controller="ToolbarCtrl as toolbar" 

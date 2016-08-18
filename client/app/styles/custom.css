@@ -4,6 +4,9 @@
 /*@import url(http://fonts.googleapis.com/earlyaccess/notokufiarabic.css);*/
 /* Browser patches */
 
+body {
+  background-color: #EEEEEE; !important;
+}
 /* Moz */
 @-moz-document url-prefix() {
   [layout-fill] {
@@ -23,6 +26,28 @@ md-content{
   min-height: inherit;
   margin: 0;
 }
+
+/* Placeholder Styles */
+::-webkit-input-placeholder {
+   color: white !important;
+   opacity: .7 !important;
+}
+
+:-moz-placeholder { /* Firefox 18- */
+   color: white !important;
+   opacity: .7 !important;
+}
+
+::-moz-placeholder {  /* Firefox 19+ */
+   color: white !important;
+   opacity: .7 !important; 
+}
+
+md-autocomplete input :-ms-input-placeholder {  
+   color: white !important;
+   opacity: .7 !important;  
+}
+
 
 .min-height-100 {
   min-height: 100%;
@@ -170,6 +195,31 @@ md-content{
 
 .titlebar-icon{
   padding: 0px;
+}
+
+.searchbox {
+  box-shadow: none !important;
+  background-color: transparent !important;
+  font-size: 16px !important;
+  color: white !important;
+}
+
+md-autocomplete input {
+  font-size: 25px !important;
+  color: white !important;
+  background-color: transparent !important;
+  border-bottom: 2px solid white !important;
+}
+
+md-autocomplete button md-icon path{
+  fill: white !important;
+  color: white !important;
+}
+
+.spyglass {
+  color: white !important;
+  font-size: 25px;
+  padding-right: 10px;
 }
 /* footer */
 
