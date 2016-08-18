@@ -172,7 +172,7 @@ md-autocomplete input :-ms-input-placeholder {
 
 .titlebar{
   /*background-color: rgb(225, 170, 6) !important;*/
-  background-color: #212022 !important;
+  background-color: #101010 !important;
   height: 71px !important;
   min-height: 71px !important;
   box-shadow: none !important;
@@ -324,12 +324,12 @@ md-autocomplete button md-icon path{
 
 .player-background {
  /*background-color: #424242;*/
-  background-color: #212022;
+  background-color: #101010;
 }
 
 .instrument-block-background{
   /*background-color: #424242;*/
-  background-color: #212022;
+  background-color: #101010;
 }
 
 #player{
