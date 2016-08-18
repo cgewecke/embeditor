@@ -4,8 +4,7 @@
  * @service layoutManager
  */
 angular.module('embeditor.services.layoutManager', ['ngMaterial'])
-	.service('layoutManager', layoutManager)
-	.controller('LayoutController', layoutController)
+	.service('layoutManager', layoutManager);
 	
 function layoutManager($mdSidenav){
 

@@ -59,10 +59,10 @@ function youtubePlayerAPI($rootScope, $timeout, $interval ){
     self.android = ( navigator.userAgent.match(/(Android)/g) ? true : false );
 
     self.initialVideo = {
-        imageUrl: "https://i.ytimg.com/vi/9pl-f5S5zaQ/mqdefault.jpg",
-        seconds: 392,
-        title: "Shawn Powers: Welcome to Palace Skateboards",
-        videoId: "9pl-f5S5zaQ"
+        imageUrl: "https://i.ytimg.com/vi/XarVd2TSmqI/mqdefault.jpg",
+        seconds: 379,
+        title: "Taylor Swift Interview | Screen Test | NYT ",
+        videoId: "XarVd2TSmqI"
     };
      
     // For unit tests - events etc
@@ -524,8 +524,8 @@ function youtubePlayerAPI($rootScope, $timeout, $interval ){
                 
                 self.pause();  
                 self.noise();
-                self.setStartpoint(233);  
-                self.setEndpoint(244.25);
+                self.setStartpoint(77.54);  
+                self.setEndpoint(84.18);
                 self.start(0);     
                 verifyRates();
                 

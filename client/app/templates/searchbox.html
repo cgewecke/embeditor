@@ -1,13 +1,14 @@
 
 <form layout="row" flex>
     <md-button id="spyglass" 
-        aria-label="search" 
-        class="md-raised" 
+        aria-label="search"
+        style="padding-right: 20px" 
+        class="precision-button-inner" 
         click="ctrl.submit(searchText)"
         hide-sm> 
-      <md-icon md-font-icon="fa fa-search"></md-icon> 
+      <md-icon md-font-icon="fa fa-search fa-lg" class="spyglass"></md-icon> 
     </md-button>
-    <md-autocomplete flex 
+    <md-autocomplete class="searchbox" flex 
         placeholder="Search YouTube"
         md-selected-item="selectedItem" 
         md-search-text="searchText" 
