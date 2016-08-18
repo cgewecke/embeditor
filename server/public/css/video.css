@@ -1,5 +1,5 @@
 a {
-   color: rgba(0,0,0,0.87);
+   color:white;
    text-decoration: none;
    font-weight: normal;
 }
@@ -8,21 +8,21 @@ body{
   height: 100%;
 }
 
-
 .toolbar{
    height: 88px;
    min-height: 88px;
    max-height: 88px;
-   background-color: #BDBDBD;
+
+   background-color: #010001;
    display: flex;
    display: -webkit-flex;
    align-content: space-between;
-   color: rgba(0,0,0,0.87);
+   color: white;
    flex-direction: row;
    position: relative;
    z-index: 2;
    font-size: 1.3em;
-   font-family: RobotoDraft, Roboto, 'Helvetica Neue', sans-serif;
+   font-family: monospace;
    width: 100%;
 }
 
@@ -36,7 +36,7 @@ body{
    flex: 1;
    position: relative;
    overflow: auto;
-   background-color: #BDBDBD;
+   background-color: #010001;
 }
 
 .header{
@@ -86,7 +86,6 @@ body{
   transform: translateY(-50%);
   -ms-transform: translateY(-50%);
   -webkit-transform: translateY(-50%);
-
 }
 
 .help-mail-link{
@@ -95,8 +94,6 @@ body{
 }
 
 .player{
-  /*overflow-y: scroll;
-  -webkit-overflow-scrolling: touch;*/
   /* Hardware accelerators for mobile glitchiness */
   -webkit-transform: translate3d(0, 0, 0);
   -webkit-backface-visibility: hidden;
@@ -114,6 +111,7 @@ body{
   margin-top: 20px;
   margin-left: 10px;
   width: 50%;
+  font-family: RobotoDraft, Roboto, 'Helvetica Neue', sans-serif;
 }
 
 .twitter-color{
@@ -205,7 +203,6 @@ body{
    vertical-align: middle;
    margin-top: 12px;
 }
-
 
 .embeditor-icon{
   margin-left: 15px;
