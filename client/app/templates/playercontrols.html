@@ -42,7 +42,7 @@
           <div layout="row" class="play-btn-span">
             <md-button id="play-btn" 
                 click="player.API.togglePlay()"
-                class="md-fab md-primary mobile-play-button"
+                class="md-fab md-accent md-hue-1 mobile-play-button"
                 md-no-ink>
               <ng-md-icon id="play-icon" icon="play_arrow" size="42" 
                   style="fill:white" ng-attr-style="fill:white"
@@ -354,7 +354,7 @@
               <md-slider flex 
                 id="playback-speed-slider"
                 md-discrete 
-                class="rate-slider"
+                class="md-hue-1 rate-slider"
                 ng-disabled="!player.API.speeds"
                 ng-model="player.API.currentRate" 
                 step=".50" min=".50" max="1.5" 
@@ -383,7 +383,7 @@
                   <md-switch flex 
                     id="loop-switch"
                     ng-model="player.API.loop" 
-                    class="playback-slider"
+                    class="md-hue-1 playback-slider"
                     aria-label="loop">
                   </md-switch>  
                 </md-input-container>
@@ -403,7 +403,7 @@
                   <md-switch flex 
                     id="mute-switch"
                     ng-model="player.API.mute" 
-                    class="playback-slider"
+                    class="md-hue-1 playback-slider"
                     aria-label="mute">
                   </md-switch>  
                 </md-input-container>
@@ -603,12 +603,12 @@
       <span layout="row" layout-align="center center" class="reset-button" >
           <ng-md-icon 
             id="reset-button"
-            icon="cancel" 
+            icon="cancel"
             size="32" 
             ng-attr-style="{{hover}}" 
-            ng-init="hover='fill:#FFD54F'"
+            ng-init="hover='fill:#9e9e9e'"
             ng-mouseenter="hover='fill:#FF8F00'"
-            ng-mouseleave="hover='fill:#FFD54F'"
+            ng-mouseleave="hover='fill:#9e9e9e'"
             click="player.API.reset()">
           </ng-md-icon>
           <md-tooltip md-delay="2000"> Reset Slider </md-tooltip>
