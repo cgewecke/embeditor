@@ -5,7 +5,7 @@
 /* Browser patches */
 
 body {
-  background-color: #EEEEEE;
+  background-color: #101010;
 }
 /* Moz */
 @-moz-document url-prefix() {
@@ -31,6 +31,9 @@ md-content{
 ::-webkit-input-placeholder {
    color: white !important;
    opacity: .7 !important;
+   text-align: center;
+   font-size: 15px;
+   letter-spacing: 2px;
 }
 
 :-moz-placeholder { /* Firefox 18- */
@@ -173,8 +176,8 @@ md-autocomplete input :-ms-input-placeholder {
 .titlebar{
   /*background-color: rgb(225, 170, 6) !important;*/
   background-color: #101010 !important;
-  height: 71px !important;
-  min-height: 71px !important;
+  height: 88px !important;
+  min-height: 88px !important;
   box-shadow: none !important;
 }
 
@@ -182,7 +185,7 @@ md-autocomplete input :-ms-input-placeholder {
   padding: 0 !important;
 }
 .titlebar-center{
-  height: 71px;
+  height: 88px;
   background-color: rgba(0,0,0,0.87) !important;
   width: 854px;
 }
@@ -237,7 +240,7 @@ md-autocomplete button md-icon path{
 
 .spyglass {
   color: white !important;
-  font-size: 25px;
+  font-size: 21px;
   padding-right: 10px;
 }
 /* footer */
@@ -457,6 +460,7 @@ md-progress-linear.time-bar .md-container {
 
 md-progress-linear.time-bar .md-bar {
   height: 15px;
+  background-color: rgb(255,193,7) !important;
   /*top: -3px;*/
 }
 
