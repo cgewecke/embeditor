@@ -22,21 +22,8 @@ $ mongod --dbpath data/db/ --logpath data/logs/mongodb.log --logappend
 ## SSL Certs Guide
 [How to](http://www.joshwright.com/tips/setup-a-godaddy-ssl-certificate-on-heroku)
 
-## Deploy
-
-Make a production branch at github and go to embeditor-production.
+## Deploy 
+Make a production branch at github, navigate to embeditor-production and run: 
 ``` 
-$ cd embeditor
-$ git pull
-$ git checkout production
-$ mv ../temp/node_modules client
-$ cd client
-$ grunt build
-$ (cd back to embeditor)
-$ git add -A
-$ git commit -a -m 'Compiled assets: <date>'
-$ git push git push -f heroku production:master
-$ git checkout master
-$ git branch -D production
-$ git push origin --delete production
+$ ./deploy.sh
 ```
