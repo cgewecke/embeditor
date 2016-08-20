@@ -2,11 +2,7 @@
 <md-dialog flex class="embed-preview-dialog">
    <!-- Toolbar -->
    <md-toolbar layout="row" layout-align="start center">
-      <div class="md-toolbar-tools">
-         <!-- Icon -->
-         <md-button aria-label="embeditor-icon" class="md-warn" aria-label="icon"> 
-            <ng-md-icon icon="album" size="40"></ng-md-icon>
-         </md-button>
+      <div class="md-toolbar-tools"> 
          <!-- Instructions -->
          <div class="embed-instructions" flex="70">
             <span class="embed-title"> Preview </span>
@@ -14,7 +10,7 @@
          <span flex></span>
          <!-- Close button -->
          <md-button id="code-dialog-dismiss-btn" click="mdDialog.hide()" aria-label="close">
-            <ng-md-icon icon="clear"></ng-md-icon>
+            <ng-md-icon icon="clear" style="fill:white"></ng-md-icon>
          </md-button>
      </div>
    </md-toolbar>
