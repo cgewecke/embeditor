@@ -906,9 +906,11 @@ md-sidenav.md-closed.md-locked-open-add-active {
   padding: 8px;
 }
 
+md-select.md-default-theme .md-select-label.md-placeholder { color: white; }
 .twelve-point-bold{
-   font-size: 12px;
-   font-weight: bold;
+  color: white !important;
+  font-size: 12px;
+  font-weight: bold;
 }
 
 .ten-point-bold{
@@ -1023,6 +1025,7 @@ md-sidenav.md-closed.md-locked-open-add-active {
 /* embed code window */
 
 .embed-instructions{
+  color: white;
   font-size: 14px;
   cursor: default;
 }
@@ -1041,6 +1044,9 @@ md-sidenav.md-closed.md-locked-open-add-active {
   padding-bottom: 32px;
 }
 
+.embed-thin-bar{
+  min-height: 50px;
+}
 .embed-title{
   font-size: 24px;
 }

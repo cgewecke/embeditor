@@ -5,8 +5,8 @@
       <div class="md-toolbar-tools">
          <!-- Icon -->
          <md-button aria-label="embeditor-icon" class="md-warn" aria-label="icon"> 
-            <ng-md-icon icon="album" size="48" hide-sm></ng-md-icon>
-            <ng-md-icon icon="album" size="40" hide-gt-sm></ng-md-icon>
+            <ng-md-icon icon="brightness_auto" style="fill:white" size="48" hide-sm></ng-md-icon>
+            <ng-md-icon icon="brightness_auto" style="fill:white" size="40" hide-gt-sm></ng-md-icon>
          </md-button>
          <!-- Instructions -->
          <div class="embed-instructions" flex="70">
@@ -18,7 +18,7 @@
          <span flex></span>
          <!-- Close button -->
          <md-button id="code-dialog-dismiss-btn" click="mdDialog.hide()" aria-label="close">
-            <ng-md-icon icon="clear"></ng-md-icon>
+            <ng-md-icon icon="clear" style="fill:white"></ng-md-icon>
          </md-button>
      </div>
    </md-toolbar>
@@ -42,12 +42,12 @@
             class="embed-radio-group" 
             ng-model="frameFormat">
             <!-- Iframe -->
-            <md-radio-button id="embed-iframe-btn" class="embed-radio-btn" value="responsive" 
+            <md-radio-button id="embed-iframe-btn" class="md-primary embed-radio-btn" value="responsive" 
                              ng-disabled="!ready" aria-label="responsive"> 
                Responsive
             </md-radio-button>
             <!-- Raw HTML/JS -->
-            <md-radio-button id="embed-script-btn" class="embed-radio-btn" value="fixed" 
+            <md-radio-button id="embed-script-btn" class="md-primary embed-radio-btn" value="fixed" 
                              ng-disabled="!ready" aria-label="fixed"> 
                Fixed
             </md-radio-button>
@@ -139,22 +139,6 @@
    </div>
    
    <!-- Footer -->
-   <md-toolbar layout="row" layout-align="start center">
-      <div class="md-toolbar-tools md-warn">
-
-         <div class="embed-instructions" flex="80" flex-sm="100">
-            <!-- Message -->
-            <span class="embed-title"> What does an embed look like?</span>
-            <br>
-            <span> See:  </span> 
-            <!-- Help link -->
-            <a class="embed-help-link" target="_blank" 
-               href="http://apocyclopse.tumblr.com"> 
-              apocyclopse.tumblr.com
-            </a> 
-         </div>
-         <span flex></span>
-     </div>
-   </md-toolbar>
+   <md-toolbar class="embed-thin-bar layout="row" layout-align="start center"></md-toolbar>
 </md-dialog>
 <!-- </script> -->
