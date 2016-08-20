@@ -100,7 +100,7 @@ function embedCodeDialog($rootScope, $mdDialog, $window, youtubePlayerAPI, codeG
         self.target = event.currentTarget.id;
         self.opening = true;
         self.counter += 1;
-        code.set('auto', true);
+        code.set('autoplay', true);
         
         code.create().then(function(success){ 
             self.opening = false;  
