@@ -166,14 +166,16 @@
                             : false;
                         
                         (autoplay) 
-                            ? player.playVideo()  
+                            ? player.playVideo()
                             : player.pauseVideo();
                          
                         setTimeout(function(){
                             overlay.style.visibility = "hidden";
 
                             {{#if iframe}} 
-                                playbutton.style.visibility = "visible";
+                                (autoplay) 
+                                    ? playbutton.style.visibility = "hidden"
+                                    : playbutton.style.visibility = "visible";
                             {{/if}}
                             
                             (!mute) 
