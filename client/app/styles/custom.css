@@ -203,6 +203,7 @@ md-autocomplete input :-ms-input-placeholder {
   font-size: 30px;
   color: white !important;
   font-weight: 500;
+  cursor: default;
 }
 
 .titlebar-beta{
