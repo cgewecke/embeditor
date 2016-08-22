@@ -22,16 +22,15 @@
         <!-- Icon -->
         
         <span flex="5" layout-align="end end">
-            <md-button aria-label="embeditor-icon" class="md-warn"> 
-              <a href="/">
-                <a href="https://www.cyclop.se">
+            <md-button aria-label="embeditor-icon" class="md-warn" ng-click="window.reload(true); $scope.$apply()"> 
+              
                 <ng-md-icon icon="brightness_auto" style="fill: white;" size="55"></ng-md-icon>
-              </a>
+              
             </md-button>
         </span>
         <!-- Logo -->
         <span class="titlebar-title" flex="15" hide-sm>
-          <div class="titlebar-cyclopse"><a href="https://www.cyclop.se"> سكلوبس  </a></div>
+          <div class="titlebar-cyclopse" > سكلوبس </div>
           <div class="titlebar-beta"><a href="https://www.cyclop.se"> YouTube Loop Editor </a></div> 
         </span>
         <span flex="5"></span>

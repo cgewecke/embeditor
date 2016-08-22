@@ -115,7 +115,7 @@ function codeGenerator($q, Videos){
      */
     self.fixedIframe = function(){ 
         return '<iframe src="' + 
-                window.location.href + 'embed/' + 
+                window.location.origin + '/embed/' + 
                 self.options._id + '"' + ' style="width: ' + 
                 self.options.width + 'px; height: ' +
                 self.options.height + 'px; ' +
@@ -129,7 +129,7 @@ function codeGenerator($q, Videos){
      */
     self.responsiveIframe = function(){
         return '<iframe src="' + 
-                window.location.href + 'embed/' + 
+                window.location.origin + '/embed/' + 
                 self.options._id + '"' + 
                 ' style="width: 100%; height: 100%; ' + 
                 'overflow: hidden; border: none;" ' +
