@@ -112,7 +112,7 @@ function embedCodeDialog($rootScope, $mdDialog, $window, youtubePlayerAPI, codeG
             } else {
                 $window.open(
                     '//www.twitter.com/intent/tweet?' + 'url=' + 
-                    encodeURIComponent(window.location.href + 'videos/' + code.options._id),
+                    encodeURIComponent(window.location.origin + '/videos/' + code.options._id),
                     'sharer' + self.counter
                 );                
             }
@@ -230,11 +230,11 @@ function dialogCtrl($scope, $mdDialog, $window, $timeout, codeGenerator, youtube
     }
 
     function permalink(){
-        return window.location.href + 'videos/' + codeGenerator.options._id;
+        return window.location.origin + '/videos/' + codeGenerator.options._id;
     };
 
     function embedlink(){
-        return window.location.href + 'embed/' + codeGenerator.options._id;
+        return window.location.origin + '/embed/' + codeGenerator.options._id;
     };
      
     // ----------------------------- Watches/Events -------------------------------------
