@@ -1,19 +1,21 @@
 [![Build Status](https://travis-ci.org/cgewecke/embeditor.svg?branch=master)](https://travis-ci.org/cgewecke/embeditor)
+## Site
+This project is running live at [cyclop.se](https://www.cyclop.se)
 
 ## Server
-In the server directory, run:
+From the server directory:
 ```
 $ npm start
 ```
 
 ## Testing
-In the client directory, run:
+From the client directory:
 ```
 $ grunt test
 ```
 
 ## Development DB 
-From root directory, e.g. *not* /client.
+From the root directory:
 ```
 $ export NODE_ENV=development
 $ mongod --dbpath data/db/ --logpath data/logs/mongodb.log --logappend
