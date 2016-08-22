@@ -524,7 +524,7 @@ function youtubePlayerAPI($rootScope, $timeout, $interval ){
                 
                 self.pause();  
                 self.noise();
-                self.setStartpoint(77.54);  
+                self.setStartpoint(78.44);  
                 self.setEndpoint(84.18);
                 self.start(0);     
                 verifyRates();
