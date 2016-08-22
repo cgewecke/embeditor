@@ -417,6 +417,7 @@ module.exports = function (grunt) {
       postbuild: {
         files: [
           {src: ['app/scripts/vendor/ZeroClipboard.swf'], dest: '../server/dist/scripts/ZeroClipboard.swf' },
+          {src: ['app/landing'], dest: '...server/dist/landing'},
           {src: ['../server/node_modules'], dest: '../../garbage/node_modules'},
           {src: ['../server/bin'], dest: '../bin' },
           {src: ['../server/database'], dest: '../database' },
