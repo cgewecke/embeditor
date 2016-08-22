@@ -26,12 +26,19 @@ $ mongod --dbpath data/db/ --logpath data/logs/mongodb.log --logappend
 
 For first deployment, create a separate folder ```embeditor-production``` and segregate it from the main project. This is to minimize damage from things going wildly wrong during the production-build. Then:
 ```
+// Go to production staging folder and create some temp folders
 $ cd embeditor-production
 $ mkdir temp && mkdir garbage
+
+// Clone embeditor and add Heroku app as a git remote
 $ git clone https://github.com/cgewecke/embeditor.git && cd embeditor
 $ heroku git:remote -a <YOUR_APP_NAME e.g. cyclopse> && cd client
+
+// Install npm and bower assets
 $ npm install
 $ bower update
+
+// Move everything to correct position for deployment script
 $ mv node_modules ../../temp
 $ mv bower_components ../../temp
 $ mv ../deploy.sh ../.. && cd ../..
