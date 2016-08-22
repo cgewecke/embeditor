@@ -23,7 +23,22 @@ $ mongod --dbpath data/db/ --logpath data/logs/mongodb.log --logappend
 [How to](http://www.joshwright.com/tips/setup-a-godaddy-ssl-certificate-on-heroku)
 
 ## Deploy 
-Make a production branch at github, navigate to embeditor-production and run: 
+
+For first deployment, create a separate folder ```embeditor-production``` and segregate it from the main project. This is to minimize damage from things going wildly wrong during the production-build. Then:
+```
+$ cd embeditor-production
+$ mkdir temp && mkdir garbage
+$ git clone https://github.com/cgewecke/embeditor.git && cd embeditor
+$ heroku git:remote -a <YOUR_APP_NAME e.g. cyclopse> && cd client
+$ npm install
+$ bower update
+$ mv node_modules ../../temp
+$ mv bower_components ../../temp
+$ mv ../deploy.sh ../.. && cd ../..
+$ chmod +x deploy.sh
+```
+
+From then on, as long as you haven't made any changes to bower or npm you can deploy in ~45 sec by making a production branch at github, navigating to embeditor-production and running: 
 ``` 
 $ ./deploy.sh
 ```
