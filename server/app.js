@@ -35,6 +35,18 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 
+
+/**
+ * forceSsl: Redirect from http to https. 
+ */
+var forceSsl = function (req, res, next) {
+    if (req.headers['x-forwarded-proto'] !== 'https') {
+        return res.redirect(['https://', req.get('Host'), req.url].join(''));
+    }
+    return next();
+};
+
+
 /**
  * Development Settings
  */
@@ -65,12 +77,14 @@ if (app.get('env') === 'development') {
  */
 if (app.get('env') === 'production') {
 
-    // changes it to use the optimized version for production
+    // Force SSL on Heroku
+    app.use(forceSsl);
+    
+    // Use the optimized version for production
     app.use(express.static(path.join(__dirname, '/dist')));
     app.use(express.static(path.join(__dirname, '/public')));
 
-    // production error handler
-    // no stacktraces leaked to user
+    // Production error handler
     app.use(function(err, req, res, next) {
         res.status(err.status || 500);
         res.render('error', {
