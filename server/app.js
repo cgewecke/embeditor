@@ -18,6 +18,7 @@ var videos = require('./routes/videos');
 var api = require('./routes/api');
 var test = require('./routes/test');
 var help = require('./routes/help');
+var application = require('./routes/app');
 
 // APP
 var app = express();
@@ -100,6 +101,7 @@ app.use('/videos', videos);
 app.use('/api', api);
 app.use('/test', test);
 app.use('/help', help);
+app.use('/app', application);
 
 
 module.exports = app; 

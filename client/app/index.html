@@ -1,91 +1,365 @@
-<!doctype html>
-<html class="no-js">
-  <head>
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
     <meta charset="utf-8">
-    <base href="/"> 
-    <title> Online Youtube Video Editor: Clip, loop and post. Instantly.</title>
-    <meta name="description" 
-          content="Share or embed any part of any Youtube video as a loop, without uploading or downloading. Seek frame by frame. Change the playback speed.">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="Share or embed any part of any Youtube video as a loop, without uploading or downloading. Seek frame by frame. Change the playback speed.">
     <meta name="keywords" content="youtube tubechop viewrz video editor frame playback speed embed share twitter facebook tumblr">
-    <meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, user-scalable=no, width=device-width"> 
-    <!-- <meta name="viewport" content="width=device-width"> -->
+
+    <meta property="og:description" content="Open source IOT tools to enable location-aware Ethereum contracts.">
+    <meta property="og:title" content="Animist.io">
+    <meta property="og:site_name" content="animist.io">
+    <meta name="author" content="cgewecke">
+
+    <title>Online Youtube Video Editor: Clip, loop and post. Instantly.</title>
+
+    <!-- Bootstrap Core CSS -->
+    <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" type="text/css">
     
-    <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
-    <!-- Place favicon.ico and apple-touch-icon.png in the root directory -->
-    <!-- build:css(.) styles/vendor.css -->
-    <!-- bower:css -->
-    <link rel="stylesheet" href="bower_components/angular-material/angular-material.css" />
-    <!-- endbower -->
-    <!-- endbuild -->
-    <!-- build:css({.tmp, app}) styles/main.css -->
-    <link rel="stylesheet" href="styles/ion.rangeSlider.css">
-    <link rel="stylesheet" href="styles/ion.rangeSlider.skinFlat.css">
-    <link rel="stylesheet" href="styles/custom.css">
-    <link rel="stylesheet" href="styles/tablet.css">
-    <link rel="stylesheet" href="styles/phone.css">
-    <!-- endbuild -->
-  </head>
-  <body ng-app="embeditor">
-    <ng-view></ng-view>
+    <!-- Custom Fonts -->
+    <link href='http://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800' rel='stylesheet' type='text/css'>
+    <link href='http://fonts.googleapis.com/css?family=Merriweather:400,300,300italic,400italic,700,700italic,900,900italic' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" href="landing/font-awesome/css/font-awesome.min.css" type="text/css">
+    
+    <!-- Plugin CSS -->
+    <link rel="stylesheet" href="landing/css/animate.min.css" type="text/css">
+
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="landing/css/main.css" type="text/css">
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+</head>
+
+
+<body id="page-top">
+  <nav id="mainNav" class="navbar navbar-default navbar-static-top">
+    <div class="container">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand page-scroll" href="#page-top">
+                cyclops
+            </a>
+        </div>
+
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+            <ul class="nav navbar-nav navbar-right">
+                <li> 
+                    <a class="page-scroll" href="#features">Features</a>
+                <li>
+                    <a class="page-scroll" href="#twitter">Twitter Guide</a>
+                </li>
+                <li>
+                    <a class="page-scroll" href="#tumblr">Tumblr Guide</a>
+                </li>
+                <li>
+                    <a class="page-scroll" href="https://github.com/cgewecke/embeditor">
+                        <i class="fa fa-github fa-2x"></i> 
+                    </a>
+                </li>
+            </ul>
+        </div>
+        <!-- /.navbar-collapse -->
+    </div>
+    <!-- /.container-fluid -->
+</nav>
+
   
-    <!-- Google Analytics: change UA-XXXXX-X to be your site's ID -->
-     <script>
-      (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-      (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-      m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-      })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+ <div class="jumbotron jumbo_top">
+    <div class="container">
+        <div class="row">   
+          <br>
+          <p class="larger">
+            YouTube Video Editor Utility.
+          </p>
+          <p>  Cut, loop and re-publish any YouTube Video instantly. <br class="hidden-xs"></p>
+          <li class="light"> No uploading or downloading video files</li>
+          <li class="light"> Precision loop timing (50ms resolution)</li>
+          <li class="light"> Whitelisted to play in the Twitter feed </li>
+          <li class="light"> Clean, mobile ready embeds </li>
+          <li class="light"> Free, online, open source. </li>
+          <br> 
+          <a href="/app.html" class="btn bg-youtube btn-xl page-scroll hidden-xs">
+            <i class="fa fa-tv fa-2x"></i> 
+            <span class="github-text"> &nbsp &nbsp START EDITING </span>
+          </a>
+       </div>
+    </div>
+ </div>
 
-      ga('create', 'UA-64330324-1', 'auto');
-      ga('send', 'pageview');
+  <section id="features">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12 text-center">
+                <h2 class="section-heading">Editor Features</h2>
+                <hr class="divider-thin">
+            </div>
+        </div>
+    </div>
+    <!-- Desktop Layout -->
+    <div class="container hidden-sm">
+         <div class="row">
+            <!-- Editor features description -->
+            <div class="col-lg-4 col-md-4">
+                <div class="row service-box">
+                  <!-- Search -->        
+                  <h3 class="light"> <i class="fa fa-search"></i>&nbsp&nbspSearch </h3>
+                  <p>
+                    Search YouTube's video and channels database with filters for duration, date and relevance.  
+                  </p>                 
+                  <!-- Player -->                
+                  <h3 class="light"> <i class="fa fa-tv"></i>&nbsp&nbspPlayer </h3>
+                  <p>
+                    Cyclops is just a light-weight wrapper around the YouTube player that uses YouTube's
+                    own javascript API. This means your video edit gets served with the same speed and reliability
+                    as any YouTube video.
+                  </p>
+                  <!-- Seek -->                  
+                  <h3 class="light hide-1200"> <i class="fa fa-step-forward"></i>&nbsp&nbspSeek </h3>
+                  <p class="hide-1200">
+                    Jump to any location in the video by clicking the player timebar. Drag the rangefinder's handles 
+                    to 'scrub' through the video, looking for the scene you want.
+                  </p>   
+                  <!-- Set -->  
+                  <h3 class="light"> <i class="fa fa-chevron-right"></i>&nbsp&nbspSet </h3>
+                  <p>
+                    Use the startpoint and endpoint setters to make micro adjustments to the beginning and end of your
+                    clip. Set clip boundaries as the video plays using the quickset buttons.
+                  </p>
+                  <!-- Playback --> 
+                  <h3 class="light hide-1200"> <i class="fa fa-sliders"></i>&nbsp&nbspPlayback </h3>
+                  <p class="hide-1200">
+                    Set your clip's playback speed and sound level. 
+                  </p>     
+                  <!-- Publish -->
+                  <h3 class="light"> <i class="fa fa-code"></i>&nbsp&nbspPublish </h3>
+                  <p>
+                    Generate a link or an iframe snippet for your clip and post or embed it in your page. See the Twitter
+                    guide below for help with links, and the Tumblr guide for help with iframes.  
+                  </p>
+                </div>
+            </div>
+            <!-- Embeditor App Screenshot -->
+            <div class="col-lg-8 col-md-8 text-center">
+                <div class="service-box">
+                    <img src="../landing/img/embeditor_ss.png" class="img-responsive"/> 
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Tablet Layout -->
+    <div class="container visible-sm">
+        <!-- Embeditor App Screenshot -->
+        <div class="row">
+          <div class="col-sm-12 text-center">
+              <div class="service-box">
+                  <img src="../landing/img/embeditor_ss.png" class="img-responsive"/> 
+              </div>
+          </div>
+        </div>
+        <!-- Features Descriptions -->
+        <div class="row"> 
+          <!-- Player -->
+          <span class="col-sm-4">
+            <h3 class="light"> <i class="fa fa-tv"></i>&nbsp&nbspPlayer </h3>
+            <p>
+              Cyclops embeds are just a light wrapper around the YouTube player, driven by YouTube's
+              own javascript API. This means your video edit gets served with the same speed and reliability
+              as any YouTube video.
+            </p>
+          </span> 
+          <!-- Publish -->
+          <span class="col-sm-4">
+            <h3 class="light"> <i class="fa fa-code"></i>&nbsp&nbspPublish </h3>
+            <p>
+              Generate a link or an iframe snippet for your clip and post or embed it in your page. See the Twitter
+              guide below for help with links, and the Tumblr guide for help with iframes.  
+            </p>
+          </span>
+          <!-- Search -->
+          <span class="col-sm-4">
+            <h3 class="light"> <i class="fa fa-search"></i>&nbsp&nbspSearch </h3>
+            <p>
+              Search YouTube's video and channels database with filters for duration, sorting 
+              by date and relevance, and search history.  
+            </p>
+          </span>
+         
+        </div>
+        <div class="row">
+           <!-- Seek -->
+          <span class="col-sm-4">
+            <h3 class="light"> <i class="fa fa-step-forward"></i>&nbsp&nbspSeek </h3>
+            <p>
+              Jump to any location in the video by clicking the player timebar. Drag the rangefinder's handles 
+              to 'scrub' through the video, looking for the scene you want.
+            </p>
+          </span>
+          <!-- Set -->
+          <span class="col-sm-4">
+            <h3 class="light"> <i class="fa fa-chevron-right"></i>&nbsp&nbspSet </h3>
+            <p>
+              Use the startpoint and endpoint setters to make micro adjustments to the beginning and end of your
+              clip. Set clip boundaries as the video plays using the quickset buttons.
+            </p>
+          </span>
+          <!-- Playback -->
+          <span class="col-sm-4">
+            <h3 class="light"> <i class="fa fa-sliders"></i>&nbsp&nbspPlayback </h3>
+            <p>
+              Set your clip's playback speed and sound level. 
+            </p>
+          </span>
+              
+        </div>
+    </div>
+</section>
+  <section id="twitter">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12 text-center">
+                 <span> <i class="fa fa-twitter-square fa-4x twitter-color"></i> </span>
+                <h2 class="section-heading text-center inline v-bottom">&nbsp&nbspTwitter Guide</h2> 
+                <hr class="divider-thin">
+            </div>
+        </div>
+    </div>
+    <div class="container">
+         <!-- Text -->
+         <div class="row">
+           
+            <div class="col-lg-6 col-sm-6 col-xs-6">
+                <div class="service-box narrower">
+                  <!-- Tweet -->
+                  <h3 class="light"> <i class="fa fa-twitter"></i>&nbsp&nbspTweet</h3>
+                  <p>
+                    Click 'Tweet' to share a link to your edit. 
+                  </p>
+                </div>
+            </div>
+            <div class="col-lg-6 col-sm-6 col-xs-12">
+                <div class="service-box narrower">
+                  <!-- Watch -->
+                  <h3 class="light"> <i class="fa fa-eye"></i>&nbsp&nbspWatch</h3>
+                  <p>
+                    Your clip will open and play in the feed when clicked. 
+                  </p>
+                </div>
+            </div>
+        </div>
+        <!-- Images -->
+        <div class="row">
+            <!-- Tweet -->
+            <div class="col-lg-6 col-sm-6 hidden-xs text-center">
+                <div class="service-box no-top-sm narrower">
+                    <img src="../landing/img/twittershare_ss.png" class="img-responsive"/> 
+                </div>
+                <div class="service-box no-top-sm narrower">
+                    <h3 class="light text-left"> <i class="fa fa-share"></i>&nbsp&nbspFeed View</h3>
+                    <img src="../landing/img/twitterplay_ss.png" class="img-responsive"/> 
+                </div>
+            </div>
+            <div class="col-lg-6 col-sm-6 hidden-xs text-center">
+                <div class="service-box no-top-sm narrower">
+                    <img src="../landing/img/twitterplay_ss2.png" class="img-responsive"/> 
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+  <section id="tumblr">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12 text-center">
+                <span> <i class="fa fa-tumblr-square fa-4x tumblr-color"></i> </span>
+                <h2 class="section-heading text-center inline v-bottom">&nbsp&nbspTumblr Guide</h2> 
+                <hr class="divider-thin">
+            </div>
+        </div>
+    </div>
+    <!-- Desktop Layout -->
+    <div class="container ">
+        <!-- Text -->
+        <div class="row">
+            <!-- Embed Dialog description -->
+            <div class="service-box col-lg-6 col-md-6 col-sm-6 no-top-sm">    
+              <h3 class="light"> <i class="fa fa-code"></i>&nbsp&nbspEmbed </h3>
+              <p>
+                Click the 'Embed' button to get an iframe code snippet. By default
+                Cyclops generates code for a responsive player, but you can also set
+                the player size by selecting the 'Fixed' option and specifying its pixel
+                height and width.   
+              </p>
+            </div>
+            <!-- Embed Dialog description -->
+            <div class="service-box col-lg-6 col-md-6 col-sm-6 no-top-sm">    
+              <h3 class="light"> <i class="fa fa-share"></i>&nbsp&nbspPost </h3>
+              <p>
+                  Copy the iframe snippet and open a Tumblr share dialog by clicking
+                  the editor's share button. Press ctrl-v to paste the iframe code
+                  in the text body of your post. A thumbnail of your clip will appear
+                  in the Tumblr feed and the video edit itself will appear on your blog
+                  page.
+              </p>
+            </div>
+        </div>
+        <!-- Images -->
+        <div class="row">
+            <!-- Embed SS -->
+            <div class="service-box col-lg-6 col-md-6 col-sm-6 text-center">  
+                <img src="../landing/img/embed_ss.png" class="img-responsive"/> 
+                
+            </div>
+            <!-- Post SS -->
+           <div class="service-box col-lg-6 col-md-6 col-sm-6 text-center">  
+                <img src="../landing/img/post_ss.png" class="img-responsive"/> 
+            </div>
+        </div>
+    </div>
+</section>
 
-    </script>
 
+  <!-- jQuery -->
+<script src="//cdnjs.cloudflare.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
 
+<!-- Bootstrap Core JavaScript -->
+<script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 
-    <!-- build:js(.) scripts/vendor.js -->
-    <!-- bower:js -->
-    <script src="bower_components/jquery/dist/jquery.js"></script>
-    <script src="bower_components/angular/angular.js"></script>
-    <script src="bower_components/angular-animate/angular-animate.js"></script>
-    <script src="bower_components/angular-cookies/angular-cookies.js"></script>
-    <script src="bower_components/angular-resource/angular-resource.js"></script>
-    <script src="bower_components/angular-route/angular-route.js"></script>
-    <script src="bower_components/angular-sanitize/angular-sanitize.js"></script>
-    <script src="bower_components/angular-touch/angular-touch.js"></script>
-    <script src="bower_components/angular-aria/angular-aria.js"></script>
-    <script src="bower_components/angular-material/angular-material.js"></script>
-    <script src="bower_components/angular-material-icons/angular-material-icons.min.js"></script>
-    <script src="bower_components/angular-messages/angular-messages.js"></script>
-    <!-- endbower -->
-    <!-- endbuild -->
+<!-- Plugin JavaScript -->
+<script src="landing/js/jquery.easing.min.js"></script>
+<script src="landing/js/jquery.fittext.js"></script>
+<script src="landing/js/wow.min.js"></script>
 
-    <!-- build:js({.tmp,app}) scripts/scripts.js -->
+<!-- Custom Theme JavaScript -->
+<script src="landing/js/creative.js"></script>
 
-    <!-- SVG-Morpheus via cdn --> 
-    <script src="//cdnjs.cloudflare.com/ajax/libs/SVG-Morpheus/0.1.8/svg-morpheus.js"></script>
-    <script src="scripts/vendor/moment.min.js"></script>
-    <script src="scripts/vendor/momentz-duration.js"></script>
-    <script src="scripts/vendor/ion.rangeSlider.min.js"></script>
-    <script src="scripts/vendor/ZeroClipboard.min.js"></script>
-    <script src="scripts/app.js"></script>
-    <script src="scripts/appCtrl.js"></script>
+<!-- Analytics --> 
+<!-- Google Analytics: change UA-XXXXX-X to be your site's ID -->
+ <script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
 
-    <script src="scripts/services/codegenerator.js"></script>
-    <script src="scripts/services/cyclopsedataAPI.js"></script>
-    <script src="scripts/services/layoutmanager.js"></script>
-    <script src="scripts/services/youtubedataAPI.js"></script>
-    <script src="scripts/services/youtubeplayerAPI.js"></script>
-    <script src="scripts/services/layoutmanager.js"></script>
-    
-    <script src="scripts/components/embed.js"></script>
-    <script src="scripts/components/embedcodedialog.js"></script>
-    <script src="scripts/components/player.js"></script>
-    <script src="scripts/components/rangefinder.js"></script>
-    <script src="scripts/components/searchbox.js"></script>
-    <script src="scripts/components/searchsidebar.js"></script>
-    <script src="scripts/components/toolbar.js"></script>
-    
-    <!-- endbuild -->
+  ga('create', 'UA-64330324-1', 'auto');
+  ga('send', 'pageview');
+
+</script>
+
 </body>
 
 </html>
