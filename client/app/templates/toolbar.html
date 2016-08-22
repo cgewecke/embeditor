@@ -14,22 +14,20 @@
        layout-fill>
     <span class="titlebar-center">
       <div layout="row" class="titlebar-center-inner" 
-           ng-show="!toolbar.layout.sidenavIsOpen('search') && toolbar.ready">
+          ng-show="!toolbar.layout.sidenavIsOpen('search') && toolbar.ready">
         <span flex="5"></span>
         <!-- Search Box  --> 
         <embeditor-searchbox id="toolbar-searchbox" flex="55"></embeditor-searchbox>
         <span flex="15"></span>
         <!-- Icon -->
         
-        <span flex="5" layout-align="end end">
-            <md-button aria-label="embeditor-icon" class="md-warn" ng-click="window.reload(true); $scope.$apply()"> 
-              
+        <span flex="5" layout-align="end end" click="toolbar.reload()">
+            <md-button aria-label="embeditor-icon" class="md-warn"> 
                 <ng-md-icon icon="brightness_auto" style="fill: white;" size="55"></ng-md-icon>
-              
             </md-button>
         </span>
         <!-- Logo -->
-        <span class="titlebar-title" flex="15" hide-sm>
+        <span class="titlebar-title" flex="15" hide-sm click="toolbar.reload()">
           <div class="titlebar-cyclopse" > سكلوبس </div>
           <div class="titlebar-beta"><a href="https://www.cyclop.se"> YouTube Loop Editor </a></div> 
         </span>

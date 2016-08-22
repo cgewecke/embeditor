@@ -11,7 +11,7 @@ angular.module('embeditor.components.toolbar', [ 'embeditor.services.layoutManag
  * Component controller: Manages visibility of search bar as page loads.
  * @controller toolbarCtrl
  */
-function toolbarCtrl($scope, layoutManager ){
+function toolbarCtrl($scope, layoutManager, $window ){
 
     var self = this;
     self.ready = false;
@@ -24,8 +24,18 @@ function toolbarCtrl($scope, layoutManager ){
     $scope.$on('YTPlayerAPI:ready', function(){
         self.ready = true;
     });
+
+    /**
+     * Hack to avoid dealing with the fact that the app is url based
+     * on the root. And so is the landing page.
+     * @method  reload 
+     */
+    self.reload = function(){
+        console.log('reloading');
+        $window.location.reload(true);
+    }
 }
-toolbarCtrl.$inject = ['$scope', 'layoutManager'];
+toolbarCtrl.$inject = ['$scope', 'layoutManager', '$window'];
 
 /**
  * Component controller: Manages footer links, dialogs. (Footer is removed
