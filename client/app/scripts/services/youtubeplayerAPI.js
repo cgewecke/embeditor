@@ -58,12 +58,23 @@ function youtubePlayerAPI($rootScope, $timeout, $interval ){
     self.phone = ( navigator.userAgent.match(/(iPod|iPhone|Android)/g) ? true : false );
     self.android = ( navigator.userAgent.match(/(Android)/g) ? true : false );
 
-    self.initialVideo = {
-        imageUrl: "https://i.ytimg.com/vi/XarVd2TSmqI/mqdefault.jpg",
-        seconds: 379,
-        title: "Taylor Swift Interview | Screen Test | NYT ",
-        videoId: "XarVd2TSmqI"
-    };
+    if (self.mobile) {
+        self.initialVideo = {
+            imageUrl: "https://i.ytimg.com/vi/y651C7aNXRc/mqdefault.jpg",
+            seconds: 281,
+            title: "Lee Scratch Perry - Studio Black Ark",
+            videoId: "y651C7aNXRc"
+        }; 
+    } else {
+        self.initialVideo = {
+            imageUrl: "https://i.ytimg.com/vi/XarVd2TSmqI/mqdefault.jpg",
+            seconds: 379,
+            title: "Taylor Swift Interview | Screen Test | NYT ",
+            videoId: "XarVd2TSmqI"
+        }; 
+    }
+
+    
      
     // For unit tests - events etc
     self.scope = $rootScope; 
@@ -577,14 +588,17 @@ function youtubePlayerAPI($rootScope, $timeout, $interval ){
                     
             // Init: player has been tapped. Set start, remove cover.        
             if (self.initializing){
-                
+                var mobile_start_time = 102.15
                 // IPhone, IPad, ITouch
                 if (!self.android){
 
                     self.pause();
-        
+                    
                     $timeout(function(){ 
                         self.initializing = false; 
+                        self.setStartpoint(mobile_start_time); 
+                        self.seek(mobile_start_time);
+                        $rootScope.$broadcast(updateEvent.name);
                         $rootScope.$broadcast(readyEvent.name);
                     }, 1000);
                 
@@ -594,6 +608,9 @@ function youtubePlayerAPI($rootScope, $timeout, $interval ){
                     $timeout(function(){ 
                         self.pause();
                         self.initializing = false; 
+                        self.setStartpoint(mobile_start_time);
+                        self.seek(mobile_start_time);
+                        $rootScope.$broadcast(updateEvent.name);
                         $rootScope.$broadcast(readyEvent.name);
                     }, 1000);
                 }

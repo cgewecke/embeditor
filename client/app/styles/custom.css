@@ -15,7 +15,11 @@ body {
     min-height: 100%;
     height: inherit; } 
 }
-
+/* ng-md-icon Fix for v 7.0.1 */
+ng-md-icon {
+  height: inherit;
+  width: inherit;
+}
 /* iOS */
 md-content{
   /*overflow-y: scroll !important;*/
@@ -116,7 +120,7 @@ md-autocomplete input :-ms-input-placeholder {
 .appLoadingCover{
   height: 100%;
   width: 100%;
-  background-color: rgb(255,193,7);
+  background-color: rgb(189,189,189);
   visibility: hidden;
   position: absolute;
   top: 0;
@@ -956,7 +960,6 @@ md-select.md-default-theme .md-select-label.md-placeholder { color: white; }
  display: inline-block;
 }
 .searchItemContainer {
-
   vertical-align: top;
 }
 

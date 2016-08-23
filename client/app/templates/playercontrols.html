@@ -88,7 +88,7 @@
       </div>
 
       <!-- Min Warning Row -->
-      <div class="controls-background precision-btn-row" 
+      <div class="controls-background precision-btn-row mobile-min-warning" 
            layout="row" 
            layout-align="end center"> 
            <span class="warning-text" 
@@ -115,9 +115,7 @@
                     class="md-raised precision-btn-outer"
                     aria-label="seek"
                     md-no-ink >
-                 
                   <ng-md-icon icon="chevron_left" size="38" style="fill:black"></ng-md-icon>
-                
                 </md-button> 
 
                 <span class="control-btn-txt-left"> 1s </span>  
@@ -427,7 +425,7 @@
               <md-switch flex 
                 id="loop-switch"
                 ng-model="player.API.loop" 
-                class="mobile-md-switch"
+                class="md-hue-1 mobile-md-switch"
                 aria-label="loop">
               </md-switch>  
             </md-input-container>  
@@ -596,7 +594,9 @@
               </div>
           </span>  
         </span>
-      </div>  
+      </div> 
+      <!-- Tablet Bottom Spacer --> 
+      <div layout="row" class="controls-background lower-row mobile-bottom-spacer" ng-show="player.API.mobile"></div>
     </span>
     <!-- Slider Reset Button -->
     <span layout="column" flex="5" class="reset-column" hide-sm>
