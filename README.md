@@ -20,6 +20,11 @@ From the root directory:
 $ export NODE_ENV=development
 $ mongod --dbpath data/db/ --logpath data/logs/mongodb.log --logappend
 ```
+## Development IPad
+Local IP address is listed in Network preferences > Status. Typically:
+```
+http://10.0.0.4:3000
+```
 
 ## SSL Certs Guide
 [How to](http://www.joshwright.com/tips/setup-a-godaddy-ssl-certificate-on-heroku)
