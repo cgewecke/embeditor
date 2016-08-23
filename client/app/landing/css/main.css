@@ -197,6 +197,7 @@ section.call-to-action {
 #tumblr {
   background-color: #eee; }
 
+/* -------------   Desktop ---------------------*/
 @media screen and (min-width: 768px) {
   .jumbo_top {
     font-size: 21px;
@@ -216,13 +217,19 @@ section.call-to-action {
     padding-bottom: 30px;
     margin: 0 !important;
     color: #333; } }
+
+/* -------------  Tablet ---------------------*/
 @media screen and (max-width: 768px) {
   .jumbotron {
     background-image: url(../img/ytdisc_m.png); } }
+
+
+/* -------------  Phone ---------------------*/
 @media screen and (max-width: 414px) {
   .jumbotron {
     padding: 0px 15px;
-    background-image: url(../img/shard_red_light.jpg);
+    background-image: none;
+    background-color: #f5f8fa;
     color: #333; }
 
   section {
@@ -235,22 +242,17 @@ section.call-to-action {
     font-weight: 500 !important; }
 
   p.larger {
-    font-size: 32px !important; } }
-progress {
-  background-color: #111 !important;
-  border: 0;
-  vertical-align: middle;
-  height: 1.0em;
-  width: 100%; }
+    font-size: 32px !important; 
+  }
 
-progress::-webkit-progress-bar {
-  background-color: #d6d6d6; }
+  li.light { font-size: 14px;} 
 
-progress::-webkit-progress-value {
-  background-color: #59584f; }
+  .ytdisc-phone {
+    width: 75%;
+    margin: 0 auto;
+  }
+}
 
-progress::-moz-progress-bar {
-  background-color: #329ad1; }
 
 .navbar-default {
   width: 100%;
