@@ -8,8 +8,9 @@ BACKGROUND IMAGES
 @include background-cover;
 background-position: center;
 background-image: url('../img/header.jpg');
-
 */
+
+
 html,
 body {
   height: 100%;
@@ -197,6 +198,14 @@ section.call-to-action {
 #tumblr {
   background-color: #eee; }
 
+/* ------------- Firefox Hacks -----------------*/
+@-moz-document url-prefix() {
+    h1 {
+        color: red;
+    }
+    .ff-list { margin-left: 20px; }
+
+}
 /* -------------   Desktop ---------------------*/
 @media screen and (min-width: 768px) {
   .jumbo_top {
