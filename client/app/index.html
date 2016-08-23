@@ -8,12 +8,12 @@
     <meta name="description" content="Share or embed any part of any Youtube video as a loop, without uploading or downloading. Seek frame by frame. Change the playback speed.">
     <meta name="keywords" content="youtube tubechop viewrz video editor frame playback speed embed share twitter facebook tumblr">
 
-    <meta property="og:description" content="Open source IOT tools to enable location-aware Ethereum contracts.">
-    <meta property="og:title" content="Animist.io">
-    <meta property="og:site_name" content="animist.io">
+    <meta property="og:description" content="Share or embed any part of any Youtube video as a loop, without uploading or downloading.">
+    <meta property="og:title" content="cyclop.se">
+    <meta property="og:site_name" content="cyclop.se">
     <meta name="author" content="cgewecke">
 
-    <title>Online Youtube Video Editor: Clip, loop and post. Instantly.</title>
+    <title>Youtube Video Editor: Clip, loop and post. Instantly.</title>
 
     <!-- Bootstrap Core CSS -->
     <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" type="text/css">
@@ -62,13 +62,13 @@
                 <li> 
                     <a class="page-scroll" href="#features">Features</a>
                 <li>
-                    <a class="page-scroll" href="#twitter">Twitter Guide</a>
+                    <a class="page-scroll hidden-xs" href="#twitter">Twitter Guide</a>
                 </li>
                 <li>
-                    <a class="page-scroll" href="#tumblr">Tumblr Guide</a>
+                    <a class="page-scroll hidden-xs" href="#tumblr">Tumblr Guide</a>
                 </li>
                 <li>
-                    <a class="page-scroll" href="https://github.com/cgewecke/embeditor">
+                    <a class="page-scroll hidden-xs" href="https://github.com/cgewecke/embeditor">
                         <i class="fa fa-github fa-2x"></i> 
                     </a>
                 </li>
@@ -84,8 +84,11 @@
     <div class="container">
         <div class="row">   
           <br>
+          <div class="text-center visible-xs">
+            <img src="../landing/img/ytdisc_sm.png" class="ytdisc-phone"/>
+          </div>
           <p class="larger">
-            YouTube Video Editor Utility.
+            YouTube Video <br class="visible-xs"> Editor Utility.
           </p>
           <p>  Cut, loop and re-publish any YouTube Video instantly. <br class="hidden-xs"></p>
           <li class="light"> No uploading or downloading video files</li>
@@ -98,239 +101,255 @@
             <i class="fa fa-tv fa-2x"></i> 
             <span class="github-text"> &nbsp &nbsp START EDITING </span>
           </a>
+          <a class="btn bg-youtube btn-xl page-scroll visible-xs">
+            <i class="fa fa-tv fa-2x"></i> 
+            <span class="github-text"> &nbsp &nbsp Only on Tablet and Desktop </span>
+          </a>
        </div>
     </div>
  </div>
 
-  <section id="features">
-    <div class="container">
-        <div class="row">
-            <div class="col-lg-12 text-center">
-                <h2 class="section-heading">Editor Features</h2>
-                <hr class="divider-thin">
-            </div>
-        </div>
-    </div>
-    <!-- Desktop Layout -->
-    <div class="container hidden-sm">
-         <div class="row">
-            <!-- Editor features description -->
-            <div class="col-lg-4 col-md-4">
-                <div class="row service-box">
-                  <!-- Search -->        
-                  <h3 class="light"> <i class="fa fa-search"></i>&nbsp&nbspSearch </h3>
-                  <p>
-                    Search YouTube's video and channels database with filters for duration, date and relevance.  
-                  </p>                 
-                  <!-- Player -->                
-                  <h3 class="light"> <i class="fa fa-tv"></i>&nbsp&nbspPlayer </h3>
-                  <p>
-                    Cyclops is just a light-weight wrapper around the YouTube player that uses YouTube's
-                    own javascript API. This means your video edit gets served with the same speed and reliability
-                    as any YouTube video.
-                  </p>
-                  <!-- Seek -->                  
-                  <h3 class="light hide-1200"> <i class="fa fa-step-forward"></i>&nbsp&nbspSeek </h3>
-                  <p class="hide-1200">
-                    Jump to any location in the video by clicking the player timebar. Drag the rangefinder's handles 
-                    to 'scrub' through the video, looking for the scene you want.
-                  </p>   
-                  <!-- Set -->  
-                  <h3 class="light"> <i class="fa fa-chevron-right"></i>&nbsp&nbspSet </h3>
-                  <p>
-                    Use the startpoint and endpoint setters to make micro adjustments to the beginning and end of your
-                    clip. Set clip boundaries as the video plays using the quickset buttons.
-                  </p>
-                  <!-- Playback --> 
-                  <h3 class="light hide-1200"> <i class="fa fa-sliders"></i>&nbsp&nbspPlayback </h3>
-                  <p class="hide-1200">
-                    Set your clip's playback speed and sound level. 
-                  </p>     
-                  <!-- Publish -->
-                  <h3 class="light"> <i class="fa fa-code"></i>&nbsp&nbspPublish </h3>
-                  <p>
-                    Generate a link or an iframe snippet for your clip and post or embed it in your page. See the Twitter
-                    guide below for help with links, and the Tumblr guide for help with iframes.  
-                  </p>
-                </div>
-            </div>
-            <!-- Embeditor App Screenshot -->
-            <div class="col-lg-8 col-md-8 text-center">
-                <div class="service-box">
-                    <img src="../landing/img/embeditor_ss.png" class="img-responsive"/> 
-                </div>
-            </div>
-        </div>
-    </div>
-    <!-- Tablet Layout -->
-    <div class="container visible-sm">
-        <!-- Embeditor App Screenshot -->
-        <div class="row">
-          <div class="col-sm-12 text-center">
+<!-- SECTION: EDITOR FEATURES -->
+<section id="features">
+  <div class="container">
+      <div class="row">
+          <div class="col-lg-12 text-center">
+              <h2 class="section-heading">Editor Features</h2>
+              <hr class="divider-thin">
+          </div>
+      </div>
+  </div>
+  <!-- Desktop Layout -->
+  <div class="container hidden-sm">
+       <div class="row">
+
+          <!-- Phone Layout: Editor image --> 
+          <div class="col-xs-12 visible-xs text-center">
+              <div class="service-box no-top-sm">
+                  <img src="../landing/img/embeditor_ss.png" class="img-responsive"/> 
+              </div>
+              <div style="height: 25px"></div>
+          </div>
+          <!-- Editor features description -->
+          <div class="col-lg-4 col-md-4">
+              <div class="row service-box">
+                <!-- Search -->        
+                <h3 class="light"> <i class="fa fa-search"></i>&nbsp&nbspSearch </h3>
+                <p>
+                  Search YouTube's video and channels database with filters for duration, date and relevance.  
+                </p>                 
+                <!-- Player -->                
+                <h3 class="light"> <i class="fa fa-tv"></i>&nbsp&nbspPlayer </h3>
+                <p>
+                  Cyclops is just a light-weight wrapper around the YouTube player that uses YouTube's
+                  own javascript API. This means your video edit gets served with the same speed and reliability
+                  as any YouTube video.
+                </p>
+                <!-- Seek -->                  
+                <h3 class="light hide-1200"> <i class="fa fa-step-forward"></i>&nbsp&nbspSeek </h3>
+                <p class="hide-1200">
+                  Jump to any location in the video by clicking the player timebar. Drag the rangefinder's handles 
+                  to 'scrub' through the video, looking for the scene you want.
+                </p>   
+                <!-- Set -->  
+                <h3 class="light"> <i class="fa fa-chevron-right"></i>&nbsp&nbspSet </h3>
+                <p>
+                  Use the startpoint and endpoint setters to make micro adjustments to the beginning and end of your
+                  clip. Set clip boundaries as the video plays using the quickset buttons.
+                </p>
+                <!-- Playback --> 
+                <h3 class="light hide-1200"> <i class="fa fa-sliders"></i>&nbsp&nbspPlayback </h3>
+                <p class="hide-1200">
+                  Set your clip's playback speed and sound level. 
+                </p>     
+                <!-- Publish -->
+                <h3 class="light"> <i class="fa fa-code"></i>&nbsp&nbspPublish </h3>
+                <p>
+                  Generate a link or an iframe snippet for your clip and post or embed it in your page. See the Twitter
+                  guide below for help with links, and the Tumblr guide for help with iframes.  
+                </p>
+              </div>
+          </div>
+          <!-- Desktop Layout: Editor image -->
+          <div class="col-lg-8 col-md-8 hidden-xs text-center">
               <div class="service-box">
                   <img src="../landing/img/embeditor_ss.png" class="img-responsive"/> 
               </div>
           </div>
+      </div>
+  </div>
+
+  <!-- Tablet Layout -->
+  <div class="container visible-sm">
+      <!-- Embeditor App Screenshot -->
+      <div class="row">
+        <div class="col-sm-12 text-center">
+            <div class="service-box">
+                <img src="../landing/img/embeditor_ss.png" class="img-responsive"/> 
+            </div>
         </div>
-        <!-- Features Descriptions -->
-        <div class="row"> 
-          <!-- Player -->
-          <span class="col-sm-4">
-            <h3 class="light"> <i class="fa fa-tv"></i>&nbsp&nbspPlayer </h3>
-            <p>
-              Cyclops embeds are just a light wrapper around the YouTube player, driven by YouTube's
-              own javascript API. This means your video edit gets served with the same speed and reliability
-              as any YouTube video.
-            </p>
-          </span> 
-          <!-- Publish -->
-          <span class="col-sm-4">
-            <h3 class="light"> <i class="fa fa-code"></i>&nbsp&nbspPublish </h3>
-            <p>
-              Generate a link or an iframe snippet for your clip and post or embed it in your page. See the Twitter
-              guide below for help with links, and the Tumblr guide for help with iframes.  
-            </p>
-          </span>
-          <!-- Search -->
-          <span class="col-sm-4">
-            <h3 class="light"> <i class="fa fa-search"></i>&nbsp&nbspSearch </h3>
-            <p>
-              Search YouTube's video and channels database with filters for duration, sorting 
-              by date and relevance, and search history.  
-            </p>
-          </span>
+      </div>
+      <!-- Features Descriptions -->
+      <div class="row"> 
+        <!-- Player -->
+        <span class="col-sm-4">
+          <h3 class="light"> <i class="fa fa-tv"></i>&nbsp&nbspPlayer </h3>
+          <p>
+            Cyclops embeds are just a light wrapper around the YouTube player, driven by YouTube's
+            own javascript API. This means your video edit gets served with the same speed and reliability
+            as any YouTube video.
+          </p>
+        </span> 
+        <!-- Publish -->
+        <span class="col-sm-4">
+          <h3 class="light"> <i class="fa fa-code"></i>&nbsp&nbspPublish </h3>
+          <p>
+            Generate a link or an iframe snippet for your clip and post or embed it in your page. See the Twitter
+            guide below for help with links, and the Tumblr guide for help with iframes.  
+          </p>
+        </span>
+        <!-- Search -->
+        <span class="col-sm-4">
+          <h3 class="light"> <i class="fa fa-search"></i>&nbsp&nbspSearch </h3>
+          <p>
+            Search YouTube's video and channels database with filters for duration, sorting 
+            by date and relevance, and search history.  
+          </p>
+        </span> 
+      </div>
+      <div class="row">
+         <!-- Seek -->
+        <span class="col-sm-4">
+          <h3 class="light"> <i class="fa fa-step-forward"></i>&nbsp&nbspSeek </h3>
+          <p>
+            Jump to any location in the video by clicking the player timebar. Drag the rangefinder's handles 
+            to 'scrub' through the video, looking for the scene you want.
+          </p>
+        </span>
+        <!-- Set -->
+        <span class="col-sm-4">
+          <h3 class="light"> <i class="fa fa-chevron-right"></i>&nbsp&nbspSet </h3>
+          <p>
+            Use the startpoint and endpoint setters to make micro adjustments to the beginning and end of your
+            clip. Set clip boundaries as the video plays using the quickset buttons.
+          </p>
+        </span>
+        <!-- Playback -->
+        <span class="col-sm-4">
+          <h3 class="light"> <i class="fa fa-sliders"></i>&nbsp&nbspPlayback </h3>
+          <p>
+            Set your clip's playback speed and sound level. 
+          </p>
+        </span>    
+      </div>
+  </div>
+</section>
+
+<!-- SECTION: TWITTER -->
+<section id="twitter" class="hidden-xs">
+  <div class="container">
+      <div class="row">
+          <div class="col-lg-12 text-center">
+               <span> <i class="fa fa-twitter-square fa-4x twitter-color"></i> </span>
+              <h2 class="section-heading text-center inline v-bottom">&nbsp&nbspTwitter Guide</h2> 
+              <hr class="divider-thin">
+          </div>
+      </div>
+  </div>
+  <div class="container">
+       <!-- Text -->
+       <div class="row">
          
-        </div>
-        <div class="row">
-           <!-- Seek -->
-          <span class="col-sm-4">
-            <h3 class="light"> <i class="fa fa-step-forward"></i>&nbsp&nbspSeek </h3>
+          <div class="col-lg-6 col-sm-6 col-xs-6">
+              <div class="service-box narrower">
+                <!-- Tweet -->
+                <h3 class="light"> <i class="fa fa-twitter"></i>&nbsp&nbspTweet</h3>
+                <p>
+                  Click 'Tweet' to share a link to your edit. 
+                </p>
+              </div>
+          </div>
+          <div class="col-lg-6 col-sm-6 col-xs-12">
+              <div class="service-box narrower">
+                <!-- Watch -->
+                <h3 class="light"> <i class="fa fa-eye"></i>&nbsp&nbspWatch</h3>
+                <p>
+                  Your clip will open and play in the feed when clicked. 
+                </p>
+              </div>
+          </div>
+      </div>
+      <!-- Images -->
+      <div class="row">
+          <!-- Tweet -->
+          <div class="col-lg-6 col-sm-6 hidden-xs text-center">
+              <div class="service-box no-top-sm narrower">
+                  <img src="../landing/img/twittershare_ss.png" class="img-responsive"/> 
+              </div>
+              <div class="service-box no-top-sm narrower">
+                  <h3 class="light text-left"> <i class="fa fa-share"></i>&nbsp&nbspFeed View</h3>
+                  <img src="../landing/img/twitterplay_ss.png" class="img-responsive"/> 
+              </div>
+          </div>
+          <div class="col-lg-6 col-sm-6 hidden-xs text-center">
+              <div class="service-box no-top-sm narrower">
+                  <img src="../landing/img/twitterplay_ss2.png" class="img-responsive"/> 
+              </div>
+          </div>
+      </div>
+  </div>
+</section>
+
+<!-- SECTION: TUMBLR -->
+<section id="tumblr" class="hidden-xs">
+  <div class="container ">
+      <div class="row">
+          <div class="col-lg-12 text-center">
+              <span> <i class="fa fa-tumblr-square fa-4x tumblr-color"></i> </span>
+              <h2 class="section-heading text-center inline v-bottom">&nbsp&nbspTumblr Guide</h2> 
+              <hr class="divider-thin">
+          </div>
+      </div>
+  </div>
+  <!-- Desktop Layout -->
+  <div class="container">
+      <!-- Text -->
+      <div class="row">
+          <!-- Embed Dialog description -->
+          <div class="service-box col-lg-6 col-md-6 col-sm-6 narrower no-top-sm">    
+            <h3 class="light"> <i class="fa fa-code"></i>&nbsp&nbspEmbed </h3>
             <p>
-              Jump to any location in the video by clicking the player timebar. Drag the rangefinder's handles 
-              to 'scrub' through the video, looking for the scene you want.
+              Click the 'Embed' button to get an iframe code snippet. By default
+              Cyclops generates code for a responsive player, but you can also set
+              the player size by selecting the 'Fixed' option and specifying its pixel
+              height and width.   
             </p>
-          </span>
-          <!-- Set -->
-          <span class="col-sm-4">
-            <h3 class="light"> <i class="fa fa-chevron-right"></i>&nbsp&nbspSet </h3>
+          </div>
+          <!-- Embed Dialog description -->
+          <div class="service-box col-lg-6 col-md-6 col-sm-6 narrower no-top-sm">    
+            <h3 class="light"> <i class="fa fa-share"></i>&nbsp&nbspPost </h3>
             <p>
-              Use the startpoint and endpoint setters to make micro adjustments to the beginning and end of your
-              clip. Set clip boundaries as the video plays using the quickset buttons.
+                Copy the iframe snippet and open a Tumblr share dialog by clicking
+                the editor's share button. Press ctrl-v to paste the iframe code
+                in the text body of your post. A thumbnail of your clip will appear
+                in the Tumblr feed and the video edit itself will appear on your blog
+                page.
             </p>
-          </span>
-          <!-- Playback -->
-          <span class="col-sm-4">
-            <h3 class="light"> <i class="fa fa-sliders"></i>&nbsp&nbspPlayback </h3>
-            <p>
-              Set your clip's playback speed and sound level. 
-            </p>
-          </span>
+          </div>
+      </div>
+      <!-- Images -->
+      <div class="row">
+          <!-- Embed SS -->
+          <div class="service-box col-lg-6 col-md-6 col-sm-6 narrower text-center">  
+              <img src="../landing/img/embed_ss.png" class="img-responsive"/> 
               
-        </div>
-    </div>
-</section>
-  <section id="twitter">
-    <div class="container">
-        <div class="row">
-            <div class="col-lg-12 text-center">
-                 <span> <i class="fa fa-twitter-square fa-4x twitter-color"></i> </span>
-                <h2 class="section-heading text-center inline v-bottom">&nbsp&nbspTwitter Guide</h2> 
-                <hr class="divider-thin">
-            </div>
-        </div>
-    </div>
-    <div class="container">
-         <!-- Text -->
-         <div class="row">
-           
-            <div class="col-lg-6 col-sm-6 col-xs-6">
-                <div class="service-box narrower">
-                  <!-- Tweet -->
-                  <h3 class="light"> <i class="fa fa-twitter"></i>&nbsp&nbspTweet</h3>
-                  <p>
-                    Click 'Tweet' to share a link to your edit. 
-                  </p>
-                </div>
-            </div>
-            <div class="col-lg-6 col-sm-6 col-xs-12">
-                <div class="service-box narrower">
-                  <!-- Watch -->
-                  <h3 class="light"> <i class="fa fa-eye"></i>&nbsp&nbspWatch</h3>
-                  <p>
-                    Your clip will open and play in the feed when clicked. 
-                  </p>
-                </div>
-            </div>
-        </div>
-        <!-- Images -->
-        <div class="row">
-            <!-- Tweet -->
-            <div class="col-lg-6 col-sm-6 hidden-xs text-center">
-                <div class="service-box no-top-sm narrower">
-                    <img src="../landing/img/twittershare_ss.png" class="img-responsive"/> 
-                </div>
-                <div class="service-box no-top-sm narrower">
-                    <h3 class="light text-left"> <i class="fa fa-share"></i>&nbsp&nbspFeed View</h3>
-                    <img src="../landing/img/twitterplay_ss.png" class="img-responsive"/> 
-                </div>
-            </div>
-            <div class="col-lg-6 col-sm-6 hidden-xs text-center">
-                <div class="service-box no-top-sm narrower">
-                    <img src="../landing/img/twitterplay_ss2.png" class="img-responsive"/> 
-                </div>
-            </div>
-        </div>
-    </div>
-</section>
-  <section id="tumblr">
-    <div class="container">
-        <div class="row">
-            <div class="col-lg-12 text-center">
-                <span> <i class="fa fa-tumblr-square fa-4x tumblr-color"></i> </span>
-                <h2 class="section-heading text-center inline v-bottom">&nbsp&nbspTumblr Guide</h2> 
-                <hr class="divider-thin">
-            </div>
-        </div>
-    </div>
-    <!-- Desktop Layout -->
-    <div class="container ">
-        <!-- Text -->
-        <div class="row">
-            <!-- Embed Dialog description -->
-            <div class="service-box col-lg-6 col-md-6 col-sm-6 narrower no-top-sm">    
-              <h3 class="light"> <i class="fa fa-code"></i>&nbsp&nbspEmbed </h3>
-              <p>
-                Click the 'Embed' button to get an iframe code snippet. By default
-                Cyclops generates code for a responsive player, but you can also set
-                the player size by selecting the 'Fixed' option and specifying its pixel
-                height and width.   
-              </p>
-            </div>
-            <!-- Embed Dialog description -->
-            <div class="service-box col-lg-6 col-md-6 col-sm-6 narrower no-top-sm">    
-              <h3 class="light"> <i class="fa fa-share"></i>&nbsp&nbspPost </h3>
-              <p>
-                  Copy the iframe snippet and open a Tumblr share dialog by clicking
-                  the editor's share button. Press ctrl-v to paste the iframe code
-                  in the text body of your post. A thumbnail of your clip will appear
-                  in the Tumblr feed and the video edit itself will appear on your blog
-                  page.
-              </p>
-            </div>
-        </div>
-        <!-- Images -->
-        <div class="row">
-            <!-- Embed SS -->
-            <div class="service-box col-lg-6 col-md-6 col-sm-6 narrower text-center">  
-                <img src="../landing/img/embed_ss.png" class="img-responsive"/> 
-                
-            </div>
-            <!-- Post SS -->
-           <div class="service-box col-lg-6 col-md-6 col-sm-6 narrower text-center">  
-                <img src="../landing/img/post_ss.png" class="img-responsive"/> 
-            </div>
-        </div>
-    </div>
+          </div>
+          <!-- Post SS -->
+         <div class="service-box col-lg-6 col-md-6 col-sm-6 narrower text-center">  
+              <img src="../landing/img/post_ss.png" class="img-responsive"/> 
+          </div>
+      </div>
+  </div>
 </section>
 
 
