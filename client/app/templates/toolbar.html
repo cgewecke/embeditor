@@ -13,14 +13,16 @@
        layout-align="{{toolbar.layout.alignWithSidenav('search', 'row')}}"  
        layout-fill>
     <span class="titlebar-center">
-      <div layout="row" class="titlebar-center-inner" 
-          ng-show="!toolbar.layout.sidenavIsOpen('search') && toolbar.ready">
+      <div layout="row" class="titlebar-center-inner" ng-show="!toolbar.layout.sidenavIsOpen('search')">
+        <!-- Spacer: Margin -->
         <span flex="5"></span>
+        <!-- Spacer for Search Box on load -->
+        <span flex="55" ng-show="!toolbar.ready"></span>
         <!-- Search Box  --> 
-        <embeditor-searchbox id="toolbar-searchbox" flex="55"></embeditor-searchbox>
+        <embeditor-searchbox id="toolbar-searchbox" flex="55" ng-show="toolbar.ready"></embeditor-searchbox>
+        <!-- Spacer: Margin -->
         <span flex="15"></span>
         <!-- Icon -->
-        
         <span flex="5" layout-align="end end" click="toolbar.reload()">
             <md-button aria-label="embeditor-icon" class="md-warn"> 
                 <ng-md-icon icon="brightness_auto" style="fill: white;" size="55"></ng-md-icon>
