@@ -14,6 +14,14 @@ body {
     width: 100%;
     min-height: 100%;
     height: inherit; } 
+
+  md-progress-linear .md-container {
+    top: 0px;
+  }
+
+  .progress-bar-icon {
+    top: -8px;
+  }
 }
 /* ng-md-icon Fix for v 7.0.1 */
 ng-md-icon {
@@ -43,11 +51,17 @@ md-content{
 :-moz-placeholder { /* Firefox 18- */
    color: white !important;
    opacity: .7 !important;
+   text-align: center;
+   font-size: 15px;
+   letter-spacing: 2px;
 }
 
 ::-moz-placeholder {  /* Firefox 19+ */
    color: white !important;
-   opacity: .7 !important; 
+   opacity: .7 !important;
+   text-align: center;
+   font-size: 15px;
+   letter-spacing: 2px; 
 }
 
 md-autocomplete input :-ms-input-placeholder {  
@@ -421,7 +435,7 @@ md-autocomplete button md-icon path{
   visibility: hidden;
   width: 0px;
   height: 0px;
-  top: -1px;
+  top: -8px;
   left: 50px;
   z-index: 50;
 }
@@ -671,11 +685,7 @@ md-progress-linear.timebar .md-dashed{
 @-moz-document url-prefix() {
 
   .timebar-instructions-row{
-    margin-top: 10px;
     z-index: 1;
-  }
-  .tapehead-animation{
-    height: 8px;
   }
 }
 
