@@ -19,7 +19,7 @@
 	<!-- iOS -->
 	<div class="loading-cover-message">
 		<h3 id="youtube-connect" > Loading Editor </h3>
-		<h3 id="youtube-connect" > ( This takes a few seconds. ) </h3>
+		<h3 id="youtube-connect" > ( This takes a second. ) </h3>
 	</div> 
 	<div class="embedlam-spinner" ng-show="!app.layout.android">
 		<div class="embedlam-loader"></div>
@@ -29,7 +29,7 @@
 
 
 <!-- App Content -->
-<md-content class="content-block" app-click layout="column" layout-fill> 
+<md-content class="content-block" app-click layout-height-manager layout="column" layout-fill> 
   <div ng-include src="'templates/toolbar.html'" layout="column"></div>
   <embeditor-section-sidebar></embeditor-section-sidebar>
   <embeditor-section-app></embeditor-section-app>

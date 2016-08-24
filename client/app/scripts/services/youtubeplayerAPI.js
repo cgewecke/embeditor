@@ -91,6 +91,7 @@ function youtubePlayerAPI($rootScope, $timeout, $interval ){
         var timer;
         self.load(self.initialVideo);
         self.silence();
+        $rootScope.$broadcast(playerLoadedEvent.name);
     };
     /**
      * Initializes service from the YT playerReady callback on mobile page load. Broadcasts

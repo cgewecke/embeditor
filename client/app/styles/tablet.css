@@ -85,7 +85,7 @@
       }
 
       .opaque{
-        opacity: .75;
+        opacity: .5;
       }
 
       .player-wrapper-styles{
@@ -314,10 +314,6 @@
 
       .code-button-row{
         margin-top: 0px;
-      }
-
-      .mobile-bottom-spacer{
-        min-height: 35px;
       }
 
       /* ---------- Footer -------------------*/

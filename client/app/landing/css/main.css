@@ -28,6 +28,14 @@ h1, h2, h3, h4, h5, h6 {
 .twitter-color {
   color: #55acee; }
 
+.visible-tiny {
+  display: none;
+}
+
+.hidden-tiny {
+  display: initial;
+}
+
 hr {
   border-color: #ccc;
   border-width: 3px;
@@ -259,6 +267,17 @@ section.call-to-action {
   .ytdisc-phone {
     width: 75%;
     margin: 0 auto;
+  }
+}
+
+/* -------------  IPhone 5 ---------------------*/
+
+@media screen and (max-width: 374px) {
+  .visible-tiny {
+    display: initial;
+  }
+  .hidden-tiny {
+    display: none;
   }
 }
 
