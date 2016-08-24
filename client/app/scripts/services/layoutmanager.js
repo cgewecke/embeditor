@@ -1,10 +1,14 @@
+var lm_debug, lm_debugII;
+
 (function(){'use strict';
 /**
  * Manages alignment of app components relative to search sidebar.
  * @service layoutManager
  */
 angular.module('embeditor.services.layoutManager', ['ngMaterial'])
-	.service('layoutManager', layoutManager);
+	.service('layoutManager', layoutManager)
+	.directive('layoutHeightManager', layoutHeightManager)
+	.directive('layoutVerticalFill', layoutVerticalFill);
 	
 function layoutManager($mdSidenav){
 
@@ -15,6 +19,7 @@ function layoutManager($mdSidenav){
 	self.android = (navigator.userAgent.match(/(Android)/g) ? true : false );
 	
 	self.start = true;
+	self.bottomFill = 0;
  
 	/**
 	 * Boolean toggle to show/hide layout elements when sidebar is open.
@@ -51,6 +56,49 @@ function layoutManager($mdSidenav){
 	};
 }
 layoutManager.$inject = ['$mdSidenav'];
+
+/**
+ * Calculates height of the player controls if screen height is greater than app height
+ * @directive bottomSpacer: (attribute) 
+ */
+function layoutHeightManager($rootScope, $window, layoutManager){
+    return {
+        restrict: 'A',  
+        link: function(scope, elem, attrs){
+        	scope.window = $window;
+
+        	// Wait until player has loaded - otherwise app height is incorrect.
+        	$rootScope.$on('YTPlayerAPI:playerLoaded', function(){
+        		
+        		scope.$watch('window.innerHeight', function(newVal, oldVal){
+	        		if (newVal != undefined && elem.height() < newVal ){
+	        			layoutManager.bottomFill = newVal - elem.height();
+	        		} 
+	        	});
+        	});
+        }
+    };
+};
+layoutHeightManager.$inject = ['$rootScope', '$window', 'layoutManager'];
+
+/**
+ * Dynamically sets height of a spacer if screen height is greater than app height
+ * @directive layoutVerticalFill: (attribute) 
+ */
+function layoutVerticalFill(layoutManager){
+    return {
+        restrict: 'A',  
+        link: function(scope, elem, attrs){
+        	scope.layout = layoutManager;
+        	scope.$watch('layout.bottomFill', function(newVal, oldVal){
+        		(newVal != undefined && scope.layout.bottomFill)
+        			? elem.height(newVal)
+        			: null
+        	});
+        }
+    };
+};
+layoutVerticalFill.$inject = ['layoutManager'];
 
 // End closure
 })();
