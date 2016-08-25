@@ -17,19 +17,31 @@ angular.module('embeditor')
 	appCtrl.$inject = ['$scope', 'layoutManager'];
 
 
-	// Hide loading cover: 'player loaded' event only fired on mobileInit()
+	// Hides loading cover: 'player loaded' event fired on init() & mobileInit()
 	// Android: Currently problems so severe that we just leave cover on.
-	function mobileLoadingCover(){
+	function mobileLoadingCover($timeout){
 		return {
 			restrict: 'A',
 			controller: 'AppCtrl',  
 			link: function(scope, elem, attrs, app){
+
+				var wait = true;
+
+				// Show cover min 1 sec then fade in
+				$timeout(function(){ 
+					if (!wait) {
+						elem.animate({ opacity: 0 }, 700);
+					}
+				}, 1000);
+
 				scope.$on('YTPlayerAPI:playerLoaded', function(){
-					elem.css('display', 'none');
+					elem.animate({ opacity: 0 }, 700);
+					wait = false;
 				});
 			}
 		};
 	};
+	mobileLoadingCover.$inject = ['$timeout'];
 
 	// Substitute for ng-click(). This is an end-run around some kind of insane
 	// issue w/ ng-touch where everything on iOS double clicks. 
