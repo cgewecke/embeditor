@@ -11,12 +11,9 @@ router.get('/:id', function(req, res, next) {
    Videos.findOne({
       '_id': params.id
 
-   }, function(err, video){  
-      (err || !video) ? 
-         responder(res, err, video, params): //Error
-         responder(res, err, video, params); //Success
-      }
-   );
+   }, function(err, video){ 
+      responder(res, err, video, params);
+   });
 });
 
 function responder(res, err, video, params){

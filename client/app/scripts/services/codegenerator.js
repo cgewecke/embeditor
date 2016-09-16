@@ -94,8 +94,8 @@ function codeGenerator($q, Videos){
      * @return {Promise} Resolves an updated DB record
      */
     self.update = function(){
-            var video = new Videos(self.options);
-            return video.$save();
+        var video = new Videos(self.options);
+        return video.$save();
     };
     /**
      * Updates video clip options object
