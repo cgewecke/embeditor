@@ -12,7 +12,7 @@
           -webkit-transform: translate3d(0,0,0);
       }
 
-      .appLoadingCover{
+      .appLoadingCover{ 
         visibility: visible;
       }
       /* --------- Toolbar -------------*/
@@ -39,6 +39,10 @@
         padding-right: 5px;
         padding-left: 5px;
       }
+
+      .spyglass-margin {
+        margin-right: 3px;
+      }
       
       /* -------- Player ---------------*/
       #player{ 
@@ -46,9 +50,17 @@
         height: 200px;
       }
 
+      /*.mobile-player-loading-screen{
+        width: 100%;
+        height: 100%;
+        position: absolute;
+        top: 0px;
+        min-height: inherit;
+        z-index: 5;
+      }*/
+
       .mobile-player-loading-screen{
         width: 100%;
-        /*height: 24.5%;*/
         height: 200px;
       }
 
@@ -59,12 +71,16 @@
         
         /*height: 25.5%;*/
         height: 200px;
-
-
-        background: black;
+        background-color: transparent;
         opacity: .7;
         color: white;
         font-size: 14px;
+      }
+
+      .top-layer{
+        z-index: 7;
+        background-color: transparent;
+        opacity: 1;
       }
 
       .player-instruction-title{
@@ -210,8 +226,7 @@
       }
 
       .phone-slider-reset-btn{
-        padding-top: 15px;
-        padding-left: 20px;
+        padding-left: 10px;
       }
 
       .set-btn-block-help{
@@ -224,6 +239,11 @@
         padding-bottom: 5px;
         height: 61px;
         overflow-y: hidden;
+      }
+      
+      .mobile-min-warning {
+        padding-top: 0px !important;
+        padding-right: 25px;
       }
 
       .mobile-loop-input-container{
@@ -284,25 +304,15 @@
         max-width: 240px !important;
       } 
 
-      .search-toolbar-phone{
-
-      }
-
-      .twelve-point-bold{
-        font-size: 10px;
-      }
+      .twelve-point-bold{ font-size: 10px; }
+      .sidebar-background{ background-color: #E0E0E0;}
+      .phone-msg-padding{ padding-top: 100px; }
+      .mobile-search-item{ position: relative; }
+      .mobile-search-select-tile{ padding-right: 25px;}
 
       .sidebar-scroll{
         overflow-y: scroll;
         -webkit-overflow-scrolling: auto !important; 
-      }
-
-      .sidebar-background{
-        background-color: #E0E0E0;
-      }
-
-      .phone-msg-padding{
-        padding-top: 100px;
       }
 
       .searchItemDuration{
@@ -358,14 +368,7 @@
         text-decoration: underline;
       }
 
-      .mobile-search-item{
-        position: relative;
-      }
-
-      .mobile-search-select-tile{
-        padding-right: 25px;
-      }
-
+    
       /* Dialog Windows */
 
       .embed-preview-content{
@@ -541,34 +544,22 @@
   and (-webkit-min-device-pixel-ratio: 3)
   and (orientation: landscape) { 
 
-  body{
-    background-color: black;
-  }
+  body{ background-color: black; }
 
-  .appLoadingCover{
-    visibility: visible;
-  }
-
-  .loading-cover-title{
-    display: none;
-  }
-
-  #toolbar-header{
-    /*display: none !important;*/
-  }
-
-  #quickset-phone-row{
-    display: block !important;
-  }
-
-  #app-column{
-    display: none !important;
-  }
-
-  .footer-toolbar{
-    display: none;
-  }
-
+  #quickset-phone-row{ display: block !important;}
+  #app-column{ display: none !important; }
+  
+  .appLoadingCover{ visibility: visible;}
+  .footer-toolbar{ display: none;}
+  .loading-cover-title{ display: none; }
+  .loading-progress{ width: 100%; }
+  .mobile-play-icon { padding-left: 10px;}
+  .player-background{ background-color: black; }
+  .player-cover{ width: 100%; }
+  .spyglass-margin {
+        margin-right: 3px;
+      }
+  
   #player{ 
     width: 100%;
     height: 365px;
@@ -576,7 +567,6 @@
 
   .mobile-player-loading-screen{
     width: 100%;
-    /*height: 85.5%;*/
     height: 365px;
   }
 
@@ -584,7 +574,6 @@
 
     visibility: visible;
     width: 100%;
-    /*height: 85.5%;*/
     height: 365px;
     background: black;
     opacity: .7;
@@ -597,21 +586,6 @@
     width: 100%;
   }
 
-  .player-background{
-    background-color: black;
-  }
-
-  .player-cover{
-    width: 100%;
-  }
-
-  .loading-progress{
-    width: 100%;
-  }
-
-  .mobile-play-icon {
-    padding-left: 10px;
-  }
   /* Quickset & Timestamps */
   .desktop-quickset-btn{
     height: 56px;
@@ -690,6 +664,11 @@
     height: 12px;
     background-color: #FF6F00;
   }
+
+  .mobile-min-warning {
+    padding-top: 0px !important;
+    padding-right: 15px;
+  }
 }
 
 /* ----------- iPhone 5 and 5S ----------- */
@@ -732,6 +711,10 @@
       .md-toolbar-tools{
         padding-right: 5px;
         padding-left: 5px;
+      }
+
+      .spyglass-margin {
+        margin-right: 3px;
       }
       
       /* -------- Player ---------------*/
@@ -901,6 +884,11 @@
         padding-top: 5px;
       }
 
+      .mobile-min-warning {
+        padding-top: 0px !important;
+        padding-right: 15px;
+      }
+
       .precision-btn-outer{
         height: 48px;
         width: 48px;
@@ -1002,8 +990,7 @@
       }
       
       .phone-slider-reset-btn{
-        padding-top: 15px;
-        padding-left: 20px;
+        padding-left: 10px;
       }
 
       .code-button-row{

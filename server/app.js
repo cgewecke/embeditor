@@ -11,14 +11,13 @@ var handlebars = require('express3-handlebars');
 
 // Routes
 var index = require('./routes/index');
-var users = require('./routes/users');
-var signup = require('./routes/signup');
 var embed = require('./routes/embed');
 var videos = require('./routes/videos');
 var api = require('./routes/api');
-var test = require('./routes/test');
+
+// Git-Phaser Routes
 var help = require('./routes/help');
-var application = require('./routes/app');
+var gitphaser = require('./routes/gitphaser'); 
 
 // APP
 var app = express();
@@ -28,14 +27,27 @@ app.set('views', path.join(__dirname, 'views'));
 app.engine('.hbs', handlebars({extname: '.hbs'}));
 app.set('view engine', '.hbs');
 
-// uncomment after placing your favicon in /public
-//app.use(favicon(__dirname + '/public/favicon.ico'));
-
 app.use(logger('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 
+/**
+ *  CORS for GitPhaser landing page.
+ */
+var allowCrossDomainProduction = function(req, res, next) {
+    res.header('Access-Control-Allow-Origin', 'http://gitphaser.com');
+    res.header('Access-Control-Allow-Methods', 'GET');
+    res.header('Access-Control-Allow-Headers', 'Content-Type');
+    next();
+}
+
+var allowCrossDomainDevelopment = function(req, res, next) {
+    res.header('Access-Control-Allow-Origin', 'http://localhost:4000');
+    res.header('Access-Control-Allow-Methods', 'GET');
+    res.header('Access-Control-Allow-Headers', 'Content-Type');
+    next();
+}
 
 /**
  * forceSsl: Redirect from http to https. 
@@ -54,6 +66,8 @@ var forceSsl = function (req, res, next) {
 
 if (app.get('env') === 'development') {
 
+    // Allow localhost to make GET requests
+    app.use(allowCrossDomainDevelopment);
 
     // This will change in production since we'll be using the dist folder
     app.use(express.static(path.join(__dirname, '../client')));
@@ -81,6 +95,9 @@ if (app.get('env') === 'production') {
     // Force SSL on Heroku
     app.use(forceSsl);
     
+    // Allow gitphaser.com to make GET requests
+    app.use(allowCrossDomainProduction);
+
     // Use the optimized version for production
     app.use(express.static(path.join(__dirname, '/dist')));
     app.use(express.static(path.join(__dirname, '/public')));
@@ -95,14 +112,10 @@ if (app.get('env') === 'production') {
     });
 }
 
-app.use('/signup', signup);
 app.use('/embed', embed);
 app.use('/videos', videos);
 app.use('/api', api);
-app.use('/test', test);
 app.use('/help', help);
-app.use('/app', application);
-
-
+app.use('/gitphaser', gitphaser);
 
 module.exports = app; 

@@ -41,17 +41,6 @@
         margin-top: -5px;
       }
 
-      /*.appLoadingCover{
-        height: 100%;
-  width: 100%;
-  background-color: rgb(255,193,7);
-  visibility: hidden;
-  position: absolute;
-  top: 0;
-  left: 0;
-  z-index: 1000;
-        background-color: rgb(189,189,189);
-      }*/
       /* -------- Toolbar ---------------*/
       .titlebar .titlebar-center {
         background-color: rgb(255,193,7) !important;

@@ -49,14 +49,13 @@
   <div class="md-toolbar-tools" layout="row">
     
     <!-- Desktop/Tablet Icon and Title -->
-    <span layout="row" layout-align="start center" >
+    <span layout="row" layout-align="start center" ng-show="!toolbar.ready">
       <md-button aria-label="embeditor-icon" class="md-warn" > 
-        <ng-md-icon icon="album" size="56"></ng-md-icon>
+        <ng-md-icon icon="brightness_auto" style="fill:white" size="56"></ng-md-icon>
       </md-button>
-    
-      <div class="titlebar-title" ng-show="!toolbar.ready">
-          <div class="titlebar-cyclopse"> cyclopse </div>
-          <div class="titlebar-beta"> Loop Editor </div>
+      <div class="titlebar-title">
+          <div class="titlebar-cyclopse"> cyclops </div>
+          <div class="titlebar-beta"> YouTube Loop Editor </div>
       </div>
     </span>
 

@@ -63,20 +63,9 @@ router.post('/videos/:id', function (req, res) {
 
       if (err) responder(res, err, body, opType)
       else {
-
-         video.videoId = body.videoId;
-         video.quality = body.quality;
-         video.autoplay = body.autoplay;
-         video.loop = body.loop;
-         video.mute = body.mute;
-         video.rate = body.rate;
-         video.start = body.start;
-         video.end = body.end;
          video.width = body.width;
          video.height = body.height;
-         video.title = body.title;
-         video.imageUrl = body.imageUrl;
-
+         
          video.save(function (err, savedVideo) { 
          
             (err) ? 

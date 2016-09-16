@@ -104,27 +104,20 @@ function embedCodeDialog($rootScope, $mdDialog, $window, youtubePlayerAPI, codeG
         
         code.create().then(function(success){ 
             self.opening = false;  
-            // Phone
-            if (layout.phone){
-                self.open(event, 'tweet');
-
-            // Desktop & Tablet
-            } else {
-                $window.open(
-                    '//www.twitter.com/intent/tweet?' + 'url=' + 
-                    encodeURIComponent(window.location.origin + '/videos/' + code.options._id),
-                    'sharer' + self.counter
-                );                
-            }
+            
+            $window.open(
+                '//www.twitter.com/intent/tweet?' + 'url=' + 
+                encodeURIComponent(window.location.origin + '/videos/' + code.options._id),
+                'sharer' + self.counter
+            );                
+            
         }, function(error){ 
             self.opening = false;  
             $rootScope.$broadcast('embedCodeDialog:database-error');
         });
         
         // Open new tab in Desktop/Tablet
-        (!layout.phone) ?
-            $window.open('', 'sharer' + self.counter) :
-            false;
+        $window.open('', 'sharer' + self.counter);
     };
 
     /**

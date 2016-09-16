@@ -28,10 +28,6 @@ ng-md-icon {
   height: inherit;
   width: inherit;
 }
-/* iOS */
-md-content{
-  /*overflow-y: scroll !important;*/
-}
 
 [layout-fill]{
   width: 100%;
@@ -129,13 +125,11 @@ md-autocomplete input :-ms-input-placeholder {
   }
 }
 
-
-
 .appLoadingCover{
   height: 100%;
   width: 100%;
   background-color: #101010;
-  color: white;
+  color: #9e9e9e;
   position: absolute;
   top: 0;
   left: 0;
@@ -262,6 +256,10 @@ md-autocomplete button md-icon path{
   color: white !important;
   font-size: 21px;
   padding-right: 10px;
+}
+
+.spyglass-margin {
+  margin-right: 20px;
 }
 /* footer */
 
