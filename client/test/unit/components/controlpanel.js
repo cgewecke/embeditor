@@ -21,7 +21,7 @@ describe('Component: Control Panel', function () {
       playerAPI = _youtubePlayerAPI_;
       playerAPI.initializing = false;
 
-      ctrl = $controller('PlayerCtrl', {$scope: scope });
+      ctrl = $controller('PlayerController', {$scope: scope });
       YT = $controller("mockYTPlayerAPI", {$scope: scope });
 
       YT.attachMockAPI(playerAPI);

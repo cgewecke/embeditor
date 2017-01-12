@@ -20,7 +20,7 @@ describe('Component: Search sidebar', function () {
     dataAPI = _youTubeDataAPI_;
     dataAPI.default_max_results = 1;
 
-    ctrl = $controller('SearchSidebarCtrl', {$scope: scope, $mdSidenav: mdSidenav });
+    ctrl = $controller('SearchSidebarController', {$scope: scope, $mdSidenav: mdSidenav });
     query = $controller("mockYTquery", {$scope: scope });
   
     sidebar = angular.element('<embeditor-section-sidebar></embeditor-section-sidebar>');

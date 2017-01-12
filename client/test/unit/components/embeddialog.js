@@ -18,7 +18,7 @@ describe('Component: Embed Code Dialog Window', function(){
     code = codeGenerator;
     httpBackend = $httpBackend;
     
-    ctrl = $controller("CodeDialogCtrl", {$scope: scope });
+    ctrl = $controller("CodeDialogController", {$scope: scope });
     dialog = angular.element('<embeditor-section-code-dialog></embeditor-section-code-dialog>');
 
     compile(dialog)(scope);

@@ -18,7 +18,7 @@ describe('Controller: PlayerCtrl', function () {
      interval = $interval;
      timeout = $timeout;
      
-     ctrl = $controller("PlayerCtrl", {$scope: scope });
+     ctrl = $controller("PlayerController", {$scope: scope });
      YT = $controller("mockYTPlayerAPI", {$scope: scope });
      YT.attachMockAPI(ctrl.API);
 

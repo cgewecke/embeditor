@@ -9,7 +9,7 @@
   angular.module('embeditor.components.embed', ['embeditor.services.youtubePlayerAPI'])
     .directive('embeditorYoutubeEmbed', embeditorYoutubeEmbed)
 
-  function embeditorYoutubeEmbed ($window, $document, youtubePlayerAPI) {
+  function embeditorYoutubeEmbed ($window, youtubePlayerAPI) {
     return {
       restrict: 'E',
       link: function (scope, elem, attrs) {
@@ -22,9 +22,9 @@
           ? onPlayerStateChangeFn = playerAPI.onMobilePlayerStateChange
           : onPlayerStateChangeFn = playerAPI.onPlayerStateChange
 
-        tag = $document.createElement('script')
-        tag.src = (($document.location.protocol === 'http:') ? 'http:' : 'https:') + '//www.youtube.com/iframe_api'
-        firstScriptTag = $document.getElementById('player')
+        tag = document.createElement('script')
+        tag.src = ((document.location.protocol === 'http:') ? 'http:' : 'https:') + '//www.youtube.com/iframe_api'
+        firstScriptTag = document.getElementById('player')
 
         // Unit test issue getting parent node here.
         if (firstScriptTag) {
@@ -58,5 +58,5 @@
       }
     }
   };
-  embeditorYoutubeEmbed.$inject = ['$window', '$document', 'youtubePlayerAPI']
+  embeditorYoutubeEmbed.$inject = ['$window', 'youtubePlayerAPI']
 })()
