@@ -17,7 +17,7 @@ describe('Service: YouTubePlayerAPI', function () {
       timeout = $timeout;
       playerAPI = _youtubePlayerAPI_;
 
-      ctrl = $controller('PlayerCtrl', {$scope: scope });
+      ctrl = $controller('PlayerController', {$scope: scope });
       YT = $controller("mockYTPlayerAPI", {$scope: scope });
 
       YT.attachMockAPI(playerAPI);
