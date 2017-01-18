@@ -1,6 +1,6 @@
 [![Build Status](https://travis-ci.org/cgewecke/embeditor.svg?branch=master)](https://travis-ci.org/cgewecke/embeditor)
 ## Site
-This project is running live at [cyclop.se](https://www.cyclop.se)
+This project is live at [cyclop.se](https://www.cyclop.se)
 
 ## Server
 From the server directory:
