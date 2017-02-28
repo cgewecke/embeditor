@@ -1,5 +1,6 @@
 server/node_modules
 client/npm-debug.log
+npm-debug.log
 certs-embeditor
 data/
 *.DS_Store
