@@ -62,11 +62,10 @@
     return {
       restrict: 'A',
       link: function (scope, elem, attrs) {
-        var on = $rootScope.$on
         scope.window = $window
 
         // Wait until player has loaded - otherwise app height is incorrect.
-        on('YTPlayerAPI:playerLoaded', function () {
+        $rootScope.$on('YTPlayerAPI:playerLoaded', function () {
           scope.$watch('window.innerHeight', function (newVal, oldVal) {
             if (newVal !== angular.isUndefined && elem.height() < newVal) {
               layoutManager.bottomFill = newVal - elem.height()
