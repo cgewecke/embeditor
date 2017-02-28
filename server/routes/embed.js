@@ -29,7 +29,7 @@ function responder(res, err, video, params){
       video.cyclopseUrl = 'https://www.cyclop.se/embed/' + video._id;
       video.twitterUrl = 'https://www.cyclop.se/embed/' + video._id;
       
-      res.status(201);
+      res.status(200);
       res.render('embed', {video: video, iframe: true }); 
    }
 };
