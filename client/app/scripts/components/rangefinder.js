@@ -1,15 +1,15 @@
 (function () {
-  'use strict'
-/**
- * Manages a range slider widget which lets the user drag-set the start and end points of their clip and
- * provides a visual cue about the clips location relative to the rest of the video. On desktop, dragging
- * the slider ends 'fast-forward' scrubs through the video.
- * @component rangeFinder
- */
+  'use strict';
+  /**
+   * Manages a range slider widget which lets the user drag-set the start and end points of their clip and
+   * provides a visual cue about the clips location relative to the rest of the video. On desktop, dragging
+   * the slider ends 'fast-forward' scrubs through the video.
+   * @component rangeFinder
+   */
   angular.module('embeditor.components.rangefinder', ['embeditor.services.youtubePlayerAPI'])
     .directive('embeditorRangefinder', rangefinder)
 
-// Element
+  // Element
   function rangefinder (youtubePlayerAPI) {
     return {
       restrict: 'E',
@@ -19,11 +19,11 @@
     }
   };
 
-/**
- * Directive link: Initializes ionRangeSlider (A JQuery widget). Sets up listeners for video loads and clip
- * start/endpoint updates so the slider reflects current editor state.
- * @method  rangefinderLink
- */
+  /**
+   * Directive link: Initializes ionRangeSlider (A JQuery widget). Sets up listeners for video loads and clip
+   * start/endpoint updates so the slider reflects current editor state.
+   * @method  rangefinderLink
+   */
   function rangefinderLink (scope, elem, attrs, ctrl) {
     var rangeElem = elem.find('input')
     rangeElem.ionRangeSlider({
@@ -47,10 +47,10 @@
     scope.$on('YTPlayerAPI:update', function () { ctrl.update(ctrl.API.startpoint.val, ctrl.API.endpoint.val) })
   };
 
-/**
- * Directive controller. Implements ionRangeSlider callbacks.
- * @method  rangefinderCtrl
- */
+  /**
+   * Directive controller. Implements ionRangeSlider callbacks.
+   * @method  rangefinderCtrl
+   */
   function rangefinderCtrl ($scope, $timeout, youtubePlayerAPI) {
     var self = this
     var oldVals = {start: null, end: null} // Track prev change values
@@ -124,9 +124,9 @@
 
       // Discover which end is scrubbing and seek to new tapehead pos.
       if (newStart !== oldVals.start) {
-        self.API.mobile ? self.API.seek_mobile(newStart) : self.API.seek(newStart)
+        self.API.mobile ? self.API.seek_mobile(newStart) : self.API.seek(newStart);
       } else {
-        self.API.mobile ? self.API.seek_mobile(newEnd) : self.API.seek(newEnd)
+        self.API.mobile ? self.API.seek_mobile(newEnd) : self.API.seek(newEnd);
       }
 
       // Advance state to present
@@ -164,6 +164,6 @@
       $scope.$apply()
     }
   };
-  rangefinderCtrl.$inject = ['$scope', '$timeout', 'youtubePlayerAPI']
-})()
+  rangefinderCtrl.$inject = ['$scope', '$timeout', 'youtubePlayerAPI'];
+})();
 

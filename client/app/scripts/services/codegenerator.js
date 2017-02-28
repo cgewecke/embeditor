@@ -1,20 +1,20 @@
 (function () {
-  'use strict'
-/**
- * $resource to save video clip records to remote DB.
- * @factory cyclopseDataAPI
- */
+  'use strict';
+  /**
+   * $resource to save video clip records to remote DB.
+   * @factory cyclopseDataAPI
+   */
   angular.module('embeditor.services.cyclopseDataAPI', [])
     .factory('Videos', videos)
 
   function videos ($resource) { return $resource('/api/videos/:id', {id: '@_id'}) };
   videos.$inject = ['$resource']
 
-/**
- * Service to create video clip records for the remote DB and generate shareable links/
- * iframe code snippets for them.
- * @service codeGenerator
- */
+  /**
+   * Service to create video clip records for the remote DB and generate shareable links/
+   * iframe code snippets for them.
+   * @service codeGenerator
+   */
   angular.module('embeditor.services.codeGenerator', ['embeditor.services.cyclopseDataAPI'])
     .service('codeGenerator', codeGenerator)
 
@@ -105,7 +105,7 @@
     self.set = function (option, value) {
       (value !== angular.isUndefined)
             ? self.options[option] = value
-            : false
+            : false;
     }
     /**
      * Generates a fixed sized Iframe code snippet for current clip.
@@ -135,7 +135,7 @@
                 'scrolling="no" seamless="seamless"></iframe>'
     }
   };
-  codeGenerator.$inject = ['$q', '$window', 'Videos']
+  codeGenerator.$inject = ['$q', '$window', 'Videos'];
 
 // End closure.
-})()
+})();

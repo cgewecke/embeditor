@@ -1,10 +1,10 @@
 (function () {
-  'use strict'
-/**
- * An interface to drive the YouTube player so it plays looping, variable speed clips whose duration
- * and boundaries can be changed dynamically by the apps UI.
- * @service YouTubePlayerAPI
- */
+  'use strict';
+  /**
+   * An interface to drive the YouTube player so it plays looping, variable speed clips whose duration
+   * and boundaries can be changed dynamically by the apps UI.
+   * @service YouTubePlayerAPI
+   */
   angular.module('embeditor.services.youtubePlayerAPI', []).service('youtubePlayerAPI', youtubePlayerAPI)
 
   function youtubePlayerAPI ($rootScope, $timeout, $interval) {
@@ -135,7 +135,7 @@
     function verifyRates () {
       (!self.mobile && self.rates().length > 1)
         ? self.speeds = true
-        : self.speeds = false
+        : self.speeds = false;
 
       if (self.speeds && self.setNewRate) {
         self.setRate(self.currentRate)
@@ -169,7 +169,7 @@
       timeout = $timeout(function () {
         (!self.loop)
           ? self.pause()
-          : self.seek(self.startpoint.val)
+          : self.seek(self.startpoint.val);
 
         killStop(true)
       }, ms)
@@ -189,7 +189,7 @@
         // Handle safari case. Redundant in FF and chrome because seek fires player events.
       (looping)
         ? setStop(looping)
-        : false
+        : false;
     }
     /**
      * Gets duration for $timeout, calibrated to playback rate.
@@ -243,7 +243,7 @@
         // Phone app: Cue on search play
         (self.phone && !self.initializing)
           ? self.player.cueVideoById(video.videoId)
-          : false
+          : false;
 
         self.setStartpoint(0)
         self.setEndpoint(video.seconds)
@@ -281,7 +281,7 @@
 
         (self.state === PLAYING)
           ? setStop()
-          : killStop()
+          : killStop();
       }
 
       // Mute/Unmute
@@ -346,7 +346,7 @@
 
         (!disableWarning)
           ? self.minLengthWarning = true
-          : false
+          : false;
       } else self.minLengthWarning = false
 
       // Don't go before video start.
@@ -377,7 +377,7 @@
 
         (!disableWarning)
           ? self.minLengthWarning = true
-          : false
+          : false;
       } else self.minLengthWarning = false
 
         // Don't exceed video length
@@ -453,7 +453,7 @@
       // Reset timers
       (self.state === PLAYING)
         ? setStop()
-        : killStop()
+        : killStop();
     }
     /**
      * Sets tapehead & timestamp to value.
@@ -464,7 +464,7 @@
       // Update timestamp for a paused seek.
       (self.state !== PLAYING)
         ? self.timestamp = time
-        : false
+        : false;
 
       // Destop playing or mobile paused: just seek
       if (!self.mobile || self.state !== PLAYING) {
@@ -488,7 +488,7 @@
 
       (self.mobile)
         ? mobileInit()
-        : init()
+        : init();
     }
 
     /**
@@ -609,8 +609,8 @@
       $rootScope.$apply()
     }
   };
-  youtubePlayerAPI.$inject = ['$rootScope', '$timeout', '$interval']
-})()
+  youtubePlayerAPI.$inject = ['$rootScope', '$timeout', '$interval'];
+})();
 
 /* // Godard - Gimme Shelter: 'seconds' MUST BE 2 SECONDS SHORT OF THE END . . . .
 self.initialVideo = {

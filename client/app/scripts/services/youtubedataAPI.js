@@ -1,10 +1,10 @@
 (function () {
-  'use strict'
-/**
- * Retrieves search results from YouTube. Searches can be made by query string, channel, or 'related',
- * and filetered by duration, upload date and relevance.
- * @service youTubeDataAPI
- */
+  'use strict';
+  /**
+   * Retrieves search results from YouTube. Searches can be made by query string, channel, or 'related',
+   * and filetered by duration, upload date and relevance.
+   * @service youTubeDataAPI
+   */
   angular.module('embeditor.services.youTubeDataAPI', []).service('youTubeDataAPI', youTubeDataAPI)
 
   function youTubeDataAPI ($http, $q, $rootScope) {
@@ -255,7 +255,7 @@
                   // Extract next page token & Detect end of results
                   (!initialResults.nextPageToken)
                     ? service.endOfResults = true
-                    : searchParameters.pageToken = initialResults.nextPageToken
+                    : searchParameters.pageToken = initialResults.nextPageToken;
 
                   deferred.resolve()
                 }
@@ -266,5 +266,5 @@
       return deferred.promise
     };
   };
-  youTubeDataAPI.$inject = ['$http', '$q', '$rootScope']
-})()
+  youTubeDataAPI.$inject = ['$http', '$q', '$rootScope'];
+})();
