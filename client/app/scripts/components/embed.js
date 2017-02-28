@@ -20,7 +20,7 @@
 
         (playerAPI.mobile)
           ? onPlayerStateChangeFn = playerAPI.onMobilePlayerStateChange
-          : onPlayerStateChangeFn = playerAPI.onPlayerStateChange
+          : onPlayerStateChangeFn = playerAPI.onPlayerStateChange;
 
         tag = document.createElement('script')
         tag.src = ((document.location.protocol === 'http:') ? 'http:' : 'https:') + '//www.youtube.com/iframe_api'
@@ -59,4 +59,4 @@
     }
   };
   embeditorYoutubeEmbed.$inject = ['$window', 'youtubePlayerAPI']
-})()
+})();

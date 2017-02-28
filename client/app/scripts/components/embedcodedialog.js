@@ -80,7 +80,7 @@
     self.preview = function (event) {
       (API.state === 1)
         ? API.togglePlay()
-        : null
+        : null;
 
       self.open(event, 'preview')
     }
@@ -176,16 +176,16 @@
     }
 
     $scope.setCustomFramesize = function () {
-        // Set to most recent values;
+      // Set to most recent values;
       ($scope.frameWidth === angular.isUndefined || $scope.frameWidth === null)
         ? $scope.frameWidth = $scope.codeGenerator.options.width
         : null;
 
       ($scope.frameHeight === angular.isUndefined || $scope.frameHeight === null)
         ? $scope.frameHeight = $scope.codeGenerator.options.height
-        : null
+        : null;
 
-        // Save changes & update code text
+      // Save changes & update code text
       codeGenerator.set('width', $scope.frameWidth)
       codeGenerator.set('height', $scope.frameHeight)
       codeGenerator.update()
@@ -227,7 +227,7 @@
     $scope.$watch('frameFormat', function (newVal, oldVal) {
       (oldVal)
            ? resetDisplay()
-           : false
+           : false;
     })
 
     // Events broadcast by embedCodeDialog service on DB call.
@@ -253,7 +253,7 @@
       $scope.code = formats[$scope.frameFormat]()
     }
   };
-  CodeDialogController.$inject = ['$scope', '$mdDialog', '$window', '$timeout', 'codeGenerator', 'youtubePlayerAPI', 'layoutManager']
+  CodeDialogController.$inject = ['$scope', '$mdDialog', '$window', '$timeout', 'codeGenerator', 'youtubePlayerAPI', 'layoutManager'];
 
 // ---------------------------------- DIRECTIVE ------------------------------------------
 /**
@@ -292,9 +292,9 @@
     };
   };
 
-// ---------------------------------- Unit Testing ------------------------------------------
+  // ---------------------------------- Unit Testing ------------------------------------------
   // Template compiled for Dialog Unit tests
   function embeditorSectionCodeDialog () {
     return { templateUrl: 'templates/embedcode.html' }
   };
-})()
+})();

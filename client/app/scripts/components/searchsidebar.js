@@ -1,5 +1,5 @@
 (function () {
-  'use strict'
+  'use strict';
   /**
    * Manages a search results sidebar that gives user access to some
    * basic youtube search filters and lets them select a video to edit.
@@ -43,7 +43,7 @@
       }
     })
   };
-  SearchSidebarController.$inject = ['$scope', 'youTubeDataAPI', 'layoutManager', '$mdSidenav']
+  SearchSidebarController.$inject = ['$scope', 'youTubeDataAPI', 'layoutManager', '$mdSidenav'];
 
   /**
    * Located on each option of the history select. This helps the select work
@@ -70,7 +70,7 @@
       })
     }
   };
-  embeditorSearchHistoryOption.$inject = ['youTubeDataAPI']
+  embeditorSearchHistoryOption.$inject = ['youTubeDataAPI'];
 
   /**
    * Handles search item click event and toggles sidebar closed on mobile.
@@ -94,15 +94,15 @@
         // Event Broadcast is listened for by search box for phone (bug hack);
         (scope.playerAPI.phone)
           ? $mdSidenav('search').toggle()
-          : false
+          : false;
 
         scope.playerAPI.load(video)
       }
     };
   };
-  embeditorSearchItem.$inject = ['youTubeDataAPI', 'youtubePlayerAPI', '$mdSidenav']
+  embeditorSearchItem.$inject = ['youTubeDataAPI', 'youtubePlayerAPI', '$mdSidenav'];
 
-// ---------------------------- Unit Testing ---------------------------------------
+  // ---------------------------- Unit Testing ---------------------------------------
   function embeditorSectionSidebar () { return { templateUrl: 'templates/sidebar.html' } };
-})()
+})();
 

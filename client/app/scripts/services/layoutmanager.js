@@ -1,5 +1,5 @@
 (function () {
-  'use strict'
+  'use strict';
   /**
    * Manages alignment of app components relative to search sidebar.
    * @service layoutManager
@@ -40,19 +40,19 @@
     self.alignWithSidenav = function (id, type, alignment) {
       // Default alignment is centered
       (!alignment)
-      ? alignment = 'center center'
-      : false
+        ? alignment = 'center center'
+        : false;
 
       // Sidenav open alignment is right-center aligned
       if ($mdSidenav.exists && $mdSidenav(id).isOpen()) {
         (type === 'row')
-        ? alignment = 'end center'
-        : alignment = 'center end'
+          ? alignment = 'end center'
+          : alignment = 'center end';
       }
       return alignment
     }
   }
-  layoutManager.$inject = ['$mdSidenav']
+  layoutManager.$inject = ['$mdSidenav'];
 
   /**
    * Calculates height of the player controls if screen height is greater than app height
@@ -75,7 +75,7 @@
       }
     }
   };
-  layoutHeightManager.$inject = ['$rootScope', '$window', 'layoutManager']
+  layoutHeightManager.$inject = ['$rootScope', '$window', 'layoutManager'];
 
   /**
    * Dynamically sets height of a spacer if screen height is greater than app height
@@ -89,10 +89,10 @@
         scope.$watch('layout.bottomFill', function (newVal, oldVal) {
           (newVal !== angular.isUndefined && scope.layout.bottomFill)
               ? elem.height(newVal)
-              : null
+              : null;
         })
       }
     }
   };
-  layoutVerticalFill.$inject = ['layoutManager']
-})()
+  layoutVerticalFill.$inject = ['layoutManager'];
+})();

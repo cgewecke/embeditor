@@ -1,11 +1,11 @@
 (function () {
-  'use strict'
-/**
- * Manages a YouTube search query input built around Angular-Material's
- * autoComplete component. Calls the Google suggestqueries API for YouTube to generate
- * search suggestions and keeps track of current search query across searchbox instances in page.
- * @component searchbox
- */
+  'use strict';
+  /**
+   * Manages a YouTube search query input built around Angular-Material's
+   * autoComplete component. Calls the Google suggestqueries API for YouTube to generate
+   * search suggestions and keeps track of current search query across searchbox instances in page.
+   * @component searchbox
+   */
   angular.module('embeditor.components.searchbox', ['embeditor.services.youTubeDataAPI'])
     .directive('embeditorSearchbox', searchbox)
 
@@ -18,11 +18,11 @@
     }
   };
 
-/**
- * Directive controller. Retrieves google suggestions for query search. Manages
- * query submission and auto-complete functionality.
- * @method  searchboxCtrl
- */
+  /**
+   * Directive controller. Retrieves google suggestions for query search. Manages
+   * query submission and auto-complete functionality.
+   * @method  searchboxCtrl
+   */
   function searchboxCtrl ($scope, $resource, youTubeDataAPI) {
     var self = this
 
@@ -99,11 +99,11 @@
   };
   searchboxCtrl.$inject = ['$scope', '$resource', 'youTubeDataAPI']
 
-/**
- * Directive link: Event handlers for query submission by keyboard (desktop), blur (iOS).
- * Also synchs instances of the search box across the page.
- * @method  searchboxEventHandlers
- */
+  /**
+   * Directive link: Event handlers for query submission by keyboard (desktop), blur (iOS).
+   * Also synchs instances of the search box across the page.
+   * @method  searchboxEventHandlers
+   */
   function searchboxEventHandlers (scope, elem, attrs, searchboxCtrl) {
     scope.ctrl = searchboxCtrl
 
@@ -171,5 +171,5 @@
         scope.$apply()
       }
     })
-  }
-})()
+  };
+})();

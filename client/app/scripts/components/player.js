@@ -1,11 +1,11 @@
 (function () {
-  'use strict'
-/**
- * Manages the quickset buttons and the progress bar/time-seeker under the embedded editor player.
- * Also houses watchers for control settings like loop and playback speed that require updates
- * to the embed code generator.
- * @component player
- */
+  'use strict';
+  /**
+   * Manages the quickset buttons and the progress bar/time-seeker under the embedded editor player.
+   * Also houses watchers for control settings like loop and playback speed that require updates
+   * to the embed code generator.
+   * @component player
+   */
   angular.module('embeditor.components.player', [
     'ngMaterial',
     'embeditor.components.embedcodedialog',
@@ -18,7 +18,7 @@
     .directive('embeditorSectionPlayerControls', embeditorSectionPlayerControls)
     .directive('embeditorSectionApp', embeditorSectionApp)
 
-// ----------------------------------  Controller ------------------------------------------------------
+  // ----------------------------------  Controller ------------------------------------------------------
   function playerCtrl ($scope, codeGenerator, youtubePlayerAPI, $mdSidenav, embedCodeDialog, layoutManager) {
     var self = this
 
@@ -77,7 +77,7 @@
       if (self.API.videoLoaded && newval !== angular.isUndefined) {
         (newval)
           ? self.API.silence()
-          : self.API.noise()
+          : self.API.noise();
 
         self.code.set('mute', newval)
       };
@@ -104,13 +104,13 @@
     })
   };
 
-  playerCtrl.$inject = ['$scope', 'codeGenerator', 'youtubePlayerAPI', '$mdSidenav', 'embedCodeDialog', 'layoutManager']
+  playerCtrl.$inject = ['$scope', 'codeGenerator', 'youtubePlayerAPI', '$mdSidenav', 'embedCodeDialog', 'layoutManager'];
 
-// ---------------------------------- Directives ------------------------------------------------
-/**
- * Tapehead animation and click-seek widget.
- * @directive embeditorPlayerTimeBar
- */
+  // ---------------------------------- Directives ------------------------------------------------
+  /**
+   * Tapehead animation and click-seek widget.
+   * @directive embeditorPlayerTimeBar
+   */
   function embeditorPlayerTimeBar () {
     return {
       restrict: 'E',
@@ -161,7 +161,7 @@
      * @param  {Event} $event  mousemove
      */
     scope.updateTimeDot = function ($event) {
-      xCoord = $event.offsetX === angular.isUndefined ? $event.originalEvent.layerX : $event.offsetX
+      xCoord = $event.offsetX === angular.isUndefined ? $event.originalEvent.layerX : $event.offsetX;
 
       var offset = elem.offset()
       var dotXPos = (xCoord + 5) + 'px'
@@ -194,7 +194,7 @@
      * @method  seekVideoToTimeDot
      */
     scope.seekVideoToTimeDot = function () {
-        // Desktop, don't go outside bounds
+      // Desktop: don't go outside bounds
       if (xCoord > lowLimit && xCoord < highLimit) {
         var time = calculateTimeDotValue()
         ctrl.API.setTapehead(time)
@@ -211,7 +211,7 @@
 
       (ctrl.layout.android)
         ? xCoord = Math.floor($event.originalEvent.touches[0].clientX)
-        : xCoord = ($event.offsetX === angular.isUndefined) ? $event.originalEvent.layerX : $event.offsetX
+        : xCoord = ($event.offsetX === angular.isUndefined) ? $event.originalEvent.layerX : $event.offsetX;
 
       time = calculateTimeDotValue()
       ctrl.API.setTapehead(time)
@@ -224,14 +224,14 @@
      * @param  {Number} timestamp   Floating point seconds
      */
     scope.$watch('API.timestamp', function (newval, oldval) {
-      (newval) ? updateTapehead() : false
+      (newval) ? updateTapehead() : false;
     })
     /**
      * Listens for start/end val updates. The timeline gets rebased then.
      * @param  {Event} YTPlayerAPI:update
      */
     scope.$on('YTPlayerAPI:update', function (newval, oldval) {
-      (newval) ? updateTapehead() : false
+      (newval) ? updateTapehead() : false;
     })
     /**
      * Translates current tapehead pos to timebar space.
@@ -250,10 +250,10 @@
         // Either update or detect end and stop for the last few pixels
       (newPosition < (playerWidth - timestampWidth))
         ? tapehead.css('left', newPosition)
-        : tapehead.css('left', (playerWidth - timestampWidth))
+        : tapehead.css('left', (playerWidth - timestampWidth));
     };
   };
-// ---------------------------------- Unit Testing ------------------------------------------------------
+  // ---------------------------------- Unit Testing ------------------------------------------------------
   function embeditorSectionPlayerControls () {
     return { templateUrl: 'templates/playercontrols.html' }
   };
@@ -261,5 +261,5 @@
   function embeditorSectionApp () {
     return { templateUrl: 'templates/player.html' }
   };
-})()
+})();
 
