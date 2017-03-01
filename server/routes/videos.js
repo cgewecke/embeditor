@@ -45,7 +45,7 @@ function responder(res, err, video, params){
          tumblr: '//www.tumblr.com/share/link?url=' + encodedUrl.replace('http://', '').replace('https://')
       };
 
-      res.status(201);
+      res.status(200);
       res.render('embed', {video: video, cyclopse: true, share: shareUrls }); 
    }
 };
